@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void showAddDeviceDialog() {
         new MaterialDialog.Builder(this)
                 .autoDismiss(true)
+                .title("添加设备")
                 .customView(R.layout.dialog_add_device, true)
                 .positiveText("确认")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
