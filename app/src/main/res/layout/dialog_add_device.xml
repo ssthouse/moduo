@@ -5,19 +5,37 @@
     android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/id_et_cid_number"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/id_et_username"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/id_et_cid_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="设备CID号"
+            android:inputType="number" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/id_et_password"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/id_et_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="用户名" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/id_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="密码" />
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>
