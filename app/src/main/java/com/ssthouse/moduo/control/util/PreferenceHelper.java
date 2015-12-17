@@ -54,17 +54,19 @@ public class PreferenceHelper {
 
     /**
      * 是否第一次进去应用
+     *
      * @return
      */
-    public boolean isFistIn(){
+    public boolean isFistIn() {
         return sharedPreferences.getBoolean(KEY_IS_FIST_IN, true);
     }
 
     /**
      * 设置是否为第一次进入
+     *
      * @param isFistIn
      */
-    public void setIsFistIn(boolean isFistIn){
+    public void setIsFistIn(boolean isFistIn) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(KEY_IS_FIST_IN, isFistIn);
         editor.commit();
@@ -73,71 +75,74 @@ public class PreferenceHelper {
     /**
      * User数据的key
      */
-    private interface UserCons {
-        String userSize = "user_size";
-        String userPrefix = "user_";
+    private interface DeviceCons {
+        String deviceSize = "device_size";
+        String devicePrefix = "device_";
     }
 
     /**
-     * 获取本地的用户用户名List
+     * 获取本地设备CID列表
      * 在preference中获取list数据
      *
      * @return
      */
-    public List<String> getLocalUserNameList() {
-        List<String> userNameList = new ArrayList<>();
-        int userSize = sharedPreferences.getInt(UserCons.userSize, 0);
+    public List<String> getDeviceCidList() {
+        List<String> deviceCidList = new ArrayList<>();
+        int userSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
         for (int i = 0; i < userSize; i++) {
-            String userName = sharedPreferences.getString(UserCons.userPrefix + i, "");
-            userNameList.add(userName);
+            String deviceCidStr = sharedPreferences.getString(DeviceCons.devicePrefix + i, "");
+            deviceCidList.add(deviceCidStr);
         }
-        return userNameList;
+        return deviceCidList;
     }
 
     /**
-     * 添加用户名到list中
+     * 添加设备cid到list中
      */
-    public void addUser(String userName) {
-        if (userName == null) {
+    public void addDevice(String deviceCidStr) {
+        if (deviceCidStr == null) {
             return;
         }
-        int userSize = sharedPreferences.getInt(UserCons.userSize, 0);
-        int currentUserNumber = userSize + 1;
+        int userSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
+        int currentDeviceNumber = userSize;
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(UserCons.userPrefix + currentUserNumber, userName);
+        editor.putString(DeviceCons.devicePrefix + currentDeviceNumber, deviceCidStr);
+        editor.putInt(DeviceCons.deviceSize, userSize + 1);
         editor.commit();
     }
 
     /**
-     * 删除本地所有的userList
+     * 删除本地所有的cid的list
      */
-    private void deleteAllLocalUserList() {
-        int userSize = sharedPreferences.getInt(UserCons.userSize, 0);
+    private void deleteAllLocalDeviceCidList() {
+        int deviceSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        for (int i = 0; i < userSize; i++) {
-            editor.remove(UserCons.userPrefix + i);
+        for (int i = 0; i < deviceSize; i++) {
+            editor.remove(DeviceCons.devicePrefix + i);
         }
+        editor.putInt(DeviceCons.deviceSize, 0);
         editor.commit();
     }
 
     /**
      * 删除某一个userName
      *
-     * @param userName
+     * @param deviceCidStr
      */
-    public void deleteUser(String userName) {
+    public void deleteDeviceCid(String deviceCidStr) {
         //先获取所有userName的list
-        List<String> userNameList = getLocalUserNameList();
+        List<String> deviceCidList = getDeviceCidList();
         //将list中尝试删除userName
-        boolean success = userNameList.remove(userName);
+        boolean success = deviceCidList.remove(deviceCidStr);
         //如果list的size没有变化---就不用再重复添加
         if (success) {
-            deleteAllLocalUserList();
+            deleteAllLocalDeviceCidList();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             //将剩下的数据添加进去
-            for (int i = 0; i < userNameList.size(); i++) {
-                editor.putString(UserCons.userPrefix + i, userNameList.get(i));
+            for (int i = 0; i < deviceCidList.size(); i++) {
+                editor.putString(DeviceCons.devicePrefix + i, deviceCidList.get(i));
             }
+            editor.putInt(DeviceCons.deviceSize, deviceCidList.size() - 1);
             editor.commit();
         }
     }

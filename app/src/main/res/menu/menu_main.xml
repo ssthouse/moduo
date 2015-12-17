@@ -6,6 +6,7 @@
     <item
         android:id="@+id/id_action_pb"
         android:orderInCategory="10"
+        android:visible="false"
         android:title="进度条"
         app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
         app:showAsAction="always" />

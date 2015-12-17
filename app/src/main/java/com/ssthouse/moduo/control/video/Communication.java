@@ -1,6 +1,7 @@
 package com.ssthouse.moduo.control.video;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.callback.StreamerStateListener;
@@ -10,11 +11,12 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
+import com.orhanobut.logger.Logger;
 import com.ssthouse.moduo.model.Constant;
-import com.ssthouse.moduo.model.event.SessionStateEvent;
-import com.ssthouse.moduo.model.event.StreamerConfigChangedEvent;
-import com.ssthouse.moduo.model.event.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.model.event.ViewerLoginResultEvent;
+import com.ssthouse.moduo.model.event.video.SessionStateEvent;
+import com.ssthouse.moduo.model.event.video.StreamerConfigChangedEvent;
+import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -63,6 +65,7 @@ public class Communication {
                 //放出登陆成功消息
                 EventBus.getDefault().post(new ViewerLoginResultEvent(true));
             }
+            Logger.e("现在状态是:\t" + loginState.name());
         }
 
         @Override
@@ -74,6 +77,7 @@ public class Communication {
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
             //TODO
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
+            Logger.e(rvsSessionState.name());
         }
     };
 
@@ -85,12 +89,14 @@ public class Communication {
         public void onStreamerPresenceState(long l, StreamerPresenceState streamerPresenceState) {
             //TODO
             EventBus.getDefault().post(new StreamerConnectChangedEvent(streamerPresenceState));
+            Logger.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
         }
 
         @Override
         public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
             //TODO
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
+            Logger.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
         }
     };
 
@@ -102,24 +108,7 @@ public class Communication {
     private Communication(Context context) {
         this.context = context;
         this.viewer = Viewer.getViewer();
-        loadSdkLib();
         init();
-    }
-
-    //添加采集端
-    public void addStreamer(long streamerCid, String user, String pass) {
-        viewer.connectStreamer(streamerCid, user, pass);
-        viewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
-    }
-
-    //删除采集端
-    public void removeStreamer(long streamerCid) {
-        viewer.disconnectStreamer(streamerCid);
-    }
-
-    public void destory() {
-        viewer.logout();//登出平台
-        viewer.destroy();//销毁sdk
     }
 
     /**
@@ -128,7 +117,7 @@ public class Communication {
     private void init() {
         //初始化SDK
         viewer.init(context, Constant.APP_VERSION_STR, context.getFilesDir().getAbsolutePath(),
-                Constant.EXTERNAL_VIDEO_FOLDER_NAME);
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Constant.EXTERNAL_VIDEO_FOLDER_NAME);
         //TODO---打印日志
         viewer.setDebugEnable(Constant.isDebug);
         //初始化注册认证信息
@@ -142,15 +131,23 @@ public class Communication {
         viewer.login();
     }
 
-    //load sdk lib
-    private void loadSdkLib() {
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("ffmpeg");
-        System.loadLibrary("avdecoder");
-        System.loadLibrary("sdk30");
-        System.loadLibrary("viewer30");
+    //添加采集端
+    public void addStreamer(long streamerCid, String user, String pass) {
+        //连接采集端
+        viewer.connectStreamer(streamerCid, user, pass);
+        //获取采集端的信息
+        viewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
     }
 
+    //删除采集端
+    public void removeStreamer(long streamerCid) {
+        viewer.disconnectStreamer(streamerCid);
+    }
+
+    public void destory() {
+        viewer.logout();//登出平台
+        viewer.destroy();//销毁sdk
+    }
 
     public boolean isHasLogin() {
         return hasLogin;

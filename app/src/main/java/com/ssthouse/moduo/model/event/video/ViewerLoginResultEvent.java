@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.event;
+package com.ssthouse.moduo.model.event.video;
 
 /**
  * viewer登陆结果回调
