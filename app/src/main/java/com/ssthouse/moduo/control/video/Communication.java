@@ -30,11 +30,12 @@ public class Communication {
 
     /**
      * 获取单例
+     *
      * @param context
      * @return
      */
-    public static Communication getInstance(Context context){
-        if(instance == null){
+    public static Communication getInstance(Context context) {
+        if (instance == null) {
             instance = new Communication(context);
         }
         return instance;
@@ -56,7 +57,7 @@ public class Communication {
         @Override
         public void onLoginResult(LoginState loginState, int i, LoginError loginError) {
             //TODO---需呀判断登陆失败
-            if(loginState == LoginState.CONNECTED){
+            if (loginState == LoginState.CONNECTED) {
                 //更新登陆状态
                 hasLogin = true;
                 //放出登陆成功消息
@@ -95,18 +96,36 @@ public class Communication {
 
     /**
      * 构造方法
+     *
      * @param context
      */
-    private Communication(Context context){
+    private Communication(Context context) {
         this.context = context;
         this.viewer = Viewer.getViewer();
         loadSdkLib();
+        init();
+    }
+
+    //添加采集端
+    public void addStreamer(long streamerCid, String user, String pass) {
+        viewer.connectStreamer(streamerCid, user, pass);
+        viewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
+    }
+
+    //删除采集端
+    public void removeStreamer(long streamerCid) {
+        viewer.disconnectStreamer(streamerCid);
+    }
+
+    public void destory() {
+        viewer.logout();//登出平台
+        viewer.destroy();//销毁sdk
     }
 
     /**
      * 该类的初始化工作
      */
-    private void init(){
+    private void init() {
         //初始化SDK
         viewer.init(context, Constant.APP_VERSION_STR, context.getFilesDir().getAbsolutePath(),
                 Constant.EXTERNAL_VIDEO_FOLDER_NAME);
@@ -124,8 +143,7 @@ public class Communication {
     }
 
     //load sdk lib
-    private void loadSdkLib()
-    {
+    private void loadSdkLib() {
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("ffmpeg");
         System.loadLibrary("avdecoder");

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -13,6 +15,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.event.SessionStateEvent;
 
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
+        ButterKnife.bind(this);
         initView();
 
         //初始化视频sdk
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
      * 显示添加设备的dialog
      */
     private void showAddDeviceDialog() {
-        new MaterialDialog.Builder(this)
+        MaterialDialog materialDialog = new MaterialDialog.Builder(this)
                 .autoDismiss(true)
                 .title("添加设备")
                 .customView(R.layout.dialog_add_device, true)
@@ -72,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                         //TODO---确定添加设备回调
+                        View customView = materialDialog.getCustomView();
+                        EditText etCidNumber = (EditText) customView.findViewById(R.id.id_et_cid_number);
+                        EditText etUsername = (EditText) customView.findViewById(R.id.id_et_username);
+                        EditText etPassword = (EditText) customView.findViewById(R.id.id_et_password);
                     }
                 })
                 .negativeText("取消")
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         //TODO--取消回调
                     }
                 })
-                .build()
-                .show();
+                .build();
+         materialDialog.show();
     }
 }

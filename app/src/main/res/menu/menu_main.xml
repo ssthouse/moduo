@@ -4,9 +4,17 @@
     tools:context=".view.activity.MainActivity">
 
     <item
+        android:id="@+id/id_action_pb"
+        android:orderInCategory="10"
+        android:title="进度条"
+        app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/id_action_add_device"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
         android:title="添加设备"
         app:showAsAction="always" />
+
 </menu>
