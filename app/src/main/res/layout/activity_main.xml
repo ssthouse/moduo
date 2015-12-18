@@ -21,26 +21,27 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/id_tv_offline"
-            android:text="请检查网络连接"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="请检查网络连接"
+            android:visibility="gone" />
 
         <!--列表view-->
         <ListView
-            android:layout_margin="8dp"
             android:id="@+id/id_lv_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_margin="8dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

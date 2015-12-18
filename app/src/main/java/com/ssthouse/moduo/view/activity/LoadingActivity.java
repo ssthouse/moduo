@@ -2,6 +2,7 @@ package com.ssthouse.moduo.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
 import com.ssthouse.moduo.R;
@@ -20,11 +21,12 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
-
+        //加载sdk
         loadSdkLib();
-
         Communication.getInstance(this);
     }
 
@@ -37,12 +39,17 @@ public class LoadingActivity extends AppCompatActivity {
         System.loadLibrary("viewer30");
     }
 
-    public void onEventMainThread(ViewerLoginResultEvent event){
-        if(event.isSuccess()){
+    /**
+     * 登录成功回调
+     * @param event
+     */
+    public void onEventMainThread(ViewerLoginResultEvent event) {
+        if (event.isSuccess()) {
             Logger.e("转向MainActivity");
-            MainActivity.start(this);
+            MainActivity.start(this, true);
             finish();
-        }else{
+        } else {
+            MainActivity.start(this, false);
             ToastHelper.show(this, "登陆视频sdk失败");
         }
     }

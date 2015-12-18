@@ -37,13 +37,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.LoadingActivity">
+
+        <!--初始加载activity-->
+        <activity android:name=".view.activity.LoadingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!--主界面activity-->
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/app_name"

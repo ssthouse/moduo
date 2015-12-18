@@ -18,20 +18,32 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
+import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.view.adapter.MainLvAdapter;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
 
     /**
      * 视频对话SDK管理类
      */
     private Communication communication;
+
+    /**
+     * 当前的所有设备
+     */
+    private List<Device> deviceList;
 
     @Bind(R.id.id_tv_offline)
     TextView tvOffline;
@@ -49,8 +61,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private MenuItem pbItem;
 
-    public static void start(Context context){
+    /**
+     * 启动当前activity
+     * @param context
+     * @param isLoginSuccess
+     */
+    public static void start(Context context, boolean isLoginSuccess) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_IS_LOGIN_SUCCESS, isLoginSuccess);
         context.startActivity(intent);
     }
 
@@ -65,25 +83,43 @@ public class MainActivity extends AppCompatActivity {
         //初始化视频sdk
         communication = Communication.getInstance(this);
 
-        //TODO---启动最近的设别
-        communication.addStreamer(50000072, "admin", "admin");
+        //加载本地添加过的设备
+        initLocalDevice();
     }
 
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lvAdapter = new MainLvAdapter(this);
+        //显示是否登陆平台成功
+        boolean isLoginSuccess = getIntent().getBooleanExtra(EXTRA_IS_LOGIN_SUCCESS, false);
+        if(!isLoginSuccess) {
+            tvOffline.setVisibility(View.VISIBLE);
+        }
+
+        deviceList = PreferenceHelper.getInstance(this).getDeviceList();
+        lvAdapter = new MainLvAdapter(this, deviceList);
         lv.setAdapter(lvAdapter);
     }
 
     /**
+     * 加载本地添加过的设备
+     */
+    private void initLocalDevice() {
+        //TODO---启动最近的设别
+        for (Device device : deviceList) {
+            communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
+        }
+    }
+
+    /**
      * 和设备连接状态事件
+     *
      * @param event
      */
-    public void onEventMainThread(SessionStateEvent event){
+    public void onEventMainThread(SessionStateEvent event) {
         //TODO---设备状态变化--显示离线view
-        switch (event.getSessionState()){
+        switch (event.getSessionState()) {
             case CONNECTED:
                 tvOffline.setVisibility(View.GONE);
                 break;
@@ -98,13 +134,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 接收actionbar上progressbar事件
+     * 采集端连接状态回调
+     *
      * @param event
      */
-    public void onEventMainThread(ActionProgressEvent event){
-        if(event.isShow()){
+    public void onEventMainThread(StreamerConnectChangedEvent event) {
+        Timber.e("我接收到设备状态更新");
+        //修改设备状态
+        for (Device device : deviceList) {
+            if (device.getCidNumber() == event.getCidNumber()) {
+                device.setStreamerPresenceState(event.getState());
+                Timber.e("我更新了设备状态");
+            }
+        }
+        //更新界面
+        lvAdapter.update();
+    }
+
+    /**
+     * 接收actionbar上progressbar事件
+     *
+     * @param event
+     */
+    public void onEventMainThread(ActionProgressEvent event) {
+        if (event.isShow()) {
             pbItem.setVisible(true);
-        }else{
+        } else {
             pbItem.setVisible(false);
         }
     }
@@ -147,9 +202,13 @@ public class MainActivity extends AppCompatActivity {
                         EditText etPassword = (EditText) customView.findViewById(R.id.id_et_password);
                         //TODO---建立连接
                         communication.addStreamer(Long.valueOf(etCidNumber.getText().toString()),
-                                etUsername.getText().toString(),etPassword.getText().toString());
-                        PreferenceHelper.getInstance(MainActivity.this).addDevice(etCidNumber.getText().toString());
+                                etUsername.getText().toString(), etPassword.getText().toString());
+                        Device device = new Device(Long.valueOf(etCidNumber.getText().toString()),
+                                etUsername.getText().toString(),
+                                etPassword.getText().toString());
+                        PreferenceHelper.getInstance(MainActivity.this).addDevice(device);
                         //TODO---刷新列表
+                        deviceList.add(device);
                         lvAdapter.update();
                     }
                 })
@@ -161,13 +220,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-         materialDialog.show();
+        materialDialog.show();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         communication.destory();//销毁sdk
         android.os.Process.killProcess(android.os.Process.myPid());//确保完全退出，释放所有资源
     }

@@ -3,6 +3,8 @@ package com.ssthouse.moduo.control.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ssthouse.moduo.model.Device;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,73 +79,86 @@ public class PreferenceHelper {
      */
     private interface DeviceCons {
         String deviceSize = "device_size";
-        String devicePrefix = "device_";
+        //设备名前缀
+        String cidPrefix = "cid_";
+        //用户名前缀
+        String usernamePrefix = "username_";
+        //密码前缀
+        String passwordPrefix = "password_";
     }
 
     /**
-     * 获取本地设备CID列表
-     * 在preference中获取list数据
+     * 获取本地的设备
      *
      * @return
      */
-    public List<String> getDeviceCidList() {
-        List<String> deviceCidList = new ArrayList<>();
-        int userSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
-        for (int i = 0; i < userSize; i++) {
-            String deviceCidStr = sharedPreferences.getString(DeviceCons.devicePrefix + i, "");
-            deviceCidList.add(deviceCidStr);
+    public List<Device> getDeviceList() {
+        List<Device> deviceList = new ArrayList<>();
+        //获取设备数目
+        int deviceSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
+        for (int i = 0; i < deviceSize; i++) {
+            long cidNumber = sharedPreferences.getLong(DeviceCons.cidPrefix + i, 0);
+            String username = sharedPreferences.getString(DeviceCons.usernamePrefix + i, "");
+            String password = sharedPreferences.getString(DeviceCons.passwordPrefix + i, "");
+            Device device = new Device(cidNumber, username, password);
+            deviceList.add(device);
         }
-        return deviceCidList;
+        return deviceList;
     }
 
     /**
-     * 添加设备cid到list中
+     * 添加设备
+     *
+     * @param device
      */
-    public void addDevice(String deviceCidStr) {
-        if (deviceCidStr == null) {
+    public void addDevice(Device device) {
+        if (device == null) {
             return;
         }
-        int userSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
-        int currentDeviceNumber = userSize;
+        int currentNumber = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(DeviceCons.devicePrefix + currentDeviceNumber, deviceCidStr);
-        editor.putInt(DeviceCons.deviceSize, userSize + 1);
+        editor.putLong(DeviceCons.cidPrefix + currentNumber, device.getCidNumber())
+                .putString(DeviceCons.usernamePrefix + currentNumber, device.getUsername())
+                .putString(DeviceCons.passwordPrefix + currentNumber, device.getPassword())
+                .putInt(DeviceCons.deviceSize, currentNumber + 1)
+                .commit();
+    }
+
+    /**
+     * 删除某一个设备
+     */
+    public void deleteDevice(Device device) {
+        List<Device> deviceList = getDeviceList();
+        for (int i = 0; i < deviceList.size(); i++) {
+            if (device.getCidNumber() == deviceList.get(i).getCidNumber()
+                    && device.getUsername().equals(deviceList.get(i).getUsername())
+                    && device.getPassword().equals(deviceList.get(i).getPassword())) {
+                deviceList.remove(i);
+            }
+        }
+        //删除所有的数据
+        deleteAllDevice();
+        //重新添加
+        for (Device currentDevice : deviceList) {
+            addDevice(currentDevice);
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(DeviceCons.deviceSize, deviceList.size());
         editor.commit();
     }
 
     /**
-     * 删除本地所有的cid的list
+     * 删除所有本地的设备数据
      */
-    private void deleteAllLocalDeviceCidList() {
+    public void deleteAllDevice() {
         int deviceSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         for (int i = 0; i < deviceSize; i++) {
-            editor.remove(DeviceCons.devicePrefix + i);
+            editor.remove(DeviceCons.cidPrefix + i);
+            editor.remove(DeviceCons.usernamePrefix + i);
+            editor.remove(DeviceCons.passwordPrefix + i);
         }
         editor.putInt(DeviceCons.deviceSize, 0);
         editor.commit();
-    }
-
-    /**
-     * 删除某一个userName
-     *
-     * @param deviceCidStr
-     */
-    public void deleteDeviceCid(String deviceCidStr) {
-        //先获取所有userName的list
-        List<String> deviceCidList = getDeviceCidList();
-        //将list中尝试删除userName
-        boolean success = deviceCidList.remove(deviceCidStr);
-        //如果list的size没有变化---就不用再重复添加
-        if (success) {
-            deleteAllLocalDeviceCidList();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            //将剩下的数据添加进去
-            for (int i = 0; i < deviceCidList.size(); i++) {
-                editor.putString(DeviceCons.devicePrefix + i, deviceCidList.get(i));
-            }
-            editor.putInt(DeviceCons.deviceSize, deviceCidList.size() - 1);
-            editor.commit();
-        }
     }
 }

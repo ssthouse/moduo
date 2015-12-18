@@ -20,6 +20,7 @@ import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 掌控视频对讲的类
@@ -30,6 +31,15 @@ import de.greenrobot.event.EventBus;
 public class Communication {
 
     private static Communication instance;
+
+    private Context context;
+
+    private Viewer viewer;
+
+    /**
+     * 登陆状态
+     */
+    private boolean hasLogin;
 
     /**
      * 获取单例
@@ -43,66 +53,6 @@ public class Communication {
         }
         return instance;
     }
-
-    private Context context;
-
-    private Viewer viewer;
-
-    /**
-     * 登陆状态
-     */
-    private boolean hasLogin;
-
-    /**
-     * viewer回调
-     */
-    private ViewerCallback viewerCallback = new ViewerCallback() {
-        @Override
-        public void onLoginResult(LoginState loginState, int i, LoginError loginError) {
-            //TODO---需呀判断登陆失败
-            if (loginState == LoginState.CONNECTED) {
-                //更新登陆状态
-                hasLogin = true;
-                //放出登陆成功消息
-                EventBus.getDefault().post(new ViewerLoginResultEvent(true));
-            }
-            Logger.e("现在状态是:\t" + loginState.name());
-        }
-
-        @Override
-        public void onUpdateCID(long l) {
-            //TODO---观看端cid发生变化
-            Logger.e("我的观看端cid发生了变化:\t" + l);
-        }
-
-        @Override
-        public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
-            //TODO---抛出video回话状态变化事件
-            EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
-            Logger.e(rvsSessionState.name());
-        }
-    };
-
-    /**
-     * 采集端状态回调
-     */
-    private StreamerStateListener streamerStateListener = new StreamerStateListener() {
-        @Override
-        public void onStreamerPresenceState(long l, StreamerPresenceState streamerPresenceState) {
-            //TODO
-            EventBus.getDefault().post(new StreamerConnectChangedEvent(streamerPresenceState));
-            Logger.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
-            ToastHelper.show(context, "目前streamer的链接状态是:\t" + streamerPresenceState.name());
-        }
-
-        @Override
-        public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
-            //TODO
-            EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
-            Logger.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
-            ToastHelper.show(context,"目前streamer的配置状态是:\t" + streamerConfigState.name());
-        }
-    };
 
     /**
      * 构造方法
@@ -134,6 +84,57 @@ public class Communication {
         //正式登陆
         viewer.login();
     }
+
+    /**
+     * viewer回调
+     */
+    private ViewerCallback viewerCallback = new ViewerCallback() {
+        @Override
+        public void onLoginResult(LoginState loginState, int i, LoginError loginError) {
+            //TODO---需呀判断登陆失败
+            if (loginState == LoginState.CONNECTED) {
+                //更新登陆状态
+                hasLogin = true;
+                //放出登陆成功消息
+                EventBus.getDefault().post(new ViewerLoginResultEvent(true));
+            }
+            Logger.e("现在状态是:\t" + loginState.name());
+        }
+
+        @Override
+        public void onUpdateCID(long l) {
+            //TODO---观看端cid发生变化
+            Timber.e("我的观看端cid发生了变化:\t" + l);
+        }
+
+        @Override
+        public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
+            //TODO---抛出video回话状态变化事件
+            EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
+            Logger.e(rvsSessionState.name());
+        }
+    };
+
+    /**
+     * 采集端状态回调
+     */
+    private StreamerStateListener streamerStateListener = new StreamerStateListener() {
+        @Override
+        public void onStreamerPresenceState(long l, StreamerPresenceState streamerPresenceState) {
+            //TODO
+            EventBus.getDefault().post(new StreamerConnectChangedEvent(l, streamerPresenceState));
+            Timber.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
+            ToastHelper.show(context, "设备" + l + "\t目前streamer的链接状态是:\t" + streamerPresenceState.name());
+        }
+
+        @Override
+        public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
+            //TODO
+            EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
+            Timber.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
+            ToastHelper.show(context, "设备" + l + "\t目前streamer的配置状态是:\t" + streamerConfigState.name());
+        }
+    };
 
     //添加采集端
     public void addStreamer(long streamerCid, String user, String pass) {

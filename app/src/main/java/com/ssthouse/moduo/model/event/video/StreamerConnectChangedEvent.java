@@ -8,9 +8,23 @@ import com.ichano.rvs.viewer.constant.StreamerPresenceState;
  */
 public class StreamerConnectChangedEvent {
 
+    /**
+     * 当前设备cid号码
+     */
+    private long cidNumber;
+
+    /**
+     * 当前设备状态
+     */
     private StreamerPresenceState state;
 
-    public StreamerConnectChangedEvent(StreamerPresenceState state) {
+    /**
+     * 构造方法
+     * @param cidNumber
+     * @param state
+     */
+    public StreamerConnectChangedEvent(long cidNumber, StreamerPresenceState state) {
+        this.cidNumber = cidNumber;
         this.state = state;
     }
 
@@ -20,5 +34,13 @@ public class StreamerConnectChangedEvent {
 
     public void setState(StreamerPresenceState state) {
         this.state = state;
+    }
+
+    public long getCidNumber() {
+        return cidNumber;
+    }
+
+    public void setCidNumber(long cidNumber) {
+        this.cidNumber = cidNumber;
     }
 }
