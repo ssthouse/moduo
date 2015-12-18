@@ -2,6 +2,8 @@ package com.ssthouse.moduo;
 
 import android.app.Application;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
@@ -28,5 +30,8 @@ public class App extends Application {
         //友盟更新
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
+        //百度推送
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+                "5cbIdRlHlm10M1IvSAfesaDM");
     }
 }

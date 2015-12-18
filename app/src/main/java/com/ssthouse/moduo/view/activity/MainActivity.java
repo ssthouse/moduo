@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         communication = Communication.getInstance(this);
 
         //加载本地添加过的设备
-        initLocalDevice();
+        //initLocalDevice();
     }
 
     private void initView() {

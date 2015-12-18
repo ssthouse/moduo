@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import com.orhanobut.logger.Logger;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * loading界面
@@ -45,7 +45,7 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(ViewerLoginResultEvent event) {
         if (event.isSuccess()) {
-            Logger.e("转向MainActivity");
+            Timber.e("转向MainActivity");
             MainActivity.start(this, true);
             finish();
         } else {

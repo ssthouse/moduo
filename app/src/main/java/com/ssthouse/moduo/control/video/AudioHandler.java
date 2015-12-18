@@ -12,6 +12,8 @@ import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.codec.AudioType;
 import com.orhanobut.logger.Logger;
 
+import timber.log.Timber;
+
 /**
  * 流管理器
  * Created by ssthouse on 2015/12/17.
@@ -224,7 +226,7 @@ public class AudioHandler {
                             audioRecord.release();
                             audioRecord = null;
                         }
-                        Logger.e("release audio record");
+                        Timber.e("release audio record");
                     }
                 }
             });

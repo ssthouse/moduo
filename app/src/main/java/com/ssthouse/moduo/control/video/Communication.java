@@ -11,7 +11,6 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.orhanobut.logger.Logger;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
@@ -98,7 +97,7 @@ public class Communication {
                 //放出登陆成功消息
                 EventBus.getDefault().post(new ViewerLoginResultEvent(true));
             }
-            Logger.e("现在状态是:\t" + loginState.name());
+            Timber.e("现在状态是:\t" + loginState.name());
         }
 
         @Override
@@ -111,7 +110,7 @@ public class Communication {
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
             //TODO---抛出video回话状态变化事件
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
-            Logger.e(rvsSessionState.name());
+            Timber.e(rvsSessionState.name());
         }
     };
 
