@@ -12,6 +12,7 @@ import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
 import com.orhanobut.logger.Logger;
+import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConfigChangedEvent;
@@ -70,12 +71,13 @@ public class Communication {
 
         @Override
         public void onUpdateCID(long l) {
-
+            //TODO---观看端cid发生变化
+            Logger.e("我的观看端cid发生了变化:\t" + l);
         }
 
         @Override
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
-            //TODO
+            //TODO---抛出video回话状态变化事件
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
             Logger.e(rvsSessionState.name());
         }
@@ -90,6 +92,7 @@ public class Communication {
             //TODO
             EventBus.getDefault().post(new StreamerConnectChangedEvent(streamerPresenceState));
             Logger.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
+            ToastHelper.show(context, "目前streamer的链接状态是:\t" + streamerPresenceState.name());
         }
 
         @Override
@@ -97,6 +100,7 @@ public class Communication {
             //TODO
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
             Logger.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
+            ToastHelper.show(context,"目前streamer的配置状态是:\t" + streamerConfigState.name());
         }
     };
 

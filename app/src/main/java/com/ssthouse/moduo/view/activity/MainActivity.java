@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
      * 视频对话SDK管理类
      */
     private Communication communication;
+
+    @Bind(R.id.id_tv_offline)
+    TextView tvOffline;
 
     /**
      * 主界面listview
@@ -60,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化视频sdk
         communication = Communication.getInstance(this);
+
+        //TODO---启动最近的设别
+        communication.addStreamer(50000072, "admin", "admin");
     }
 
     private void initView() {
@@ -75,7 +82,19 @@ public class MainActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(SessionStateEvent event){
-
+        //TODO---设备状态变化--显示离线view
+        switch (event.getSessionState()){
+            case CONNECTED:
+                tvOffline.setVisibility(View.GONE);
+                break;
+            case DISCONNECTED:
+                tvOffline.setVisibility(View.VISIBLE);
+                break;
+            case INVALID:
+                tvOffline.setText("当前链接已失效, 请重新登录...");
+                tvOffline.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     /**

@@ -46,4 +46,10 @@ public class LoadingActivity extends AppCompatActivity {
             ToastHelper.show(this, "登陆视频sdk失败");
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

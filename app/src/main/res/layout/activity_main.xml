@@ -26,12 +26,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/id_tv_offline"
+            android:text="请检查网络连接"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <!--列表view-->
         <ListView
             android:layout_margin="8dp"
             android:id="@+id/id_lv_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
