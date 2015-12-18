@@ -55,7 +55,6 @@
 
         <!--横向视频播放activity-->
         <activity android:name=".view.activity.VideoActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"/>
 
         <!--友盟集成-->

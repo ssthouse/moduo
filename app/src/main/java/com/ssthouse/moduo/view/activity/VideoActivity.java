@@ -1,13 +1,15 @@
 package com.ssthouse.moduo.view.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import com.ichano.rvs.viewer.Media;
@@ -24,13 +26,13 @@ import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 视频对话activity
  * Created by ssthouse on 2015/12/17.
  */
-public class VideoActivity extends AppCompatActivity {
-
+public class VideoActivity extends Activity {
     /**
      * SDK控制类
      */
@@ -40,8 +42,8 @@ public class VideoActivity extends AppCompatActivity {
     @Bind(R.id.id_rl_container)
     RelativeLayout surfaceViewLayout;
 
-    @Bind(R.id.id_btn_toggle)
-    Button btnToggle;
+    @Bind(R.id.id_view_toggle)
+    CompoundButton btnToggle;
 
     private long liveStreamId;//播放流id
     private long decoderId; //解码器id
@@ -74,9 +76,11 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏---不息屏
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
 
         EventBus.getDefault().register(this);
@@ -99,10 +103,14 @@ public class VideoActivity extends AppCompatActivity {
         glSurfaceView.setRenderer(myRenderer);
 
         //播放控制
-        btnToggle.setOnClickListener(new View.OnClickListener() {
+        btnToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    audioHandler.startTalk();
+                }else{
+                    audioHandler.stopTalk();
+                }
             }
         });
     }
@@ -138,9 +146,9 @@ public class VideoActivity extends AppCompatActivity {
                     Logger.e("get media desc error!");
                     return;
                 }
-                Logger.e("video :" + desc.getVideoType().toString() + ","
+                Timber.e("video :" + desc.getVideoType().toString() + ","
                         + desc.getVideoWidth() + "," + desc.getVideoHeight());
-                Logger.e("audio :" + desc.getAudioType().toString() + ","
+                Timber.e("audio :" + desc.getAudioType().toString() + ","
                         + desc.getSampRate());
                 // 根据对端的音视频格式进行编码器初始化，不使用sdk内置h264解码器可以不用关心
                 decoderId = media.initAVDecoder(desc.getAudioType(),
@@ -166,7 +174,7 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.e("我开启了streamer回调");
+        Timber.e("我开启了streamer回调");
         media.setMediaStreamStateCallback(mediaStreamStateCallback);
     }
 
@@ -181,7 +189,7 @@ public class VideoActivity extends AppCompatActivity {
     private void startLiveVideo() {
         surfaceViewLayout.addView(glSurfaceView);
         liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
-        Logger.e("liveStreamId :" + liveStreamId);
+        Timber.e("liveStreamId :" + liveStreamId);
     }
 
     //停止音视频观看
@@ -209,6 +217,6 @@ public class VideoActivity extends AppCompatActivity {
     //测试自定义命令
     public void sendCmd(View view) {
         boolean ret = viewer.getCommand().sendCustomData(streamerCid, "test".getBytes());
-        Logger.e("send cmd ret:" + ret);
+        Timber.e("send cmd ret:" + ret);
     }
 }

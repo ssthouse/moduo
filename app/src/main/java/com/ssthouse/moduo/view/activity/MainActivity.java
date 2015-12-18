@@ -3,6 +3,7 @@ package com.ssthouse.moduo.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
@@ -34,6 +36,8 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
+
+    private long exitTimeInMils = 0;
 
     /**
      * 视频对话SDK管理类
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 启动当前activity
+     *
      * @param context
      * @param isLoginSuccess
      */
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         //显示是否登陆平台成功
         boolean isLoginSuccess = getIntent().getBooleanExtra(EXTRA_IS_LOGIN_SUCCESS, false);
-        if(!isLoginSuccess) {
+        if (!isLoginSuccess) {
             tvOffline.setVisibility(View.VISIBLE);
         }
 
@@ -229,5 +234,16 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
         communication.destory();//销毁sdk
         android.os.Process.killProcess(android.os.Process.myPid());//确保完全退出，释放所有资源
+    }
+
+    @Override
+    public void onBackPressed() {
+        //如果上一次点击事件少一点五秒
+        if (SystemClock.currentThreadTimeMillis() < (exitTimeInMils + 1500)) {
+            super.onBackPressed();
+        } else {
+            exitTimeInMils = SystemClock.currentThreadTimeMillis();
+            ToastHelper.show(this, "再次点击退出");
+        }
     }
 }
