@@ -13,11 +13,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.Device;
@@ -184,6 +188,10 @@ public class MainActivity extends AppCompatActivity {
                 //TODO---弹出添加设备dialog
                 showAddDeviceDialog();
                 break;
+            case R.id.id_action_scan_device:
+                //TODO---扫码添加设备---在onActivityResult中处理回调
+                ScanUtil.startScan(this);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -244,6 +252,32 @@ public class MainActivity extends AppCompatActivity {
         } else {
             exitTimeInMils = SystemClock.currentThreadTimeMillis();
             ToastHelper.show(this, "再次点击退出");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * TODO
+         * 获取扫描二维码的结果
+         */
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Timber.e("Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                String text = result.getContents();
+                String product_key = ScanUtil.getParamFomeUrl(text, "product_key");
+                String did = ScanUtil.getParamFomeUrl(text, "did");
+                String passcode = ScanUtil.getParamFomeUrl(text, "passcode");
+                Timber.e("Scanned Result: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passcode);
+                ToastHelper.show(this, "Scanned Result: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passcode);
+            }
+        } else {
+            Timber.e("Weird");
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

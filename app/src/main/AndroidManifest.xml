@@ -129,6 +129,12 @@
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data android:name="api_key" android:value="5cbIdRlHlm10M1IvSAfesaDM" />
 
+        <!--竖直屏幕的二维码扫描activity-->
+        <activity android:name=".view.activity.ScanActivity"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
