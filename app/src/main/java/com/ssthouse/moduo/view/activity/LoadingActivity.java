@@ -5,9 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.SettingManager;
+import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
+import com.ssthouse.moduo.view.activity.account.RegisterActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -25,6 +29,15 @@ public class LoadingActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
+
+        //TODO---判断是否为第一次进去---或者没有登陆
+        if (PreferenceHelper.getInstance(this).isFistIn()
+                || StringUtils.isEmpty(new SettingManager(this).getToken())) {
+            RegisterActivity.start(this);
+            finish();
+            return;
+        }
+
         //加载sdk
         loadSdkLib();
         Communication.getInstance(this);
@@ -41,6 +54,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     /**
      * 登录成功回调
+     *
      * @param event
      */
     public void onEventMainThread(ViewerLoginResultEvent event) {

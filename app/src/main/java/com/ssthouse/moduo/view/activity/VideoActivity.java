@@ -18,7 +18,6 @@ import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
-import com.orhanobut.logger.Logger;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.video.AudioHandler;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
@@ -138,12 +137,12 @@ public class VideoActivity extends Activity {
     private MediaStreamStateCallback mediaStreamStateCallback = new MediaStreamStateCallback() {
         @Override
         public void onMediaStreamState(long streamId, MediaStreamState mediaStreamState) {
-            Logger.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
+            Timber.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
             //监测链接状态
             if (mediaStreamState == MediaStreamState.CREATED) {
                 MediaDataDesc desc = media.getStreamDesc(liveStreamId);
                 if (desc == null) {
-                    Logger.e("get media desc error!");
+                    Timber.e("get media desc error!");
                     return;
                 }
                 Timber.e("video :" + desc.getVideoType().toString() + ","

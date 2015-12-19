@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -40,7 +41,6 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
-
     private long exitTimeInMils = 0;
 
     /**
@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<Device> deviceList;
 
+    //无网络连接提示
     @Bind(R.id.id_tv_offline)
     TextView tvOffline;
-
     /**
      * 主界面listview
      */
@@ -94,10 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
         //加载本地添加过的设备
         initLocalDevice();
+
+        //TODO---setting sdk测试
+        XPGController.getInstance(this);
     }
 
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb);
         setSupportActionBar(toolbar);
 
         //显示是否登陆平台成功

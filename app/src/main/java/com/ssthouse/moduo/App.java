@@ -4,10 +4,10 @@ import android.app.Application;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.orhanobut.logger.LogLevel;
-import com.orhanobut.logger.Logger;
+import com.ssthouse.moduo.model.Constant;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
+import com.xtremeprog.xpgconnect.XPGWifiSDK;
 
 import timber.log.Timber;
 
@@ -20,10 +20,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //init log
-        Logger.init("ssthouse")
-                .setLogLevel(LogLevel.FULL)
-                .hideThreadInfo();
+        //初始化 log
         Timber.plant(new Timber.DebugTree());
         //友盟统计
         MobclickAgent.setDebugMode(true);
@@ -33,5 +30,10 @@ public class App extends Application {
         //百度推送
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
                 "5cbIdRlHlm10M1IvSAfesaDM");
+        // 初始化sdk,传入appId,登录机智云官方网站查看产品信息获得 AppID
+        XPGWifiSDK.sharedInstance().startWithAppID(this, Constant.SettingSdkCons.APP_ID);
+        // 设定日志打印级别,日志保存文件名，是否在后台打印数据.
+        XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
+                Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
     }
 }

@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.model;
 
+import com.xtremeprog.xpgconnect.XPGWifiSDK;
+
 /**
  * app配置常量
  * Created by ssthouse on 2015/12/17.
@@ -24,7 +26,7 @@ public class Constant {
     /**
      * 视频对话SDK常量
      */
-    public interface VideoCons{
+    public interface VideoSdkCons {
         //公司id
         String companyID = "95e629f0d5a84a83b44cbe57dabc81d6";
         //公司key
@@ -33,5 +35,19 @@ public class Constant {
         String appID = "47e0591f4963459682f1e30abc19ded2";
         //采集端需要填写的license
         String license = "";
+    }
+
+    /**
+     * 机智云配置常量
+     */
+    public interface SettingSdkCons{
+        //应用id
+        String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
+        //product key
+        String PRODUCT_KEY = "ea821d5649b5460483a8e5894bafc611";
+        //日志等级
+        XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
+        //日志文件名
+        String LOG_FILE_NAME = "setting_log_file.log";
     }
 }

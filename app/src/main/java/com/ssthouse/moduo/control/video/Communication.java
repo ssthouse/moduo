@@ -74,8 +74,8 @@ public class Communication {
         //TODO---打印日志
         viewer.setDebugEnable(Constant.isDebug);
         //初始化注册认证信息
-        viewer.setLoginInfo(Constant.VideoCons.companyID, Constant.VideoCons.companyKey,
-                Constant.VideoCons.appID, Constant.VideoCons.license);
+        viewer.setLoginInfo(Constant.VideoSdkCons.companyID, Constant.VideoSdkCons.companyKey,
+                Constant.VideoSdkCons.appID, Constant.VideoSdkCons.license);
         //设置回调
         viewer.setCallBack(viewerCallback);
         //设置采集端状态回调
