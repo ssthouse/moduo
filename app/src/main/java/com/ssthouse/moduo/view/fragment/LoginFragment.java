@@ -11,9 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.SettingManager;
+import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.model.event.setting.LoginResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.view.activity.LoadingActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,6 +29,10 @@ import de.greenrobot.event.EventBus;
  * Created by ssthouse on 2015/12/19.
  */
 public class LoginFragment extends Fragment {
+    /**
+     * 是否在使用当前fragment承接eventbus事件
+     */
+    boolean isInUse = false;
 
     /**
      * 用户名输入框
@@ -69,6 +78,9 @@ public class LoginFragment extends Fragment {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 //TODO---格式检查---登陆
+                isInUse = true;
+                XPGController.getInstance(getContext()).getmCenter()
+                        .cLogin(etUsername.getText().toString(), etPassword.getText().toString());
             }
         });
 
@@ -95,11 +107,22 @@ public class LoginFragment extends Fragment {
      * @param event
      */
     public void onEventMainThread(LoginResultEvent event) {
-        if (event.isSuccess()) {
-            ToastHelper.show(getContext(), "登陆成功");
-            //TODO---保存登陆数据---跳转loadingActivity
-        } else {
-            ToastHelper.show(getContext(), "登陆失败");
+        if(isInUse) {
+            if (event.isSuccess()) {
+                ToastHelper.show(getContext(), "登陆成功");
+                //保存登陆数据
+                SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
+                SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
+                SettingManager.getInstance(getContext()).setUid(event.getUid());
+                SettingManager.getInstance(getContext()).setToken(event.getToken());
+                PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
+                //跳转loading activity
+                LoadingActivity.start(getContext());
+                //退出当前activity
+                EventBus.getDefault().post(new RegisterActivityDestoryEvent());
+            } else {
+                ToastHelper.show(getContext(), "登陆失败");
+            }
         }
     }
 

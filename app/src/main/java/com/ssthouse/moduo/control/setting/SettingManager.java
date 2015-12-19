@@ -4,12 +4,12 @@
  * Package Name:com.gizwits.framework.sdk
  * Date:2015-1-27 14:47:24
  * Copyright (c) 2014~2015 Xtreme Programming Group, Inc.
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
- * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
  * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * 
+ * <p/>
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * 
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
@@ -27,150 +27,166 @@ import android.content.SharedPreferences;
  */
 public class SettingManager {
 
-	/** The spf. */
-	SharedPreferences spf;
-	
-	/** The c. */
-	private Context c;
+    /** The spf. */
+    SharedPreferences spf;
 
-	// =================================================================
-	//
-	// SharePreference文件中的变量名字列表
-	//
-	// =================================================================
+    /** The c. */
+    private Context c;
 
-	// Sharepreference文件的名字
-	/** The share preferences. */
-	private final String SHARE_PREFERENCES = "set";
-	// 用户名
-	/** The user name. */
-	private final String USER_NAME = "username";
-	// 手机号码
-	/** The phone num. */
-	private final String PHONE_NUM = "phonenumber";
-	// 密码
-	/** The password. */
-	private final String PASSWORD = "password";
-	// 用户名
-	/** The token. */
-	private final String TOKEN = "token";
-	// 用户ID
-	/** The uid. */
-	private final String UID = "uid";
+    // =================================================================
+    //
+    // SharePreference文件中的变量名字列表
+    //
+    // =================================================================
 
-	/** The filter. */
-	static String filter = "=====";
+    // Sharepreference文件的名字
+    /** The share preferences. */
+    private final String SHARE_PREFERENCES = "set";
+    // 用户名
+    /** The user name. */
+    private final String USER_NAME = "username";
+    // 手机号码
+    /** The phone num. */
+    private final String PHONE_NUM = "phonenumber";
+    // 密码
+    /** The password. */
+    private final String PASSWORD = "password";
+    // 用户名
+    /** The token. */
+    private final String TOKEN = "token";
+    // 用户ID
+    /** The uid. */
+    private final String UID = "uid";
 
-	/**
-	 * Instantiates a new setting manager.
-	 *
-	 * @param c the c
-	 */
-	public SettingManager(Context c) {
-		this.c = c;
-		spf = c.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE);
-	}
+    /** The filter. */
+    static String filter = "=====";
 
-	/**
-	 * SharePreference clean.
-	 */
-	public void clean() {
-		setUid("");
-		setToken("");
-		setPhoneNumber("");
-		setPassword("");
-		setUserName("");
-	}
+    /**
+     * Instantiates a new setting manager.
+     *
+     * @param c the c
+     */
+    private SettingManager(Context c) {
+        this.c = c;
+        spf = c.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE);
+    }
 
-	/**
-	 * Sets the user name.
-	 *
-	 * @param name the new user name
-	 */
-	public void setUserName(String name) {
-		spf.edit().putString(USER_NAME, name).commit();
+    /**
+     * 单例
+     */
+    private static  SettingManager instance;
 
-	}
+    /**
+     * 获取单例
+     * @return
+     */
+    public static SettingManager getInstance(Context context){
+        if(instance == null){
+            instance = new SettingManager(context);
+        }
+        return instance;
+    }
 
-	/**
-	 * Gets the user name.
-	 *
-	 * @return the user name
-	 */
-	public String getUserName() {
-		return spf.getString(USER_NAME, "");
-	}
+    /**
+     * SharePreference clean.
+     */
+    public void clean() {
+        setUid("");
+        setToken("");
+        setPhoneNumber("");
+        setPassword("");
+        setUserName("");
+    }
 
-	/**
-	 * Sets the phone number.
-	 *
-	 * @param phoneNumber the new phone number
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		spf.edit().putString(PHONE_NUM, phoneNumber).commit();
-	}
+    /**
+     * Sets the user name.
+     *
+     * @param name the new user name
+     */
+    public void setUserName(String name) {
+        spf.edit().putString(USER_NAME, name).commit();
 
-	/**
-	 * Gets the phone number.
-	 *
-	 * @return the phone number
-	 */
-	public String getPhoneNumber() {
-		return spf.getString(PHONE_NUM, "");
-	}
+    }
 
-	/**
-	 * Sets the password.
-	 *
-	 * @param psw the new password
-	 */
-	public void setPassword(String psw) {
-		spf.edit().putString(PASSWORD, psw).commit();
-	}
+    /**
+     * Gets the user name.
+     *
+     * @return the user name
+     */
+    public String getUserName() {
+        return spf.getString(USER_NAME, "");
+    }
 
-	/**
-	 * Gets the password.
-	 *
-	 * @return the password
-	 */
-	public String getPassword() {
-		return spf.getString(PASSWORD, "");
-	}
+    /**
+     * Sets the phone number.
+     *
+     * @param phoneNumber the new phone number
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        spf.edit().putString(PHONE_NUM, phoneNumber).commit();
+    }
 
-	/**
-	 * Sets the token.
-	 *
-	 * @param token the new token
-	 */
-	public void setToken(String token) {
-		spf.edit().putString(TOKEN, token).commit();
-	}
+    /**
+     * Gets the phone number.
+     *
+     * @return the phone number
+     */
+    public String getPhoneNumber() {
+        return spf.getString(PHONE_NUM, "");
+    }
 
-	/**
-	 * Gets the token.
-	 *
-	 * @return the token
-	 */
-	public String getToken() {
-		return spf.getString(TOKEN, "");
-	}
+    /**
+     * Sets the password.
+     *
+     * @param psw the new password
+     */
+    public void setPassword(String psw) {
+        spf.edit().putString(PASSWORD, psw).commit();
+    }
 
-	/**
-	 * Sets the uid.
-	 *
-	 * @param uid the new uid
-	 */
-	public void setUid(String uid) {
-		spf.edit().putString(UID, uid).commit();
-	}
+    /**
+     * Gets the password.
+     *
+     * @return the password
+     */
+    public String getPassword() {
+        return spf.getString(PASSWORD, "");
+    }
 
-	/**
-	 * Gets the uid.
-	 *
-	 * @return the uid
-	 */
-	public String getUid() {
-		return spf.getString(UID, "");
-	}
+    /**
+     * Sets the token.
+     *
+     * @param token the new token
+     */
+    public void setToken(String token) {
+        spf.edit().putString(TOKEN, token).commit();
+    }
+
+    /**
+     * Gets the token.
+     *
+     * @return the token
+     */
+    public String getToken() {
+        return spf.getString(TOKEN, "");
+    }
+
+    /**
+     * Sets the uid.
+     *
+     * @param uid the new uid
+     */
+    public void setUid(String uid) {
+        spf.edit().putString(UID, uid).commit();
+    }
+
+    /**
+     * Gets the uid.
+     *
+     * @return the uid
+     */
+    public String getUid() {
+        return spf.getString(UID, "");
+    }
 
 }

@@ -10,9 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.SettingManager;
 import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
+import com.ssthouse.moduo.model.event.setting.LoginResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
+import com.ssthouse.moduo.view.activity.LoadingActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,7 +27,7 @@ import de.greenrobot.event.EventBus;
  * 邮箱注册fragment
  * Created by ssthouse on 2015/12/19.
  */
-public class EmailRegisterFragment extends Fragment{
+public class EmailRegisterFragment extends Fragment {
 
     /**
      * 判断当前fragment是否在被使用
@@ -67,15 +72,44 @@ public class EmailRegisterFragment extends Fragment{
 
     /**
      * 注册结果回调
+     *
      * @param event
      */
-    public void onEventMainThread(RegisterResultEvent event){
+    public void onEventMainThread(RegisterResultEvent event) {
         //判断当前fragment是否响应外界的event
-        if(isInUse){
-            if(event.isSuccess()){
+        if (isInUse) {
+            if (event.isSuccess()) {
                 ToastHelper.show(getContext(), "注册成功, 正在登陆...");
-            }else{
+                //TODO---尝试登陆---保存uid和token和邮箱--和密码到本地
+                XPGController.getInstance(getContext()).getmCenter()
+                        .cLogin(etEmailAddr.getText().toString(), etPassword.getText().toString());
+            } else {
                 ToastHelper.show(getContext(), "注册失败");
+            }
+        }
+    }
+
+    /**
+     * 登陆结果回调方法
+     *
+     * @param event
+     */
+    public void onEventMainThread(LoginResultEvent event) {
+        if (isInUse) {
+            if (event.isSuccess()) {
+                ToastHelper.show(getContext(), "登陆成功");
+                //保存登陆数据
+                SettingManager.getInstance(getContext()).setUserName(etEmailAddr.getText().toString());
+                SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
+                SettingManager.getInstance(getContext()).setUid(event.getUid());
+                SettingManager.getInstance(getContext()).setToken(event.getToken());
+                PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
+                //跳转loading activity
+                LoadingActivity.start(getContext());
+                //退出当前activity
+                EventBus.getDefault().post(new RegisterActivityDestoryEvent());
+            } else {
+                ToastHelper.show(getContext(), "登陆失败");
             }
         }
     }

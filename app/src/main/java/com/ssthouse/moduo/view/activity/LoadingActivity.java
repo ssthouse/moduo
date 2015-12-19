@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
@@ -17,10 +19,19 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * loading界面
+ * loading界面:
+ * 程序入口
  * Created by ssthouse on 2015/12/17.
  */
 public class LoadingActivity extends AppCompatActivity {
+
+    /**
+     * 启动当前activity
+     */
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoadingActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +43,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         //TODO---判断是否为第一次进去---或者没有登陆
         if (PreferenceHelper.getInstance(this).isFistIn()
-                || StringUtils.isEmpty(new SettingManager(this).getToken())) {
+                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
             RegisterActivity.start(this);
             finish();
             return;

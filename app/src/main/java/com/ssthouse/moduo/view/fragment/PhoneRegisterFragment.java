@@ -108,6 +108,7 @@ public class PhoneRegisterFragment extends Fragment {
     }
 
     private void initView() {
+        //获取验证码按钮
         btnGetAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +124,7 @@ public class PhoneRegisterFragment extends Fragment {
             }
         });
 
+        //手机号输入框监听
         etPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -142,6 +144,15 @@ public class PhoneRegisterFragment extends Fragment {
             }
         });
 
+        //注册
+        btnStartPhoneRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        //初始化Dialog
         dialog = new MaterialDialog.Builder(getContext())
                 .customView(R.layout.dialog_wait, true)
                 .build();

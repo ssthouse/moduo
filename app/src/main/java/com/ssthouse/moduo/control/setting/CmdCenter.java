@@ -41,12 +41,6 @@ import timber.log.Timber;
  * @author Lien
  */
 public class CmdCenter {
-
-    /**
-     * The Constant TAG.
-     */
-    private static final String TAG = "CmdCenter";
-
     /**
      * The xpg wifi sdk.
      */
@@ -92,7 +86,7 @@ public class CmdCenter {
      * @param c the c
      */
     private void init(Context c) {
-        mSettingManager = new SettingManager(c);
+        mSettingManager = SettingManager.getInstance(c);
         xpgWifiGCC = XPGWifiSDK.sharedInstance();
     }
 
@@ -395,5 +389,4 @@ public class CmdCenter {
         cWrite(xpgWifiDevice, JsonKeys.BRIGHTNESS, progress);
         cGetStatus(xpgWifiDevice);
     }
-
 }

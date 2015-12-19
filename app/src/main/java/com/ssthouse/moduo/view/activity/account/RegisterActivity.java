@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterFragmentChangeEvent;
-import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
 import com.ssthouse.moduo.view.fragment.EmailRegisterFragment;
 import com.ssthouse.moduo.view.fragment.LoginFragment;
 import com.ssthouse.moduo.view.fragment.PhoneRegisterFragment;
@@ -95,11 +95,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * 机智云 登陆/注册 回调事件
+     * 销毁当前activity的时间
+     *
      * @param event
      */
-    public void onEventMainThread(RegisterResultEvent event){
-
+    public void onEventMainThread(RegisterActivityDestoryEvent event){
+        finish();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.ssthouse.moduo.control.setting;
 import android.content.Context;
 
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
+import com.ssthouse.moduo.model.event.setting.LoginResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
@@ -52,7 +53,7 @@ public class XPGController {
     private XPGController(Context context) {
         this.context = context;
         //初始化监听器
-        setmanager = new SettingManager(context);
+        setmanager = SettingManager.getInstance(context);
         mCenter = CmdCenter.getInstance(context);
         // 每次返回activity都要注册一次sdk监听器，保证sdk状态能正确回调
         mCenter.getXPGWifiSDK().setListener(sdkListener);
@@ -178,32 +179,6 @@ public class XPGController {
         }
 
         @Override
-        public void didRequestSendPhoneSMSCode(int result, String errorMessage) {
-            super.didRequestSendPhoneSMSCode(result, errorMessage);
-            //发送手机验证码回调
-            if (result == 0) {
-                Timber.e("验证码发送成功");
-                EventBus.getDefault().post(new AuthCodeSendResultEvent(true));
-            } else {
-                EventBus.getDefault().post(new AuthCodeSendResultEvent(false));
-            }
-            Timber.e("发送手机验证码回调:\t" + result + "\t" + errorMessage);
-        }
-
-        @Override
-        public void didVerifyPhoneSMSCode(int result, String errorMessage) {
-            super.didVerifyPhoneSMSCode(result, errorMessage);
-            //发送手机验证码回调
-            if (result == 0) {
-                Timber.e("验证码发送成功");
-                EventBus.getDefault().post(new AuthCodeSendResultEvent(true));
-            } else {
-                EventBus.getDefault().post(new AuthCodeSendResultEvent(false));
-            }
-            Timber.e("发送手机验证码回调:\t" + result + "\t" + errorMessage);
-        }
-
-        @Override
         public void didSetDeviceWifi(int error, XPGWifiDevice device) {
             //设置设备wifi
             Timber.e("设置设备wifi");
@@ -218,7 +193,12 @@ public class XPGController {
         public void didUserLogin(int error, String errorMessage, String uid,
                                  String token) {
             //用户登陆回调
-            Timber.e("用户登陆回调");
+            if (error == 0) {
+                EventBus.getDefault().post(new LoginResultEvent(true, uid, token));
+            } else {
+                EventBus.getDefault().post(new LoginResultEvent(false));
+            }
+            Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
         }
 
         @Override
