@@ -10,7 +10,6 @@ import android.media.MediaRecorder;
 import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.codec.AudioType;
-import com.orhanobut.logger.Logger;
 
 import timber.log.Timber;
 
@@ -157,7 +156,7 @@ public class AudioHandler {
                 public void run() {
                     AudioTrack audioPlay = createTracker();
                     if (audioPlay == null) {
-                        Logger.e("create audio play return null");
+                        Timber.e("create audio play return null");
                         return;
                     }
                     audioPlay.play();
@@ -174,7 +173,7 @@ public class AudioHandler {
                             }
                         }
                     } catch (InterruptedException e) {
-                        Logger.e("e:" + e.toString());
+                        Timber.e("e:" + e.toString());
                     } finally {
                         audioPlay.release();
                         audioPlay = null;
@@ -191,7 +190,7 @@ public class AudioHandler {
                 public void run() {
                     AudioRecord audioRecord = creatAudioRecord();
                     if (audioRecord == null) {
-                        Logger.e("create audio record return null");
+                        Timber.e("create audio record return null");
                         return;
                     }
                     try {
@@ -215,11 +214,11 @@ public class AudioHandler {
                             Thread.sleep(1);
                         }
                     } catch (InterruptedException e) {
-                        Logger.e(e.toString());
+                        Timber.e(e.toString());
                     } catch (NullPointerException e) {
-                        Logger.e(e.toString());
+                        Timber.e(e.toString());
                     } catch (RuntimeException e) {
-                        Logger.e(e.toString());
+                        Timber.e(e.toString());
                     } finally {
                         isRecordAudio = false;
                         if (audioRecord != null) {
