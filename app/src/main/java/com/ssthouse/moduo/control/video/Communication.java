@@ -11,7 +11,6 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConfigChangedEvent;
@@ -123,7 +122,7 @@ public class Communication {
             //TODO
             EventBus.getDefault().post(new StreamerConnectChangedEvent(l, streamerPresenceState));
             Timber.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
-            ToastHelper.show(context, "设备" + l + "\t目前streamer的链接状态是:\t" + streamerPresenceState.name());
+            //ToastHelper.show(context, "设备" + l + "\t目前streamer的链接状态是:\t" + streamerPresenceState.name());
         }
 
         @Override
@@ -131,7 +130,7 @@ public class Communication {
             //TODO
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
             Timber.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
-            ToastHelper.show(context, "设备" + l + "\t目前streamer的配置状态是:\t" + streamerConfigState.name());
+            //ToastHelper.show(context, "设备" + l + "\t目前streamer的配置状态是:\t" + streamerConfigState.name());
         }
     };
 

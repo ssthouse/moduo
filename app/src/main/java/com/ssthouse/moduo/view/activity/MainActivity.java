@@ -3,7 +3,6 @@ package com.ssthouse.moduo.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -94,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
         //加载本地添加过的设备
         initLocalDevice();
-
-        //TODO---setting sdk测试
-        XPGController.getInstance(this);
     }
 
     private void initView() {
@@ -250,12 +245,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //如果上一次点击事件少一点五秒
-        if (SystemClock.currentThreadTimeMillis() < (exitTimeInMils + 1500)) {
+        if (System.currentTimeMillis() < (exitTimeInMils + 1500)) {
+            Timber.e("我点击了返回键...这不科学..");
             super.onBackPressed();
         } else {
-            exitTimeInMils = SystemClock.currentThreadTimeMillis();
+            exitTimeInMils = System.currentTimeMillis();
             ToastHelper.show(this, "再次点击退出");
         }
+        Timber.e("我点击了返回键...");
     }
 
     @Override

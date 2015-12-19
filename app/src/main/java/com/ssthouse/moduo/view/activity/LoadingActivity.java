@@ -41,7 +41,6 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
-        //TODO---判断是否为第一次进去---或者没有登陆
         if (PreferenceHelper.getInstance(this).isFistIn()
                 || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
             RegisterActivity.start(this);
