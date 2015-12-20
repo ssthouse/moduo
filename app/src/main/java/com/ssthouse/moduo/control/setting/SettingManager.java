@@ -20,6 +20,8 @@ package com.ssthouse.moduo.control.setting;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
+
 /**
  * SharePreference处理类.
  *
@@ -96,6 +98,15 @@ public class SettingManager {
         setPhoneNumber("");
         setPassword("");
         setUserName("");
+    }
+
+    /**
+     * 保存登陆成功回调数据
+     * @param event
+     */
+    public void setLoginInfo(XPGLoginResultEvent event){
+        setUid(event.getUid());
+        setToken(event.getToken());
     }
 
     /**

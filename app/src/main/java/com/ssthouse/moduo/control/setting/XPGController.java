@@ -3,7 +3,9 @@ package com.ssthouse.moduo.control.setting;
 import android.content.Context;
 
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
-import com.ssthouse.moduo.model.event.setting.LoginResultEvent;
+import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
@@ -53,7 +55,7 @@ public class XPGController {
     private XPGController(Context context) {
         this.context = context;
         //初始化监听器
-        setmanager = SettingManager.getInstance(context);
+        settingManager = SettingManager.getInstance(context);
         mCenter = CmdCenter.getInstance(context);
         // 每次返回activity都要注册一次sdk监听器，保证sdk状态能正确回调
         mCenter.getXPGWifiSDK().setListener(sdkListener);
@@ -67,7 +69,7 @@ public class XPGController {
     /**
      * SharePreference处理类.
      */
-    protected SettingManager setmanager;
+    protected SettingManager settingManager;
 
     /**
      * 设备列表.
@@ -93,19 +95,23 @@ public class XPGController {
 
         @Override
         public void didDeviceOnline(XPGWifiDevice device, boolean isOnline) {
+            Timber.e("设备上线");
         }
 
         @Override
         public void didDisconnected(XPGWifiDevice device) {
+            Timber.e("设备连接断开");
         }
 
         @Override
         public void didLogin(XPGWifiDevice device, int result) {
+            Timber.e("设备登陆");
         }
 
         @Override
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
+            Timber.e("获取到设备数据");
         }
 
     };
@@ -120,7 +126,13 @@ public class XPGController {
         @Override
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
+            //TODO---尝试登陆设备---进行控制
             Timber.e("绑定设备回调");
+            if (error == 0) {
+                EventBus.getDefault().post(new DeviceBindResultEvent(true));
+            } else {
+                EventBus.getDefault().post(new DeviceBindResultEvent(false));
+            }
         }
 
         @Override
@@ -144,7 +156,13 @@ public class XPGController {
         @Override
         public void didDiscovered(int error, List<XPGWifiDevice> devicesList) {
             //发现设备
-            Timber.e("发现设备");
+            if (error == 0) {
+                EventBus.getDefault().post(new GetBoundDeviceEvent(true, devicesList));
+                Timber.e("获取账号绑定设备成功");
+            } else {
+                EventBus.getDefault().post(new GetBoundDeviceEvent(false));
+                Timber.e("获取账号绑定设备失败");
+            }
         }
 
         @Override
@@ -194,9 +212,9 @@ public class XPGController {
                                  String token) {
             //用户登陆回调
             if (error == 0) {
-                EventBus.getDefault().post(new LoginResultEvent(true, uid, token));
+                EventBus.getDefault().post(new XPGLoginResultEvent(true, uid, token));
             } else {
-                EventBus.getDefault().post(new LoginResultEvent(false));
+                EventBus.getDefault().post(new XPGLoginResultEvent(false));
             }
             Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
         }

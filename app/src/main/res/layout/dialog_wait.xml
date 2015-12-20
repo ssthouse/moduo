@@ -10,6 +10,8 @@
         android:indeterminate="true" />
 
     <TextView
+        android:layout_marginLeft="18dp"
+        android:id="@+id/id_tv_wait"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

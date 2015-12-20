@@ -59,7 +59,7 @@ public class MainLvAdapter extends BaseAdapter {
         }
         //配置触发事件
         viewHolder.tvCid.setText("设备Cid号码:" + deviceList.get(position).getCidNumber() + "");
-        //加载状态
+        //加载视频sdk状态
         String stateStr = "离线";
         boolean isVideoEnable = false;
         switch (deviceList.get(position).getStreamerPresenceState()) {

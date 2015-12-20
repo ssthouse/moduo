@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ssthouse.moduo">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <!--机智云新增权限-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- Push service 运行需要的权限 -->

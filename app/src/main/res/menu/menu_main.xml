@@ -24,4 +24,10 @@
         android:title="扫码添加设备"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/id_action_get_bound_device"
+        android:orderInCategory="300"
+        android:title="获取账号绑定设备"
+        app:showAsAction="never" />
+
 </menu>

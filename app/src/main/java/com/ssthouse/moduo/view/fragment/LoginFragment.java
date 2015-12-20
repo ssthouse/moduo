@@ -16,8 +16,8 @@ import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
-import com.ssthouse.moduo.model.event.setting.LoginResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.ssthouse.moduo.view.activity.LoadingActivity;
 
 import butterknife.Bind;
@@ -106,16 +106,15 @@ public class LoginFragment extends Fragment {
      *
      * @param event
      */
-    public void onEventMainThread(LoginResultEvent event) {
+    public void onEventMainThread(XPGLoginResultEvent event) {
         if(isInUse) {
             if (event.isSuccess()) {
                 ToastHelper.show(getContext(), "登陆成功");
                 //保存登陆数据
+                PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
                 SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
                 SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
-                SettingManager.getInstance(getContext()).setUid(event.getUid());
-                SettingManager.getInstance(getContext()).setToken(event.getToken());
-                PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
+                SettingManager.getInstance(getContext()).setLoginInfo(event);
                 //跳转loading activity
                 LoadingActivity.start(getContext());
                 //退出当前activity

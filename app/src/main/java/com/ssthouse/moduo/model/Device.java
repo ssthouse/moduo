@@ -1,6 +1,7 @@
 package com.ssthouse.moduo.model;
 
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
+import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 /**
  * 一台设备有的所有数据
@@ -8,31 +9,44 @@ import com.ichano.rvs.viewer.constant.StreamerPresenceState;
  */
 public class Device {
 
+    /*
+    视频sdk数据
+    TODO---暂时默认为官网给的设备, 当时候换成二维码里面扫描得到的数据
+     */
     /**
      * 设备状态标识
      */
     private StreamerPresenceState streamerPresenceState;
 
     /**
-     * 设备cid编号
+     * TODO---设备cid编号
      */
-    private long cidNumber;
+    private long cidNumber = 50000072;
 
     /**
-     * 设备用户名
+     * TODO---设备用户名
      */
-    private String username;
+    private String username = "admin";
 
     /**
-     * 设备密码
+     * TODO---设备密码
      */
-    private String password;
+    private String password = "admin";
+
+    /*
+    机智云sdk数据
+     */
+    /**
+     * 机智云设备
+     */
+    private XPGWifiDevice xpgWifiDevice;
 
     /**
      * 构造方法
-     * @param cidNumber
-     * @param username
-     * @param password
+     *
+     * @param cidNumber cid号码
+     * @param username 视频用户名
+     * @param password 视频密码
      */
     public Device(long cidNumber, String username, String password) {
         this.cidNumber = cidNumber;
@@ -42,6 +56,21 @@ public class Device {
         this.streamerPresenceState = StreamerPresenceState.OFFLINE;
     }
 
+    /**
+     * TODO
+     * 构造方法:
+     *
+     * 使用官网视频接口
+     * 传入一个已经绑定的机智云设备
+     * @param xpgWifiDevice
+     */
+    public Device(XPGWifiDevice xpgWifiDevice) {
+        this.xpgWifiDevice = xpgWifiDevice;
+        //默认状态
+        this.streamerPresenceState = StreamerPresenceState.OFFLINE;
+    }
+
+    //getter---and---setter-------------------------------------------------------------------------
     public StreamerPresenceState getStreamerPresenceState() {
         return streamerPresenceState;
     }
@@ -72,5 +101,13 @@ public class Device {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public XPGWifiDevice getXpgWifiDevice() {
+        return xpgWifiDevice;
+    }
+
+    public void setXpgWifiDevice(XPGWifiDevice xpgWifiDevice) {
+        this.xpgWifiDevice = xpgWifiDevice;
     }
 }

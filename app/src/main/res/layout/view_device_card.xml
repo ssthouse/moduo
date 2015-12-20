@@ -42,7 +42,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:padding="4dp"
-                android:text="设备状态" />
+                android:text="摄像头状态:离线" />
         </LinearLayout>
 
         <!--下方的操作按钮-->
@@ -62,6 +62,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="参数管理" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:padding="8dp"
+                android:id="@+id/id_ib_info_setting"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/md_transparent"
+                android:src="@drawable/ic_action_settings_dark" />
         </LinearLayout>
     </LinearLayout>
 

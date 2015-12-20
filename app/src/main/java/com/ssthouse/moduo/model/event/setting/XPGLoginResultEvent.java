@@ -4,7 +4,7 @@ package com.ssthouse.moduo.model.event.setting;
  * 登陆事件
  * Created by ssthouse on 2015/12/19.
  */
-public class LoginResultEvent {
+public class XPGLoginResultEvent {
 
     boolean isSuccess;
 
@@ -12,7 +12,7 @@ public class LoginResultEvent {
      * 登陆失败回调
      * @param isSuccess
      */
-    public LoginResultEvent(boolean isSuccess) {
+    public XPGLoginResultEvent(boolean isSuccess) {
         this.isSuccess = isSuccess;
         this.uid = "";
         this.token = "";
@@ -30,7 +30,7 @@ public class LoginResultEvent {
      * @param uid
      * @param token
      */
-    public LoginResultEvent(boolean isSuccess, String uid, String token) {
+    public XPGLoginResultEvent(boolean isSuccess, String uid, String token) {
         this.isSuccess = isSuccess;
         this.uid = uid;
         this.token = token;
