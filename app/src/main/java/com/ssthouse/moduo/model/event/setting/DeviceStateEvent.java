@@ -6,5 +6,6 @@ package com.ssthouse.moduo.model.event.setting;
  */
 public class DeviceStateEvent {
 
+    //todo---定义一个enum表示各个状态---再包含一个xpgdevice就可以包含所有的event了
 
 }

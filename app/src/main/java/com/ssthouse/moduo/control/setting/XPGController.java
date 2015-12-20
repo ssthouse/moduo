@@ -84,7 +84,7 @@ public class XPGController {
     /**
      * 当前操作的设备
      */
-    protected static XPGWifiDevice mXpgWifiDevice;
+    protected static XPGWifiDevice currentXpgWifiDevice;
 
     /**
      * XPGWifiDeviceListener
@@ -240,8 +240,8 @@ public class XPGController {
         return bindlist;
     }
 
-    public static XPGWifiDevice getmXpgWifiDevice() {
-        return mXpgWifiDevice;
+    public static XPGWifiDevice getCurrentXpgWifiDevice() {
+        return currentXpgWifiDevice;
     }
 
     public XPGWifiDeviceListener getDeviceListener() {

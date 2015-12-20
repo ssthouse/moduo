@@ -4,10 +4,13 @@ import android.app.Application;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.ssthouse.moduo.control.util.AssertsUtils;
 import com.ssthouse.moduo.model.Constant;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
+
+import java.io.IOException;
 
 import timber.log.Timber;
 
@@ -35,5 +38,13 @@ public class App extends Application {
         // 设定日志打印级别,日志保存文件名，是否在后台打印数据.
         XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
                 Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
+        //复制xpg配置文件
+        try {
+            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
+            //sdk根据该文件，把二进制数据转换为json字段并返回。
+            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

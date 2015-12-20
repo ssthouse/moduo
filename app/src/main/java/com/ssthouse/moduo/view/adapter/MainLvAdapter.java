@@ -124,7 +124,7 @@ public class MainLvAdapter extends BaseAdapter {
         XPGWifiDevice xpgWifiDevice = deviceList.get(position).getXpgWifiDevice();
         //设备状态
         String deviceState = "设备状态: ";
-        boolean isControlEnable = false;
+        boolean isControlEnable;
         if (xpgWifiDevice.isOnline()) {
             deviceState += "在线";
             isControlEnable = true;

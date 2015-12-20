@@ -256,19 +256,17 @@ public class CmdCenter {
      * @param value         the value
      */
     public void cWrite(XPGWifiDevice xpgWifiDevice, String key, Object value) {
-
         try {
-            final JSONObject jsonsend = new JSONObject();
-            JSONObject jsonparam = new JSONObject();
-            jsonsend.put("cmd", 1);
-            jsonparam.put(key, value);
-            jsonsend.put(JsonKeys.KEY_ACTION, jsonparam);
-            Log.i("sendjson", jsonsend.toString());
-            xpgWifiDevice.write(jsonsend.toString());
+            JSONObject jsonSend = new JSONObject();
+            JSONObject jsonParam = new JSONObject();
+            jsonSend.put("cmd", 1);
+            jsonParam.put(key, value);
+            jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
+            Timber.e(jsonSend.toString());
+            xpgWifiDevice.write(jsonSend.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -327,6 +325,12 @@ public class CmdCenter {
     // 设备控制相关指令
     //
     // =================================================================
+
+    /**
+     * 数据点 KEY
+     */
+    public static final String KEY_TEMPERATURE = "temperature";
+    public static final String KEY_HUMIDITY = "humidity";
 
     /**
      * C switch on.

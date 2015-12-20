@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         communication = Communication.getInstance(this);
 
         //加载本地添加过的设备
-        initLocalDevice();
+        initDeviceList();
     }
 
     private void initView() {
@@ -128,7 +128,13 @@ public class MainActivity extends AppCompatActivity {
      * TODO
      * 加载本地添加过的设备
      */
-    private void initLocalDevice() {
+    private void initDeviceList() {
+        //显示等待Dialog
+        showWaitLoadDeviceDialog();
+        //请求获取设备列表
+        XPGController.getInstance(this).getmCenter().cGetBoundDevices(
+                SettingManager.getInstance(this).getUid(),
+                SettingManager.getInstance(this).getToken());
         //TODO---获取当前账号绑定了的设备
         for (Device device : deviceList) {
             communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
@@ -222,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取账号绑定设备的回调事件
+     * 获取账号绑定设备
      *
      * @param event
      */
@@ -248,10 +254,15 @@ public class MainActivity extends AppCompatActivity {
                         + "\npasscode\t" + xpgWifiDevice.getPasscode()
                         + "\nproductKey:\t" + xpgWifiDevice.getProductKey());
             }
-            //todo---更新lv
+            //尝试连接 视频对话
+            for (Device device : deviceList) {
+                communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
+            }
+            //更新lv
             lvAdapter.update();
         } else {
             Timber.e("获取账号绑定设备列表失败");
+            ToastHelper.show(this, "获取设备列表失败");
         }
         //隐藏等待dialog
         waitDialog.dismiss();
