@@ -3,11 +3,13 @@ package com.ssthouse.moduo.model;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
+import java.io.Serializable;
+
 /**
  * 一台设备有的所有数据
  * Created by ssthouse on 2015/12/17.
  */
-public class Device {
+public class Device implements Serializable{
 
     /*
     视频sdk数据

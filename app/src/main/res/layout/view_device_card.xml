@@ -18,12 +18,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!--设备logo-->
             <ImageView
                 android:id="@+id/id_iv_device_icon"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@mipmap/ic_launcher" />
 
+            <!--设备信息-->
             <TextView
                 android:id="@+id/id_tv_cid_name"
                 android:layout_width="0dp"
@@ -32,17 +34,37 @@
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:padding="4dp"
-                android:text="设备名称(CID值)" />
+                android:text="设备名称(CID值)"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/id_tv_device_state"
+            <!--设备状态-->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
-                android:padding="4dp"
-                android:text="摄像头状态:离线" />
+                android:orientation="vertical"
+                android:paddingBottom="4dp">
+
+                <TextView
+                    android:id="@+id/id_tv_xpg_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:text="设备状态:离线" />
+
+                <TextView
+                    android:id="@+id/id_tv_camera_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:text="摄像头状态:离线" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <!--下方的操作按钮-->
@@ -55,13 +77,15 @@
                 android:id="@+id/id_btn_start_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:text="视频对话" />
 
             <Button
-                android:id="@+id/id_btn_setting"
+                android:id="@+id/id_btn_xpg_control"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="参数管理" />
+                android:layout_marginLeft="8dp"
+                android:text="参数控制" />
 
             <Space
                 android:layout_width="0dp"
@@ -69,12 +93,12 @@
                 android:layout_weight="1" />
 
             <ImageButton
-                android:padding="8dp"
                 android:id="@+id/id_ib_info_setting"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/md_transparent"
+                android:padding="8dp"
                 android:src="@drawable/ic_action_settings_dark" />
         </LinearLayout>
     </LinearLayout>

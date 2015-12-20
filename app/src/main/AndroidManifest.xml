@@ -68,6 +68,10 @@
         <activity android:name=".view.activity.VideoActivity"
             android:screenOrientation="landscape"/>
 
+        <!--xpg设备控制activity-->
+        <activity android:name=".view.activity.XpgControlActivity"
+            android:screenOrientation="portrait"/>
+
         <!--友盟集成-->
         <meta-data android:value="5672334e67e58e60760048ad" android:name="UMENG_APPKEY"/>
         <meta-data android:value="default_channel" android:name="UMENG_CHANNEL"/>

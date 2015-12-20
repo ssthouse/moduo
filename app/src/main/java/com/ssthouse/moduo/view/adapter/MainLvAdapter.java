@@ -5,11 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.view.activity.VideoActivity;
+import com.ssthouse.moduo.view.activity.XpgControlActivity;
+import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;
 
@@ -40,7 +43,6 @@ public class MainLvAdapter extends BaseAdapter {
      * 刷新数据
      */
     public void update() {
-        //deviceList = PreferenceHelper.getInstance(context).getDeviceList();
         notifyDataSetInvalidated();
     }
 
@@ -50,37 +52,57 @@ public class MainLvAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.view_device_card, null);
+            //video
             viewHolder.tvCid = (TextView) convertView.findViewById(R.id.id_tv_cid_name);
-            viewHolder.tvDeviceState = (TextView) convertView.findViewById(R.id.id_tv_device_state);
+            viewHolder.tvCameraState = (TextView) convertView.findViewById(R.id.id_tv_camera_state);
             viewHolder.btnStartVideo = (Button) convertView.findViewById(R.id.id_btn_start_video);
+            //xpg
+            viewHolder.tvXpgDeviceState = (TextView) convertView.findViewById(R.id.id_tv_xpg_state);
+            viewHolder.btnXpgControlStart = (Button) convertView.findViewById(R.id.id_btn_xpg_control);
+            //参数设置
+            viewHolder.ibDeviceInfoStart = (ImageButton) convertView.findViewById(R.id.id_ib_info_setting);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        //初始化视频对话事件
+        initVideoEvent(viewHolder, position);
+        //初始化xpg管理事件
+        initXpgEvent(viewHolder, position);
+        //todo---那个imageButton的设备参数设置按钮就先放一放
+        return convertView;
+    }
+
+    /**
+     * 初始化视频对话事件
+     *
+     * @param viewHolder
+     */
+    private void initVideoEvent(ViewHolder viewHolder, final int position) {
         //配置触发事件
         viewHolder.tvCid.setText("设备Cid号码:" + deviceList.get(position).getCidNumber() + "");
         //加载视频sdk状态
-        String stateStr = "离线";
+        String stateStr = "摄像头状态: ";
         boolean isVideoEnable = false;
         switch (deviceList.get(position).getStreamerPresenceState()) {
             case INIT:
-                stateStr = "正在初始化";
+                stateStr += "正在初始化";
                 isVideoEnable = false;
                 break;
             case OFFLINE:
-                stateStr = "离线";
+                stateStr += "离线";
                 isVideoEnable = false;
                 break;
             case ONLINE:
-                stateStr = "在线";
+                stateStr += "在线";
                 isVideoEnable = true;
                 break;
             case USRNAME_PWD_ERR:
-                stateStr = "用户名或密码错误";
+                stateStr += "用户名或密码错误";
                 isVideoEnable = false;
                 break;
         }
-        viewHolder.tvDeviceState.setText(stateStr);
+        viewHolder.tvCameraState.setText(stateStr);
         viewHolder.btnStartVideo.setEnabled(isVideoEnable);
         //视频开关点击事件
         viewHolder.btnStartVideo.setOnClickListener(new View.OnClickListener() {
@@ -90,13 +112,50 @@ public class MainLvAdapter extends BaseAdapter {
                 VideoActivity.start(context, deviceList.get(position).getCidNumber());
             }
         });
-        return convertView;
+    }
+
+    /**
+     * 初始化xpg管理事件
+     *
+     * @param viewHolder
+     * @param position
+     */
+    private void initXpgEvent(ViewHolder viewHolder, int position) {
+        XPGWifiDevice xpgWifiDevice = deviceList.get(position).getXpgWifiDevice();
+        //设备状态
+        String deviceState = "设备状态: ";
+        boolean isControlEnable = false;
+        if (xpgWifiDevice.isOnline()) {
+            deviceState += "在线";
+            isControlEnable = true;
+        } else {
+            deviceState += "离线";
+            isControlEnable = false;
+        }
+        viewHolder.tvXpgDeviceState.setText(deviceState);
+        viewHolder.btnXpgControlStart.setEnabled(isControlEnable);
+        viewHolder.btnXpgControlStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO---启动xpg设备 参数设置 activity
+                XpgControlActivity.start(context);
+            }
+        });
     }
 
     private class ViewHolder {
+        //设备cid号码
         public TextView tvCid;
-        public TextView tvDeviceState;
+        //摄像头状态
+        public TextView tvCameraState;
+        //开启视频对话按钮
         public Button btnStartVideo;
+        //xpg设备状态
+        public TextView tvXpgDeviceState;
+        //xpg设备控制activity启动按钮
+        public Button btnXpgControlStart;
+        //设备info参数设置activity启动按钮
+        public ImageButton ibDeviceInfoStart;
     }
 
     @Override

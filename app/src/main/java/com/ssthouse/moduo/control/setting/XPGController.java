@@ -243,4 +243,12 @@ public class XPGController {
     public static XPGWifiDevice getmXpgWifiDevice() {
         return mXpgWifiDevice;
     }
+
+    public XPGWifiDeviceListener getDeviceListener() {
+        return deviceListener;
+    }
+
+    public void setDeviceListener(XPGWifiDeviceListener deviceListener) {
+        this.deviceListener = deviceListener;
+    }
 }

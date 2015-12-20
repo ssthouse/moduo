@@ -34,6 +34,7 @@ import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.view.adapter.MainLvAdapter;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 当前的所有设备
      */
-    private List<Device> deviceList;
+    private List<Device> deviceList = new ArrayList<>();
 
     //无网络连接提示
     @Bind(R.id.id_tv_offline)
@@ -111,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             tvOffline.setVisibility(View.VISIBLE);
         }
 
-        //初始化设备listview
-        deviceList = PreferenceHelper.getInstance(this).getDeviceList();
+        //TODO---应该是请求获取绑定了的设备才对---初始化设备listview
+//        deviceList = PreferenceHelper.getInstance(this).getDeviceList();
         lvAdapter = new MainLvAdapter(this, deviceList);
         lv.setAdapter(lvAdapter);
 
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * TODO
      * 加载本地添加过的设备
      */
     private void initLocalDevice() {
@@ -226,9 +228,19 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onEventMainThread(GetBoundDeviceEvent event) {
         if (event.isSuccess()) {
+            //todo---清空当前列表
+            deviceList.clear();
             //TODO---刷新主界面lv列表
             Timber.e("获取账号绑定设备列表成功");
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
+                //设置监听器
+                xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
+                //todo---设备登陆
+                xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
+                        SettingManager.getInstance(this).getToken());
+                //添加到deviceList
+                deviceList.add(new Device(xpgWifiDevice));
+                //打印查看数据
                 Timber.e("获取到的设备有:\n");
                 Timber.e("deviceId:\t" + xpgWifiDevice.getDid()
                         + "\nip:\t" + xpgWifiDevice.getIPAddress()
@@ -236,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
                         + "\npasscode\t" + xpgWifiDevice.getPasscode()
                         + "\nproductKey:\t" + xpgWifiDevice.getProductKey());
             }
+            //todo---更新lv
+            lvAdapter.update();
         } else {
             Timber.e("获取账号绑定设备列表失败");
         }
@@ -317,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 显示等待加载设备Dialog
      */
-    private void showWaitLoadDeviceDialog(){
+    private void showWaitLoadDeviceDialog() {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText("正在加载设备...");
         waitDialog.show();
@@ -326,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 显示等待绑定设备dialog
      */
-    private void showWaitBindDeviceDialog(){
+    private void showWaitBindDeviceDialog() {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText("正在绑定设备...");
         waitDialog.show();
