@@ -10,14 +10,6 @@
         android:visible="false"
         app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/id_action_add_device"
-        android:icon="@drawable/ic_action_new"
-        android:orderInCategory="100"
-        android:title="添加设备"
-        app:showAsAction="always" />
-
     <item
         android:id="@+id/id_action_scan_device"
         android:orderInCategory="200"
@@ -30,4 +22,9 @@
         android:title="获取账号绑定设备"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/id_action_log_out"
+        android:orderInCategory="400"
+        android:title="登出"
+        app:showAsAction="never" />
 </menu>

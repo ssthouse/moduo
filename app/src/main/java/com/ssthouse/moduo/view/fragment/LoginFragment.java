@@ -14,8 +14,8 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.setting.SettingManager;
 import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
-import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterFragmentChangeEvent;
 import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.ssthouse.moduo.view.activity.LoadingActivity;
@@ -77,10 +77,15 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
+                //检查格式
+                if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
+                    ToastHelper.show(getContext(), "用户名和密码不可为空");
+                    return;
+                }
                 //TODO---格式检查---登陆
                 isInUse = true;
                 XPGController.getInstance(getContext()).getmCenter()
-                        .cLogin(etUsername.getText().toString(), etPassword.getText().toString());
+                        .cLogin(username, password);
             }
         });
 
@@ -109,6 +114,8 @@ public class LoginFragment extends Fragment {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if(isInUse) {
             if (event.isSuccess()) {
+                //todo
+                isInUse = false;
                 ToastHelper.show(getContext(), "登陆成功");
                 //保存登陆数据
                 PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
@@ -117,8 +124,8 @@ public class LoginFragment extends Fragment {
                 SettingManager.getInstance(getContext()).setLoginInfo(event);
                 //跳转loading activity
                 LoadingActivity.start(getContext());
-                //退出当前activity
-                EventBus.getDefault().post(new RegisterActivityDestoryEvent());
+                //退出activity
+                getActivity().finish();
             } else {
                 ToastHelper.show(getContext(), "登陆失败");
             }

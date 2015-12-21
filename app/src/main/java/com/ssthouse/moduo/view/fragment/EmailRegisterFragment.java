@@ -97,6 +97,8 @@ public class EmailRegisterFragment extends Fragment {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (isInUse) {
             if (event.isSuccess()) {
+                //// TODO: 2015/12/21
+                isInUse = false;
                 ToastHelper.show(getContext(), "登陆成功");
                 //保存登陆数据
                 SettingManager.getInstance(getContext()).setUserName(etEmailAddr.getText().toString());

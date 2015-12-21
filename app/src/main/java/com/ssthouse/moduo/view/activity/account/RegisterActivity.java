@@ -18,6 +18,7 @@ import com.ssthouse.moduo.view.fragment.PhoneRegisterFragment;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 注册/登陆 界面
@@ -100,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(RegisterActivityDestoryEvent event){
+        Timber.e("退出register activity");
         finish();
     }
 

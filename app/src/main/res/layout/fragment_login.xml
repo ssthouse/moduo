@@ -33,6 +33,7 @@
 
             <EditText
                 android:id="@+id/id_et_password"
+                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="密码" />

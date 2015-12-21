@@ -68,6 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:padding="4dp"
@@ -82,20 +83,21 @@
             android:layout_gravity="center_vertical">
 
             <EditText
-                android:visibility="gone"
                 android:id="@+id/id_et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:visibility="gone" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:visibility="gone"
             android:id="@+id/id_btn_start_phone_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="确定" />
+            android:layout_marginTop="8dp"
+            android:text="确定"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Space
