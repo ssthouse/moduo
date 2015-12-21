@@ -9,9 +9,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.view.activity.VideoActivity;
-import com.ssthouse.moduo.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public class MainLvAdapter extends BaseAdapter {
      * @param position
      */
     private void initXpgEvent(ViewHolder viewHolder, int position) {
-        XPGWifiDevice xpgWifiDevice = deviceList.get(position).getXpgWifiDevice();
+        final XPGWifiDevice xpgWifiDevice = deviceList.get(position).getXpgWifiDevice();
         //设备状态
         String deviceState = "设备状态: ";
         boolean isControlEnable;
@@ -138,7 +138,10 @@ public class MainLvAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //TODO---启动xpg设备 参数设置 activity
-                XpgControlActivity.start(context);
+                //设置当前device
+                XPGController.setCurrentXpgWifiDevice(xpgWifiDevice);
+                //尝试获取该设备数据---启动配置activity
+                XPGController.getInstance(context).getmCenter().cGetStatus(xpgWifiDevice);
             }
         });
     }
@@ -157,6 +160,8 @@ public class MainLvAdapter extends BaseAdapter {
         //设备info参数设置activity启动按钮
         public ImageButton ibDeviceInfoStart;
     }
+
+
 
     @Override
     public int getCount() {

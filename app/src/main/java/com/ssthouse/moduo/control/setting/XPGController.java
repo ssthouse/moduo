@@ -2,11 +2,17 @@ package com.ssthouse.moduo.control.setting;
 
 import android.content.Context;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.setting.DeviceDataChangedEvent;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
+import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
 import com.xtremeprog.xpgconnect.XPGWifiSDKListener;
@@ -111,9 +117,41 @@ public class XPGController {
         @Override
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
+            if(dataMap == null){
+                Timber.e("收到设备空的消息, errorcode:\t"+result);
+                return;
+            }
+            //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
+            if (dataMap.get("data") != null) {
+                //解析json数据
+                JsonParser parser = new JsonParser();
+                JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
+                JsonElement dataElement = jsonData.get("entity0");
+                JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.KEY_CMD);
+                //得到---cmd---温度---湿度
+                int cmd = cmdElement.getAsInt();
+                int temperature = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_TEMPERATURE).getAsInt();
+                double humidity = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_HUMIDITY).getAsDouble();
+                Timber.e("cmd:\t" + cmd);
+                Timber.e("温度" + temperature);
+                Timber.e("湿度" + humidity);
+                //发出事件
+                if(cmd == 3) {
+                    EventBus.getDefault().post(new GetDeviceDataEvent(true, new DeviceData(temperature, humidity)));
+                }else if(cmd ==4){
+                    EventBus.getDefault().post(new DeviceDataChangedEvent( new DeviceData(temperature, humidity)));
+                }
+            }
+            //设备报警数据点类型，该种数据点只读，设备发生报警后该字段有内容，没有发生报警则没内容
+            if (dataMap.get("alters") != null) {
+                Timber.e("alert:\t" + dataMap.get("alters"));
+            }
+            //设备错误数据点类型，该种数据点只读，设备发生错误后该字段有内容，没有发生报警则没内容
+            if (dataMap.get("faults") != null) {
+                Timber.e("alert:\t" + dataMap.get("faults"));
+            }
             Timber.e("获取到设备数据");
         }
-
     };
 
     /**
@@ -250,5 +288,9 @@ public class XPGController {
 
     public void setDeviceListener(XPGWifiDeviceListener deviceListener) {
         this.deviceListener = deviceListener;
+    }
+
+    public static void setCurrentXpgWifiDevice(XPGWifiDevice currentXpgWifiDevice) {
+        XPGController.currentXpgWifiDevice = currentXpgWifiDevice;
     }
 }

@@ -275,6 +275,9 @@ public class CmdCenter {
      * @param xpgWifiDevice the xpg wifi device
      */
     public void cGetStatus(XPGWifiDevice xpgWifiDevice) {
+        if(xpgWifiDevice == null){
+            return;
+        }
         JSONObject json = new JSONObject();
         try {
             json.put("cmd", 2);

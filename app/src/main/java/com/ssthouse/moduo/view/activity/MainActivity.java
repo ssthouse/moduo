@@ -21,6 +21,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.setting.SettingManager;
 import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -28,7 +29,9 @@ import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.setting.DeviceStateEvent;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.view.adapter.MainLvAdapter;
@@ -266,6 +269,37 @@ public class MainActivity extends AppCompatActivity {
         }
         //隐藏等待dialog
         waitDialog.dismiss();
+    }
+
+    /**
+     * 设备状态发生变化事件
+     *
+     * @param event
+     */
+    public void onEventMainThread(DeviceStateEvent event) {
+        lvAdapter.update();
+    }
+
+    /**
+     * 获取设备数据事件
+     *
+     * @param event
+     */
+    public void onEventMainThread(GetDeviceDataEvent event) {
+        //只有当activity在最前时进行相应
+        if (ActivityUtil.isTopActivity(this, "MainActivity")) {
+            if (event.isSuccess()) {
+                //TODO---进行跳转
+                //启动配置activity
+                Timber.e("我启动了设备配置activity");
+                XpgControlActivity.start(this, event.getInitDeviceData());
+            } else {
+                Timber.e("设备数据获取失败");
+                ToastHelper.show(this, "设备数据获取失败");
+            }
+        } else {
+            ToastHelper.show(this, "我不在最前..");
+        }
     }
 
     @Override
