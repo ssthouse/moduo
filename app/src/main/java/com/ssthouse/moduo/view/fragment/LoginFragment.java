@@ -23,6 +23,7 @@ import com.ssthouse.moduo.view.activity.LoadingActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 登陆fragment
@@ -75,6 +76,7 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.e(".....what happened?");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 //检查格式
@@ -86,6 +88,8 @@ public class LoginFragment extends Fragment {
                 isInUse = true;
                 XPGController.getInstance(getContext()).getmCenter()
                         .cLogin(username, password);
+                Timber.e(".....something wrong?");
+
             }
         });
 
