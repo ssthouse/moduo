@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -73,12 +74,17 @@ public class XpgControlActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
 
+        //获得初始设备数据
         deviceData = (DeviceData) getIntent().getSerializableExtra("device_data");
 
         initView();
     }
 
     private void initView() {
+        //toolbar
+        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
+        getSupportActionBar().setTitle("控制台");
+
         //温度显示
         tvTemperature.setText(deviceData.getTemperature() + "℃");
 
@@ -159,7 +165,7 @@ public class XpgControlActivity extends AppCompatActivity {
         //更新数据
         deviceData.setTemperature(event.getChangedDeviceData().getTemperature());
         //更新UI
-        tvTemperature.setText("" + event.getChangedDeviceData().getTemperature());
+        tvTemperature.setText("" + event.getChangedDeviceData().getTemperature()+"℃");
         sbTemperature.setProgress(event.getChangedDeviceData().getTemperature() - 10);
         tvHumidity.setText("" + event.getChangedDeviceData().getHumidity());
         //toast提示

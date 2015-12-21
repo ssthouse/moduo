@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -115,10 +116,40 @@ public class MainActivity extends AppCompatActivity {
             tvOffline.setVisibility(View.VISIBLE);
         }
 
-        //TODO---应该是请求获取绑定了的设备才对---初始化设备listview
-//        deviceList = PreferenceHelper.getInstance(this).getDeviceList();
+        //请求获取绑定了的设备--初始化设备listview
         lvAdapter = new MainLvAdapter(this, deviceList);
         lv.setAdapter(lvAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO---尝试登陆
+                if (!deviceList.get(position).getXpgWifiDevice().isOnline()) {
+                    deviceList.get(position).getXpgWifiDevice().login(
+                            SettingManager.getInstance(MainActivity.this).getUid(),
+                            SettingManager.getInstance(MainActivity.this).getToken()
+                    );
+                }
+                Timber.e("clicked");
+            }
+        });
+
+        //TODO
+        findViewById(R.id.id_btn_fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO---尝试登陆
+                for (Device device : deviceList) {
+                    if (!device.getXpgWifiDevice().isOnline()) {
+                        device.getXpgWifiDevice().login(
+                                SettingManager.getInstance(MainActivity.this).getUid(),
+                                SettingManager.getInstance(MainActivity.this).getToken()
+                        );
+                    }
+                }
+                Timber.e("clicked");
+            }
+        });
 
         //初始化dialog
         waitDialog = new MaterialDialog.Builder(this)
@@ -298,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                 ToastHelper.show(this, "设备数据获取失败");
             }
         } else {
-            ToastHelper.show(this, "我不在最前..");
+            Timber.e("MainActivity不在最前..");
         }
     }
 
@@ -312,10 +343,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.id_action_add_device:
-                //TODO---弹出添加设备dialog
-                showAddDeviceDialog();
-                break;
             case R.id.id_action_scan_device:
                 //TODO---扫码添加设备---在onActivityResult中处理回调
                 ScanUtil.startScan(this);

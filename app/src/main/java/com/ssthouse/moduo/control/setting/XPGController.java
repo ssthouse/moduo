@@ -9,6 +9,7 @@ import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceDataChangedEvent;
+import com.ssthouse.moduo.model.event.setting.DeviceStateEvent;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
@@ -102,16 +103,19 @@ public class XPGController {
         @Override
         public void didDeviceOnline(XPGWifiDevice device, boolean isOnline) {
             Timber.e("设备上线");
+            EventBus.getDefault().post(new DeviceStateEvent());
         }
 
         @Override
         public void didDisconnected(XPGWifiDevice device) {
             Timber.e("设备连接断开");
+            EventBus.getDefault().post(new DeviceStateEvent());
         }
 
         @Override
         public void didLogin(XPGWifiDevice device, int result) {
             Timber.e("设备登陆");
+            EventBus.getDefault().post(new DeviceStateEvent());
         }
 
         @Override
