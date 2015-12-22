@@ -1,6 +1,15 @@
 package com.ssthouse.moduo.model;
 
+import android.util.Base64;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.xtremeprog.xpgconnect.XPGWifiDevice;
+
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
+
+import timber.log.Timber;
 
 /**
  * 包含一个设备可读写的所有数据:
@@ -13,8 +22,16 @@ public class DeviceData implements Serializable {
      * 数据的常量key
      */
     public interface DeviceCons {
+
+        /**
+         * 服务器返回数据中的常量
+         */
+        String DATA = "data";
+        String CMD = "cmd";
         //当前温度
         String KEY_TEMPERATURE = "temperature";
+
+        String ENTITY0 = "entity0";
         //当前湿度
         String KEY_HUMIDITY = "humidity";
         //当前亮度
@@ -45,10 +62,12 @@ public class DeviceData implements Serializable {
         String KEY_CTRL_CMD = "ctrl_cmd";
         //扩展类型 数据
         String KEY_CTRL_DATA = "ctrl_data";
-        //cmd类型
-        String KEY_CMD = "cmd";
     }
 
+    /**
+     * 数据所属的设备
+     */
+    private XPGWifiDevice device;
     /**
      * 温度
      */
@@ -69,17 +88,19 @@ public class DeviceData implements Serializable {
      * 硬件版本
      * todo
      */
-    private String hwVersion;
+    private byte[] hwVersion;
     /**
      * 软件版本
      * todo
      */
-    private String swVersion;
+    private byte[] swVersion;
     /**
+     * todo---还不确定要怎么用
      * 视频标志位
      */
     private int video;
     /**
+     * todo---还不确定要怎么用
      * 音频标志位
      */
     private int audio;
@@ -97,6 +118,17 @@ public class DeviceData implements Serializable {
     private int zBody;
 
     /**
+     * todo
+     * 控制 命令
+     */
+    private byte[] ctrlCmd;
+    /**
+     * todo
+     * 控制 数据
+     */
+    private byte[] ctrlData;
+
+    /**
      * todo---测试构造方法
      * 传入数据的构造方法
      *
@@ -111,10 +143,13 @@ public class DeviceData implements Serializable {
     /**
      * 传入所有数据的构造方法
      *
+     * @param device
      * @param temperature
      * @param humidity
      * @param luminance
      * @param power
+     * @param hwVersion
+     * @param swVersion
      * @param video
      * @param audio
      * @param xHead
@@ -123,12 +158,19 @@ public class DeviceData implements Serializable {
      * @param xBody
      * @param yBody
      * @param zBody
+     * @param ctrlCmd
+     * @param ctrlData
      */
-    public DeviceData(int temperature, int humidity, int luminance, int power, int video, int audio, int xHead, int yHead, int zHead, int xBody, int yBody, int zBody) {
+    public DeviceData(XPGWifiDevice device, int temperature, int humidity, int luminance, int power,
+                      byte[] hwVersion, byte[] swVersion, int video, int audio, int xHead, int yHead,
+                      int zHead, int xBody, int yBody, int zBody, byte[] ctrlCmd, byte[] ctrlData) {
+        this.device = device;
         this.temperature = temperature;
         this.humidity = humidity;
         this.luminance = luminance;
         this.power = power;
+        this.hwVersion = hwVersion;
+        this.swVersion = swVersion;
         this.video = video;
         this.audio = audio;
         this.xHead = xHead;
@@ -137,6 +179,43 @@ public class DeviceData implements Serializable {
         this.xBody = xBody;
         this.yBody = yBody;
         this.zBody = zBody;
+        this.ctrlCmd = ctrlCmd;
+        this.ctrlData = ctrlData;
+    }
+
+    /**
+     * 根据设备返回map得到一个DeviceData
+     *
+     * @return
+     */
+    public static DeviceData getdeviceData(XPGWifiDevice device,
+                                           ConcurrentHashMap<String, Object> dataMap) {
+        //解析json数据
+        JsonParser parser = new JsonParser();
+        JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get(DeviceCons.DATA));
+        JsonObject dataObject = jsonData.get(DeviceCons.ENTITY0).getAsJsonObject();
+        //从jsonObject中获取数据
+        int temperature = dataObject.get(DeviceCons.KEY_TEMPERATURE).getAsInt();
+        int humidity = dataObject.get(DeviceCons.KEY_HUMIDITY).getAsInt();
+        int luminance = dataObject.get(DeviceCons.KEY_LUMINANCE).getAsInt();
+        int power = dataObject.get(DeviceCons.KEY_POWER).getAsInt();
+        byte[] hwVersion = Base64.decode(dataObject.get(DeviceCons.KEY_HW_VERSION).getAsString(), Base64.DEFAULT);
+        byte[] swVersion = Base64.decode(dataObject.get(DeviceCons.KEY_SW_VERSION).getAsString(), Base64.DEFAULT);
+        int video = dataObject.get(DeviceCons.KEY_VIDEO).getAsInt();
+        int audio = dataObject.get(DeviceCons.KEY_AUDIO).getAsInt();
+        int xHead = dataObject.get(DeviceCons.KEY_X_HEAD).getAsInt();
+        int yHead = dataObject.get(DeviceCons.KEY_Y_HEAD).getAsInt();
+        int zHead = dataObject.get(DeviceCons.KEY_Z_HEAD).getAsInt();
+        int xBody = dataObject.get(DeviceCons.KEY_X_BODY).getAsInt();
+        int yBody = dataObject.get(DeviceCons.KEY_Y_BODY).getAsInt();
+        int zBody = dataObject.get(DeviceCons.KEY_Z_BODY).getAsInt();
+        byte[] ctrlCmd = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_CMD).getAsString(), Base64.DEFAULT);
+        byte[] ctrlData = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_DATA).getAsString(), Base64.DEFAULT);
+        //// TODO: 2015/12/22   Timber.e("温度" + temperature);
+        Timber.e("湿度" + humidity);
+        //返回解析出的数据
+        return new DeviceData(device, temperature, humidity, luminance, power, hwVersion,
+                swVersion, video, audio, xHead, yHead, zHead, xBody, yBody, zBody, ctrlCmd, ctrlData);
     }
 
     //getter---and---setter-------------------------------------------------------------------------
@@ -235,5 +314,45 @@ public class DeviceData implements Serializable {
 
     public void setzBody(int zBody) {
         this.zBody = zBody;
+    }
+
+    public XPGWifiDevice getDevice() {
+        return device;
+    }
+
+    public void setDevice(XPGWifiDevice device) {
+        this.device = device;
+    }
+
+    public byte[] getHwVersion() {
+        return hwVersion;
+    }
+
+    public void setHwVersion(byte[] hwVersion) {
+        this.hwVersion = hwVersion;
+    }
+
+    public byte[] getSwVersion() {
+        return swVersion;
+    }
+
+    public void setSwVersion(byte[] swVersion) {
+        this.swVersion = swVersion;
+    }
+
+    public byte[] getCtrlCmd() {
+        return ctrlCmd;
+    }
+
+    public void setCtrlCmd(byte[] ctrlCmd) {
+        this.ctrlCmd = ctrlCmd;
+    }
+
+    public byte[] getCtrlData() {
+        return ctrlData;
+    }
+
+    public void setCtrlData(byte[] ctrlData) {
+        this.ctrlData = ctrlData;
     }
 }

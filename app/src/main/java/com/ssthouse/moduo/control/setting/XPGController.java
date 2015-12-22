@@ -130,25 +130,15 @@ public class XPGController {
                 //解析json数据
                 JsonParser parser = new JsonParser();
                 JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
-                JsonElement dataElement = jsonData.get("entity0");
-
-                //todo---查看数据
-                Timber.e("entity0:\t" + dataElement.toString());
-                JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.KEY_CMD);
-                //得到---cmd---温度---湿度
+                JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.CMD);
+                //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
-                int temperature = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_TEMPERATURE).getAsInt();
-                int humidity = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_HUMIDITY).getAsInt();
-                String ctrlData = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_CTRL_CMD).getAsString();
-                Timber.e("ctrl_cmd:\t" + ctrlData);
-                Timber.e("cmd:\t" + cmd);
-                Timber.e("温度" + temperature);
-                Timber.e("湿度" + humidity);
+                DeviceData deviceData = DeviceData.getdeviceData(device, dataMap);
                 //发出事件
                 if (cmd == 3) {
-                    EventBus.getDefault().post(new GetDeviceDataEvent(true, new DeviceData(temperature, humidity)));
+                    EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
                 } else if (cmd == 4) {
-                    EventBus.getDefault().post(new DeviceDataChangedEvent(new DeviceData(temperature, humidity)));
+                    EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                 }
             }
             //设备报警数据点类型，该种数据点只读，设备发生报警后该字段有内容，没有发生报警则没内容

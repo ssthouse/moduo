@@ -25,7 +25,8 @@ import timber.log.Timber;
 public class LoadingActivity extends AppCompatActivity {
 
     /**
-     * 当前登陆成功的平台数目
+     * 当前登陆成功的平台数目:
+     * 两个平台都登陆成功才能跳转
      */
     private int loginPlatformNum = 0;
 
