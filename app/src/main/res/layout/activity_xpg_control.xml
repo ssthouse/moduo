@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -19,59 +20,272 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--温度调节框-->
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="温度:" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_marginLeft="16dp"
-            android:id="@+id/id_tv_temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="10℃" />
+            <!--温度调节框-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="温度:" />
+
+                <TextView
+                    android:id="@+id/id_tv_temperature"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10℃" />
+            </LinearLayout>
+
+            <!--湿度-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="湿度:" />
+
+                <TextView
+                    android:id="@+id/id_tv_humidity"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10" />
+            </LinearLayout>
+
+            <!--亮度-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="亮度:" />
+
+                <TextView
+                    android:id="@+id/id_tv_luminance"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10" />
+            </LinearLayout>
 
 
-    </LinearLayout>
+            <!--电量-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
 
-    <SeekBar
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:id="@+id/id_sb_temperature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="30" />
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="电量:" />
 
-    <!--温度调节框-->
-    <LinearLayout
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+                <TextView
+                    android:id="@+id/id_tv_power"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="湿度:" />
+            <!--硬件版本-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_marginLeft="16dp"
-            android:id="@+id/id_tv_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="1" />
-    </LinearLayout>
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="硬件版本:" />
 
+                <TextView
+                    android:id="@+id/id_tv_hw_version"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10" />
+            </LinearLayout>
+
+            <!--软件版本-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewXpgControlTitle"
+                    android:text="软件版本:" />
+
+                <TextView
+                    android:id="@+id/id_tv_sw_version"
+                    style="@style/TextViewXpgControlContent"
+                    android:layout_marginLeft="16dp"
+                    android:text="10" />
+            </LinearLayout>
+
+            <!--头部x轴-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="头部X:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_x_head"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/id_sb_x_head"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+            <!--头部y轴-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="头部Y:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_y_head"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+
+                <SeekBar
+                    android:id="@+id/id_sb_y_head"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+            <!--头部z轴-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="头部Z:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_z_head"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+
+                <SeekBar
+                    android:id="@+id/id_sb_z_head"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+            <!--身体 X-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="身体X:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_x_body"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/id_sb_x_body"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+            <!--身体 Y-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="身体Y:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_y_body"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/id_sb_y_body"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+            <!--身体 Z-->
+            <LinearLayout
+                style="@style/LinearLayoutXpgControl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewXpgControlTitle"
+                        android:text="身体Z:" />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:text="哈哈哈"
+                        android:id="@+id/id_tv_z_body"
+                        style="@style/TextViewXpgControlContent" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/id_sb_z_body"
+                    style="@style/SeekBarXpgControl" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

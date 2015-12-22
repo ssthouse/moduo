@@ -53,21 +53,90 @@ public class DeviceData implements Serializable {
      * 温度
      */
     private int temperature;
-
     /**
      * 湿度
      */
-    private double humidity;
+    private int humidity;
+    /**
+     * 亮度
+     */
+    private int luminance;
+    /**
+     * 电量
+     */
+    private int power;
+    /**
+     * 硬件版本
+     * todo
+     */
+    private String hwVersion;
+    /**
+     * 软件版本
+     * todo
+     */
+    private String swVersion;
+    /**
+     * 视频标志位
+     */
+    private int video;
+    /**
+     * 音频标志位
+     */
+    private int audio;
+    /**
+     * 头部
+     */
+    private int xHead;
+    private int yHead;
+    private int zHead;
+    /**
+     * 身体
+     */
+    private int xBody;
+    private int yBody;
+    private int zBody;
 
     /**
+     * todo---测试构造方法
      * 传入数据的构造方法
      *
      * @param temperature
      * @param humidity
      */
-    public DeviceData(int temperature, double humidity) {
+    public DeviceData(int temperature, int humidity) {
         this.temperature = temperature;
         this.humidity = humidity;
+    }
+
+    /**
+     * 传入所有数据的构造方法
+     *
+     * @param temperature
+     * @param humidity
+     * @param luminance
+     * @param power
+     * @param video
+     * @param audio
+     * @param xHead
+     * @param yHead
+     * @param zHead
+     * @param xBody
+     * @param yBody
+     * @param zBody
+     */
+    public DeviceData(int temperature, int humidity, int luminance, int power, int video, int audio, int xHead, int yHead, int zHead, int xBody, int yBody, int zBody) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.luminance = luminance;
+        this.power = power;
+        this.video = video;
+        this.audio = audio;
+        this.xHead = xHead;
+        this.yHead = yHead;
+        this.zHead = zHead;
+        this.xBody = xBody;
+        this.yBody = yBody;
+        this.zBody = zBody;
     }
 
     //getter---and---setter-------------------------------------------------------------------------
@@ -84,7 +153,87 @@ public class DeviceData implements Serializable {
         return humidity;
     }
 
-    public void setHumidity(double humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
+    }
+
+    public int getLuminance() {
+        return luminance;
+    }
+
+    public void setLuminance(int luminance) {
+        this.luminance = luminance;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getVideo() {
+        return video;
+    }
+
+    public void setVideo(int video) {
+        this.video = video;
+    }
+
+    public int getAudio() {
+        return audio;
+    }
+
+    public void setAudio(int audio) {
+        this.audio = audio;
+    }
+
+    public int getxHead() {
+        return xHead;
+    }
+
+    public void setxHead(int xHead) {
+        this.xHead = xHead;
+    }
+
+    public int getyHead() {
+        return yHead;
+    }
+
+    public void setyHead(int yHead) {
+        this.yHead = yHead;
+    }
+
+    public int getzHead() {
+        return zHead;
+    }
+
+    public void setzHead(int zHead) {
+        this.zHead = zHead;
+    }
+
+    public int getxBody() {
+        return xBody;
+    }
+
+    public void setxBody(int xBody) {
+        this.xBody = xBody;
+    }
+
+    public int getyBody() {
+        return yBody;
+    }
+
+    public void setyBody(int yBody) {
+        this.yBody = yBody;
+    }
+
+    public int getzBody() {
+        return zBody;
+    }
+
+    public void setzBody(int zBody) {
+        this.zBody = zBody;
     }
 }

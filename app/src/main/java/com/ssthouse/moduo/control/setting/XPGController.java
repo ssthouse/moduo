@@ -121,8 +121,8 @@ public class XPGController {
         @Override
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
-            if(dataMap == null){
-                Timber.e("收到设备空的消息, errorcode:\t"+result);
+            if (dataMap == null) {
+                Timber.e("收到设备空的消息, errorCode:\t" + result);
                 return;
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
@@ -131,19 +131,24 @@ public class XPGController {
                 JsonParser parser = new JsonParser();
                 JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
                 JsonElement dataElement = jsonData.get("entity0");
+
+                //todo---查看数据
+                Timber.e("entity0:\t" + dataElement.toString());
                 JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.KEY_CMD);
                 //得到---cmd---温度---湿度
                 int cmd = cmdElement.getAsInt();
                 int temperature = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_TEMPERATURE).getAsInt();
-                double humidity = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_HUMIDITY).getAsDouble();
+                int humidity = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_HUMIDITY).getAsInt();
+                String ctrlData = dataElement.getAsJsonObject().get(DeviceData.DeviceCons.KEY_CTRL_CMD).getAsString();
+                Timber.e("ctrl_cmd:\t" + ctrlData);
                 Timber.e("cmd:\t" + cmd);
                 Timber.e("温度" + temperature);
                 Timber.e("湿度" + humidity);
                 //发出事件
-                if(cmd == 3) {
+                if (cmd == 3) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, new DeviceData(temperature, humidity)));
-                }else if(cmd ==4){
-                    EventBus.getDefault().post(new DeviceDataChangedEvent( new DeviceData(temperature, humidity)));
+                } else if (cmd == 4) {
+                    EventBus.getDefault().post(new DeviceDataChangedEvent(new DeviceData(temperature, humidity)));
                 }
             }
             //设备报警数据点类型，该种数据点只读，设备发生报警后该字段有内容，没有发生报警则没内容
@@ -155,6 +160,13 @@ public class XPGController {
                 Timber.e("alert:\t" + dataMap.get("faults"));
             }
             Timber.e("获取到设备数据");
+
+            //// TODO: 2015/12/22
+            //二进制数据点类型，适合开发者自行解析二进制数据
+            if (dataMap.get("binary") != null) {
+                Timber.e("Binary data:" + dataMap.get("binary"));
+                //收到后自行解析
+            }
         }
     };
 

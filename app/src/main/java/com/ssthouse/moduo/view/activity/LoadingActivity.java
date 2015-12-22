@@ -9,13 +9,10 @@ import android.view.WindowManager;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.setting.SettingManager;
 import com.ssthouse.moduo.control.setting.XPGController;
-import com.ssthouse.moduo.control.util.PreferenceHelper;
-import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
-import com.ssthouse.moduo.view.activity.account.RegisterActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -51,25 +48,23 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
+        //todo---注册登陆功能暂时不需要
         //判断第一次进入---是否注册登陆成功
-        if (PreferenceHelper.getInstance(this).isFistIn()
-                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
-            RegisterActivity.start(this);
-            finish();
-            return;
-        } else {
-            //TODO---登陆机智云平台
-            XPGController.getInstance(this).getmCenter()
-                    .cLogin(SettingManager.getInstance(this).getUserName(),
-                            SettingManager.getInstance(this).getPassword());
-        }
+//        if (PreferenceHelper.getInstance(this).isFistIn()
+//                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
+//            RegisterActivity.start(this);
+//            finish();
+//            return;
+//        }
+        //todo---匿名登录---登陆机智云平台---还是正常的回调
+        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
 
-        //加载sdk
+        //加载视频对话sdk
         loadSdkLib();
         Communication.getInstance(this);
     }
 
-    //load sdk lib
+    //加载视频对话sdk
     private void loadSdkLib() {
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("ffmpeg");
@@ -116,7 +111,7 @@ public class LoadingActivity extends AppCompatActivity {
                 Timber.e("机智云---登录成功");
                 loginPlatformNum += 1;
             }
-            //保存数据
+            //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginInfo(event);
         } else {
             MainActivity.start(this, false);

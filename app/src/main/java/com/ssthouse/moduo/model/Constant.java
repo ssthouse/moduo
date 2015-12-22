@@ -44,7 +44,7 @@ public class Constant {
         //应用id
         String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
         //product key
-        String PRODUCT_KEY = "ea821d5649b5460483a8e5894bafc611";
+        String PRODUCT_KEY = "4be31938bf6948e69c80d0dae2c8af39";
         //日志等级
         XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
         //日志文件名
