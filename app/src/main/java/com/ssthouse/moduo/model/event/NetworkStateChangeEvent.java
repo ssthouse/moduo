@@ -4,7 +4,7 @@ package com.ssthouse.moduo.model.event;
  * 网络状态变化事件
  * Created by ssthouse on 2015/12/23.
  */
-public class NetStateChangeEvent {
+public class NetworkStateChangeEvent {
 
     /**
      * 网络状态枚举
@@ -22,7 +22,7 @@ public class NetStateChangeEvent {
      * 网络状态变化事件
      * @param networkState
      */
-    public NetStateChangeEvent(NetworkState networkState) {
+    public NetworkStateChangeEvent(NetworkState networkState) {
         this.networkState = networkState;
     }
 

@@ -54,7 +54,7 @@ public class MainLvAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.view_device_card, null);
             //video
             viewHolder.tvCid = (TextView) convertView.findViewById(R.id.id_tv_cid_name);
-            viewHolder.tvCameraState = (TextView) convertView.findViewById(R.id.id_tv_camera_state);
+            viewHolder.tvCameraState = (TextView) convertView.findViewById(R.id.id_tv_video_state);
             viewHolder.btnStartVideo = (Button) convertView.findViewById(R.id.id_btn_start_video);
             //xpg
             viewHolder.tvXpgDeviceState = (TextView) convertView.findViewById(R.id.id_tv_xpg_state);
@@ -125,7 +125,8 @@ public class MainLvAdapter extends BaseAdapter {
         //设备状态
         String deviceState = "设备状态: ";
         boolean isControlEnable;
-        if (xpgWifiDevice.isOnline()) {
+        //必须连接---且在线--才算在线
+        if (xpgWifiDevice.isOnline() && xpgWifiDevice.isConnected()) {
             deviceState += "在线";
             isControlEnable = true;
         } else {

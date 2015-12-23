@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.model.event.NetStateChangeEvent;
+import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -30,15 +30,15 @@ public class NetStateReceiver extends BroadcastReceiver {
         }
         switch (networkState) {
             case NetUtil.NETWORK_NONE:
-                EventBus.getDefault().post(new NetStateChangeEvent(NetStateChangeEvent.NetworkState.NONE));
+                EventBus.getDefault().post(new NetworkStateChangeEvent(NetworkStateChangeEvent.NetworkState.NONE));
                 Timber.e("网络没了");
                 break;
             case NetUtil.NETWORK_MOBILE:
-                EventBus.getDefault().post(new NetStateChangeEvent(NetStateChangeEvent.NetworkState.MOBILE));
+                EventBus.getDefault().post(new NetworkStateChangeEvent(NetworkStateChangeEvent.NetworkState.MOBILE));
                 Timber.e("在用手机流量");
                 break;
             case NetUtil.NETWORK_WIFI:
-                EventBus.getDefault().post(new NetStateChangeEvent(NetStateChangeEvent.NetworkState.WIFI));
+                EventBus.getDefault().post(new NetworkStateChangeEvent(NetworkStateChangeEvent.NetworkState.WIFI));
                 Timber.e("在用WIFI");
                 break;
         }

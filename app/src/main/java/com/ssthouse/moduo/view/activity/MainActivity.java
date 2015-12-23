@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
+import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceStateEvent;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
     private long exitTimeInMils = 0;
+    /**
+     * 是否是退出到loading activity
+     * 决定是否要kill 当前线程
+     */
     private boolean isLogOut = false;
 
     /**
@@ -185,6 +191,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 网络状态变化的回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(NetworkStateChangeEvent event) {
+        switch (event.getNetworkState()) {
+            case NONE:
+                ToastHelper.show(this, "网络连接已断开");
+                tvOffline.setVisibility(View.VISIBLE);
+                setViewDisable();
+                break;
+            case MOBILE:
+                tvOffline.setVisibility(View.GONE);
+                break;
+            case WIFI:
+                tvOffline.setVisibility(View.GONE);
+                break;
+        }
+        lvAdapter.update();
+    }
+
     /*
     视频SDK回调
      */
@@ -216,12 +244,12 @@ public class MainActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(StreamerConnectChangedEvent event) {
-        Timber.e("我接收到设备状态更新");
+        Timber.e("我接收到视频sdk状态更新");
         //修改设备状态
         for (Device device : deviceList) {
             if (device.getCidNumber() == event.getCidNumber()) {
                 device.setStreamerPresenceState(event.getState());
-                Timber.e("我更新了设备状态");
+                Timber.e("我更新了视频sdk状态");
             }
         }
         //更新界面
@@ -381,6 +409,29 @@ public class MainActivity extends AppCompatActivity {
         waitDialog.show();
     }
 
+    /**
+     * 将视频和设备控制界面设为不可用
+     */
+    private void setViewDisable() {
+        int childCount = lv.getChildCount();
+        Timber.e("一共有" + childCount + "个child");
+        for (int i = 0; i < childCount; i++) {
+            View childView = lv.getChildAt(i);
+            //设备不在线
+            TextView tvXpgState = (TextView) childView.findViewById(R.id.id_tv_xpg_state);
+            tvXpgState.setText("离线");
+            //视频不在线
+            TextView tvVideoState = (TextView) childView.findViewById(R.id.id_tv_video_state);
+            tvVideoState.setText("离线");
+            //设备控制按钮
+            Button btnXpgControl = (Button) childView.findViewById(R.id.id_btn_xpg_control);
+            btnXpgControl.setEnabled(false);
+            //视频通话按钮
+            Button btnVideo = (Button) childView.findViewById(R.id.id_btn_start_video);
+            btnVideo.setEnabled(false);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -406,7 +457,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         /**
-         * TODO
          * 获取扫描二维码的结果
          */
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -436,9 +486,8 @@ public class MainActivity extends AppCompatActivity {
                 long cidNumber = Long.parseLong(cidStr);
                 Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
                 Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
-                //// TODO: 2015/12/23 将当前设备数据保存在本地
+                //将当前设备数据保存在本地
                 PreferenceHelper.getInstance(this).addDevice(did, cidNumber, username, password);
-                //TODO---尝试绑定设备
                 //显示等待dialog
                 showWaitBindDeviceDialog();
                 //尝试绑定
@@ -452,7 +501,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Timber.e("Weird");
-            // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
