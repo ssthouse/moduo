@@ -18,7 +18,7 @@ public class Device implements Serializable {
     视频sdk数据
      */
     /**
-     * 设备状态标识
+     * 设备状态标识---使用的是sdk提供的枚举
      */
     private StreamerPresenceState streamerPresenceState;
 

@@ -20,6 +20,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.setting.SettingManager;
 import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.control.util.ActivityUtil;
+import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
      * 决定是否要kill 当前线程
      */
     private boolean isLogOut = false;
+
+    /**
+     * 是否在离线状态
+     */
+    private boolean isOffline = NetUtil.isConnected(this);
 
     /**
      * 视频对话SDK管理类
@@ -174,6 +180,19 @@ public class MainActivity extends AppCompatActivity {
                         SettingManager.getInstance(this).getToken());
     }
 
+    /**
+     * 将当前设备重新连接sdk
+     */
+    private void reConnectDevice() {
+        for (Device device : deviceList) {
+            //登陆视频sdk
+            communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
+            //登陆机智云sdk
+            device.getXpgWifiDevice().login(SettingManager.getInstance(this).getUid(),
+                    SettingManager.getInstance(this).getToken());
+        }
+    }
+
     /*
     UI回调
      */
@@ -199,15 +218,23 @@ public class MainActivity extends AppCompatActivity {
     public void onEventMainThread(NetworkStateChangeEvent event) {
         switch (event.getNetworkState()) {
             case NONE:
+                isOffline = true;
                 ToastHelper.show(this, "网络连接已断开");
                 tvOffline.setVisibility(View.VISIBLE);
                 setViewDisable();
                 break;
             case MOBILE:
+                //如果之前是离线状态---需要重新连接(视频会不断自动连接---机智云不会--需要手动重新连接)
+                if (isOffline) {
+                    reConnectDevice();
+                }
                 tvOffline.setVisibility(View.GONE);
                 break;
             case WIFI:
                 tvOffline.setVisibility(View.GONE);
+                if(isOffline){
+                    reConnectDevice();
+                }
                 break;
         }
         lvAdapter.update();
@@ -223,19 +250,8 @@ public class MainActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(SessionStateEvent event) {
-        //TODO---设备状态变化--显示离线view
-        switch (event.getSessionState()) {
-            case CONNECTED:
-                tvOffline.setVisibility(View.GONE);
-                break;
-            case DISCONNECTED:
-                tvOffline.setVisibility(View.VISIBLE);
-                break;
-            case INVALID:
-                tvOffline.setText("当前链接已失效, 请重新登录...");
-                tvOffline.setVisibility(View.VISIBLE);
-                break;
-        }
+        //刷新lv
+        lvAdapter.update();
     }
 
     /**
@@ -295,22 +311,14 @@ public class MainActivity extends AppCompatActivity {
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //设置监听器
                 xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
-                //todo---设备登陆
+                //设备登陆
                 xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
                         SettingManager.getInstance(this).getToken());
                 //添加到deviceList
                 deviceList.add(new Device(this, xpgWifiDevice));
-                //打印查看数据
-                Timber.e("获取到的设备有:\n");
-                Timber.e("deviceId:\t" + xpgWifiDevice.getDid()
-                        + "\nip:\t" + xpgWifiDevice.getIPAddress()
-                        + "\nmac:\t" + xpgWifiDevice.getMacAddress()
-                        + "\npasscode\t" + xpgWifiDevice.getPasscode()
-                        + "\nproductKey:\t" + xpgWifiDevice.getProductKey());
             }
             //尝试连接 视频对话
             for (Device device : deviceList) {
-                Timber.e("cid" + device.getCidNumber() + device.getUsername() + device.getPassword());
                 communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
             }
             //更新lv
