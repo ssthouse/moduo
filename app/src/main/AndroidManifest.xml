@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- Push service 运行需要的权限 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
@@ -46,6 +46,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        <!--网络的监听-->
+        <receiver android:name=".control.receiver.NetStateReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <!--初始加载activity-->
         <activity android:name=".view.activity.LoadingActivity">
             <intent-filter>
@@ -55,41 +62,47 @@
         </activity>
 
         <!--用户登陆/注册activity-->
-        <activity android:name=".view.activity.account.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.account.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!--主界面activity-->
         <activity
             android:name=".view.activity.MainActivity"
-            android:label="魔哆"/>
+            android:label="魔哆" />
 
         <!--横向视频播放activity-->
-        <activity android:name=".view.activity.VideoActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".view.activity.VideoActivity"
+            android:screenOrientation="landscape" />
 
         <!--xpg设备控制activity-->
-        <activity android:name=".view.activity.XpgControlActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.XpgControlActivity"
+            android:screenOrientation="portrait" />
 
         <!--友盟集成-->
-        <meta-data android:value="5672334e67e58e60760048ad" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="default_channel" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5672334e67e58e60760048ad" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="default_channel" />
         <!--友盟自动更新-->
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" >
-        </service>
+            android:process=":DownloadingService"></service>
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <!--百度推送-->
         <!-- push service start -->
         <!-- 用于接收系统消息以保证PushService正常运行 -->
-        <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1" >
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -103,8 +116,9 @@
             </intent-filter>
         </receiver>
         <!-- Push服务接收客户端发送的各种请求-->
-        <receiver android:name="com.baidu.android.pushservice.RegistrationReceiver"
-            android:process=":bdservice_v1" >
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:process=":bdservice_v1">
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
                 <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
@@ -114,19 +128,22 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <service android:name="com.baidu.android.pushservice.PushService" android:exported="true"
-            android:process=":bdservice_v1" >
-            <intent-filter >
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
+            android:exported="true"
+            android:process=":bdservice_v1">
+            <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
         </service>
         <!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 -->
-        <service android:name="com.baidu.android.pushservice.CommandService"
+        <service
+            android:name="com.baidu.android.pushservice.CommandService"
             android:exported="true" />
         <!-- push结束 -->
 
         <!-- 此处Receiver名字修改为当前包名路径 -->
-        <receiver android:name=".control.push.BaiduMessageReceiver">
+        <receiver android:name=".control.receiver.BaiduMessageReceiver">
             <intent-filter>
                 <!-- 接收push消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
@@ -137,14 +154,17 @@
             </intent-filter>
         </receiver>
         <!-- 在百度开发者中心查询应用的API Key -->
-        <meta-data android:name="api_key" android:value="5cbIdRlHlm10M1IvSAfesaDM" />
+        <meta-data
+            android:name="api_key"
+            android:value="5cbIdRlHlm10M1IvSAfesaDM" />
 
         <!--竖直屏幕的二维码扫描activity-->
-        <activity android:name=".view.activity.ScanActivity"
+        <activity
+            android:name=".view.activity.ScanActivity"
+            android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

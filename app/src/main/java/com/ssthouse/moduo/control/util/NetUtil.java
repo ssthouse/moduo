@@ -94,4 +94,35 @@ public class NetUtil {
         wifiManager.startScan();
         return wifiManager.getScanResults();
     }
+
+    /**
+     * 网络连接状态
+     */
+    public static final int NETWORK_NONE = 0;
+    public static final int NETWORK_WIFI = 1;
+    public static final int NETWORK_MOBILE = 2;
+
+    /**
+     * 获取网络状态
+     *
+     * @param context
+     * @return
+     */
+    public static int getNetworkState(Context context) {
+        ConnectivityManager connManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Wifi
+        NetworkInfo.State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                .getState();
+        if (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) {
+            return NETWORK_WIFI;
+        }
+        // 3G
+        state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                .getState();
+        if (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) {
+            return NETWORK_MOBILE;
+        }
+        return NETWORK_NONE;
+    }
 }
