@@ -73,7 +73,7 @@ public class ByteUtils {
 	 *            传入的数组
 	 * @return String
 	 */
-	public static String Bytes2HexString(byte[] b) {
+	public static String bytes2HexString(byte[] b) {
 		String ret = "";
 		for (int i = 0; i < b.length; i++) {
 			String hex = Integer.toHexString(b[i] & 0xFF);

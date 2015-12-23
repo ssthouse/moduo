@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.util.ByteUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.setting.DeviceDataChangedEvent;
@@ -30,6 +32,13 @@ import timber.log.Timber;
  */
 public class XpgControlActivity extends AppCompatActivity {
 
+    private static final int OFFSET = 100;
+    private static final int X_HEAD_OFFSET = 180;
+    private static final int Y_HEAD_OFFSET = 90;
+    private static final int Z_HEAD_OFFSET = 90;
+    private static final int BODY_OFFSET = 100;
+    private static final int MAX = 100;
+
     /**
      * 保存当前的设备数据
      */
@@ -44,7 +53,6 @@ public class XpgControlActivity extends AppCompatActivity {
      */
     @Bind(R.id.id_tv_humidity)
     TextView tvHumidity;
-
     /**
      * 亮度 luminance
      */
@@ -128,42 +136,40 @@ public class XpgControlActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("控制台");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //温度显示
-        tvTemperature.setText(deviceData.getTemperature() + "℃");
+        //初始化设备数据展示
+        tvTemperature.setText("" + deviceData.getTemperature() + "℃");
+        tvHumidity.setText("" + deviceData.getHumidity());
+        tvLuminance.setText("" + deviceData.getLuminance());
+        tvPower.setText("" + deviceData.getPower());
 
-//        //温度调节监听
-//        sbTemperature.setProgress(deviceData.getTemperature() - 10);
-//        sbTemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                //只有用户滑动才会触发
-//                if (fromUser) {
-//                    int temperature = progress + 10;
-//                    tvTemperature.setText(temperature + "℃");
-//                    //TODO---尝试修改数据
-//                    //showWaitChangeTemperature();
-//                    //发出数据修改请求
-//                    XPGController.getInstance(XpgControlActivity.this).getmCenter().cWrite(
-//                            XPGController.getCurrentXpgWifiDevice(),
-//                            DeviceData.DeviceCons.KEY_TEMPERATURE,
-//                            temperature
-//                    );
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
+        tvHwVersion.setText(ByteUtils.bytes2HexString(deviceData.getHwVersion()));
+        tvSwVersion.setText(ByteUtils.bytes2HexString(deviceData.getSwVersion()));
 
-        //湿度
-        tvHumidity.setText(deviceData.getHumidity() + "");
+        tvXHead.setText("" + deviceData.getxHead());
+        sbXHead.setMax(X_HEAD_OFFSET * 2);
+        sbXHead.setProgress(deviceData.getxHead() + X_HEAD_OFFSET);
+        sbXHead.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        tvYHead.setText("" + deviceData.getyHead());
+        sbYHead.setMax(Y_HEAD_OFFSET * 2);
+        sbYHead.setProgress(deviceData.getyHead() + Y_HEAD_OFFSET);
+        sbYHead.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        tvZHead.setText("" + deviceData.getzHead());
+        sbZHead.setMax(Z_HEAD_OFFSET * 2);
+        sbZHead.setProgress(deviceData.getzHead() + Z_HEAD_OFFSET);
+        sbZHead.setOnSeekBarChangeListener(onSeekBarChangeListener);
+
+        tvXBody.setText("" + deviceData.getxBody());
+        sbXBody.setMax(BODY_OFFSET * 2);
+        sbXBody.setProgress(deviceData.getxBody() + BODY_OFFSET);
+        sbXBody.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        tvYBody.setText("" + deviceData.getyBody());
+        sbYBody.setMax(BODY_OFFSET * 2);
+        sbYBody.setProgress(deviceData.getyBody() + BODY_OFFSET);
+        sbYBody.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        tvZBody.setText("" + deviceData.getzBody());
+        sbZBody.setMax(BODY_OFFSET * 2);
+        sbZBody.setProgress(deviceData.getzBody() + BODY_OFFSET);
+        sbZBody.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
         //初始化等待dialog
         waitDialog = new MaterialDialog.Builder(this)
@@ -171,6 +177,59 @@ public class XpgControlActivity extends AppCompatActivity {
                 .customView(R.layout.dialog_wait, true)
                 .build();
     }
+
+    /**
+     * 滑动条的监听器
+     */
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (fromUser) {
+                String key = "";
+                switch (seekBar.getId()) {
+                    case R.id.id_sb_x_head:
+                        key = DeviceData.DeviceCons.KEY_X_HEAD;
+                        progress -= X_HEAD_OFFSET;
+                        break;
+                    case R.id.id_sb_y_head:
+                        key = DeviceData.DeviceCons.KEY_Y_HEAD;
+                        progress -= Y_HEAD_OFFSET;
+                        break;
+                    case R.id.id_sb_z_head:
+                        key = DeviceData.DeviceCons.KEY_Z_HEAD;
+                        progress -= Z_HEAD_OFFSET;
+                        break;
+                    case R.id.id_sb_x_body:
+                        key = DeviceData.DeviceCons.KEY_X_BODY;
+                        progress -= BODY_OFFSET;
+                        break;
+                    case R.id.id_sb_y_body:
+                        key = DeviceData.DeviceCons.KEY_Y_BODY;
+                        progress -= BODY_OFFSET;
+                        break;
+                    case R.id.id_sb_z_body:
+                        key = DeviceData.DeviceCons.KEY_Z_BODY;
+                        progress -= BODY_OFFSET;
+                        break;
+                }
+                //发出数据修改请求
+                XPGController.getInstance(XpgControlActivity.this).getmCenter().cWrite(
+                        XPGController.getCurrentXpgWifiDevice(),
+                        key,
+                        progress);
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
 
     /**
      * 显示等待调节温度dialog
@@ -205,17 +264,37 @@ public class XpgControlActivity extends AppCompatActivity {
      */
     public void onEventMainThread(DeviceDataChangedEvent event) {
         //更新当前数据
-        deviceData.setTemperature(event.getChangedDeviceData().getTemperature());
+        deviceData = event.getChangedDeviceData();
         //更新UI
-        tvTemperature.setText("" + event.getChangedDeviceData().getTemperature()+"℃");
-        tvHumidity.setText("" + event.getChangedDeviceData().getHumidity());
+        //初始化设备数据展示
+        tvTemperature.setText("" + deviceData.getTemperature() + "℃");
+        tvHumidity.setText("" + deviceData.getHumidity());
+        tvLuminance.setText("" + deviceData.getLuminance());
+        tvPower.setText("" + deviceData.getPower());
+
+        tvHwVersion.setText(ByteUtils.bytes2HexString(deviceData.getHwVersion()));
+        tvSwVersion.setText(ByteUtils.bytes2HexString(deviceData.getSwVersion()));
+
+        tvXHead.setText("" + deviceData.getxHead());
+        sbXHead.setProgress(deviceData.getxHead() + X_HEAD_OFFSET);
+        tvYHead.setText("" + deviceData.getyHead());
+        sbYHead.setProgress(deviceData.getyHead() + Y_HEAD_OFFSET);
+        tvZHead.setText("" + deviceData.getzHead());
+        sbZHead.setProgress(deviceData.getzHead() + Z_HEAD_OFFSET);
+
+        tvXBody.setText("" + deviceData.getxBody());
+        sbXBody.setProgress(deviceData.getxBody() + BODY_OFFSET);
+        tvYBody.setText("" + deviceData.getyBody());
+        sbYBody.setProgress(deviceData.getyBody() + BODY_OFFSET);
+        tvZBody.setText("" + deviceData.getzBody());
+        sbZBody.setProgress(deviceData.getzBody() + BODY_OFFSET);
         //toast提示
         ToastHelper.show(this, "设备数据更新");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;

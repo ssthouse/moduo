@@ -67,7 +67,7 @@ public class DeviceData implements Serializable {
     /**
      * 数据所属的设备
      */
-    String did;
+    private String did;
     /**
      * 温度
      */
@@ -127,18 +127,6 @@ public class DeviceData implements Serializable {
      * 控制 数据
      */
     private byte[] ctrlData;
-
-    /**
-     * todo---测试构造方法
-     * 传入数据的构造方法
-     *
-     * @param temperature
-     * @param humidity
-     */
-    public DeviceData(int temperature, int humidity) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-    }
 
     /**
      * 传入所有数据的构造方法
@@ -213,6 +201,17 @@ public class DeviceData implements Serializable {
         byte[] ctrlData = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_DATA).getAsString(), Base64.DEFAULT);
         //// TODO: 2015/12/22   Timber.e("温度" + temperature);
         Timber.e("湿度" + humidity);
+        Timber.e("湿度" + luminance);
+        Timber.e("湿度" + power);
+        Timber.e("湿度" + hwVersion);
+        Timber.e("湿度" + swVersion);
+        Timber.e("湿度" + video);
+        Timber.e("湿度" + xHead);
+        Timber.e("湿度" + yHead);
+        Timber.e("湿度" + zHead);
+        Timber.e("湿度" + xBody);
+        Timber.e("湿度" + yBody);
+        Timber.e("湿度" + zBody);
         //返回解析出的数据
         return new DeviceData(device.getDid(), temperature, humidity, luminance, power, hwVersion,
                 swVersion, video, audio, xHead, yHead, zHead, xBody, yBody, zBody, ctrlCmd, ctrlData);
@@ -228,7 +227,7 @@ public class DeviceData implements Serializable {
         this.temperature = temperature;
     }
 
-    public double getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
