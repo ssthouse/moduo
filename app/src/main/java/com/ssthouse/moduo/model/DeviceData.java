@@ -67,7 +67,7 @@ public class DeviceData implements Serializable {
     /**
      * 数据所属的设备
      */
-    private XPGWifiDevice device;
+    String did;
     /**
      * 温度
      */
@@ -143,7 +143,7 @@ public class DeviceData implements Serializable {
     /**
      * 传入所有数据的构造方法
      *
-     * @param device
+     * @param did
      * @param temperature
      * @param humidity
      * @param luminance
@@ -161,10 +161,10 @@ public class DeviceData implements Serializable {
      * @param ctrlCmd
      * @param ctrlData
      */
-    public DeviceData(XPGWifiDevice device, int temperature, int humidity, int luminance, int power,
+    public DeviceData(String did, int temperature, int humidity, int luminance, int power,
                       byte[] hwVersion, byte[] swVersion, int video, int audio, int xHead, int yHead,
                       int zHead, int xBody, int yBody, int zBody, byte[] ctrlCmd, byte[] ctrlData) {
-        this.device = device;
+        this.did = did;
         this.temperature = temperature;
         this.humidity = humidity;
         this.luminance = luminance;
@@ -214,7 +214,7 @@ public class DeviceData implements Serializable {
         //// TODO: 2015/12/22   Timber.e("温度" + temperature);
         Timber.e("湿度" + humidity);
         //返回解析出的数据
-        return new DeviceData(device, temperature, humidity, luminance, power, hwVersion,
+        return new DeviceData(device.getDid(), temperature, humidity, luminance, power, hwVersion,
                 swVersion, video, audio, xHead, yHead, zHead, xBody, yBody, zBody, ctrlCmd, ctrlData);
     }
 
@@ -316,14 +316,6 @@ public class DeviceData implements Serializable {
         this.zBody = zBody;
     }
 
-    public XPGWifiDevice getDevice() {
-        return device;
-    }
-
-    public void setDevice(XPGWifiDevice device) {
-        this.device = device;
-    }
-
     public byte[] getHwVersion() {
         return hwVersion;
     }
@@ -354,5 +346,13 @@ public class DeviceData implements Serializable {
 
     public void setCtrlData(byte[] ctrlData) {
         this.ctrlData = ctrlData;
+    }
+
+    public String getDid() {
+        return did;
+    }
+
+    public void setDid(String did) {
+        this.did = did;
     }
 }

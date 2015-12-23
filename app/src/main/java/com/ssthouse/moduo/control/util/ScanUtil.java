@@ -30,9 +30,13 @@ public class ScanUtil {
      * @param param
      * @return
      */
-    public static String getParamFomeUrl(String url, String param) {
-        String product_key = "";
+    public static String getParamFromUrl(String url, String param) {
+        String product_key;
         int startIndex = url.indexOf(param + "=");
+        //如果二维码没有指定的参数---返回null
+        if(startIndex == -1){
+            return null;
+        }
         startIndex += (param.length() + 1);
         String subString = url.substring(startIndex);
         int endIndex = subString.indexOf("&");

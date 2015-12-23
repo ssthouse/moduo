@@ -1,6 +1,9 @@
 package com.ssthouse.moduo.model;
 
+import android.content.Context;
+
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
+import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.Serializable;
@@ -9,11 +12,10 @@ import java.io.Serializable;
  * 一台设备有的所有数据
  * Created by ssthouse on 2015/12/17.
  */
-public class Device implements Serializable{
+public class Device implements Serializable {
 
     /*
     视频sdk数据
-    TODO---暂时默认为官网给的设备, 当时候换成二维码里面扫描得到的数据
      */
     /**
      * 设备状态标识
@@ -44,32 +46,23 @@ public class Device implements Serializable{
     private XPGWifiDevice xpgWifiDevice;
 
     /**
-     * 构造方法
-     *
-     * @param cidNumber cid号码
-     * @param username 视频用户名
-     * @param password 视频密码
-     */
-    public Device(long cidNumber, String username, String password) {
-        this.cidNumber = cidNumber;
-        this.username = username;
-        this.password = password;
-        //默认状态
-        this.streamerPresenceState = StreamerPresenceState.OFFLINE;
-    }
-
-    /**
-     * TODO
      * 构造方法:
-     *
-     * 使用官网视频接口
+     * <p>
      * 传入一个已经绑定的机智云设备
+     * 自动获取视频sdk参数
+     *
+     * @param context       上下文
      * @param xpgWifiDevice
      */
-    public Device(XPGWifiDevice xpgWifiDevice) {
+    public Device(Context context, XPGWifiDevice xpgWifiDevice) {
         this.xpgWifiDevice = xpgWifiDevice;
         //默认状态
         this.streamerPresenceState = StreamerPresenceState.OFFLINE;
+        //todo---参数检查---根据给的机智云设备---在preference中获取视频sdk参数
+        String did = xpgWifiDevice.getDid();
+        this.cidNumber = PreferenceHelper.getInstance(context).getCidNumber(did);
+        this.username = PreferenceHelper.getInstance(context).getUsername(did);
+        this.password = PreferenceHelper.getInstance(context).getPassword(did);
     }
 
     //getter---and---setter-------------------------------------------------------------------------

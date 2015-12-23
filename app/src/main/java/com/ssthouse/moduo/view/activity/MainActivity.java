@@ -3,18 +3,15 @@ package com.ssthouse.moduo.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -34,6 +31,7 @@ import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.model.scan.ScanCons;
 import com.ssthouse.moduo.view.adapter.MainLvAdapter;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -159,22 +157,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
-     * 加载本地添加过的设备
+     * 加载账号绑定的设备
      */
     private void initDeviceList() {
         //显示等待Dialog
         showWaitLoadDeviceDialog();
         //请求获取设备列表
-        XPGController.getInstance(this).getmCenter().cGetBoundDevices(
-                SettingManager.getInstance(this).getUid(),
-                SettingManager.getInstance(this).getToken());
-        //TODO---获取当前账号绑定了的设备
-        for (Device device : deviceList) {
-            communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
-        }
+        XPGController.getInstance(this).getmCenter()
+                .cGetBoundDevices(SettingManager.getInstance(this).getUid(),
+                        SettingManager.getInstance(this).getToken());
     }
-
 
     /*
     UI回调
@@ -268,9 +260,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onEventMainThread(GetBoundDeviceEvent event) {
         if (event.isSuccess()) {
-            //todo---清空当前列表
+            //清空当前列表
             deviceList.clear();
-            //TODO---刷新主界面lv列表
+            //刷新主界面lv列表
             Timber.e("获取账号绑定设备列表成功");
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //设置监听器
@@ -279,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                 xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
                         SettingManager.getInstance(this).getToken());
                 //添加到deviceList
-                deviceList.add(new Device(xpgWifiDevice));
+                deviceList.add(new Device(this, xpgWifiDevice));
                 //打印查看数据
                 Timber.e("获取到的设备有:\n");
                 Timber.e("deviceId:\t" + xpgWifiDevice.getDid()
@@ -290,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
             }
             //尝试连接 视频对话
             for (Device device : deviceList) {
+                Timber.e("cid" + device.getCidNumber() + device.getUsername() + device.getPassword());
                 communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
             }
             //更新lv
@@ -370,46 +363,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 显示添加设备的dialog
-     */
-    private void showAddDeviceDialog() {
-        MaterialDialog materialDialog = new MaterialDialog.Builder(this)
-                .autoDismiss(true)
-                .title("添加设备")
-                .customView(R.layout.dialog_add_device, true)
-                .positiveText("确认")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                        //TODO---确定添加设备回调
-                        View customView = materialDialog.getCustomView();
-                        EditText etCidNumber = (EditText) customView.findViewById(R.id.id_et_cid_number);
-                        EditText etUsername = (EditText) customView.findViewById(R.id.id_et_username);
-                        EditText etPassword = (EditText) customView.findViewById(R.id.id_et_password);
-                        //TODO---建立连接
-                        communication.addStreamer(Long.valueOf(etCidNumber.getText().toString()),
-                                etUsername.getText().toString(), etPassword.getText().toString());
-                        Device device = new Device(Long.valueOf(etCidNumber.getText().toString()),
-                                etUsername.getText().toString(),
-                                etPassword.getText().toString());
-                        PreferenceHelper.getInstance(MainActivity.this).addDevice(device);
-                        //TODO---刷新列表
-                        deviceList.add(device);
-                        lvAdapter.update();
-                    }
-                })
-                .negativeText("取消")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                        //TODO--取消回调
-                    }
-                })
-                .build();
-        materialDialog.show();
-    }
-
-    /**
      * 显示等待加载设备Dialog
      */
     private void showWaitLoadDeviceDialog() {
@@ -461,10 +414,29 @@ public class MainActivity extends AppCompatActivity {
                 Timber.e("Cancelled scan");
             } else {
                 String text = result.getContents();
-                String product_key = ScanUtil.getParamFomeUrl(text, "product_key");
-                String did = ScanUtil.getParamFomeUrl(text, "did");
-                String passcode = ScanUtil.getParamFomeUrl(text, "passcode");
-                Timber.e("Scanned Result: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passcode);
+                //机智云sdk参数
+                String product_key = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PRODUCT_KEY);
+                String did = ScanUtil.getParamFromUrl(text, ScanCons.KEY_DID);
+                String passCode = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PASSCODE);
+                //视频sdk参数
+                String cidStr = ScanUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
+                String username = ScanUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
+                String password = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
+                //判断二维码扫描数据是否正确
+                if (product_key == null
+                        || did == null
+                        || passCode == null
+                        || cidStr == null
+                        || username == null
+                        || password == null) {
+                    ToastHelper.showLong(this, "请扫描正确二维码");
+                    return;
+                }
+                long cidNumber = Long.parseLong(cidStr);
+                Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
+                Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
+                //// TODO: 2015/12/23 将当前设备数据保存在本地
+                PreferenceHelper.getInstance(this).addDevice(did, cidNumber, username, password);
                 //TODO---尝试绑定设备
                 //显示等待dialog
                 showWaitBindDeviceDialog();
@@ -473,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
                         SettingManager.getInstance(this).getUid(),
                         SettingManager.getInstance(this).getToken(),
                         did,
-                        passcode,
+                        passCode,
                         ""
                 );
             }

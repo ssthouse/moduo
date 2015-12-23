@@ -22,14 +22,14 @@ import timber.log.Timber;
 
 /**
  * 注册/登陆 界面
- *
+ * <p>
  * 登陆或者注册成功的回调全部在这个activity里面
  * Created by ssthouse on 2015/12/19.
  */
 public class RegisterActivity extends AppCompatActivity {
 
-    /*
-    logic
+    /**
+     * fragment
      */
     private EmailRegisterFragment emailRegisterFragment;
     private PhoneRegisterFragment phoneRegisterFragment;
@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
      *
      * @param event
      */
-    public void onEventMainThread(RegisterActivityDestoryEvent event){
+    public void onEventMainThread(RegisterActivityDestoryEvent event) {
         Timber.e("退出register activity");
         finish();
     }

@@ -13,6 +13,7 @@ import com.ssthouse.moduo.model.event.setting.DeviceStateEvent;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
+import com.ssthouse.moduo.model.event.setting.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
@@ -122,7 +123,6 @@ public class XPGController {
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
             if (dataMap == null) {
-                Timber.e("收到设备空的消息, errorCode:\t" + result);
                 return;
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
@@ -140,6 +140,9 @@ public class XPGController {
                 } else if (cmd == 4) {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                 }
+            }else{
+                EventBus.getDefault().post(new GetDeviceDataEvent(false));
+                Timber.e("收到设备空的消息, errorCode:\t" + result);
             }
             //设备报警数据点类型，该种数据点只读，设备发生报警后该字段有内容，没有发生报警则没内容
             if (dataMap.get("alters") != null) {
@@ -150,13 +153,6 @@ public class XPGController {
                 Timber.e("alert:\t" + dataMap.get("faults"));
             }
             Timber.e("获取到设备数据");
-
-            //// TODO: 2015/12/22
-            //二进制数据点类型，适合开发者自行解析二进制数据
-            if (dataMap.get("binary") != null) {
-                Timber.e("Binary data:" + dataMap.get("binary"));
-                //收到后自行解析
-            }
         }
     };
 
@@ -248,7 +244,12 @@ public class XPGController {
 
         @Override
         public void didUnbindDevice(int error, String errorMessage, String did) {
-            Timber.e("绑定设备回调");
+            if(error == 0){
+                EventBus.getDefault().post(new UnbindResultEvent(true, did));
+            }else{
+                EventBus.getDefault().post(new UnbindResultEvent(false, did));
+            }
+            Timber.e("解绑设备回调");
         }
 
         @Override

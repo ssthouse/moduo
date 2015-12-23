@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.model.Device;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * preference管理器
  * Created by ssthouse on 2015/12/7.
@@ -75,35 +72,16 @@ public class PreferenceHelper {
     }
 
     /**
+     * 需要否根据一个设备did就获取到--它的cid---username---poassword--
      * User数据的key
      */
-    private interface DeviceCons {
-        String deviceSize = "device_size";
+    private interface DeviceInfoCons {
         //设备名前缀
-        String cidPrefix = "cid_";
+        String CID_PREFIX = "cid_";
         //用户名前缀
-        String usernamePrefix = "username_";
+        String USERNAME_PREFIX = "username_";
         //密码前缀
-        String passwordPrefix = "password_";
-    }
-
-    /**
-     * 获取本地的设备
-     *
-     * @return
-     */
-    public List<Device> getDeviceList() {
-        List<Device> deviceList = new ArrayList<>();
-        //获取设备数目
-        int deviceSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
-        for (int i = 0; i < deviceSize; i++) {
-            long cidNumber = sharedPreferences.getLong(DeviceCons.cidPrefix + i, 0);
-            String username = sharedPreferences.getString(DeviceCons.usernamePrefix + i, "");
-            String password = sharedPreferences.getString(DeviceCons.passwordPrefix + i, "");
-            Device device = new Device(cidNumber, username, password);
-            deviceList.add(device);
-        }
-        return deviceList;
+        String PASSWORD_PREFIX = "password_";
     }
 
     /**
@@ -115,50 +93,76 @@ public class PreferenceHelper {
         if (device == null) {
             return;
         }
-        int currentNumber = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
+        //以机智云的did作为key---保存视频sdk的三个参数
+        String did = device.getXpgWifiDevice().getDid();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(DeviceCons.cidPrefix + currentNumber, device.getCidNumber())
-                .putString(DeviceCons.usernamePrefix + currentNumber, device.getUsername())
-                .putString(DeviceCons.passwordPrefix + currentNumber, device.getPassword())
-                .putInt(DeviceCons.deviceSize, currentNumber + 1)
+        editor.putLong(DeviceInfoCons.CID_PREFIX + did, device.getCidNumber())
+                .putString(DeviceInfoCons.USERNAME_PREFIX + did, device.getUsername())
+                .putString(DeviceInfoCons.PASSWORD_PREFIX + did, device.getPassword())
                 .commit();
     }
+
+    /**
+     * 获取cid
+     *
+     * @param did
+     * @return
+     */
+    public long getCidNumber(String did) {
+        return sharedPreferences.getLong(DeviceInfoCons.CID_PREFIX + did, 0);
+    }
+
+    /**
+     * 获取用户名
+     *
+     * @param did
+     * @return
+     */
+    public String getUsername(String did) {
+        return sharedPreferences.getString(DeviceInfoCons.USERNAME_PREFIX + did, null);
+    }
+
+    /**
+     * 根据did获取密码
+     *
+     * @param did
+     * @return
+     */
+    public String getPassword(String did) {
+        return sharedPreferences.getString(DeviceInfoCons.PASSWORD_PREFIX + did, null);
+    }
+
+    /**
+     * 将设备参数保存在本地
+     *
+     * @param did
+     * @param cidNumber
+     * @param username
+     * @param password
+     */
+    public void addDevice(String did, long cidNumber, String username, String password) {
+        //以机智云的did作为key---保存视频sdk的三个参数
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(DeviceInfoCons.CID_PREFIX + did, cidNumber)
+                .putString(DeviceInfoCons.USERNAME_PREFIX + did, username)
+                .putString(DeviceInfoCons.PASSWORD_PREFIX + did, password)
+                .commit();
+    }
+
 
     /**
      * 删除某一个设备
      */
     public void deleteDevice(Device device) {
-        List<Device> deviceList = getDeviceList();
-        for (int i = 0; i < deviceList.size(); i++) {
-            if (device.getCidNumber() == deviceList.get(i).getCidNumber()
-                    && device.getUsername().equals(deviceList.get(i).getUsername())
-                    && device.getPassword().equals(deviceList.get(i).getPassword())) {
-                deviceList.remove(i);
-            }
+        if (device == null) {
+            return;
         }
-        //删除所有的数据
-        deleteAllDevice();
-        //重新添加
-        for (Device currentDevice : deviceList) {
-            addDevice(currentDevice);
-        }
+        String did = device.getXpgWifiDevice().getDid();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(DeviceCons.deviceSize, deviceList.size());
-        editor.commit();
-    }
-
-    /**
-     * 删除所有本地的设备数据
-     */
-    public void deleteAllDevice() {
-        int deviceSize = sharedPreferences.getInt(DeviceCons.deviceSize, 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        for (int i = 0; i < deviceSize; i++) {
-            editor.remove(DeviceCons.cidPrefix + i);
-            editor.remove(DeviceCons.usernamePrefix + i);
-            editor.remove(DeviceCons.passwordPrefix + i);
-        }
-        editor.putInt(DeviceCons.deviceSize, 0);
-        editor.commit();
+        //根据did为key删除数据
+        editor.remove(DeviceInfoCons.CID_PREFIX + did)
+                .remove(DeviceInfoCons.USERNAME_PREFIX + did)
+                .remove(DeviceInfoCons.PASSWORD_PREFIX + did)
+                .commit();
     }
 }
