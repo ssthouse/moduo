@@ -199,7 +199,7 @@ public class DeviceData implements Serializable {
         int zBody = dataObject.get(DeviceCons.KEY_Z_BODY).getAsInt();
         byte[] ctrlCmd = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_CMD).getAsString(), Base64.DEFAULT);
         byte[] ctrlData = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_DATA).getAsString(), Base64.DEFAULT);
-        //// TODO: 2015/12/22   Timber.e("温度" + temperature);
+        //// TODO: 2015/12/22
         Timber.e("湿度" + humidity);
         Timber.e("湿度" + luminance);
         Timber.e("湿度" + power);

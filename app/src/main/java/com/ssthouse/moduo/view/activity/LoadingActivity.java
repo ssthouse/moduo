@@ -93,17 +93,18 @@ public class LoadingActivity extends AppCompatActivity {
             return;
         }
         if (event.isSuccess()) {
+            Timber.e("机智云---登录成功");
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginInfo(event);
             //如果是第一次---还需要删除废除设备---否则跳转MainActivity
             if (PreferenceHelper.getInstance(this).isFistIn()) {
-                XPGController.getInstance(this).getmCenter().cGetBoundDevices(
+                XPGController.getInstance(this).getmCenter()
+                        .cGetBoundDevices(
                         SettingManager.getInstance(this).getUid(),
                         SettingManager.getInstance(this).getToken());
                 //不是第一次了
                 PreferenceHelper.getInstance(this).setIsFistIn(false);
             } else {
-                Timber.e("机智云---登录成功");
                 jumpToMainActivity();
             }
         } else {
@@ -138,6 +139,7 @@ public class LoadingActivity extends AppCompatActivity {
                         SettingManager.getInstance(this).getToken(),
                         xpgWifiDevice.getDid(),
                         xpgWifiDevice.getPasscode());
+                Timber.e("尝试解绑");
             }
         }
     }
@@ -153,6 +155,7 @@ public class LoadingActivity extends AppCompatActivity {
         }
         //// TODO: 2015/12/23 不管成不成功--都要减少数目
         wastedDeviceNum--;
+        Timber.e("又少一个");
         if (wastedDeviceNum <= 0) {
             //跳转MainActivity
             jumpToMainActivity();

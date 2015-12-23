@@ -352,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.id_action_log_out:
                 //TODO---登出
                 SettingManager.getInstance(this).clean();
+                PreferenceHelper.getInstance(this).setIsFistIn(true);
                 //重新进入loading activity
                 LoadingActivity.start(this);
                 //结束当前activity
