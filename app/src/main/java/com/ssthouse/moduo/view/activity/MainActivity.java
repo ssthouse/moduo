@@ -146,20 +146,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TODO
+        //添加设备
         findViewById(R.id.id_btn_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO---尝试登陆
-                for (Device device : deviceList) {
-                    if (!device.getXpgWifiDevice().isOnline()) {
-                        device.getXpgWifiDevice().login(
-                                SettingManager.getInstance(MainActivity.this).getUid(),
-                                SettingManager.getInstance(MainActivity.this).getToken()
-                        );
-                    }
-                }
-                Timber.e("clicked");
+                ScanUtil.startScan(MainActivity.this);
             }
         });
 
@@ -234,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case WIFI:
                 tvOffline.setVisibility(View.GONE);
-                if(isOffline){
+                if (isOffline) {
                     reConnectDevice();
                 }
                 break;
@@ -330,7 +321,9 @@ public class MainActivity extends AppCompatActivity {
             ToastHelper.show(this, "获取设备列表失败");
         }
         //隐藏等待dialog
-        waitDialog.dismiss();
+        if(waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
     }
 
     /**
@@ -374,10 +367,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.id_action_scan_device:
-                //TODO---扫码添加设备---在onActivityResult中处理回调
-                ScanUtil.startScan(this);
-                break;
             case R.id.id_action_get_bound_device:
                 //TODO---获取账号绑定设备
                 //显示等待Dialog
