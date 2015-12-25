@@ -287,7 +287,9 @@ public class MainActivity extends AppCompatActivity {
             ToastHelper.show(this, "设备绑定失败");
         }
         //隐藏dialog
-        waitDialog.dismiss();
+        if(waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
     }
 
     /**

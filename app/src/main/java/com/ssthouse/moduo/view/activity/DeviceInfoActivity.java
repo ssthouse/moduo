@@ -95,6 +95,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
         //toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
         getSupportActionBar().setTitle("设备信息");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //视频参数
         long cidNumber = PreferenceHelper.getInstance(this).getCidNumber(mXpgWifiDevice.getDid());
