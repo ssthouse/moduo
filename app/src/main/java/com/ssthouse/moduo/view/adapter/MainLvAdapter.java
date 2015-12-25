@@ -17,6 +17,8 @@ import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * 主界面listview的adapter
  * Created by ssthouse on 2015/12/17.
@@ -44,6 +46,7 @@ public class MainLvAdapter extends BaseAdapter {
      * 刷新数据
      */
     public void update() {
+        Timber.e("我刷新了lv");
         notifyDataSetInvalidated();
     }
 
@@ -137,7 +140,7 @@ public class MainLvAdapter extends BaseAdapter {
         String deviceState = "设备状态: ";
         boolean isControlEnable;
         //必须连接---且在线--才算在线
-        if (xpgWifiDevice.isOnline() && xpgWifiDevice.isConnected()) {
+        if (xpgWifiDevice.isConnected()) {
             deviceState += "在线";
             isControlEnable = true;
         } else {
@@ -149,7 +152,6 @@ public class MainLvAdapter extends BaseAdapter {
         viewHolder.btnXpgControlStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO---启动xpg设备 参数设置 activity
                 //设置当前device
                 XPGController.setCurrentXpgWifiDevice(xpgWifiDevice);
                 //尝试获取该设备数据---启动配置activity

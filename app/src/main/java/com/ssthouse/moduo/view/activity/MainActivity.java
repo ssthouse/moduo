@@ -3,6 +3,7 @@ package com.ssthouse.moduo.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -71,7 +72,15 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<Device> deviceList = new ArrayList<>();
 
-    //无网络连接提示
+
+    /**
+     * 下拉刷新view
+     */
+    @Bind(R.id.id_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    /**
+     * 无网络连接提示
+     */
     @Bind(R.id.id_tv_offline)
     TextView tvOffline;
     /**
@@ -128,6 +137,16 @@ public class MainActivity extends AppCompatActivity {
             tvOffline.setVisibility(View.VISIBLE);
         }
 
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //// TODO: 2015/12/25 刷新设备状态
+                reConnectDevice();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         //请求获取绑定了的设备--初始化设备listview
         lvAdapter = new MainLvAdapter(this, deviceList);
         lv.setAdapter(lvAdapter);
@@ -181,9 +200,11 @@ public class MainActivity extends AppCompatActivity {
             //登陆视频sdk
             communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
             //登陆机智云sdk
+            device.getXpgWifiDevice().setListener(XPGController.getInstance(this).getDeviceListener());
             device.getXpgWifiDevice().login(SettingManager.getInstance(this).getUid(),
                     SettingManager.getInstance(this).getToken());
         }
+        lvAdapter.update();
     }
 
     /*
