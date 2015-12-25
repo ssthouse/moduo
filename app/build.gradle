@@ -6,9 +6,9 @@ android {
 
     defaultConfig {
         applicationId "com.ssthouse.moduo"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
+        versionCode 5
         versionName "1.1.2"
     }
     buildTypes {

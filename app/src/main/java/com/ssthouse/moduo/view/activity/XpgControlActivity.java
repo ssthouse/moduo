@@ -241,6 +241,7 @@ public class XpgControlActivity extends AppCompatActivity {
     }
 
     /**
+     * todo 目前来看---设备收到数据变化后根本就没有回调这个方法
      * xpg设备操作结果回调
      *
      * @param event
@@ -254,7 +255,9 @@ public class XpgControlActivity extends AppCompatActivity {
             ToastHelper.show(this, "数据设置失败");
             tvTemperature.setText(deviceData.getTemperature() + "℃");
         }
-        waitDialog.dismiss();
+        if(waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
     }
 
     /**
