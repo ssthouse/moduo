@@ -82,6 +82,10 @@
             android:name=".view.activity.XpgControlActivity"
             android:screenOrientation="portrait" />
 
+        <!--设备参数界面-->
+        <activity android:name=".view.activity.DeviceInfoActivity"
+            android:screenOrientation="portrait"/>
+
         <!--友盟集成-->
         <meta-data
             android:name="UMENG_APPKEY"

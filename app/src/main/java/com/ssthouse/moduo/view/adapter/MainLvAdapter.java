@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.setting.XPGController;
 import com.ssthouse.moduo.model.Device;
+import com.ssthouse.moduo.view.activity.DeviceInfoActivity;
 import com.ssthouse.moduo.view.activity.VideoActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -69,6 +70,16 @@ public class MainLvAdapter extends BaseAdapter {
         initVideoEvent(viewHolder, position);
         //初始化xpg管理事件
         initXpgEvent(viewHolder, position);
+        //设备info的btn事件
+        viewHolder.ibDeviceInfoStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //设置当前device
+                XPGController.setCurrentXpgWifiDevice(deviceList.get(position).getXpgWifiDevice());
+                //启动activity
+                DeviceInfoActivity.start(context);
+            }
+        });
         //todo---那个imageButton的设备参数设置按钮就先放一放
         return convertView;
     }
@@ -108,7 +119,7 @@ public class MainLvAdapter extends BaseAdapter {
         viewHolder.btnStartVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO---启动video activity
+                //启动video activity
                 VideoActivity.start(context, deviceList.get(position).getCidNumber());
             }
         });
@@ -161,7 +172,6 @@ public class MainLvAdapter extends BaseAdapter {
         //设备info参数设置activity启动按钮
         public ImageButton ibDeviceInfoStart;
     }
-
 
 
     @Override

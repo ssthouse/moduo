@@ -123,6 +123,7 @@ public class XPGController {
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
             if (dataMap == null) {
+                Timber.e("数据为空!!!");
                 return;
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
@@ -140,6 +141,7 @@ public class XPGController {
                 } else if (cmd == 4) {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                 }
+                Timber.e("我抛出了获得的数据");
             }else{
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 Timber.e("收到设备空的消息, errorCode:\t" + result);

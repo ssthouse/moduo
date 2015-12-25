@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 是否在离线状态
      */
-    private boolean isOffline = NetUtil.isConnected(this);
+    private boolean isOffline;
 
     /**
      * 视频对话SDK管理类
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化视频sdk
         communication = Communication.getInstance(this);
+
+        isOffline = NetUtil.isConnected(this);
 
         //加载本地添加过的设备
         initDeviceList();
