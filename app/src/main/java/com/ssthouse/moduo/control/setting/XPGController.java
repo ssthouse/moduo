@@ -124,6 +124,8 @@ public class XPGController {
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
             if (dataMap == null) {
                 Timber.e("数据为空!!!");
+                //为空也要返回获取失败
+                EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 return;
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
