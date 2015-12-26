@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.control.setting;
+package com.ssthouse.moduo.control.xpg;
 
 import android.content.Context;
 

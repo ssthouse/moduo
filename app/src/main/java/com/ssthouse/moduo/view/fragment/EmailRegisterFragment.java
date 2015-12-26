@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.SettingManager;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;

@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;

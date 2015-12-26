@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.SettingManager;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -100,8 +100,8 @@ public class LoadingActivity extends AppCompatActivity {
             if (PreferenceHelper.getInstance(this).isFistIn()) {
                 XPGController.getInstance(this).getmCenter()
                         .cGetBoundDevices(
-                        SettingManager.getInstance(this).getUid(),
-                        SettingManager.getInstance(this).getToken());
+                                SettingManager.getInstance(this).getUid(),
+                                SettingManager.getInstance(this).getToken());
                 //不是第一次了
                 PreferenceHelper.getInstance(this).setIsFistIn(false);
             } else {
@@ -127,10 +127,10 @@ public class LoadingActivity extends AppCompatActivity {
             //初始化---已废除设备数据
             wastedDeviceNum = event.getXpgDeviceList().size();
             //如果为0---直接跳转
-            if (wastedDeviceNum == 0) {
-                jumpToMainActivity();
-                return;
-            }
+//            if (wastedDeviceNum == 0) {
+//                jumpToMainActivity();
+//                return;
+//            }
             Timber.e("已经绑定的设别数目为\t" + wastedDeviceNum);
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //删除设备
@@ -141,6 +141,8 @@ public class LoadingActivity extends AppCompatActivity {
                         xpgWifiDevice.getPasscode());
                 Timber.e("尝试解绑");
             }
+            //// TODO: 2015/12/26
+            jumpToMainActivity();
         }
     }
 
@@ -159,9 +161,6 @@ public class LoadingActivity extends AppCompatActivity {
         if (wastedDeviceNum <= 0) {
             //跳转MainActivity
             jumpToMainActivity();
-        } else {
-            //解绑一个少一个
-            wastedDeviceNum--;
         }
     }
 

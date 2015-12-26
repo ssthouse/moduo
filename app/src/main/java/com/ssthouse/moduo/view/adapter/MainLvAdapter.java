@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.view.activity.DeviceInfoActivity;
 import com.ssthouse.moduo.view.activity.VideoActivity;
@@ -140,12 +140,14 @@ public class MainLvAdapter extends BaseAdapter {
         String deviceState = "设备状态: ";
         boolean isControlEnable;
         //必须连接---且在线--才算在线
-        if (xpgWifiDevice.isConnected()) {
+        if (xpgWifiDevice.isConnected() && xpgWifiDevice.isOnline()) {
             deviceState += "在线";
             isControlEnable = true;
+            Timber.e("xpg设备在线");
         } else {
             deviceState += "离线";
             isControlEnable = false;
+            Timber.e("xpg设备不在线");
         }
         viewHolder.tvXpgDeviceState.setText(deviceState);
         viewHolder.btnXpgControlStart.setEnabled(isControlEnable);

@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.SettingManager;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;

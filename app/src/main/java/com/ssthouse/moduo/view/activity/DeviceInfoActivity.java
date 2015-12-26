@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.setting.XPGController;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
