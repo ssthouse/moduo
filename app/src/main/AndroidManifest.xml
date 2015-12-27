@@ -6,7 +6,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!--机智云新增权限-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- Push service 运行需要的权限 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
@@ -71,7 +71,8 @@
         <!--主界面activity-->
         <activity
             android:name=".view.activity.MainActivity"
-            android:label="魔哆" />
+            android:label="魔哆"
+            android:screenOrientation="portrait" />
 
         <!--横向视频播放activity-->
         <activity
@@ -84,8 +85,9 @@
             android:screenOrientation="portrait" />
 
         <!--设备参数界面-->
-        <activity android:name=".view.activity.DeviceInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.DeviceInfoActivity"
+            android:screenOrientation="portrait" />
 
         <!--友盟集成-->
         <meta-data

@@ -61,7 +61,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-        ToastHelper.show(this, "尝试登陆:1194-admin");
+        //ToastHelper.show(this, "尝试登陆:1194-admin");
 
 
         //加载视频对话sdk
@@ -71,7 +71,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     //加载视频对话sdk
     private void loadSdkLib() {
-        ToastHelper.show(this, "加载视频sdk so 文件");
+        //ToastHelper.show(this, "加载视频sdk so 文件");
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("ffmpeg");
         System.loadLibrary("avdecoder");
