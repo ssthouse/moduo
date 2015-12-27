@@ -16,8 +16,8 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ByteUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.DeviceData;
-import com.ssthouse.moduo.model.event.setting.DeviceDataChangedEvent;
-import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
+import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

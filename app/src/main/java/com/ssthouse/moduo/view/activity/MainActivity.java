@@ -28,11 +28,12 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
+import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
 import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
-import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
-import com.ssthouse.moduo.model.event.setting.DeviceStateEvent;
-import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.event.setting.GetDeviceDataEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceStateEvent;
+import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.model.scan.ScanCons;
@@ -222,6 +223,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             pbItem.setVisible(false);
         }
+    }
+
+    /**
+     * 主界重新加载设备回调
+     * @param event
+     */
+    public void onEventMainThread(MainActivityRefreshEvent event){
+        //重新获取绑定设备
+        XPGController.getInstance(this).getmCenter().cGetBoundDevices(
+                SettingManager.getInstance(this).getUid(),
+                SettingManager.getInstance(this).getToken()
+        );
     }
 
     /**

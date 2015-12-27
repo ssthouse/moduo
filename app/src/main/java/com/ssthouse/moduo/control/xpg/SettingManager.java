@@ -20,7 +20,7 @@ package com.ssthouse.moduo.control.xpg;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 /**
  * SharePreference处理类.

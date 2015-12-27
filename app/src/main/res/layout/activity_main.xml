@@ -43,6 +43,7 @@
 
             <!--列表view-->
             <ListView
+                android:divider="@null"
                 android:id="@+id/id_lv_main"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

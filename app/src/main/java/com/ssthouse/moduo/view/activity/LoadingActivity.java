@@ -13,10 +13,10 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.event.setting.UnbindResultEvent;
-import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import de.greenrobot.event.EventBus;
@@ -51,7 +51,8 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
-        Timber.e("正在运行");
+
+
 
         //// 测试注册登陆逻辑
 //        if (StringUtils.isEmpty(SettingManager.getInstance(this).getUid())
@@ -59,14 +60,12 @@ public class LoadingActivity extends AppCompatActivity {
 //            RegisterActivity.start(this);
 //        }
 
-        //匿名登录
-        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-        //ToastHelper.show(this, "尝试登陆:1194-admin");
-
-
         //加载视频对话sdk
         loadSdkLib();
-        Communication.getInstance(this);
+        Communication.init(this);
+
+        //匿名登录
+        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
     }
 
     //加载视频对话sdk

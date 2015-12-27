@@ -305,7 +305,7 @@ public class CmdCenter {
      * @param passCode the pass code
      */
     public void cUnbindDevice(String uid, String token, String did,
-                              String passCode) {
+    String passCode) {
         xpgWifiGCC.unbindDevice(uid, token, did, passCode);
     }
 

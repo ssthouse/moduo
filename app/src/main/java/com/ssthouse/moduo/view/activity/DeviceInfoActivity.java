@@ -7,17 +7,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
-import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
+import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
+import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 显示设备信息的activity
@@ -55,6 +61,10 @@ public class DeviceInfoActivity extends AppCompatActivity {
     @Bind(R.id.id_tv_mac)
     TextView tvMac;
 
+    //删除设备按钮
+    @Bind(R.id.id_btn_delete_device)
+    Button btnDeleteDevice;
+
 
     /**
      * 启动当前activity:
@@ -69,16 +79,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(context, DeviceInfoActivity.class);
         context.startActivity(intent);
     }
-
-
-    /**
-     * todo
-     * @param s
-     */
-    public void onEventMainThread(NetworkStateChangeEvent s){
-
-    }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,11 +112,44 @@ public class DeviceInfoActivity extends AppCompatActivity {
         //网络参数
         tvIp.setText(mXpgWifiDevice.getIPAddress());
         tvMac.setText(mXpgWifiDevice.getMacAddress());
+
+        //删除当前选中设备
+        btnDeleteDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //// TODO: 2015/12/27  
+                Timber.e("删除");
+                //获取当前设备
+                XPGWifiDevice device = XPGController.getCurrentXpgWifiDevice();
+                //解除绑定当前设备
+                XPGController.getInstance(DeviceInfoActivity.this).getmCenter().cUnbindDevice(
+                        SettingManager.getInstance(DeviceInfoActivity.this).getUid(),
+                        SettingManager.getInstance(DeviceInfoActivity.this).getToken(),
+                        device.getDid(),
+                        device.getPasscode()
+                );
+            }
+        });
     }
+
+    /**
+     * 点击删除设备的回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(UnbindResultEvent event) {
+        if (event.isSuccess()) {
+            ToastHelper.show(this, "设备解绑成功");
+            EventBus.getDefault().post(new MainActivityRefreshEvent());
+        } else {
+            ToastHelper.show(this, "设备解绑失败");
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

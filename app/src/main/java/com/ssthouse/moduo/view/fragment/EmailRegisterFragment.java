@@ -15,8 +15,8 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
-import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
-import com.ssthouse.moduo.model.event.setting.RegisterResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.RegisterResultEvent;
 import com.ssthouse.moduo.view.activity.LoadingActivity;
 
 import butterknife.Bind;
