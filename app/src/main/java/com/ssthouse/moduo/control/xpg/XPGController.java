@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.setting.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.event.setting.DeviceBindResultEvent;
@@ -266,6 +267,7 @@ public class XPGController {
                 EventBus.getDefault().post(new XPGLoginResultEvent(false));
             }
             Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
+            ToastHelper.show(context, "用户登陆回调");
         }
 
         @Override

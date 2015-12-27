@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!--机智云新增权限-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <!-- Push service 运行需要的权限 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />

@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.setting.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.setting.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.setting.XPGLoginResultEvent;
@@ -46,15 +46,23 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏---不息屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
+        Timber.e("正在运行");
+
+        //// 测试注册登陆逻辑
+//        if (StringUtils.isEmpty(SettingManager.getInstance(this).getUid())
+//                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
+//            RegisterActivity.start(this);
+//        }
+
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+        ToastHelper.show(this, "尝试登陆:1194-admin");
+
 
         //加载视频对话sdk
         loadSdkLib();
@@ -63,6 +71,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     //加载视频对话sdk
     private void loadSdkLib() {
+        ToastHelper.show(this, "加载视频sdk so 文件");
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("ffmpeg");
         System.loadLibrary("avdecoder");
@@ -90,10 +99,12 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
+            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
+            ToastHelper.show(this, "登陆成功!");
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginInfo(event);
             //如果是第一次---还需要删除废除设备---否则跳转MainActivity
@@ -121,6 +132,7 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(GetBoundDeviceEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
+            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         if (event.isSuccess()) {
@@ -153,6 +165,7 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(UnbindResultEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
+            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         //// TODO: 2015/12/23 不管成不成功--都要减少数目
