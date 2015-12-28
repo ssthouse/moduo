@@ -51,21 +51,18 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
-
-
-
         //// 测试注册登陆逻辑
 //        if (StringUtils.isEmpty(SettingManager.getInstance(this).getUid())
 //                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
 //            RegisterActivity.start(this);
 //        }
 
-        //加载视频对话sdk
-        loadSdkLib();
-        Communication.init(this);
-
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+
+        //加载视频对话sdk
+        loadSdkLib();
+        Communication.init(getApplicationContext());
     }
 
     //加载视频对话sdk

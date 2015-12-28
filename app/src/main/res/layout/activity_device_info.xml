@@ -251,16 +251,19 @@
         </android.support.v7.widget.CardView>
 
 
+        <!--删除设备按钮-->
         <Button
             android:id="@+id/id_btn_delete_device"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp                                                                 "
+            style="@style/ButtonInDeviceInfo"
             android:layout_marginTop="16dp"
-            android:background="@drawable/selector_blue_to_white"
-            android:text="删除设备"
-            android:textColor="@drawable/selector_white_to_blue" />
+            android:text="删除设备" />
+
+        <!--分享设备按钮-->
+        <Button
+            android:id="@+id/id_btn_share_device"
+            style="@style/ButtonInDeviceInfo"
+            android:layout_marginTop="16dp"
+            android:text="分享设备" />
 
     </LinearLayout>
 

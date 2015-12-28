@@ -2,6 +2,8 @@ package com.ssthouse.moduo.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +14,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +71,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
     @Bind(R.id.id_btn_delete_device)
     Button btnDeleteDevice;
 
+    //分享设备按钮
+    @Bind(R.id.id_btn_share_device)
+    Button btnShareDevice;
 
     /**
      * 启动当前activity:
@@ -117,8 +126,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
         btnDeleteDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2015/12/27  
-                Timber.e("删除");
+                Timber.e("删除当前设备");
                 //获取当前设备
                 XPGWifiDevice device = XPGController.getCurrentXpgWifiDevice();
                 //解除绑定当前设备
@@ -128,6 +136,33 @@ public class DeviceInfoActivity extends AppCompatActivity {
                         device.getDid(),
                         device.getPasscode()
                 );
+            }
+        });
+
+        //分享当前设备
+        btnShareDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.e("分享当前设备二维码");
+                //获取当前设备
+                XPGWifiDevice device = XPGController.getCurrentXpgWifiDevice();
+                //获取分享的bitmap
+                PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(DeviceInfoActivity.this);
+                long cid = preferenceHelper.getCidNumber(device.getDid());
+                String username = preferenceHelper.getUsername(device.getDid());
+                String password = preferenceHelper.getPassword(device.getDid());
+                String content = ScanUtil.getQrCodeContent(device.getProductKey(), device.getDid(),
+                        device.getPasscode(), cid + "", username, password);
+                Bitmap bitmap = ScanUtil.generateQRCode(content);
+                File bitmapFile = new File(FileUtil.saveBitmap(DeviceInfoActivity.this, bitmap));
+                //将照片保存到本地
+                //使用intent分享照片
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("image/*");
+                Uri uri = Uri.fromFile(bitmapFile);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                //开启分享
+                startActivity(shareIntent);
             }
         });
     }

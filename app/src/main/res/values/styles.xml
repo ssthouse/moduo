@@ -69,4 +69,14 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
+
+    <!--设备Info界面的Button-->
+    <style name="ButtonInDeviceInfo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textColor">@drawable/selector_white_to_blue</item>
+        <item name="android:background">@drawable/selector_blue_to_white</item>
+    </style>
 </resources>
