@@ -28,10 +28,16 @@ import timber.log.Timber;
  */
 public class Communication {
 
+    /**
+     * 单例
+     */
     private static Communication instance;
 
     private Context context;
 
+    /**
+     * 总管理类
+     */
     private Viewer viewer;
 
     /**

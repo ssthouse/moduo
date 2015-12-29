@@ -11,7 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
@@ -43,6 +45,9 @@ public class VideoActivity extends Activity {
 
     @Bind(R.id.id_view_toggle)
     CompoundButton btnToggle;
+
+    //等待dialog
+    private MaterialDialog waitDialog;
 
     private long liveStreamId;//播放流id
     private long decoderId; //解码器id
@@ -105,13 +110,30 @@ public class VideoActivity extends Activity {
         btnToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     audioHandler.startTalk();
-                }else{
+                } else {
                     audioHandler.stopTalk();
                 }
             }
         });
+
+        //等待dialog
+        waitDialog = new MaterialDialog.Builder(this)
+                .autoDismiss(false)
+                .customView(R.layout.dialog_wait, true)
+                .build();
+    }
+
+    /**
+     * 显示等待视频Dialog
+     *
+     * @param msg
+     */
+    private void showWaitDialog(String msg) {
+        View customView = waitDialog.getCustomView();
+        TextView tvWait = (TextView) customView.findViewById(R.id.id_tv_wait);
+        tvWait.setText(msg);
     }
 
     /**
@@ -138,6 +160,8 @@ public class VideoActivity extends Activity {
         @Override
         public void onMediaStreamState(long streamId, MediaStreamState mediaStreamState) {
             Timber.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
+            //收到回调的时候隐藏dialog
+            waitDialog.dismiss();
             //监测链接状态
             if (mediaStreamState == MediaStreamState.CREATED) {
                 MediaDataDesc desc = media.getStreamDesc(liveStreamId);
@@ -189,6 +213,8 @@ public class VideoActivity extends Activity {
         surfaceViewLayout.addView(glSurfaceView);
         liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
         Timber.e("liveStreamId :" + liveStreamId);
+        //初始显示等待dialog
+        showWaitDialog("正在加载视频,请稍候");
     }
 
     //停止音视频观看

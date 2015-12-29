@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
                         || cidStr == null
                         || username == null
                         || password == null) {
-                    ToastHelper.showLong(this, "请扫描正确二维码");
+                    ToastHelper.showLong(this, "请扫描正确的二维码");
                     return;
                 }
                 long cidNumber = Long.parseLong(cidStr);
