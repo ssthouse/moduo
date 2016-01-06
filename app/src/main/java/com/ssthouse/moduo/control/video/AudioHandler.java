@@ -61,7 +61,8 @@ public class AudioHandler {
      * @param media          主要管理类
      * @param streamerCid    采集器cid
      */
-    public AudioHandler(int sampleRateInHz, int channel, long streamId, long decoderId, Media media, long streamerCid) {
+    public AudioHandler(int sampleRateInHz, int channel, long streamId, long decoderId,
+                        Media media, long streamerCid) {
         if (channel == 1) {
             channelConfig = AudioFormat.CHANNEL_OUT_MONO;
         } else {
@@ -120,8 +121,9 @@ public class AudioHandler {
         tracker = new AudioTrack(AudioManager.STREAM_MUSIC, audioPlaySampleRate, channelConfig, audioFormat, maxJitter, AudioTrack.MODE_STREAM);
         if (tracker.getState() == AudioTrack.STATE_INITIALIZED) {
             return tracker;
-        } else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -213,11 +215,7 @@ public class AudioHandler {
                             }
                             Thread.sleep(1);
                         }
-                    } catch (InterruptedException e) {
-                        Timber.e(e.toString());
-                    } catch (NullPointerException e) {
-                        Timber.e(e.toString());
-                    } catch (RuntimeException e) {
+                    } catch (InterruptedException | RuntimeException e) {
                         Timber.e(e.toString());
                     } finally {
                         isRecordAudio = false;

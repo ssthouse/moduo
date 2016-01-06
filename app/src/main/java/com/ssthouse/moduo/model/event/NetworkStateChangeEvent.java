@@ -9,7 +9,7 @@ public class NetworkStateChangeEvent {
     /**
      * 网络状态枚举
      */
-    public enum NetworkState{
+    public enum NetworkState {
         NONE, WIFI, MOBILE
     }
 
@@ -20,6 +20,7 @@ public class NetworkStateChangeEvent {
 
     /**
      * 网络状态变化事件
+     *
      * @param networkState
      */
     public NetworkStateChangeEvent(NetworkState networkState) {

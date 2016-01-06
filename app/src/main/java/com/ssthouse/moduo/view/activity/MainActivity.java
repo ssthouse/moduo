@@ -18,24 +18,26 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
 import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
 import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
+import com.ssthouse.moduo.model.event.video.SessionStateEvent;
+import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceStateEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
-import com.ssthouse.moduo.model.event.video.SessionStateEvent;
-import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.scan.ScanCons;
 import com.ssthouse.moduo.view.adapter.MainLvAdapter;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
@@ -72,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
      * 当前的所有设备
      */
     private List<Device> deviceList = new ArrayList<>();
-
 
     /**
      * 下拉刷新view
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initDeviceList() {
         //显示等待Dialog
-        showWaitLoadDeviceDialog();
+        showWaitDialog("正在获取设备");
         //请求获取设备列表
         XPGController.getInstance(this).getmCenter()
                 .cGetBoundDevices(SettingManager.getInstance(this).getUid(),
@@ -197,6 +198,12 @@ public class MainActivity extends AppCompatActivity {
      * 将当前设备重新连接sdk
      */
     private void reConnectDevice() {
+        //尝试登陆机智云
+        if (!Constant.isXpgLogin) {
+            //匿名登录
+            XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+        }
+        //尝试连接每台设备
         for (Device device : deviceList) {
             //登陆视频sdk
             communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
@@ -227,9 +234,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 主界重新加载设备回调
+     *
      * @param event
      */
-    public void onEventMainThread(MainActivityRefreshEvent event){
+    public void onEventMainThread(MainActivityRefreshEvent event) {
         //重新获取绑定设备
         XPGController.getInstance(this).getmCenter().cGetBoundDevices(
                 SettingManager.getInstance(this).getUid(),
@@ -304,6 +312,30 @@ public class MainActivity extends AppCompatActivity {
      */
 
     /**
+     * 机智云---登录成功回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(XPGLoginResultEvent event) {
+        if (!ActivityUtil.isTopActivity(this, "MainActivity")) {
+            Timber.e("MainActivity不在最前");
+            return;
+        }
+        if (event.isSuccess()) {
+            //改变全局状态
+            Constant.isXpgLogin = true;
+            Timber.e("机智云---登录成功");
+            ToastHelper.show(this, "登陆成功!");
+            //保存机智云登陆数据
+            SettingManager.getInstance(this).setLoginInfo(event);
+            //获取设备
+            initDeviceList();
+        } else {
+            ToastHelper.show(this, "登陆失败");
+        }
+    }
+
+    /**
      * 机智云设备绑定回调
      *
      * @param event
@@ -321,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
             ToastHelper.show(this, "设备绑定失败");
         }
         //隐藏dialog
-        if(waitDialog.isShowing()) {
+        if (waitDialog.isShowing()) {
             waitDialog.dismiss();
         }
     }
@@ -337,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
             deviceList.clear();
             //刷新主界面lv列表
             Timber.e("获取账号绑定设备列表成功");
+            ToastHelper.show(this, "获取绑定设备成功");
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //设置监听器
                 xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
@@ -357,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
             ToastHelper.show(this, "获取设备列表失败");
         }
         //隐藏等待dialog
-        if(waitDialog.isShowing()) {
+        if (waitDialog.isShowing()) {
             waitDialog.dismiss();
         }
     }
@@ -406,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.id_action_get_bound_device:
                 //TODO---获取账号绑定设备
                 //显示等待Dialog
-                showWaitLoadDeviceDialog();
+                showWaitDialog("正在加载设备");
                 //请求获取设备列表
                 XPGController.getInstance(this).getmCenter().cGetBoundDevices(
                         SettingManager.getInstance(this).getUid(),
@@ -427,20 +460,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 显示等待加载设备Dialog
+     * 显示等待Dialog
+     *
+     * @param msg Dialog显示的msg
      */
-    private void showWaitLoadDeviceDialog() {
+    public void showWaitDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
-        tvWait.setText("正在加载设备...");
-        waitDialog.show();
-    }
-
-    /**
-     * 显示等待绑定设备dialog
-     */
-    private void showWaitBindDeviceDialog() {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
-        tvWait.setText("正在绑定设备...");
+        tvWait.setText(msg);
         waitDialog.show();
     }
 
@@ -472,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         communication.destory();//销毁sdk
-        //todo---如果不是跳转到登陆界面才杀死进程
+        //todo---完全退出程序(若不是跳转到登陆界面)
         if (!isLogOut) {
             android.os.Process.killProcess(android.os.Process.myPid());//确保完全退出，释放所有资源
         }
@@ -524,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
                 //将当前设备数据保存在本地
                 PreferenceHelper.getInstance(this).addDevice(did, cidNumber, username, password);
                 //显示等待dialog
-                showWaitBindDeviceDialog();
+                showWaitDialog("正在绑定设备");
                 //尝试绑定
                 XPGController.getInstance(this).getmCenter().cBindDevice(
                         SettingManager.getInstance(this).getUid(),
@@ -535,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         } else {
-            Timber.e("Weird");
+            Timber.e("二维码解析为空");
             super.onActivityResult(requestCode, resultCode, data);
         }
     }

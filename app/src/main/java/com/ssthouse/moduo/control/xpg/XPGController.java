@@ -124,7 +124,7 @@ public class XPGController {
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
             if (dataMap == null) {
-                Timber.e("数据为空!!!");
+                Timber.e("数据为空!!!\terrorCode:\t" + result);
                 //为空也要返回获取失败
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 return;
@@ -145,7 +145,7 @@ public class XPGController {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                 }
                 Timber.e("我抛出了获得的数据");
-            }else{
+            } else {
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 Timber.e("收到设备空的消息, errorCode:\t" + result);
             }
@@ -249,9 +249,9 @@ public class XPGController {
 
         @Override
         public void didUnbindDevice(int error, String errorMessage, String did) {
-            if(error == 0){
+            if (error == 0) {
                 EventBus.getDefault().post(new UnbindResultEvent(true, did));
-            }else{
+            } else {
                 EventBus.getDefault().post(new UnbindResultEvent(false, did));
             }
             Timber.e("解绑设备回调");

@@ -20,6 +20,7 @@ public class StreamerConnectChangedEvent {
 
     /**
      * 构造方法
+     *
      * @param cidNumber
      * @param state
      */

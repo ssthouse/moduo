@@ -14,9 +14,10 @@ public class DeviceDataChangedEvent {
 
     /**
      * 成功的构造方法
+     *
      * @param changedDeviceData
      */
-    public DeviceDataChangedEvent( DeviceData changedDeviceData) {
+    public DeviceDataChangedEvent(DeviceData changedDeviceData) {
         this.changedDeviceData = changedDeviceData;
     }
 

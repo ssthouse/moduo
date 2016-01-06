@@ -60,10 +60,11 @@ public class Communication {
 
     /**
      * 静态初始化方法
+     *
      * @param context
      */
-    public static void init(Context context){
-        if(instance == null){
+    public static void init(Context context) {
+        if (instance == null) {
             instance = new Communication(context);
         }
     }
@@ -85,7 +86,8 @@ public class Communication {
     private void init() {
         //初始化SDK
         viewer.init(context, Constant.APP_VERSION_STR, context.getFilesDir().getAbsolutePath(),
-                Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Constant.EXTERNAL_VIDEO_FOLDER_NAME);
+                Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/" + Constant.EXTERNAL_VIDEO_FOLDER_NAME);
         //TODO---打印日志
         viewer.setDebugEnable(Constant.isDebug);
         //初始化注册认证信息

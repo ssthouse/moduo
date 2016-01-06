@@ -6,27 +6,27 @@
     android:orientation="vertical">
 
     <TextView
-        android:textColor="@color/md_white_1000"
-        android:layout_marginTop="160dp"
-        android:textSize="42dp"
-        android:text="魔哆"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:gravity="center_horizontal"
+        android:text="魔哆"
+        android:textColor="@color/md_white_1000"
+        android:textSize="42dp" />
 
     <TextView
-        android:textColor="@color/md_white_1000"
-        android:text="V1.0.0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:text="V1.0.0"
+        android:textColor="@color/md_white_1000" />
 
     <LinearLayout
-        android:layout_marginTop="120dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120dp"
+        android:orientation="horizontal">
 
         <ProgressBar
             android:layout_width="48dp"
@@ -37,12 +37,12 @@
             android:indeterminate="true" />
 
         <TextView
-            android:textColor="@color/md_white_1000"
-            android:text="正在登陆, 请稍候"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="正在登陆, 请稍候"
+            android:textColor="@color/md_white_1000" />
 
     </LinearLayout>
 

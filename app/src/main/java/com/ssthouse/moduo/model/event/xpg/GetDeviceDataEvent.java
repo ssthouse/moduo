@@ -20,6 +20,7 @@ public class GetDeviceDataEvent {
 
     /**
      * 获取失败的构造方法
+     *
      * @param isSuccess
      */
     public GetDeviceDataEvent(boolean isSuccess) {
@@ -28,6 +29,7 @@ public class GetDeviceDataEvent {
 
     /**
      * 获取成功的构造方法
+     *
      * @param initDeviceData
      * @param isSuccess
      */

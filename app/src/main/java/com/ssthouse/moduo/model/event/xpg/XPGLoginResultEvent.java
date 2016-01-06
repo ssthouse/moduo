@@ -10,6 +10,7 @@ public class XPGLoginResultEvent {
 
     /**
      * 登陆失败回调
+     *
      * @param isSuccess
      */
     public XPGLoginResultEvent(boolean isSuccess) {
@@ -26,6 +27,7 @@ public class XPGLoginResultEvent {
 
     /**
      * 登陆成功的构造方法
+     *
      * @param isSuccess
      * @param uid
      * @param token

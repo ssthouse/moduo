@@ -9,7 +9,7 @@ public class RegisterFragmentChangeEvent {
     /**
      * 目标fragment
      */
-    public enum NextFragment{
+    public enum NextFragment {
         LOGIN_FRAGMENT, PHONE_REGISTER_FRAGMENT, EMAIL_REGISTER_FRAGMENT
     }
 
@@ -20,6 +20,7 @@ public class RegisterFragmentChangeEvent {
 
     /**
      * 构造方法
+     *
      * @param nextFragment
      */
     public RegisterFragmentChangeEvent(NextFragment nextFragment) {

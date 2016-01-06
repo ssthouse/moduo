@@ -12,6 +12,7 @@ public class UnbindResultEvent {
 
     /**
      * 构造方法
+     *
      * @param isSuccess
      * @param did
      */

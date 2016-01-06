@@ -11,6 +11,7 @@ public class RegisterResultEvent {
 
     /**
      * 注册失败构造方法
+     *
      * @param isSuccess
      */
     public RegisterResultEvent(boolean isSuccess) {
@@ -27,6 +28,7 @@ public class RegisterResultEvent {
 
     /**
      * 注册成功构造方法
+     *
      * @param isSuccess
      * @param uid
      * @param token

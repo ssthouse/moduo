@@ -8,8 +8,10 @@ public class DeviceBindResultEvent {
 
     private boolean isSuccess;
 
-    /**|
+    /**
+     * |
      * 构造方法
+     *
      * @param isSuccess 是否登陆成功
      */
     public DeviceBindResultEvent(boolean isSuccess) {

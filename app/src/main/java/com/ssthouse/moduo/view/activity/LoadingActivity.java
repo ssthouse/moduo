@@ -13,6 +13,7 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
@@ -57,12 +58,12 @@ public class LoadingActivity extends AppCompatActivity {
 //            RegisterActivity.start(this);
 //        }
 
-        //匿名登录
-        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-
         //加载视频对话sdk
         loadSdkLib();
-        Communication.init(getApplicationContext());
+        Communication.init(this);
+
+        //匿名登录
+        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
     }
 
     //加载视频对话sdk
@@ -95,10 +96,11 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         if (event.isSuccess()) {
+            //改变全局登陆状态
+            Constant.isXpgLogin = true;
             Timber.e("机智云---登录成功");
             ToastHelper.show(this, "登陆成功!");
             //保存机智云登陆数据
@@ -112,12 +114,13 @@ public class LoadingActivity extends AppCompatActivity {
                 //不是第一次了
                 PreferenceHelper.getInstance(this).setIsFistIn(false);
             } else {
-                jumpToMainActivity();
+                MainActivity.start(this, true);
+                finish();
             }
         } else {
-            jumpToMainActivity();
+            MainActivity.start(this, false);
             Timber.e("机智云---登录失败");
-            ToastHelper.show(this, "机智云---登录失败");
+            finish();
         }
     }
 
@@ -128,7 +131,6 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(GetBoundDeviceEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         if (event.isSuccess()) {
@@ -150,7 +152,8 @@ public class LoadingActivity extends AppCompatActivity {
                 Timber.e("尝试解绑");
             }
             //// TODO: 2015/12/26
-            jumpToMainActivity();
+            MainActivity.start(this, true);
+            finish();
         }
     }
 
@@ -161,7 +164,6 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(UnbindResultEvent event) {
         if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            ToastHelper.show(this, "我不在最前!!!");
             return;
         }
         //// TODO: 2015/12/23 不管成不成功--都要减少数目
@@ -169,19 +171,14 @@ public class LoadingActivity extends AppCompatActivity {
         Timber.e("又少一个");
         if (wastedDeviceNum <= 0) {
             //跳转MainActivity
-            jumpToMainActivity();
+            MainActivity.start(this, true);
+            finish();
         }
-    }
-
-    private void jumpToMainActivity() {
-        MainActivity.start(this, true);
-        EventBus.getDefault().unregister(this);
-        finish();
     }
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

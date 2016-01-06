@@ -8,6 +8,14 @@ import com.xtremeprog.xpgconnect.XPGWifiSDK;
  */
 public class Constant {
 
+    /*
+    全局标志位
+     */
+    /**
+     * 机智云登陆状态
+     */
+    public static boolean isXpgLogin = false;
+
     /**
      * 是否在开发环境
      */
@@ -40,7 +48,7 @@ public class Constant {
     /**
      * 机智云配置常量
      */
-    public interface SettingSdkCons{
+    public interface SettingSdkCons {
         //应用id
         String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
         //product key
@@ -48,6 +56,6 @@ public class Constant {
         //日志等级
         XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
         //日志文件名
-        String LOG_FILE_NAME = "setting_log_file.log";
+        String LOG_FILE_NAME = "xpg_log_file.log";
     }
 }

@@ -134,6 +134,7 @@ public class VideoActivity extends Activity {
         View customView = waitDialog.getCustomView();
         TextView tvWait = (TextView) customView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
+        waitDialog.show();
     }
 
     /**

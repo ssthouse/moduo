@@ -15,6 +15,7 @@ public class GetBoundDeviceEvent {
 
     /**
      * 获取失败的狗构造方法
+     *
      * @param isSuccess
      */
     public GetBoundDeviceEvent(boolean isSuccess) {
@@ -29,6 +30,7 @@ public class GetBoundDeviceEvent {
 
     /**
      * 获取成功的构造方法
+     *
      * @param isSuccess
      * @param xpgDeviceList
      */

@@ -44,6 +44,7 @@ public class App extends Application {
             //sdk根据该文件，把二进制数据转换为json字段并返回。
             AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
         } catch (IOException e) {
+            Timber.e("复制出错");
             e.printStackTrace();
         }
     }
