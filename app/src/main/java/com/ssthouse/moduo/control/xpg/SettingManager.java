@@ -22,6 +22,8 @@ import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
+import timber.log.Timber;
+
 /**
  * SharePreference处理类.
  *
@@ -29,10 +31,14 @@ import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
  */
 public class SettingManager {
 
-    /** The spf. */
+    /**
+     * The spf.
+     */
     SharedPreferences spf;
 
-    /** The c. */
+    /**
+     * The c.
+     */
     private Context c;
 
     // =================================================================
@@ -42,25 +48,39 @@ public class SettingManager {
     // =================================================================
 
     // Sharepreference文件的名字
-    /** The share preferences. */
+    /**
+     * The share preferences.
+     */
     private final String SHARE_PREFERENCES = "set";
     // 用户名
-    /** The user name. */
+    /**
+     * The user name.
+     */
     private final String USER_NAME = "username";
     // 手机号码
-    /** The phone num. */
+    /**
+     * The phone num.
+     */
     private final String PHONE_NUM = "phonenumber";
     // 密码
-    /** The password. */
+    /**
+     * The password.
+     */
     private final String PASSWORD = "password";
     // 用户名
-    /** The token. */
+    /**
+     * The token.
+     */
     private final String TOKEN = "token";
     // 用户ID
-    /** The uid. */
+    /**
+     * The uid.
+     */
     private final String UID = "uid";
 
-    /** The filter. */
+    /**
+     * The filter.
+     */
     static String filter = "=====";
 
     /**
@@ -76,14 +96,15 @@ public class SettingManager {
     /**
      * 单例
      */
-    private static  SettingManager instance;
+    private static SettingManager instance;
 
     /**
      * 获取单例
+     *
      * @return
      */
-    public static SettingManager getInstance(Context context){
-        if(instance == null){
+    public static SettingManager getInstance(Context context) {
+        if (instance == null) {
             instance = new SettingManager(context);
         }
         return instance;
@@ -102,9 +123,10 @@ public class SettingManager {
 
     /**
      * 保存登陆成功回调数据
+     *
      * @param event
      */
-    public void setLoginInfo(XPGLoginResultEvent event){
+    public void setLoginInfo(XPGLoginResultEvent event) {
         setUid(event.getUid());
         setToken(event.getToken());
     }
@@ -179,6 +201,7 @@ public class SettingManager {
      * @return the token
      */
     public String getToken() {
+        Timber.e("token=" + spf.getString(TOKEN, ""));
         return spf.getString(TOKEN, "");
     }
 
@@ -197,6 +220,7 @@ public class SettingManager {
      * @return the uid
      */
     public String getUid() {
+        Timber.e("uid=" + spf.getString(UID, ""));
         return spf.getString(UID, "");
     }
 

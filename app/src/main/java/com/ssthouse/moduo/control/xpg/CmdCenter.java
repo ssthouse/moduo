@@ -222,8 +222,8 @@ public class CmdCenter {
      * @param token 令牌
      */
     public void cGetBoundDevices(String uid, String token) {
+        //仅仅绑定自己的productkey的数据
         xpgWifiGCC.getBoundDevices(uid, token, Constant.SettingSdkCons.PRODUCT_KEY);
-        // xpgWifiSdk.getBoundDevices(uid, token);
     }
 
     /**

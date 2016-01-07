@@ -137,7 +137,7 @@ public class XPGController {
                 JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.CMD);
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
-                DeviceData deviceData = DeviceData.getdeviceData(device, dataMap);
+                DeviceData deviceData = DeviceData.getDeviceData(device, dataMap);
                 //发出事件
                 if (cmd == 3) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
@@ -172,7 +172,7 @@ public class XPGController {
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
             //TODO---尝试登陆设备---进行控制
-            Timber.e("绑定设备回调");
+            Timber.e("绑定设备回调. 设备id:\t" + did);
             if (error == 0) {
                 EventBus.getDefault().post(new DeviceBindResultEvent(true));
             } else {
@@ -204,6 +204,7 @@ public class XPGController {
             if (error == 0) {
                 EventBus.getDefault().post(new GetBoundDeviceEvent(true, devicesList));
                 Timber.e("获取账号绑定设备成功");
+                Timber.e("设备数目为:\t" + devicesList.size());
             } else {
                 EventBus.getDefault().post(new GetBoundDeviceEvent(false));
                 Timber.e("获取账号绑定设备失败");

@@ -114,7 +114,7 @@ public class Communication {
                 //放出登陆成功消息
                 EventBus.getDefault().post(new ViewerLoginResultEvent(true));
             }
-            Timber.e("现在状态是:\t" + loginState.name());
+//            Timber.e("现在状态是:\t" + loginState.name());
         }
 
         @Override

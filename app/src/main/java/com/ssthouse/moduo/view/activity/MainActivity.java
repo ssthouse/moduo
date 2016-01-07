@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
             deviceList.clear();
             //刷新主界面lv列表
             Timber.e("获取账号绑定设备列表成功");
-            ToastHelper.show(this, "获取绑定设备成功");
+            ToastHelper.show(this, "获取绑定设备成功,设备数目:\t" + event.getXpgDeviceList().size());
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //设置监听器
                 xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
@@ -411,18 +411,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onEventMainThread(GetDeviceDataEvent event) {
         //只有当activity在最前时进行相应
-        if (ActivityUtil.isTopActivity(this, "MainActivity")) {
-            if (event.isSuccess()) {
-                //TODO---进行跳转
-                //启动配置activity
-                Timber.e("我启动了设备配置activity");
-                XpgControlActivity.start(this, event.getInitDeviceData());
-            } else {
-                Timber.e("设备数据获取失败");
-                ToastHelper.show(this, "设备数据获取失败");
-            }
+        if (!ActivityUtil.isTopActivity(this, "MainActivity")) {
+            return;
+        }
+        if (event.isSuccess()) {
+            //TODO---进行跳转
+            //启动配置activity
+            Timber.e("我启动了设备配置activity");
+            XpgControlActivity.start(this, event.getInitDeviceData());
         } else {
-            Timber.e("MainActivity不在最前..");
+            Timber.e("设备数据获取失败");
+            ToastHelper.show(this, "设备数据获取失败");
         }
     }
 

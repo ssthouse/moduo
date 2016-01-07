@@ -36,7 +36,7 @@ public class DeviceData implements Serializable {
         String KEY_HUMIDITY = "humidity";
         //当前亮度
         String KEY_LUMINANCE = "luminance";
-        //视频开关
+        //视频开关---bool值
         String KEY_VIDEO = "video";
         //音频开关
         String KEY_AUDIO = "audio";
@@ -98,7 +98,7 @@ public class DeviceData implements Serializable {
      * todo---还不确定要怎么用
      * 视频标志位
      */
-    private int video;
+    private boolean video;
     /**
      * todo---还不确定要怎么用
      * 音频标志位
@@ -150,7 +150,7 @@ public class DeviceData implements Serializable {
      * @param ctrlData
      */
     public DeviceData(String did, int temperature, int humidity, int luminance, int power,
-                      byte[] hwVersion, byte[] swVersion, int video, int audio, int xHead, int yHead,
+                      byte[] hwVersion, byte[] swVersion, boolean video, int audio, int xHead, int yHead,
                       int zHead, int xBody, int yBody, int zBody, byte[] ctrlCmd, byte[] ctrlData) {
         this.did = did;
         this.temperature = temperature;
@@ -176,7 +176,7 @@ public class DeviceData implements Serializable {
      *
      * @return
      */
-    public static DeviceData getdeviceData(XPGWifiDevice device,
+    public static DeviceData getDeviceData(XPGWifiDevice device,
                                            ConcurrentHashMap<String, Object> dataMap) {
         //解析json数据
         JsonParser parser = new JsonParser();
@@ -189,7 +189,7 @@ public class DeviceData implements Serializable {
         int power = dataObject.get(DeviceCons.KEY_POWER).getAsInt();
         byte[] hwVersion = Base64.decode(dataObject.get(DeviceCons.KEY_HW_VERSION).getAsString(), Base64.DEFAULT);
         byte[] swVersion = Base64.decode(dataObject.get(DeviceCons.KEY_SW_VERSION).getAsString(), Base64.DEFAULT);
-        int video = dataObject.get(DeviceCons.KEY_VIDEO).getAsInt();
+        boolean video = dataObject.get(DeviceCons.KEY_VIDEO).getAsBoolean();
         int audio = dataObject.get(DeviceCons.KEY_AUDIO).getAsInt();
         int xHead = dataObject.get(DeviceCons.KEY_X_HEAD).getAsInt();
         int yHead = dataObject.get(DeviceCons.KEY_Y_HEAD).getAsInt();
@@ -251,11 +251,11 @@ public class DeviceData implements Serializable {
         this.power = power;
     }
 
-    public int getVideo() {
+    public boolean getVideo() {
         return video;
     }
 
-    public void setVideo(int video) {
+    public void setVideo(boolean video) {
         this.video = video;
     }
 

@@ -20,36 +20,32 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/id_tv_offline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="请检查网络连接"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
     <android.support.v4.widget.SwipeRefreshLayout
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:id="@+id/id_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <LinearLayout
+        <!--列表view-->
+        <ListView
+            android:id="@+id/id_lv_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/id_tv_offline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="请检查网络连接"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-            <!--列表view-->
-            <ListView
-                android:divider="@null"
-                android:id="@+id/id_lv_main"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="8dp"
-                android:layout_weight="1" />
-        </LinearLayout>
+            android:layout_margin="8dp"
+            android:divider="@null"
+            android:dividerHeight="8dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
