@@ -198,7 +198,7 @@ public class VideoActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Timber.e("我开启了streamer回调");
+//        Timber.e("我开启了streamer回调");
         media.setMediaStreamStateCallback(mediaStreamStateCallback);
     }
 

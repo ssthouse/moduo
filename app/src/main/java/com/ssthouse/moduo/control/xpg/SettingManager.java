@@ -22,8 +22,6 @@ import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
-import timber.log.Timber;
-
 /**
  * SharePreference处理类.
  *
@@ -201,7 +199,7 @@ public class SettingManager {
      * @return the token
      */
     public String getToken() {
-        Timber.e("token=" + spf.getString(TOKEN, ""));
+//        Timber.e("token=" + spf.getString(TOKEN, ""));
         return spf.getString(TOKEN, "");
     }
 
@@ -220,7 +218,7 @@ public class SettingManager {
      * @return the uid
      */
     public String getUid() {
-        Timber.e("uid=" + spf.getString(UID, ""));
+//        Timber.e("uid=" + spf.getString(UID, ""));
         return spf.getString(UID, "");
     }
 

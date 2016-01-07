@@ -17,6 +17,8 @@ import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * 主界面listview的adapter
  * Created by ssthouse on 2015/12/17.
@@ -132,13 +134,13 @@ public class MainLvAdapter extends BaseAdapter {
      * @param viewHolder
      * @param position
      */
-    private void initXpgEvent(ViewHolder viewHolder, int position) {
+    private void initXpgEvent(ViewHolder viewHolder, final int position) {
         final XPGWifiDevice xpgWifiDevice = deviceList.get(position).getXpgWifiDevice();
         //设备状态
         String deviceState = "设备状态: ";
         boolean isControlEnable;
         //必须连接---且在线--才算在线
-        if (xpgWifiDevice.isConnected() && xpgWifiDevice.isOnline()) {
+        if (xpgWifiDevice.isOnline()) {
             deviceState += "在线";
             isControlEnable = true;
 //            Timber.e("xpg设备在线");
@@ -152,10 +154,13 @@ public class MainLvAdapter extends BaseAdapter {
         viewHolder.btnXpgControlStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                xpgWifiDevice.login(SettingManager.getInstance(context).getUid(),
+//                        SettingManager.getInstance(context).getToken());
                 //设置当前device
                 XPGController.setCurrentXpgWifiDevice(xpgWifiDevice);
                 //尝试获取该设备数据---启动配置activity
                 XPGController.getInstance(context).getmCenter().cGetStatus(xpgWifiDevice);
+                Timber.e("第" + position + "台设备did:" + xpgWifiDevice.getDid() + "\t请求数据");
             }
         });
     }

@@ -139,7 +139,7 @@ public class Communication {
         public void onStreamerPresenceState(long l, StreamerPresenceState streamerPresenceState) {
             //TODO
             EventBus.getDefault().post(new StreamerConnectChangedEvent(l, streamerPresenceState));
-            Timber.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
+//            Timber.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
             //ToastHelper.show(context, "设备" + l + "\t目前streamer的链接状态是:\t" + streamerPresenceState.name());
         }
 
@@ -147,7 +147,7 @@ public class Communication {
         public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
             //TODO
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
-            Timber.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
+//            Timber.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
             //ToastHelper.show(context, "设备" + l + "\t目前streamer的配置状态是:\t" + streamerConfigState.name());
         }
     };

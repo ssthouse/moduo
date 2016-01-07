@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ByteUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -126,6 +127,9 @@ public class XpgControlActivity extends AppCompatActivity {
 
         //获得初始设备数据
         deviceData = (DeviceData) getIntent().getSerializableExtra("device_data");
+
+        //todo---尝试获取设备数据
+        XPGController.getInstance(this).getmCenter().cGetStatus(XPGController.getCurrentXpgWifiDevice());
 
         initView();
     }
@@ -247,15 +251,18 @@ public class XpgControlActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(GetDeviceDataEvent event) {
+        if(!ActivityUtil.isTopActivity(this, "XpgControlActivity")){
+            return;
+        }
         if (event.isSuccess()) {
             //操作成功---更新数据
-            deviceData.setTemperature(event.getInitDeviceData().getTemperature() + 10);
+            updateUI();
             Timber.e("设备数据设置成功");
         } else {
             ToastHelper.show(this, "数据设置失败");
             tvTemperature.setText(deviceData.getTemperature() + "℃");
         }
-        if(waitDialog.isShowing()) {
+        if (waitDialog.isShowing()) {
             waitDialog.dismiss();
         }
     }
@@ -268,6 +275,16 @@ public class XpgControlActivity extends AppCompatActivity {
     public void onEventMainThread(DeviceDataChangedEvent event) {
         //更新当前数据
         deviceData = event.getChangedDeviceData();
+        //更新UI
+        updateUI();
+        //toast提示
+        ToastHelper.show(this, "设备数据更新");
+    }
+
+    /**
+     * 更新UI
+     */
+    private void updateUI() {
         //更新UI
         //初始化设备数据展示
         tvTemperature.setText("" + deviceData.getTemperature() + "℃");
@@ -291,8 +308,6 @@ public class XpgControlActivity extends AppCompatActivity {
         sbYBody.setProgress(deviceData.getyBody() + BODY_OFFSET);
         tvZBody.setText("" + deviceData.getzBody());
         sbZBody.setProgress(deviceData.getzBody() + BODY_OFFSET);
-        //toast提示
-        ToastHelper.show(this, "设备数据更新");
     }
 
     @Override

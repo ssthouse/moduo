@@ -34,7 +34,7 @@ import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
 import com.ssthouse.moduo.model.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
-import com.ssthouse.moduo.model.event.xpg.DeviceStateEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
             communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
             //登陆机智云sdk
             device.getXpgWifiDevice().setListener(XPGController.getInstance(this).getDeviceListener());
+            //// TODO: 2016/1/7 暂时不进行登陆操作
             device.getXpgWifiDevice().login(SettingManager.getInstance(this).getUid(),
                     SettingManager.getInstance(this).getToken());
         }
@@ -345,9 +346,7 @@ public class MainActivity extends AppCompatActivity {
             Timber.e("设备绑定成功");
             ToastHelper.show(this, "设备绑定成功");
             //TODO---应该发出获取账号绑定的设备列表的请求--都在这个请求的回调里面进行UI更新比较好
-            XPGController.getInstance(this).getmCenter().cGetBoundDevices(
-                    SettingManager.getInstance(this).getUid(),
-                    SettingManager.getInstance(this).getToken());
+            initDeviceList();
         } else {
             Timber.e("设备绑定失败");
             ToastHelper.show(this, "设备绑定失败");
@@ -374,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 //设置监听器
                 xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
                 //设备登陆
+                //// TODO: 2016/1/7 暂时不进行登陆操作
                 xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
                         SettingManager.getInstance(this).getToken());
                 //添加到deviceList
@@ -400,8 +400,23 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param event
      */
-    public void onEventMainThread(DeviceStateEvent event) {
+    public void onEventMainThread(XpgDeviceStateEvent event) {
         lvAdapter.update();
+        if (!ActivityUtil.isTopActivity(this, "MainActivity")) {
+            return;
+        }
+        if(event.isSuccess()){
+            //// TODO: 2016/1/7
+            //跳转
+            for(Device device : deviceList){
+                if(device.getXpgWifiDevice().getDid().equals(event.getDid())){
+                    XPGController.setCurrentXpgWifiDevice(device.getXpgWifiDevice());
+                    //获取数据
+                    XPGController.getInstance(this).getmCenter().cGetStatus(device.getXpgWifiDevice());
+                    Timber.e("尝试获取设备数据");
+                }
+            }
+        }
     }
 
     /**
@@ -417,7 +432,6 @@ public class MainActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             //TODO---进行跳转
             //启动配置activity
-            Timber.e("我启动了设备配置activity");
             XpgControlActivity.start(this, event.getInitDeviceData());
         } else {
             Timber.e("设备数据获取失败");
@@ -436,13 +450,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.id_action_get_bound_device:
-                //TODO---获取账号绑定设备
                 //显示等待Dialog
                 showWaitDialog("正在加载设备");
                 //请求获取设备列表
-                XPGController.getInstance(this).getmCenter().cGetBoundDevices(
-                        SettingManager.getInstance(this).getUid(),
-                        SettingManager.getInstance(this).getToken());
+                initDeviceList();
                 break;
             case R.id.id_action_log_out:
                 //TODO---登出

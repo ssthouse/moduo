@@ -276,6 +276,7 @@ public class CmdCenter {
      */
     public void cGetStatus(XPGWifiDevice xpgWifiDevice) {
         if(xpgWifiDevice == null){
+            Timber.e("设备为空");
             return;
         }
         JSONObject json = new JSONObject();
@@ -283,6 +284,7 @@ public class CmdCenter {
             json.put("cmd", 2);
         } catch (JSONException e) {
             e.printStackTrace();
+            Timber.e("json出错");
         }
         xpgWifiDevice.write(json.toString());
     }

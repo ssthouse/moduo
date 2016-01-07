@@ -171,6 +171,8 @@ public class DeviceData implements Serializable {
         this.ctrlData = ctrlData;
     }
 
+
+
     /**
      * 根据设备返回map得到一个DeviceData
      *
