@@ -137,10 +137,15 @@ public class XPGController {
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
             if (dataMap.get("data") != null) {
+                Timber.e("我收到了数据!!!!!!!!!!!!!!!!");
                 //解析json数据
                 JsonParser parser = new JsonParser();
                 JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
                 JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.CMD);
+
+                //// TODO: 2016/1/8
+                Timber.e(jsonData.toString());
+
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
                 DeviceData deviceData = DeviceData.getDeviceData(device, dataMap);

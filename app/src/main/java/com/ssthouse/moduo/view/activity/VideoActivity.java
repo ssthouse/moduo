@@ -18,6 +18,7 @@ import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
+import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.R;
@@ -111,9 +112,13 @@ public class VideoActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    audioHandler.startTalk();
+                    if (audioHandler != null) {
+                        audioHandler.startTalk();
+                    }
                 } else {
-                    audioHandler.stopTalk();
+                    if (audioHandler != null) {
+                        audioHandler.stopTalk();
+                    }
                 }
             }
         });
@@ -180,9 +185,11 @@ public class VideoActivity extends Activity {
                 myRenderer.setVideoDimension(desc.getVideoWidth(),
                         desc.getVideoHeight());
                 myRenderer.setYuvDataRender(renderYUVFrame);
-                audioHandler = new AudioHandler(desc.getSampRate(),
-                        desc.getChannel(), liveStreamId, decoderId, media, streamerCid);
-                audioHandler.startAudioWorking();
+                if (desc.getAudioType() != AudioType.INVALID) {
+                    audioHandler = new AudioHandler(desc.getSampRate(),
+                            desc.getChannel(), liveStreamId, decoderId, media, streamerCid);
+                    audioHandler.startAudioWorking();
+                }
             } else {
                 stopWatch();
             }

@@ -172,6 +172,29 @@ public class DeviceData implements Serializable {
     }
 
 
+    /**
+     * todo
+     * 空的测试用构造方法
+     */
+    public DeviceData(){
+        this.did = "";
+        this.temperature = 0;
+        this.humidity = 0;
+        this.luminance = 0;
+        this.power = 0;
+        this.hwVersion = new byte[]{0};
+        this.swVersion = new byte[]{0};
+        this.video = true;
+        this.audio = 1;
+        this.xHead = 0;
+        this.yHead = 0;
+        this.zHead = 0;
+        this.xBody = 0;
+        this.yBody = 0;
+        this.zBody = 0;
+        this.ctrlCmd = new byte[]{0};
+        this.ctrlData = new byte[]{0};
+    }
 
     /**
      * 根据设备返回map得到一个DeviceData

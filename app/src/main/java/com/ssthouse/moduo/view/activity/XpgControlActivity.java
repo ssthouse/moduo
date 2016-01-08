@@ -129,9 +129,17 @@ public class XpgControlActivity extends AppCompatActivity {
         deviceData = (DeviceData) getIntent().getSerializableExtra("device_data");
 
         //todo---尝试获取设备数据
-        XPGController.getInstance(this).getmCenter().cGetStatus(XPGController.getCurrentXpgWifiDevice());
+        XPGController.getCurrentXpgWifiDevice().setListener(XPGController.getInstance(this).getDeviceListener());
+       // Timber.e(XPGController.getCurrentXpgWifiDevice().getDid() + "\t请求数据!!!!");
 
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        XPGController.getInstance(this).getmCenter().cGetStatus(XPGController.getCurrentXpgWifiDevice());
+        Timber.e(XPGController.getCurrentXpgWifiDevice().getDid() + "\t请求数据!!!!");
     }
 
     private void initView() {
@@ -251,20 +259,22 @@ public class XpgControlActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(GetDeviceDataEvent event) {
-        if(!ActivityUtil.isTopActivity(this, "XpgControlActivity")){
+        if (!ActivityUtil.isTopActivity(this, "XpgControlActivity")) {
             return;
         }
         if (event.isSuccess()) {
+            //更新数据
+            deviceData = event.getDeviceData();
             //操作成功---更新数据
             updateUI();
             Timber.e("设备数据设置成功");
         } else {
             ToastHelper.show(this, "数据设置失败");
-            tvTemperature.setText(deviceData.getTemperature() + "℃");
+            Timber.e("设备数据设置失败");
+            //还原原数据UI
+            updateUI();
         }
-        if (waitDialog.isShowing()) {
-            waitDialog.dismiss();
-        }
+        waitDialog.dismiss();
     }
 
     /**
@@ -314,10 +324,17 @@ public class XpgControlActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                XPGController.getCurrentXpgWifiDevice().disconnect();
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        XPGController.getCurrentXpgWifiDevice().disconnect();
+        super.onBackPressed();
     }
 
     @Override

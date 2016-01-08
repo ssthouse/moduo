@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.view.activity.DeviceInfoActivity;
@@ -154,12 +155,13 @@ public class MainLvAdapter extends BaseAdapter {
         viewHolder.btnXpgControlStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                xpgWifiDevice.login(SettingManager.getInstance(context).getUid(),
-//                        SettingManager.getInstance(context).getToken());
                 //设置当前device
                 XPGController.setCurrentXpgWifiDevice(xpgWifiDevice);
+                //尝试登陆设备
+                xpgWifiDevice.login(SettingManager.getInstance(context).getUid(),
+                        SettingManager.getInstance(context).getToken());
                 //尝试获取该设备数据---启动配置activity
-                XPGController.getInstance(context).getmCenter().cGetStatus(xpgWifiDevice);
+//                XPGController.getInstance(context).getmCenter().cGetStatus(xpgWifiDevice);
                 Timber.e("第" + position + "台设备did:" + xpgWifiDevice.getDid() + "\t请求数据");
             }
         });

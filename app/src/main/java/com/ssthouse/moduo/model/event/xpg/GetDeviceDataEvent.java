@@ -11,7 +11,7 @@ public class GetDeviceDataEvent {
     /**
      * 初始设备状态
      */
-    private DeviceData initDeviceData;
+    private DeviceData deviceData;
 
     /**
      * 是否获取成功
@@ -34,16 +34,16 @@ public class GetDeviceDataEvent {
      * @param isSuccess
      */
     public GetDeviceDataEvent(boolean isSuccess, DeviceData initDeviceData) {
-        this.initDeviceData = initDeviceData;
+        this.deviceData = initDeviceData;
         this.isSuccess = isSuccess;
     }
 
-    public DeviceData getInitDeviceData() {
-        return initDeviceData;
+    public DeviceData getDeviceData() {
+        return deviceData;
     }
 
-    public void setInitDeviceData(DeviceData initDeviceData) {
-        this.initDeviceData = initDeviceData;
+    public void setDeviceData(DeviceData deviceData) {
+        this.deviceData = deviceData;
     }
 
     public boolean isSuccess() {

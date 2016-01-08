@@ -28,6 +28,7 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.Device;
+import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.ActionProgressEvent;
 import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
 import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
@@ -50,6 +51,9 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
+/**
+ * 当前activity不监听设备数据传达的event
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
@@ -210,8 +214,8 @@ public class MainActivity extends AppCompatActivity {
             //登陆机智云sdk
             device.getXpgWifiDevice().setListener(XPGController.getInstance(this).getDeviceListener());
             //// TODO: 2016/1/7 暂时不进行登陆操作
-            device.getXpgWifiDevice().login(SettingManager.getInstance(this).getUid(),
-                    SettingManager.getInstance(this).getToken());
+//            device.getXpgWifiDevice().login(SettingManager.getInstance(this).getUid(),
+//                    SettingManager.getInstance(this).getToken());
         }
         lvAdapter.update();
     }
@@ -374,8 +378,8 @@ public class MainActivity extends AppCompatActivity {
                 xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
                 //设备登陆
                 //// TODO: 2016/1/7 暂时不进行登陆操作
-                xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
-                        SettingManager.getInstance(this).getToken());
+//                xpgWifiDevice.login(SettingManager.getInstance(this).getUid(),
+//                        SettingManager.getInstance(this).getToken());
                 //添加到deviceList
                 deviceList.add(new Device(this, xpgWifiDevice));
             }
@@ -396,7 +400,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 设备状态发生变化事件
+     * 设备状态发生变化事件:
+     * 直接跳转XPGControlActivity
      *
      * @param event
      */
@@ -412,8 +417,10 @@ public class MainActivity extends AppCompatActivity {
                 if(device.getXpgWifiDevice().getDid().equals(event.getDid())){
                     XPGController.setCurrentXpgWifiDevice(device.getXpgWifiDevice());
                     //获取数据
-                    XPGController.getInstance(this).getmCenter().cGetStatus(device.getXpgWifiDevice());
-                    Timber.e("尝试获取设备数据");
+//                    XPGController.getInstance(this).getmCenter().cGetStatus(device.getXpgWifiDevice());
+//                    Timber.e("尝试获取设备数据");
+                    //// TODO: 2016/1/8 直接跳转控制界面
+                    XpgControlActivity.start(this, new DeviceData());
                 }
             }
         }
@@ -432,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             //TODO---进行跳转
             //启动配置activity
-            XpgControlActivity.start(this, event.getInitDeviceData());
+            XpgControlActivity.start(this, event.getDeviceData());
         } else {
             Timber.e("设备数据获取失败");
             ToastHelper.show(this, "设备数据获取失败");
