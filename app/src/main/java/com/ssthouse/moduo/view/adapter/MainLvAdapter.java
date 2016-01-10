@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.Device;
+import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.view.activity.DeviceInfoActivity;
 import com.ssthouse.moduo.view.activity.VideoActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;

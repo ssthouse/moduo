@@ -23,7 +23,7 @@ import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.video.AudioHandler;
-import com.ssthouse.moduo.model.event.video.SessionStateEvent;
+import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -3,7 +3,7 @@ package com.ssthouse.moduo.control.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ssthouse.moduo.model.Device;
+import com.ssthouse.moduo.bean.device.Device;
 
 /**
  * preference管理器

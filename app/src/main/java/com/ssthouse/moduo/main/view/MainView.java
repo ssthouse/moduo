@@ -1,8 +1,9 @@
 package com.ssthouse.moduo.main.view;
 
-import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 
 /**
+ * MainActivity的View层抽象
  * Created by ssthouse on 2016/1/10.
  */
 public interface MainView {

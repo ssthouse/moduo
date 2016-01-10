@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.model.event.RegisterActivityDestoryEvent;
-import com.ssthouse.moduo.model.event.xpg.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.bean.event.view.RegisterActivityDestoryEvent;
+import com.ssthouse.moduo.bean.event.xpg.RegisterFragmentChangeEvent;
 import com.ssthouse.moduo.view.fragment.EmailRegisterFragment;
 import com.ssthouse.moduo.view.fragment.LoginFragment;
 import com.ssthouse.moduo.view.fragment.PhoneRegisterFragment;

@@ -14,11 +14,11 @@ import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.MainActivity;
-import com.ssthouse.moduo.model.Constant;
-import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
-import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
-import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.cons.Constant;
+import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
+import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
+import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import de.greenrobot.event.EventBus;

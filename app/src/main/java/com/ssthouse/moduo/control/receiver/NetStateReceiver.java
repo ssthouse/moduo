@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.model.event.NetworkStateChangeEvent;
+import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

@@ -21,8 +21,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.ssthouse.moduo.model.Constant;
-import com.ssthouse.moduo.model.setting.JsonKeys;
+import com.ssthouse.moduo.cons.Constant;
+import com.ssthouse.moduo.cons.xpg.JsonKeys;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
 import com.xtremeprog.xpgconnect.XPGWifiSDK.XPGWifiConfigureMode;
