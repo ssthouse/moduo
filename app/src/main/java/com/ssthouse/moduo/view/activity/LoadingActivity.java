@@ -13,6 +13,7 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.main.view.MainActivity;
 import com.ssthouse.moduo.model.Constant;
 import com.ssthouse.moduo.model.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;

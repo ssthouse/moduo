@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.model.Device;
 import com.ssthouse.moduo.model.DeviceData;
 import com.ssthouse.moduo.model.event.xpg.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
@@ -83,12 +84,7 @@ public class XPGController {
     /**
      * 设备列表.
      */
-    protected static List<XPGWifiDevice> deviceslist = new ArrayList<XPGWifiDevice>();
-
-    /**
-     * 绑定列表
-     */
-    protected static List<XPGWifiDevice> bindlist = new ArrayList<XPGWifiDevice>();
+    protected static List<Device> deviceList = new ArrayList<>();
 
     /**
      * 当前操作的设备
@@ -295,12 +291,8 @@ public class XPGController {
         return mCenter;
     }
 
-    public static List<XPGWifiDevice> getDeviceslist() {
-        return deviceslist;
-    }
-
-    public static List<XPGWifiDevice> getBindlist() {
-        return bindlist;
+    public static List<Device> getDeviceList() {
+        return deviceList;
     }
 
     public static XPGWifiDevice getCurrentXpgWifiDevice() {

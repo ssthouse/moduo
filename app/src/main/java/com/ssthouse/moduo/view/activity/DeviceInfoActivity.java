@@ -20,7 +20,7 @@ import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.event.MainActivityRefreshEvent;
+import com.ssthouse.moduo.model.event.DeviceUnBindEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -41,7 +41,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
      * 当前处理设备
      */
     private XPGWifiDevice mXpgWifiDevice;
-
 
     @Bind(R.id.id_tv_cid_number)
     TextView tvCidNumber;
@@ -175,12 +174,11 @@ public class DeviceInfoActivity extends AppCompatActivity {
     public void onEventMainThread(UnbindResultEvent event) {
         if (event.isSuccess()) {
             ToastHelper.show(this, "设备解绑成功");
-            EventBus.getDefault().post(new MainActivityRefreshEvent());
+            EventBus.getDefault().post(new DeviceUnBindEvent());
         } else {
             ToastHelper.show(this, "设备解绑失败");
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

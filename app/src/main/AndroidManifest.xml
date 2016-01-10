@@ -72,7 +72,7 @@
 
         <!--主界面activity-->
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".main.view.MainActivity"
             android:label="魔哆"
             android:screenOrientation="portrait" />
 
