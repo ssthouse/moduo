@@ -93,7 +93,7 @@ public class AudioHandler {
      *
      * @return
      */
-    private AudioRecord creatAudioRecord() {
+    private AudioRecord createAudioRecord() {
         AudioRecord audioRecord;
         int minBufSize = AudioRecord.getMinBufferSize(8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
         // 设置最小缓存大小
@@ -116,7 +116,7 @@ public class AudioHandler {
      * @return
      */
     private AudioTrack createTracker() {
-        AudioTrack tracker = null;
+        AudioTrack tracker;
         int maxJitter = AudioTrack.getMinBufferSize(audioPlaySampleRate, channelConfig, audioFormat);
         tracker = new AudioTrack(AudioManager.STREAM_MUSIC, audioPlaySampleRate, channelConfig, audioFormat, maxJitter, AudioTrack.MODE_STREAM);
         if (tracker.getState() == AudioTrack.STATE_INITIALIZED) {
@@ -190,7 +190,7 @@ public class AudioHandler {
             recordThread = new Thread(new Runnable() {
 
                 public void run() {
-                    AudioRecord audioRecord = creatAudioRecord();
+                    AudioRecord audioRecord = createAudioRecord();
                     if (audioRecord == null) {
                         Timber.e("create audio record return null");
                         return;
