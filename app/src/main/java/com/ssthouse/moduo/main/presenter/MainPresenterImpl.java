@@ -18,7 +18,7 @@ import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
-import com.ssthouse.moduo.view.activity.XpgControlActivity;
+import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

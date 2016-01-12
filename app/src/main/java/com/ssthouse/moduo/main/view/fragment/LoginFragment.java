@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.view.fragment;
+package com.ssthouse.moduo.main.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +18,7 @@ import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.event.xpg.RegisterFragmentChangeEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.view.activity.LoadingActivity;
+import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

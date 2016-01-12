@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.view.activity;
+package com.ssthouse.moduo.main.view.activity;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

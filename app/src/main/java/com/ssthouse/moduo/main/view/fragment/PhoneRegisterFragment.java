@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.view.fragment;
+package com.ssthouse.moduo.main.view.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;

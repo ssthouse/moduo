@@ -34,8 +34,8 @@ import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.cons.scan.ScanCons;
-import com.ssthouse.moduo.view.activity.LoadingActivity;
-import com.ssthouse.moduo.view.adapter.MainLvAdapter;
+import com.ssthouse.moduo.main.view.activity.LoadingActivity;
+import com.ssthouse.moduo.main.view.adapter.MainLvAdapter;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;

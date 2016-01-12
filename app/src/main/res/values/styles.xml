@@ -17,7 +17,6 @@
     <style name="AppTheme.FullScreen">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <!--actionbar样式-->

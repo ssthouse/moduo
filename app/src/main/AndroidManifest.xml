@@ -57,7 +57,7 @@
         </receiver>
 
         <!--初始加载activity-->
-        <activity android:name=".view.activity.LoadingActivity">
+        <activity android:name=".main.view.activity.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,7 +66,7 @@
 
         <!--用户登陆/注册activity-->
         <activity
-            android:name=".view.activity.account.RegisterActivity"
+            android:name=".main.view.activity.account.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -78,16 +78,16 @@
 
         <!--视频播放activity-->
         <activity
-            android:name=".view.activity.VideoActivity" />
+            android:name=".main.view.VideoActivity" />
 
         <!--xpg设备控制activity-->
         <activity
-            android:name=".view.activity.XpgControlActivity"
+            android:name=".main.view.activity.XpgControlActivity"
             android:screenOrientation="portrait" />
 
         <!--设备参数界面-->
         <activity
-            android:name=".view.activity.DeviceInfoActivity"
+            android:name=".main.view.activity.DeviceInfoActivity"
             android:screenOrientation="portrait" />
 
         <!--友盟集成-->
@@ -168,7 +168,7 @@
 
         <!--竖直屏幕的二维码扫描activity-->
         <activity
-            android:name=".view.activity.ScanActivity"
+            android:name=".main.view.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"

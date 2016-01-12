@@ -10,7 +10,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.ssthouse.moduo.view.activity.ScanActivity;
+import com.ssthouse.moduo.main.view.activity.ScanActivity;
 
 /**
  * 调用二维码扫描功能

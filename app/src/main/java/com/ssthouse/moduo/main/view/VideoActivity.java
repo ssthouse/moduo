@@ -1,15 +1,15 @@
-package com.ssthouse.moduo.view.activity;
+package com.ssthouse.moduo.main.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,8 +22,12 @@ import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.video.AudioHandler;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
+import com.ssthouse.moduo.control.video.AudioHandler;
+import com.ssthouse.moduo.main.presenter.VideoPresenter;
+import com.ssthouse.moduo.main.presenter.VideoPresenterImpl;
+import com.ssthouse.moduo.main.view.fragment.CallingFragment;
+import com.ssthouse.moduo.main.view.fragment.VideoFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,18 +38,26 @@ import timber.log.Timber;
  * 视频对话activity
  * Created by ssthouse on 2015/12/17.
  */
-public class VideoActivity extends Activity {
+public class VideoActivity extends AppCompatActivity implements VideoView {
+
+
     /**
      * SDK控制类
      */
     private Viewer viewer;
     private Media media;
 
+    private FragmentManager fragmentManager;
+    private CallingFragment callingFragment;
+    private VideoFragment videoFragment;
+
+    /**
+     * UI控制类
+     */
+    private VideoPresenter videoPresenter;
+
     @Bind(R.id.id_rl_container)
     RelativeLayout surfaceViewLayout;
-
-    @Bind(R.id.id_view_toggle)
-    CompoundButton btnToggle;
 
     //等待dialog
     private MaterialDialog waitDialog;
@@ -88,8 +100,16 @@ public class VideoActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
 
+        //初始化fragment
+        fragmentManager = getSupportFragmentManager();
+        callingFragment = new CallingFragment();
+        videoFragment = new VideoFragment();
+
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
+
+        //初始化UI控制类
+        videoPresenter = new VideoPresenterImpl(this, this);
 
         initView();
 
@@ -107,27 +127,41 @@ public class VideoActivity extends Activity {
         myRenderer = new GLViewYuvRender();
         glSurfaceView.setRenderer(myRenderer);
 
-        //播放控制
-        btnToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (audioHandler != null) {
-                        audioHandler.startTalk();
-                    }
-                } else {
-                    if (audioHandler != null) {
-                        audioHandler.stopTalk();
-                    }
-                }
-            }
-        });
-
         //等待dialog
         waitDialog = new MaterialDialog.Builder(this)
                 .autoDismiss(false)
                 .customView(R.layout.dialog_wait, true)
                 .build();
+
+        //开始calling
+        videoPresenter.startCalling();
+    }
+
+
+    @Override
+    public void showCallingFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.id_fragment_container, callingFragment)
+                .commit();
+    }
+
+    @Override
+    public void showVideoFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.id_fragment_container, videoFragment)
+                .commit();
+    }
+
+    @Override
+    public void showDialog(String msg) {
+        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        tvWait.setText(msg);
+        waitDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        waitDialog.dismiss();
     }
 
     /**
@@ -252,4 +286,5 @@ public class VideoActivity extends Activity {
         boolean ret = viewer.getCommand().sendCustomData(streamerCid, "test".getBytes());
         Timber.e("send cmd ret:" + ret);
     }
+
 }

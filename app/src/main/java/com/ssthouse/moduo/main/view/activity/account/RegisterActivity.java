@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.view.activity.account;
+package com.ssthouse.moduo.main.view.activity.account;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.support.v7.widget.Toolbar;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.event.view.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.bean.event.xpg.RegisterFragmentChangeEvent;
-import com.ssthouse.moduo.view.fragment.EmailRegisterFragment;
-import com.ssthouse.moduo.view.fragment.LoginFragment;
-import com.ssthouse.moduo.view.fragment.PhoneRegisterFragment;
+import com.ssthouse.moduo.main.view.fragment.EmailRegisterFragment;
+import com.ssthouse.moduo.main.view.fragment.LoginFragment;
+import com.ssthouse.moduo.main.view.fragment.PhoneRegisterFragment;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;

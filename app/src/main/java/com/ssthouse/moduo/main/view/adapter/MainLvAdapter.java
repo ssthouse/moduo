@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.view.adapter;
+package com.ssthouse.moduo.main.view.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -12,8 +12,8 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.bean.device.Device;
-import com.ssthouse.moduo.view.activity.DeviceInfoActivity;
-import com.ssthouse.moduo.view.activity.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.DeviceInfoActivity;
+import com.ssthouse.moduo.main.view.VideoActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;

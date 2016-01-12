@@ -21,4 +21,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    //log
+    compile 'com.jakewharton.timber:timber:4.1.0'
 }
