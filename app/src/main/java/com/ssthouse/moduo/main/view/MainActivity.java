@@ -42,7 +42,9 @@ import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
 import com.ssthouse.moduo.main.view.adapter.MainLvAdapter;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
+import com.ssthouse.moduo.main.view.fragment.UserInfoFragment;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private FragmentManager fragmentManager;
     private ShareDeviceFragment shareDeviceFragment;
     private AboutModuoFragment aboutModuoFragment;
+    private UserInfoFragment userInfoFragment;
+    private MainFragment mainFragment;
 
     /**
      * 是否在离线状态
@@ -134,6 +138,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         //加载本地添加过的设备
         mainPresenter.initDeviceList();
+    }
+
+    private void initFragment(){
+        fragmentManager = getSupportFragmentManager();
+        mainFragment = new MainFragment();
+        userInfoFragment = new UserInfoFragment();
+        aboutModuoFragment = new AboutModuoFragment();
+        shareDeviceFragment = new ShareDeviceFragment();
+        //初始化为MainFragment
+        fragmentManager.beginTransaction().replace(R.id.id_fragment_container, mainFragment);
     }
 
     private void initView() {
