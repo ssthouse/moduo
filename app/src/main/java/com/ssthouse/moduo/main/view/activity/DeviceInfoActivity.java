@@ -81,7 +81,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
      * @param context
      */
     public static void start(Context context) {
-        if (XPGController.getCurrentXpgWifiDevice() == null) {
+        if (XPGController.getCurrentDevice() == null) {
             return;
         }
         Intent intent = new Intent(context, DeviceInfoActivity.class);
@@ -95,7 +95,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
 
-        mXpgWifiDevice = XPGController.getCurrentXpgWifiDevice();
+        mXpgWifiDevice = XPGController.getCurrentDevice().getXpgWifiDevice();
 
         initView();
     }
@@ -127,7 +127,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Timber.e("删除当前设备");
                 //获取当前设备
-                XPGWifiDevice device = XPGController.getCurrentXpgWifiDevice();
+                XPGWifiDevice device = XPGController.getCurrentDevice().getXpgWifiDevice();
                 //解除绑定当前设备
                 XPGController.getInstance(DeviceInfoActivity.this).getmCenter().cUnbindDevice(
                         SettingManager.getInstance(DeviceInfoActivity.this).getUid(),
@@ -144,7 +144,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Timber.e("分享当前设备二维码");
                 //获取当前设备
-                XPGWifiDevice device = XPGController.getCurrentXpgWifiDevice();
+                XPGWifiDevice device = XPGController.getCurrentDevice().getXpgWifiDevice();
                 //获取分享的bitmap
                 PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(DeviceInfoActivity.this);
                 long cid = preferenceHelper.getCidNumber(device.getDid());

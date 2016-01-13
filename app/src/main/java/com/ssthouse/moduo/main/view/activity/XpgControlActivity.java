@@ -129,8 +129,9 @@ public class XpgControlActivity extends AppCompatActivity {
         deviceData = (DeviceData) getIntent().getSerializableExtra("device_data");
 
         //todo---尝试获取设备数据
-        XPGController.getCurrentXpgWifiDevice().setListener(XPGController.getInstance(this).getDeviceListener());
-       // Timber.e(XPGController.getCurrentXpgWifiDevice().getDid() + "\t请求数据!!!!");
+        XPGController.getCurrentDevice().getXpgWifiDevice()
+                .setListener(XPGController.getInstance(this).getDeviceListener());
+       // Timber.e(XPGController.getCurrentDevice().getDid() + "\t请求数据!!!!");
 
         initView();
     }
@@ -138,8 +139,9 @@ public class XpgControlActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        XPGController.getInstance(this).getmCenter().cGetStatus(XPGController.getCurrentXpgWifiDevice());
-        Timber.e(XPGController.getCurrentXpgWifiDevice().getDid() + "\t请求数据!!!!");
+        XPGController.getInstance(this).getmCenter()
+                .cGetStatus(XPGController.getCurrentDevice().getXpgWifiDevice());
+        Timber.e(XPGController.getCurrentDevice().getXpgWifiDevice().getDid() + "\t请求数据!!!!");
     }
 
     private void initView() {
@@ -226,7 +228,7 @@ public class XpgControlActivity extends AppCompatActivity {
                 }
                 //发出数据修改请求
                 XPGController.getInstance(XpgControlActivity.this).getmCenter().cWrite(
-                        XPGController.getCurrentXpgWifiDevice(),
+                        XPGController.getCurrentDevice().getXpgWifiDevice(),
                         key,
                         progress);
             }
@@ -324,7 +326,7 @@ public class XpgControlActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                XPGController.getCurrentXpgWifiDevice().disconnect();
+                XPGController.getCurrentDevice().getXpgWifiDevice().disconnect();
                 finish();
                 break;
         }
@@ -333,7 +335,7 @@ public class XpgControlActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        XPGController.getCurrentXpgWifiDevice().disconnect();
+        XPGController.getCurrentDevice().getXpgWifiDevice().disconnect();
         super.onBackPressed();
     }
 

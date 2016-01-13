@@ -89,7 +89,7 @@ public class XPGController {
     /**
      * 当前操作的设备
      */
-    protected static XPGWifiDevice currentXpgWifiDevice;
+    protected static Device currentDevice;
 
     /**
      * XPGWifiDeviceListener
@@ -295,8 +295,8 @@ public class XPGController {
         return deviceList;
     }
 
-    public static XPGWifiDevice getCurrentXpgWifiDevice() {
-        return currentXpgWifiDevice;
+    public static Device getCurrentDevice() {
+        return currentDevice;
     }
 
     public XPGWifiDeviceListener getDeviceListener() {
@@ -307,7 +307,7 @@ public class XPGController {
         this.deviceListener = deviceListener;
     }
 
-    public static void setCurrentXpgWifiDevice(XPGWifiDevice currentXpgWifiDevice) {
-        XPGController.currentXpgWifiDevice = currentXpgWifiDevice;
+    public static void setCurrentDevice(Device currentDevice) {
+        XPGController.currentDevice = currentDevice;
     }
 }

@@ -79,7 +79,7 @@ public class MainLvAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //设置当前device
-                XPGController.setCurrentXpgWifiDevice(deviceList.get(position).getXpgWifiDevice());
+                XPGController.setCurrentDevice(deviceList.get(position));
                 //启动activity
                 DeviceInfoActivity.start(context);
             }
@@ -156,7 +156,7 @@ public class MainLvAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //设置当前device
-                XPGController.setCurrentXpgWifiDevice(xpgWifiDevice);
+                XPGController.setCurrentDevice(deviceList.get(position));
                 //尝试登陆设备
                 xpgWifiDevice.login(SettingManager.getInstance(context).getUid(),
                         SettingManager.getInstance(context).getToken());

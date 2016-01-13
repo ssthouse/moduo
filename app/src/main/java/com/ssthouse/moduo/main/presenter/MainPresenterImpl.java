@@ -191,7 +191,7 @@ public class MainPresenterImpl implements MainPresenter {
             //跳转控制界面
             for (Device device : XPGController.getDeviceList()) {
                 if (device.getXpgWifiDevice().getDid().equals(event.getDid())) {
-                    XPGController.setCurrentXpgWifiDevice(device.getXpgWifiDevice());
+                    XPGController.setCurrentDevice(device);
                     //直接跳转控制界面
                     XpgControlActivity.start(context, new DeviceData());
                 }
