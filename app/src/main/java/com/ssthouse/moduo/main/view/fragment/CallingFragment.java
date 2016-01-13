@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 正在calling
@@ -19,13 +22,18 @@ public class CallingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_calling, null);
+        View rootView = inflater.inflate(R.layout.fragment_calling, container, false);
         initView(rootView);
         return rootView;
     }
 
     private void initView(View rootView) {
-
+        rootView.findViewById(R.id.id_iv_avatar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new CallingResponseEvent(true));
+            }
+        });
 
     }
 }

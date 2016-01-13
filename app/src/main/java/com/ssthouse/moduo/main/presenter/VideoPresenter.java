@@ -12,6 +12,11 @@ public interface VideoPresenter {
     void startCalling();
 
     /**
+     * 等待视频加载
+     */
+    void waitForVideoReady();
+
+    /**
      * 解除Eventbus监听
      */
     void unRegister();
