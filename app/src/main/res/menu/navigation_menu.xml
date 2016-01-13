@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/id_menu_user_info"
+        android:icon="@mipmap/ic_launcher"
+        android:title="个人资料" />
+
+    <item
+        android:id="@+id/id_menu_about_moduo"
+        android:icon="@mipmap/ic_launcher"
+        android:title=" 关于魔哆" />
+
+    <item
+        android:id="@+id/id_menu_share_device"
+        android:icon="@mipmap/ic_launcher"
+        android:title=" 生成二维码" />
+
+    <item
+        android:id="@+id/id_menu_setting"
+        android:icon="@mipmap/ic_launcher"
+        android:title=" 通用设置" />
+
+    <item android:id="@+id/id_group_2"
+        android:title="账户">
+        <menu>
+            <item
+                android:id="@+id/id_menu_logout"
+                android:icon="@mipmap/ic_launcher"
+                android:title="注销" />
+        </menu>
+    </item>
+</menu>

@@ -3,7 +3,11 @@ package com.ssthouse.moduo.main.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,7 +39,10 @@ import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.cons.scan.ScanCons;
 import com.ssthouse.moduo.main.view.activity.LoadingActivity;
+import com.ssthouse.moduo.main.view.activity.SettingActivity;
 import com.ssthouse.moduo.main.view.adapter.MainLvAdapter;
+import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;
@@ -59,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     private boolean isLogOut = false;
 
+    private FragmentManager fragmentManager;
+    private ShareDeviceFragment shareDeviceFragment;
+    private AboutModuoFragment aboutModuoFragment;
+
     /**
      * 是否在离线状态
      */
@@ -72,16 +83,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     private Communication communication;
 
+    @Bind(R.id.id_drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @Bind(R.id.id_navigation_view)
+    NavigationView navigationView;
+
     /**
      * 下拉刷新view
      */
     @Bind(R.id.id_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    /**
-     * 无网络连接提示
-     */
-    @Bind(R.id.id_tv_offline)
-    TextView tvOffline;
     /**
      * 主界面listview
      */
@@ -128,11 +140,32 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb);
         setSupportActionBar(toolbar);
 
-        //TODO--换个方式告知用户---显示是否登陆视频对话平台成功
-        boolean isLoginSuccess = getIntent().getBooleanExtra(EXTRA_IS_LOGIN_SUCCESS, false);
-        if (!isLoginSuccess) {
-            tvOffline.setVisibility(View.VISIBLE);
-        }
+        //初始化抽屉事件
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.drawer_open, R.string.drawer_close);
+        drawerToggle.syncState();
+        drawerLayout.setDrawerListener(drawerToggle);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                //// TODO: 2016/1/13  
+                switch (item.getItemId()){
+                    case R.id.id_menu_user_info:
+//                        fragmentManager.beginTransaction()
+                        break;
+                    case R.id.id_menu_about_moduo:
+                        break;
+                    case R.id.id_menu_share_device:
+                        break;
+                    case R.id.id_menu_setting:
+                        SettingActivity.start(MainActivity.this);
+                        break;
+                }
+                //抽屉中的点击事件
+                return true;
+            }
+        });
 
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -150,14 +183,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         //请求获取绑定了的设备--初始化设备listview
         lvAdapter = new MainLvAdapter(this, XPGController.getDeviceList());
         lv.setAdapter(lvAdapter);
-
-        //添加设备
-        findViewById(R.id.id_btn_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainPresenter.addDevice(MainActivity.this);
-            }
-        });
 
         //初始化dialog
         waitDialog = new MaterialDialog.Builder(this)
@@ -216,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
             case NONE:
                 isOffline = true;
                 ToastHelper.show(this, "网络连接已断开");
-                tvOffline.setVisibility(View.VISIBLE);
                 setViewDisable();
                 break;
             case MOBILE:
@@ -224,10 +248,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 if (isOffline) {
                     mainPresenter.initDeviceList();
                 }
-                tvOffline.setVisibility(View.GONE);
                 break;
             case WIFI:
-                tvOffline.setVisibility(View.GONE);
                 if (isOffline) {
                     mainPresenter.initDeviceList();
                 }
@@ -292,17 +314,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * 显示等待Dialog
-     *
-     * @param msg Dialog显示的msg
-     */
-    public void showWaitDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
-        tvWait.setText(msg);
-        waitDialog.show();
     }
 
     /**

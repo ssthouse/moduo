@@ -11,6 +11,7 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
+ * VideoActivity的presenter层
  * Created by ssthouse on 2016/1/12.
  */
 public class VideoPresenterImpl implements VideoPresenter {

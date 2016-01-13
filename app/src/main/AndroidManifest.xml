@@ -56,7 +56,7 @@
             </intent-filter>
         </receiver>
 
-        <!--初始加载activity-->
+        <!--主界面-->
         <activity android:name=".main.view.activity.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,23 +64,32 @@
             </intent-filter>
         </activity>
 
-        <!--用户登陆/注册activity-->
+        <!--用户登陆/注册-->
         <activity
             android:name=".main.view.activity.account.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--主界面activity-->
+        <!--主界面-->
         <activity
             android:name=".main.view.MainActivity"
             android:label="魔哆"
             android:screenOrientation="portrait" />
 
-        <!--视频播放activity-->
+        <!--设置-->
         <activity
-            android:name=".main.view.VideoActivity" />
+            android:name=".main.view.activity.SettingActivity"
+            android:screenOrientation="portrait" />
 
-        <!--xpg设备控制activity-->
+        <!--展示wifi二维码-->
+        <activity
+            android:name=".main.view.activity.WifiCodeDispActivity"
+            android:screenOrientation="portrait" />
+
+        <!--视频播放-->
+        <activity android:name=".main.view.VideoActivity" />
+
+        <!--xpg设备控制-->
         <activity
             android:name=".main.view.activity.XpgControlActivity"
             android:screenOrientation="portrait" />
@@ -100,10 +109,10 @@
         <!--友盟自动更新-->
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService"/>
+            android:process=":DownloadingService" />
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!--百度推送-->
         <!-- push service start -->

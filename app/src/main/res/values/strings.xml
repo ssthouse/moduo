@@ -1,2 +1,4 @@
 <resources>
+    <string name="drawer_close">close</string>
+    <string name="drawer_open">open</string>
 </resources>
