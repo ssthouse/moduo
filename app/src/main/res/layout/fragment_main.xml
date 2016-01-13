@@ -2,8 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/id_iv_home_control"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/avatar_boy" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/id_iv_video"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="100dp"
+            android:layout_toRightOf="@id/id_iv_home_control"
+            android:src="@drawable/avatar_boy" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/id_iv_message"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="180dp"
+            android:src="@drawable/avatar_boy" />
+
+    </RelativeLayout>
+
+    <!--表示当前魔哆连接状态-->
+    <TextView
+        android:id="@+id/id_tv_moduo_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/moduo_state_disconnect" />
 
 </LinearLayout>

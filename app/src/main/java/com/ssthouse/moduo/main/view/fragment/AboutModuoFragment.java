@@ -59,7 +59,7 @@ public class AboutModuoFragment extends Fragment {
                 tvTitle.setText(args[position]);
                 TextView tvContent = (TextView) itemView.findViewById(R.id.id_tv_content);
                 tvContent.setText("ssthouse");
-                return null;
+                return itemView;
             }
         });
     }

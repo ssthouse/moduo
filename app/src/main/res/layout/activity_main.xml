@@ -2,46 +2,28 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:id="@+id/id_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".main.view.MainActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <!--主界面-->
+    <FrameLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/toolbar" />
 
-        <TextView
-            android:id="@+id/id_tv_offline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="请检查网络连接"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/id_swipe_refresh"
+        <!--主fragment-->
+        <LinearLayout
+            android:layout_marginTop="?attr/actionBarSize"
+            android:id="@+id/id_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
-
-            <!--列表view-->
-            <ListView
-                android:id="@+id/id_lv_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:divider="@null"
-                android:dividerHeight="8dp" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </android.support.design.widget.CoordinatorLayout>
+            android:orientation="horizontal" />
+    </FrameLayout>
 
     <!--侧滑栏-->
     <android.support.design.widget.NavigationView

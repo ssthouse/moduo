@@ -9,18 +9,27 @@ import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
 
+import timber.log.Timber;
+
 /**
  * 用户账号
  * Created by ssthouse on 2016/1/13.
  */
 public class UserInfoFragment extends Fragment {
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Timber.e("onCreate");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
         initView(rootView);
+        Timber.e("onCreateView");
         return rootView;
     }
 

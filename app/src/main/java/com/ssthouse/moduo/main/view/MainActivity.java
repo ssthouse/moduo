@@ -4,23 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.device.Device;
+import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
+import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
+import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
+import com.ssthouse.moduo.cons.scan.ScanCons;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
@@ -28,24 +31,14 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.main.presenter.MainPresenter;
 import com.ssthouse.moduo.main.presenter.MainPresenterImpl;
-import com.ssthouse.moduo.cons.Constant;
-import com.ssthouse.moduo.bean.device.Device;
-import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
-import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
-import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.cons.scan.ScanCons;
 import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
-import com.ssthouse.moduo.main.view.adapter.MainLvAdapter;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
 import com.ssthouse.moduo.main.view.fragment.UserInfoFragment;
-import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -93,20 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Bind(R.id.id_navigation_view)
     NavigationView navigationView;
 
-    /**
-     * 下拉刷新view
-     */
-    @Bind(R.id.id_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    /**
-     * 主界面listview
-     */
-    @Bind(R.id.id_lv_main)
-    ListView lv;
-
     private MaterialDialog waitDialog;
-
-    private MainLvAdapter lvAdapter;
 
     /**
      * 启动当前activity
@@ -126,7 +106,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
+
         initView();
+        initFragment();
 
         //todo---初始化Presenter
         mainPresenter = new MainPresenterImpl(this, this);
@@ -140,14 +122,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mainPresenter.initDeviceList();
     }
 
-    private void initFragment(){
+    private void initFragment() {
         fragmentManager = getSupportFragmentManager();
         mainFragment = new MainFragment();
         userInfoFragment = new UserInfoFragment();
         aboutModuoFragment = new AboutModuoFragment();
         shareDeviceFragment = new ShareDeviceFragment();
         //初始化为MainFragment
-        fragmentManager.beginTransaction().replace(R.id.id_fragment_container, mainFragment);
+        fragmentManager.beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
     }
 
     private void initView() {
@@ -155,48 +137,36 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setSupportActionBar(toolbar);
 
         //初始化抽屉事件
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close);
         drawerToggle.syncState();
         drawerLayout.setDrawerListener(drawerToggle);
 
+        //抽屉中的点击事件
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                //// TODO: 2016/1/13  
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
+                    case R.id.id_menu_main:
+                        switchFragment(mainFragment);
+                        break;
                     case R.id.id_menu_user_info:
-//                        fragmentManager.beginTransaction()
+                        switchFragment(userInfoFragment);
                         break;
                     case R.id.id_menu_about_moduo:
+                        switchFragment(aboutModuoFragment);
                         break;
                     case R.id.id_menu_share_device:
+                        switchFragment(shareDeviceFragment);
                         break;
                     case R.id.id_menu_setting:
                         SettingActivity.start(MainActivity.this);
                         break;
                 }
-                //抽屉中的点击事件
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
-
-        //下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (Constant.isXpgLogin) {
-                    mainPresenter.refreshDeviceList();
-                } else {
-                    //匿名登录
-                    XPGController.getInstance(MainActivity.this).getmCenter().cLoginAnonymousUser();
-                }
-            }
-        });
-
-        //请求获取绑定了的设备--初始化设备listview
-        lvAdapter = new MainLvAdapter(this, XPGController.getDeviceList());
-        lv.setAdapter(lvAdapter);
 
         //初始化dialog
         waitDialog = new MaterialDialog.Builder(this)
@@ -206,26 +176,24 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     /**
-     * 刷新设备列表
+     * 切换fragment
      *
-     * @param event
+     * @param toFragment
      */
-    @Override
-    public void updateDeviceList(GetBoundDeviceEvent event) {
-        //先清空列表
-        XPGController.getDeviceList().clear();
-        //添加设备
-        for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
-            //设置监听器
-            xpgWifiDevice.setListener(XPGController.getInstance(this).getDeviceListener());
-            //添加到deviceList
-            XPGController.getDeviceList().add(new Device(this, xpgWifiDevice));
+    private void switchFragment(Fragment toFragment) {
+        //如果是mainFragment---直接show就好了
+        if (toFragment == mainFragment) {
+            fragmentManager.beginTransaction().show(mainFragment).commit();
+        } else {
+            //其它的--先隐藏mainFragment
+            fragmentManager.beginTransaction().hide(mainFragment).commit();
+            //先剔除
+            if(toFragment.isAdded()) {
+                fragmentManager.beginTransaction().remove(toFragment).commit();
+            }
+            //再重新加载
+            fragmentManager.beginTransaction().add(R.id.id_fragment_container, toFragment).commit();
         }
-        //尝试连接 视频对话
-        for (Device device : XPGController.getDeviceList()) {
-            communication.addStreamer(device.getCidNumber(), device.getUsername(), device.getPassword());
-        }
-        lvAdapter.update();
     }
 
     @Override
@@ -240,11 +208,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         waitDialog.dismiss();
     }
 
-    @Override
-    public void setRefreshEnable(boolean enable) {
-        swipeRefreshLayout.setRefreshing(enable);
-    }
-
     /**
      * 网络状态变化的回调
      *
@@ -255,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
             case NONE:
                 isOffline = true;
                 ToastHelper.show(this, "网络连接已断开");
-                setViewDisable();
                 break;
             case MOBILE:
                 //如果之前是离线状态---需要重新连接(视频会不断自动连接---机智云不会--需要手动重新连接)
@@ -269,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 }
                 break;
         }
-        lvAdapter.update();
     }
 
     /*
@@ -283,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
      */
     public void onEventMainThread(SessionStateEvent event) {
         //刷新lv
-        lvAdapter.update();
     }
 
     /**
@@ -301,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
             }
         }
         //更新界面
-        lvAdapter.update();
     }
 
     @Override
@@ -317,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 mainPresenter.initDeviceList();
                 break;
             case R.id.id_action_log_out:
-                //TODO---登出
                 SettingManager.getInstance(this).clean();
                 PreferenceHelper.getInstance(this).setIsFistIn(true);
                 //重新进入loading activity
@@ -328,29 +286,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * 将视频和设备控制界面设为不可用
-     */
-    private void setViewDisable() {
-        int childCount = lv.getChildCount();
-        Timber.e("一共有" + childCount + "个child");
-        for (int i = 0; i < childCount; i++) {
-            View childView = lv.getChildAt(i);
-            //设备不在线
-            TextView tvXpgState = (TextView) childView.findViewById(R.id.id_tv_xpg_state);
-            tvXpgState.setText("离线");
-            //视频不在线
-            TextView tvVideoState = (TextView) childView.findViewById(R.id.id_tv_video_state);
-            tvVideoState.setText("离线");
-            //设备控制按钮
-            Button btnXpgControl = (Button) childView.findViewById(R.id.id_btn_xpg_control);
-            btnXpgControl.setEnabled(false);
-            //视频通话按钮
-            Button btnVideo = (Button) childView.findViewById(R.id.id_btn_start_video);
-            btnVideo.setEnabled(false);
-        }
     }
 
     @Override
@@ -368,7 +303,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void onBackPressed() {
-        //如果上一次点击事件少一点五秒
         if (System.currentTimeMillis() < (exitTimeInMils + 1500)) {
             super.onBackPressed();
         } else {

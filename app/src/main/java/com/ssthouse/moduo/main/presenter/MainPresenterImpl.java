@@ -165,11 +165,7 @@ public class MainPresenterImpl implements MainPresenter {
         Timber.e("获取设备列表回调");
         //隐藏dialog
         mainView.dismissDialog();
-        //隐藏刷新图标
-        mainView.setRefreshEnable(false);
         if (event.isSuccess()) {
-            //刷新列表数据
-            mainView.updateDeviceList(event);
             //刷新主界面lv列表
             ToastHelper.show(context, "获取绑定设备成功,设备数目:\t" + event.getXpgDeviceList().size());
         } else {

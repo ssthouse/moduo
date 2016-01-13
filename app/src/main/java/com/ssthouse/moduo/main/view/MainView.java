@@ -1,19 +1,10 @@
 package com.ssthouse.moduo.main.view;
 
-import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
-
 /**
  * MainActivity的View层抽象
  * Created by ssthouse on 2016/1/10.
  */
 public interface MainView {
-
-    /**
-     * 刷新列表
-     * @param event
-     */
-    void updateDeviceList(GetBoundDeviceEvent event);
-
     /**
      * 显示Dialog
      */
@@ -23,9 +14,4 @@ public interface MainView {
      * 隐藏Dialog
      */
     void dismissDialog();
-
-    /**
-     * 设置下拉刷新状态
-     */
-    void setRefreshEnable(boolean enable);
 }

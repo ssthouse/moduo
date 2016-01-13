@@ -42,7 +42,7 @@ public class SettingActivity extends AppCompatActivity {
     private void initView() {
 
         lv = (ListView) findViewById(R.id.id_lv);
-        lv.setAdapter(new ArrayAdapter<>(this, R.layout.item_setting, args));
+        lv.setAdapter(new ArrayAdapter<>(this, R.layout.item_setting, R.id.id_tv_content, args));
 
         //// TODO: 2016/1/13 点击事件
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

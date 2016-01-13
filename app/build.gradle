@@ -62,4 +62,9 @@ dependencies {
     //json解析
     compile 'com.google.code.gson:gson:2.5'
     compile project(':gyroscope')
+    //圆ImageView
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    //RxJava
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
 }
