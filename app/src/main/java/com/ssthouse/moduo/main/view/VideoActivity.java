@@ -21,8 +21,6 @@ import timber.log.Timber;
  * Created by ssthouse on 2015/12/17.
  */
 public class VideoActivity extends AppCompatActivity{
-
-
     /**
      * 传给fragment的argument的key
      */

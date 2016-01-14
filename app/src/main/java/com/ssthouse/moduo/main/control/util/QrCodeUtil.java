@@ -13,10 +13,10 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssthouse.moduo.main.view.activity.ScanActivity;
 
 /**
- * 调用二维码扫描功能
+ * 二维码工具类
  * Created by ssthouse on 2015/12/19.
  */
-public class ScanUtil {
+public class QrCodeUtil {
 
     /**
      * 二维码content前缀
@@ -24,7 +24,7 @@ public class ScanUtil {
     private static final String qrCodePrefix = "http://site.gizwits.com/?";
 
     /**
-     * 获取给定参数的二维码的content
+     * 获取设备分享二维码url
      *
      * @param productKey
      * @param did
@@ -34,14 +34,28 @@ public class ScanUtil {
      * @param password
      * @return
      */
-    public static String getQrCodeContent(String productKey, String did, String passcode,
-                                          String cid, String username, String password) {
+    public static String getDeviceQrCodeContent(String productKey, String did, String passcode,
+                                                String cid, String username, String password) {
         String content = qrCodePrefix +
                 "product_key=" + productKey +
                 "&did=" + did +
                 "&passcode=" + passcode +
                 "&cid=" + cid +
                 "&username=" + username +
+                "&password=" + password;
+        return content;
+    }
+
+    /**
+     * 获取wifi分享二维码url
+     *
+     * @param wifiSsid
+     * @param password
+     * @return
+     */
+    public static String getWifiQrCodeContent(String wifiSsid, String password) {
+        String content = qrCodePrefix +
+                "wifi_ssid=" + wifiSsid +
                 "&password=" + password;
         return content;
     }
@@ -58,29 +72,29 @@ public class ScanUtil {
     }
 
     /**
-     * 在URL中获取参数值
+     * 在URL中获取key对应value
      * 用于解析URL中想要的数据
      *
      * @param url
-     * @param param
+     * @param key
      * @return
      */
-    public static String getParamFromUrl(String url, String param) {
-        String product_key;
-        int startIndex = url.indexOf(param + "=");
+    public static String getParamFromUrl(String url, String key) {
+        String value;
+        int startIndex = url.indexOf(key + "=");
         //如果二维码没有指定的参数---返回null
         if (startIndex == -1) {
             return null;
         }
-        startIndex += (param.length() + 1);
+        startIndex += (key.length() + 1);
         String subString = url.substring(startIndex);
         int endIndex = subString.indexOf("&");
         if (endIndex == -1) {
-            product_key = subString;
+            value = subString;
         } else {
-            product_key = subString.substring(0, endIndex);
+            value = subString.substring(0, endIndex);
         }
-        return product_key;
+        return value;
     }
 
 

@@ -16,4 +16,9 @@
         android:visible="false"
         app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
         app:showAsAction="always" />
+
+    <item android:id="@+id/id_menu_share_wifi"
+        android:title="生成wifi二维码"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
 </menu>

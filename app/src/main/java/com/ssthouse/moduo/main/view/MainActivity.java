@@ -25,12 +25,13 @@ import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
-import com.ssthouse.moduo.main.control.util.ScanUtil;
+import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
+import com.ssthouse.moduo.main.view.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
@@ -311,7 +312,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         switch (item.getItemId()) {
             case R.id.id_menu_add_moduo:
                 //// TODO: 2016/1/14 添加魔哆
-                ScanUtil.startScan(this);
+                QrCodeUtil.startScan(this);
+                break;
+            case R.id.id_menu_share_wifi:
+                WifiCodeDispActivity.start(this);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -351,13 +355,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
             } else {
                 String text = result.getContents();
                 //机智云sdk参数
-                String product_key = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PRODUCT_KEY);
-                String did = ScanUtil.getParamFromUrl(text, ScanCons.KEY_DID);
-                String passCode = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PASSCODE);
+                String product_key = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PRODUCT_KEY);
+                String did = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_DID);
+                String passCode = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSCODE);
                 //视频sdk参数
-                String cidStr = ScanUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
-                String username = ScanUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
-                String password = ScanUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
+                String cidStr = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
+                String username = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
+                String password = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
                 //判断二维码扫描数据是否正确
                 if (product_key == null
                         || did == null

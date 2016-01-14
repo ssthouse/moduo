@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
-import com.ssthouse.moduo.main.control.util.ScanUtil;
+import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
@@ -150,9 +150,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 long cid = preferenceHelper.getCidNumber(device.getDid());
                 String username = preferenceHelper.getUsername(device.getDid());
                 String password = preferenceHelper.getPassword(device.getDid());
-                String content = ScanUtil.getQrCodeContent(device.getProductKey(), device.getDid(),
+                String content = QrCodeUtil.getDeviceQrCodeContent(device.getProductKey(), device.getDid(),
                         device.getPasscode(), cid + "", username, password);
-                Bitmap bitmap = ScanUtil.generateQRCode(content);
+                Bitmap bitmap = QrCodeUtil.generateQRCode(content);
                 File bitmapFile = new File(FileUtil.saveBitmap(DeviceInfoActivity.this, bitmap));
                 //将照片保存到本地
                 //使用intent分享照片
