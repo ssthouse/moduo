@@ -6,4 +6,12 @@
     <string name="moduo_state_disconnect">尚未连接魔哆</string>
     <string name="moduo_state_connecting">正在连接魔哆...</string>
     <string name="moduo_state_connected">已成功连接魔哆,欢迎使用</string>
+
+    <array name="test_string_array">
+        <item>测试设备1</item>
+        <item>测试设备2</item>
+        <item>测试设备3</item>
+        <item>测试设备4</item>
+        <item>测试设备5</item>
+    </array>
 </resources>

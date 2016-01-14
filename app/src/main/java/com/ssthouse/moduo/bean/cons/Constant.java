@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.cons;
+package com.ssthouse.moduo.bean.cons;
 
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
 

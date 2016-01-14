@@ -94,6 +94,10 @@
             android:name=".main.view.activity.XpgControlActivity"
             android:screenOrientation="portrait" />
 
+        <!--家居控制activity-->
+        <activity android:name=".main.view.activity.HomeControlActivity"
+            android:screenOrientation="portrait"/>
+
         <!--设备参数界面-->
         <activity
             android:name=".main.view.activity.DeviceInfoActivity"

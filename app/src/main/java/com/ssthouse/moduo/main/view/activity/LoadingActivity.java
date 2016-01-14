@@ -14,7 +14,7 @@ import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.MainActivity;
-import com.ssthouse.moduo.cons.Constant;
+import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;

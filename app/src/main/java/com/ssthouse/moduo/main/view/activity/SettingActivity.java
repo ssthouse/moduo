@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +31,7 @@ public class SettingActivity extends AppCompatActivity {
     public static void start(Context context){
         Intent intent = new Intent(context, SettingActivity.class);
         context.startActivity(intent);
+        //// TODO: 2016/1/13 修改一下切换动画
     }
 
     @Override
@@ -40,6 +43,9 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
+        getSupportActionBar().setTitle("通用设置");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         lv = (ListView) findViewById(R.id.id_lv);
         lv.setAdapter(new ArrayAdapter<>(this, R.layout.item_setting, R.id.id_tv_content, args));
@@ -60,5 +66,15 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

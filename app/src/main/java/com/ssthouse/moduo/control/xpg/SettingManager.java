@@ -7,9 +7,9 @@
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
  * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * <p/>
+ * <p>
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * <p/>
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
@@ -24,71 +24,48 @@ import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 
 /**
  * SharePreference处理类.
+ * <p>
+ * 保存:
+ * 当前登陆账户数据
+ * 当前绑定设备数据
  *
  * @author Sunny Ding
  */
 public class SettingManager {
 
-    /**
-     * The spf.
-     */
-    SharedPreferences spf;
+    private SharedPreferences spf;
+
+    private Context context;
 
     /**
-     * The c.
-     */
-    private Context c;
-
-    // =================================================================
-    //
-    // SharePreference文件中的变量名字列表
-    //
-    // =================================================================
-
-    // Sharepreference文件的名字
-    /**
-     * The share preferences.
+     * preference文件名
      */
     private final String SHARE_PREFERENCES = "set";
+
     // 用户名
-    /**
-     * The user name.
-     */
     private final String USER_NAME = "username";
     // 手机号码
-    /**
-     * The phone num.
-     */
     private final String PHONE_NUM = "phonenumber";
     // 密码
-    /**
-     * The password.
-     */
     private final String PASSWORD = "password";
     // 用户名
-    /**
-     * The token.
-     */
     private final String TOKEN = "token";
     // 用户ID
-    /**
-     * The uid.
-     */
     private final String UID = "uid";
 
     /**
-     * The filter.
+     * 当前操作设备did
      */
-    static String filter = "=====";
+    private final String DID = "did";
 
     /**
-     * Instantiates a new setting manager.
+     * 构造方法
      *
-     * @param c the c
+     * @param context
      */
-    private SettingManager(Context c) {
-        this.c = c;
-        spf = c.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE);
+    private SettingManager(Context context) {
+        this.context = context;
+        spf = context.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     /**
@@ -120,7 +97,27 @@ public class SettingManager {
     }
 
     /**
-     * 保存登陆成功回调数据
+     * 设置当前设备
+     *
+     * @param did
+     */
+    public void setCurrentDid(String did) {
+        spf.edit()
+                .putString(DID, did)
+                .commit();
+    }
+
+    /**
+     * 获取当前操作设备
+     *
+     * @return
+     */
+    public String getCurrentDid() {
+        return spf.getString(DID, null);
+    }
+
+    /**
+     * 保存用户登陆数据
      *
      * @param event
      */
@@ -136,7 +133,6 @@ public class SettingManager {
      */
     public void setUserName(String name) {
         spf.edit().putString(USER_NAME, name).commit();
-
     }
 
     /**
@@ -166,60 +162,27 @@ public class SettingManager {
         return spf.getString(PHONE_NUM, "");
     }
 
-    /**
-     * Sets the password.
-     *
-     * @param psw the new password
-     */
     public void setPassword(String psw) {
         spf.edit().putString(PASSWORD, psw).commit();
     }
 
-    /**
-     * Gets the password.
-     *
-     * @return the password
-     */
     public String getPassword() {
         return spf.getString(PASSWORD, "");
     }
 
-    /**
-     * Sets the token.
-     *
-     * @param token the new token
-     */
     public void setToken(String token) {
         spf.edit().putString(TOKEN, token).commit();
     }
 
-    /**
-     * Gets the token.
-     *
-     * @return the token
-     */
     public String getToken() {
-//        Timber.e("token=" + spf.getString(TOKEN, ""));
         return spf.getString(TOKEN, "");
     }
 
-    /**
-     * Sets the uid.
-     *
-     * @param uid the new uid
-     */
     public void setUid(String uid) {
         spf.edit().putString(UID, uid).commit();
     }
 
-    /**
-     * Gets the uid.
-     *
-     * @return the uid
-     */
     public String getUid() {
-//        Timber.e("uid=" + spf.getString(UID, ""));
         return spf.getString(UID, "");
     }
-
 }

@@ -18,21 +18,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.cons.scan.ScanCons;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
-import com.ssthouse.moduo.cons.scan.ScanCons;
-import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.main.presenter.MainPresenter;
-import com.ssthouse.moduo.main.presenter.MainPresenterImpl;
 import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
@@ -67,13 +63,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private UserInfoFragment userInfoFragment;
     private MainFragment mainFragment;
 
-    /**
-     * 是否在离线状态
-     */
-    private boolean isOffline;
+    public enum FragmentState {
+        SHARE_DEVICE_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
+    }
 
-    //Presenter
-    private MainPresenter mainPresenter;
+    public FragmentState currentFragmentState = FragmentState.MAIN_FRAGMENT;
 
     /**
      * 视频对话SDK管理类
@@ -110,16 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         initView();
         initFragment();
 
-        //todo---初始化Presenter
-        mainPresenter = new MainPresenterImpl(this, this);
-
         //初始化视频sdk
         communication = Communication.getInstance(this);
-
-        isOffline = NetUtil.isConnected(this);
-
-        //加载本地添加过的设备
-        mainPresenter.initDeviceList();
     }
 
     private void initFragment() {
@@ -130,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         shareDeviceFragment = new ShareDeviceFragment();
         //初始化为MainFragment
         fragmentManager.beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.id_fragment_container, userInfoFragment).commit();
+        fragmentManager.beginTransaction().hide(userInfoFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.id_fragment_container, aboutModuoFragment).commit();
+        fragmentManager.beginTransaction().hide(aboutModuoFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.id_fragment_container, shareDeviceFragment).commit();
+        fragmentManager.beginTransaction().hide(shareDeviceFragment).commit();
     }
 
     private void initView() {
@@ -148,16 +140,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.id_menu_main:
-                        switchFragment(mainFragment);
+                        switchFragment(FragmentState.MAIN_FRAGMENT);
                         break;
                     case R.id.id_menu_user_info:
-                        switchFragment(userInfoFragment);
+                        switchFragment(FragmentState.USER_INFO_FRAGMENT);
                         break;
                     case R.id.id_menu_about_moduo:
-                        switchFragment(aboutModuoFragment);
+                        switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
                         break;
                     case R.id.id_menu_share_device:
-                        switchFragment(shareDeviceFragment);
+                        switchFragment(FragmentState.SHARE_DEVICE_FRAGMENT);
                         break;
                     case R.id.id_menu_setting:
                         SettingActivity.start(MainActivity.this);
@@ -178,22 +170,47 @@ public class MainActivity extends AppCompatActivity implements MainView {
     /**
      * 切换fragment
      *
-     * @param toFragment
+     * @param newState
      */
-    private void switchFragment(Fragment toFragment) {
-        //如果是mainFragment---直接show就好了
-        if (toFragment == mainFragment) {
-            fragmentManager.beginTransaction().show(mainFragment).commit();
-        } else {
-            //其它的--先隐藏mainFragment
-            fragmentManager.beginTransaction().hide(mainFragment).commit();
-            //先剔除
-            if(toFragment.isAdded()) {
-                fragmentManager.beginTransaction().remove(toFragment).commit();
-            }
-            //再重新加载
-            fragmentManager.beginTransaction().add(R.id.id_fragment_container, toFragment).commit();
+    private void switchFragment(FragmentState newState) {
+        //隐藏当前fragment
+        Fragment currentFragment = null;
+        switch (currentFragmentState) {
+            case MAIN_FRAGMENT:
+                currentFragment = mainFragment;
+                break;
+            case USER_INFO_FRAGMENT:
+                currentFragment = userInfoFragment;
+                break;
+            case ABOUT_MODUO_FRAGMENT:
+                currentFragment = aboutModuoFragment;
+                break;
+            case SHARE_DEVICE_FRAGMENT:
+                currentFragment = shareDeviceFragment;
+                break;
         }
+        fragmentManager.beginTransaction().hide(currentFragment).commit();
+        //显示toFragment
+        Fragment toFragment = null;
+        switch (newState) {
+            case MAIN_FRAGMENT:
+                currentFragmentState = FragmentState.MAIN_FRAGMENT;
+                toFragment = mainFragment;
+                break;
+            case USER_INFO_FRAGMENT:
+                currentFragmentState = FragmentState.USER_INFO_FRAGMENT;
+                toFragment = userInfoFragment;
+                break;
+            case ABOUT_MODUO_FRAGMENT:
+                currentFragmentState = FragmentState.ABOUT_MODUO_FRAGMENT;
+                toFragment = aboutModuoFragment;
+                break;
+            case SHARE_DEVICE_FRAGMENT:
+                currentFragmentState = FragmentState.SHARE_DEVICE_FRAGMENT;
+                toFragment = shareDeviceFragment;
+                break;
+        }
+        fragmentManager.beginTransaction().show(toFragment).commit();
     }
 
     @Override
@@ -208,30 +225,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         waitDialog.dismiss();
     }
 
-    /**
-     * 网络状态变化的回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(NetworkStateChangeEvent event) {
-        switch (event.getNetworkState()) {
-            case NONE:
-                isOffline = true;
-                ToastHelper.show(this, "网络连接已断开");
-                break;
-            case MOBILE:
-                //如果之前是离线状态---需要重新连接(视频会不断自动连接---机智云不会--需要手动重新连接)
-                if (isOffline) {
-                    mainPresenter.initDeviceList();
-                }
-                break;
-            case WIFI:
-                if (isOffline) {
-                    mainPresenter.initDeviceList();
-                }
-                break;
-        }
-    }
 
     /*
     视频SDK回调
@@ -273,7 +266,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.id_action_get_bound_device:
-                mainPresenter.initDeviceList();
                 break;
             case R.id.id_action_log_out:
                 SettingManager.getInstance(this).clean();
@@ -293,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         //// TODO: 2016/1/10
-        mainPresenter.unRegister();
         communication.destory();//销毁sdk
         //todo---完全退出程序(若不是跳转到登陆界面)
         if (!isLogOut) {

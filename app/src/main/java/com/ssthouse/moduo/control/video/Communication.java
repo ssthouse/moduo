@@ -11,7 +11,7 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.ssthouse.moduo.cons.Constant;
+import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConfigChangedEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
