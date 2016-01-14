@@ -16,13 +16,15 @@ import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
 import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
-import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.main.control.util.NetUtil;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -38,6 +40,11 @@ public class MainFragment extends Fragment {
     private ImageView ivHomeControl;
     private ImageView ivVideo;
     private ImageView ivMessage;
+
+    /**
+     * 魔哆状态
+     */
+    private TextView tvModuoState;
 
     private MaterialDialog waitDialog;
 
@@ -75,17 +82,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //todo---启动家居控制activity
-//                HomeControlActivity.start(getContext());
-
-                //// TODO: 2016/1/14 先尝试设备登陆--跳转Control界面
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    XPGController.getCurrentDevice()
-                            .getXpgWifiDevice()
-                            .login(SettingManager.getInstance(getContext()).getUid(),
-                                    SettingManager.getInstance(getContext()).getToken());
-                    Timber.e("尝试登陆设备");
+                    HomeControlActivity.start(getContext());
                 }
             }
         });
@@ -110,6 +110,8 @@ public class MainFragment extends Fragment {
                 //// TODO: 2016/1/14 消息中心
             }
         });
+
+        tvModuoState = (TextView) rootView.findViewById(R.id.id_tv_moduo_state);
 
         waitDialog = new MaterialDialog.Builder(getContext())
                 .customView(R.layout.dialog_wait, true)
@@ -174,7 +176,7 @@ public class MainFragment extends Fragment {
         if (event.isSuccess()) {
             //刷新主界面lv列表
             ToastHelper.show(getContext(), "获取绑定设备成功,设备数目:\t" + event.getXpgDeviceList().size());
-            //// TODO: 2016/1/14 如果未绑定设备---需要先绑定
+            //如果未绑定设备---需要先绑定
             if (event.getXpgDeviceList().size() <= 0) {
                 ToastHelper.show(getContext(), "当前未绑定设备,请先进行绑定");
                 Timber.e("我还没有绑定过设备");
@@ -245,6 +247,18 @@ public class MainFragment extends Fragment {
         } else {
             Timber.e("登陆失败...");
         }
+    }
+
+    /**
+     * 解绑设备回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(UnbindResultEvent event) {
+        //请求设备列表
+        XPGController.getInstance(getContext()).getmCenter().cGetBoundDevices(
+                SettingManager.getInstance(getContext()).getUid(),
+                SettingManager.getInstance(getContext()).getToken());
     }
 
     @Override

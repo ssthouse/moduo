@@ -1,11 +1,11 @@
-package com.ssthouse.moduo.control.xpg;
+package com.ssthouse.moduo.main.control.xpg;
 
 import android.content.Context;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
 import com.ssthouse.moduo.bean.event.xpg.AuthCodeSendResultEvent;
@@ -133,14 +133,10 @@ public class XPGController {
             }
             //普通数据点类型，有布尔型、整形和枚举型数据，该种类型一般为可读写
             if (dataMap.get("data") != null) {
-                Timber.e("我收到了数据!!!!!!!!!!!!!!!!");
                 //解析json数据
                 JsonParser parser = new JsonParser();
                 JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
                 JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.CMD);
-
-                //// TODO: 2016/1/8
-                Timber.e(jsonData.toString());
 
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
@@ -151,7 +147,7 @@ public class XPGController {
                 } else if (cmd == 4) {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                 }
-                Timber.e("我抛出了获得的数据");
+                Timber.e("抛出了获得的数据");
             } else {
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 Timber.e("收到设备空的消息, errorCode:\t" + result);
@@ -164,7 +160,6 @@ public class XPGController {
             if (dataMap.get("faults") != null) {
                 Timber.e("alert:\t" + dataMap.get("faults"));
             }
-            Timber.e("获取到设备数据");
         }
     };
 
@@ -178,7 +173,6 @@ public class XPGController {
         @Override
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
-            //TODO---尝试登陆设备---进行控制
             Timber.e("绑定设备回调. 设备id:\t" + did);
             if (error == 0) {
                 EventBus.getDefault().post(new DeviceBindResultEvent(true));

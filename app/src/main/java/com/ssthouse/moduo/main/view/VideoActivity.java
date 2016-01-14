@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.presenter.VideoPresenter;
-import com.ssthouse.moduo.main.presenter.VideoPresenterImpl;
 import com.ssthouse.moduo.main.view.fragment.CallingFragment;
 import com.ssthouse.moduo.main.view.fragment.VideoFragment;
+
+import timber.log.Timber;
 
 /**
  * 视频对话activity
  * Created by ssthouse on 2015/12/17.
  */
-public class VideoActivity extends AppCompatActivity implements VideoView {
+public class VideoActivity extends AppCompatActivity{
 
 
     /**
@@ -33,11 +33,6 @@ public class VideoActivity extends AppCompatActivity implements VideoView {
     private FragmentManager fragmentManager;
     private CallingFragment callingFragment;
     private VideoFragment videoFragment;
-
-    /**
-     * UI控制类
-     */
-    private VideoPresenter videoPresenter;
 
     //等待dialog
     private MaterialDialog waitDialog;
@@ -62,16 +57,12 @@ public class VideoActivity extends AppCompatActivity implements VideoView {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
 
         //初始化fragment
         fragmentManager = getSupportFragmentManager();
         callingFragment = new CallingFragment();
         videoFragment = VideoFragment.newInstance(getIntent().getLongExtra(EXTRA_CID_NUMBER, 0));
-
-        //初始化UI控制类
-        videoPresenter = new VideoPresenterImpl(this, this);
 
         initView();
     }
@@ -84,43 +75,30 @@ public class VideoActivity extends AppCompatActivity implements VideoView {
                 .build();
 
         //开始calling
-        videoPresenter.startCalling();
+        Timber.e("开始打电话.....");
+        //改变界面
+        showCallingFragment();
     }
 
-
-    @Override
     public void showCallingFragment() {
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, callingFragment)
                 .commit();
     }
 
-    @Override
     public void showVideoFragment() {
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, videoFragment)
                 .commit();
     }
 
-    @Override
     public void showDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
 
-    @Override
     public void dismissDialog() {
         waitDialog.dismiss();
-    }
-
-    public VideoPresenter getVideoPresenter() {
-        return videoPresenter;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        videoPresenter.unRegister();
     }
 }

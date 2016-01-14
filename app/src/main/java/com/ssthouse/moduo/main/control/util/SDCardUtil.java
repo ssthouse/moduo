@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.control.util;
+package com.ssthouse.moduo.main.control.util;
 
 import android.os.Environment;
 import android.os.StatFs;

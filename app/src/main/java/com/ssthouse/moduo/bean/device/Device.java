@@ -3,7 +3,7 @@ package com.ssthouse.moduo.bean.device;
 import android.content.Context;
 
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.ssthouse.moduo.control.util.PreferenceHelper;
+import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.Serializable;
@@ -23,19 +23,19 @@ public class Device implements Serializable {
     private StreamerPresenceState streamerPresenceState;
 
     /**
-     * TODO---设备cid编号
+     * 视频SDK---设备cid编号
      */
-    private long cidNumber = 50000072;
+    private long cidNumber;
 
     /**
-     * TODO---设备用户名
+     * 视频SDK---设备用户名
      */
-    private String username = "admin";
+    private String username;
 
     /**
-     * TODO---设备密码
+     * 视频SDK---设备密码
      */
-    private String password = "admin";
+    private String password;
 
     /*
     机智云sdk数据

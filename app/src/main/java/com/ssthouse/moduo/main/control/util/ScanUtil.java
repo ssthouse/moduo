@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.control.util;
+package com.ssthouse.moduo.main.control.util;
 
 import android.app.Activity;
 import android.content.Context;

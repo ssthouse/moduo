@@ -50,7 +50,7 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <!--网络的监听BroadCastReceiver-->
-        <receiver android:name=".control.receiver.NetStateReceiver">
+        <receiver android:name=".main.control.receiver.NetStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -164,7 +164,7 @@
         <!-- push结束 -->
 
         <!-- 此处Receiver名字修改为当前包名路径 -->
-        <receiver android:name=".control.receiver.BaiduMessageReceiver">
+        <receiver android:name=".main.control.receiver.BaiduMessageReceiver">
             <intent-filter>
                 <!-- 接收push消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />

@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.control.receiver;
+package com.ssthouse.moduo.main.control.receiver;
 
 import android.content.Context;
 

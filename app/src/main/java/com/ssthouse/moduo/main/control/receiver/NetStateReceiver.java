@@ -1,10 +1,10 @@
-package com.ssthouse.moduo.control.receiver;
+package com.ssthouse.moduo.main.control.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.ssthouse.moduo.control.util.NetUtil;
+import com.ssthouse.moduo.main.control.util.NetUtil;
 import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
 
 import de.greenrobot.event.EventBus;

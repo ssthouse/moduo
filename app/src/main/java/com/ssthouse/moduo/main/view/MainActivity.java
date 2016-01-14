@@ -24,13 +24,12 @@ import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
-import com.ssthouse.moduo.control.util.PreferenceHelper;
-import com.ssthouse.moduo.control.util.ScanUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
-import com.ssthouse.moduo.control.video.Communication;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.activity.LoadingActivity;
+import com.ssthouse.moduo.main.control.util.PreferenceHelper;
+import com.ssthouse.moduo.main.control.util.ScanUtil;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.video.Communication;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.MainFragment;
@@ -313,17 +312,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
             case R.id.id_menu_add_moduo:
                 //// TODO: 2016/1/14 添加魔哆
                 ScanUtil.startScan(this);
-                break;
-            case R.id.id_action_get_bound_device:
-                break;
-            case R.id.id_action_log_out:
-                SettingManager.getInstance(this).clean();
-                PreferenceHelper.getInstance(this).setIsFistIn(true);
-                //重新进入loading activity
-                LoadingActivity.start(this);
-                //结束当前activity
-                isLogOut = true;
-                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -16,7 +16,6 @@ import com.ssthouse.moduo.main.view.fragment.DeviceListFragment;
 
 /**
  * 家居控制
- * todo
  * 最好定义一个枚举----表示当前activity的状态
  * Created by ssthouse on 2016/1/13.
  */

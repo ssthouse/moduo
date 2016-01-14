@@ -16,16 +16,4 @@
         android:visible="false"
         app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/id_action_get_bound_device"
-        android:orderInCategory="300"
-        android:title="获取账号绑定设备"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/id_action_log_out"
-        android:orderInCategory="400"
-        android:title="清除已绑定设备"
-        app:showAsAction="never" />
 </menu>

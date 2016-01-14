@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.control.video;
+package com.ssthouse.moduo.main.control.video;
 
 
 import android.media.AudioFormat;

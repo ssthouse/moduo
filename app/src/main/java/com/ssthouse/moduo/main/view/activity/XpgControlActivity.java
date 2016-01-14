@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.control.util.ByteUtils;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.util.ActivityUtil;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.control.util.ByteUtils;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.device.DeviceData;
 import com.ssthouse.moduo.bean.event.xpg.DeviceDataChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetDeviceDataEvent;

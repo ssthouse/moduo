@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.control.util.PreferenceHelper;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.control.util.PreferenceHelper;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.event.view.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.RegisterResultEvent;

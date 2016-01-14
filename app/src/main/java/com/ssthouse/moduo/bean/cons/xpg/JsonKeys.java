@@ -18,7 +18,7 @@
 package com.ssthouse.moduo.bean.cons.xpg;
 
 /**
- * TODO---改为自己设别的参数key
+ * todo
  * Json对应字段表
  *
  * @author Lien

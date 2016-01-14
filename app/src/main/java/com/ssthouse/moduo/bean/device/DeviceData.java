@@ -86,12 +86,10 @@ public class DeviceData implements Serializable {
     private int power;
     /**
      * 硬件版本
-     * todo
      */
     private byte[] hwVersion;
     /**
      * 软件版本
-     * todo
      */
     private byte[] swVersion;
     /**

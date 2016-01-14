@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
@@ -17,12 +18,9 @@ import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.video.VideoReadyEvent;
-import com.ssthouse.moduo.control.video.AudioHandler;
-import com.ssthouse.moduo.main.presenter.VideoPresenter;
+import com.ssthouse.moduo.main.control.video.AudioHandler;
 import com.ssthouse.moduo.main.view.VideoActivity;
 
-import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
@@ -31,7 +29,7 @@ import timber.log.Timber;
  */
 public class VideoFragment extends Fragment {
 
-    private VideoPresenter videoPresenter;
+    private MaterialDialog waitDialog;
 
     /**
      * SDK控制类
@@ -39,6 +37,9 @@ public class VideoFragment extends Fragment {
     private Viewer viewer;
     private Media media;
 
+    /**
+     * 视频承接控件
+     */
     private RelativeLayout surfaceViewLayout;
 
 
@@ -81,9 +82,6 @@ public class VideoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //获取UI控制类
-        videoPresenter = ((VideoActivity) getActivity()).getVideoPresenter();
-
         //初始化Video
         initVideo();
 
@@ -107,6 +105,10 @@ public class VideoFragment extends Fragment {
         myRenderer = new GLViewYuvRender();
         glSurfaceView.setRenderer(myRenderer);
 
+        waitDialog = new MaterialDialog.Builder(getContext())
+                .customView(R.layout.dialog_wait, true)
+                .autoDismiss(false)
+                .build();
     }
 
     /**
@@ -126,8 +128,8 @@ public class VideoFragment extends Fragment {
         @Override
         public void onMediaStreamState(long streamId, MediaStreamState mediaStreamState) {
             Timber.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
-            //收到回调的时候隐藏dialog
-            EventBus.getDefault().post(new VideoReadyEvent());
+            //隐藏dialog
+            waitDialog.dismiss();
             //监测链接状态
             if (mediaStreamState == MediaStreamState.CREATED) {
                 MediaDataDesc desc = media.getStreamDesc(liveStreamId);
@@ -162,7 +164,7 @@ public class VideoFragment extends Fragment {
         liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
         Timber.e("liveStreamId :" + liveStreamId);
         //初始显示等待dialog
-        videoPresenter.waitForVideoReady();
+        waitDialog.show();
     }
 
     //停止音视频观看
@@ -214,5 +216,4 @@ public class VideoFragment extends Fragment {
         media.setMediaStreamStateCallback(null);
         stopWatch();
     }
-
 }
