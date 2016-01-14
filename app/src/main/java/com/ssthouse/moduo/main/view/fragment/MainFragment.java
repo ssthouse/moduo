@@ -81,9 +81,10 @@ public class MainFragment extends Fragment {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
-                            SettingManager.getInstance(getContext()).getUid(),
-                            SettingManager.getInstance(getContext()).getToken());
+                    XPGController.getCurrentDevice()
+                            .getXpgWifiDevice()
+                            .login(SettingManager.getInstance(getContext()).getUid(),
+                                    SettingManager.getInstance(getContext()).getToken());
                     Timber.e("尝试登陆设备");
                 }
             }
@@ -186,15 +187,19 @@ public class MainFragment extends Fragment {
                 XPGController.setCurrentDevice(new Device(getContext(), event.getXpgDeviceList().get(0)));
                 SettingManager.getInstance(getContext()).setCurrentDid(event.getXpgDeviceList().get(0).getDid());
                 Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
-                return;
-            }
-            //找到之前操作的设备
-            for (XPGWifiDevice device : event.getXpgDeviceList()) {
-                if (device.getDid().equals(currentDid)) {
-                    XPGController.setCurrentDevice(new Device(getContext(), device));
-                    Timber.e("找到了之前操作过的设备");
+            } else {
+                //找到之前操作的设备
+                for (XPGWifiDevice device : event.getXpgDeviceList()) {
+                    if (device.getDid().equals(currentDid)) {
+                        XPGController.setCurrentDevice(new Device(getContext(), device));
+                        Timber.e("找到了之前操作过的设备");
+                    }
                 }
             }
+            //设置监听器
+            XPGController.getCurrentDevice()
+                    .getXpgWifiDevice()
+                    .setListener(XPGController.getInstance(getContext()).getDeviceListener());
         } else {
             ToastHelper.show(getContext(), "获取设备列表失败");
         }
@@ -234,7 +239,7 @@ public class MainFragment extends Fragment {
             if (event.getDid().equals(XPGController.getCurrentDevice().getXpgWifiDevice().getDid())) {
                 //跳转控制界面
                 XpgControlActivity.start(getActivity(), new DeviceData());
-            }else{
+            } else {
                 Timber.e("不是当前设备在登陆...");
             }
         } else {

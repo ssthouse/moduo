@@ -23,6 +23,7 @@ import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.ScanUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -256,6 +257,50 @@ public class MainActivity extends AppCompatActivity implements MainView {
         //更新界面
     }
 
+    /**
+     * 扫描设备回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(ScanDeviceEvent event) {
+        Timber.e("扫描Activity回调");
+        if (event.isSuccess()) {
+            showDialog("正在绑定设备,请稍候");
+            //开始绑定设备
+            XPGController.getInstance(this).getmCenter().cBindDevice(
+                    SettingManager.getInstance(this).getUid(),
+                    SettingManager.getInstance(this).getToken(),
+                    event.getDid(),
+                    event.getPassCode(),
+                    ""
+            );
+        } else {
+            ToastHelper.show(this, "设备绑定失败");
+        }
+    }
+
+    /**
+     * 绑定设备回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(DeviceBindResultEvent event) {
+        Timber.e("设备绑定回调");
+        dismissDialog();
+        if (event.isSuccess()) {
+            showDialog("正在切换当前设备");
+            ToastHelper.show(this, "设备绑定成功");
+            //将当前绑定设备设为---默认操作设备
+            SettingManager.getInstance(this).setCurrentDid(event.getDid());
+            //请求设备列表
+            XPGController.getInstance(this).getmCenter().cGetBoundDevices(
+                    SettingManager.getInstance(this).getUid(),
+                    SettingManager.getInstance(this).getToken());
+        } else {
+            ToastHelper.show(this, "设备绑定失败");
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -265,6 +310,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.id_menu_add_moduo:
+                //// TODO: 2016/1/14 添加魔哆
+                ScanUtil.startScan(this);
+                break;
             case R.id.id_action_get_bound_device:
                 break;
             case R.id.id_action_log_out:

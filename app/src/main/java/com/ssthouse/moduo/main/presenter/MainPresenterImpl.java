@@ -2,7 +2,6 @@ package com.ssthouse.moduo.main.presenter;
 
 import android.content.Context;
 
-import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.control.util.ScanUtil;
@@ -72,48 +71,6 @@ public class MainPresenterImpl implements MainPresenter {
         ScanUtil.startScan(context);
     }
 
-
-    /**
-     * 添加设备回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(ScanDeviceEvent event) {
-        Timber.e("扫描Activity回调");
-        if (event.isSuccess()) {
-            mainView.showDialog("正在绑定设备,请稍候");
-            //开始绑定设备
-            XPGController.getInstance(context).getmCenter().cBindDevice(
-                    SettingManager.getInstance(context).getUid(),
-                    SettingManager.getInstance(context).getToken(),
-                    event.getDid(),
-                    event.getPassCode(),
-                    ""
-            );
-        } else {
-            ToastHelper.show(context, "设备绑定失败");
-        }
-    }
-
-    /**
-     * 绑定设备回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(DeviceBindResultEvent event) {
-        Timber.e("设备绑定回调");
-        mainView.dismissDialog();
-        if (event.isSuccess()) {
-            mainView.showDialog("正在获取设备列表,请稍候");
-            ToastHelper.show(context, "设备绑定成功");
-            //请求设备列表
-            XPGController.getInstance(context).getmCenter().cGetBoundDevices(
-                    SettingManager.getInstance(context).getUid(),
-                    SettingManager.getInstance(context).getToken());
-        } else {
-            ToastHelper.show(context, "设备绑定失败");
-        }
-    }
 
     /**
      * 解绑设备回调

@@ -4,6 +4,12 @@
     tools:context=".main.view.MainActivity">
 
     <item
+        android:id="@+id/id_menu_add_moduo"
+        android:icon="@drawable/ic_action_new"
+        app:showAsAction="always"
+        android:title="添加魔哆" />
+
+    <item
         android:id="@+id/id_action_pb"
         android:orderInCategory="10"
         android:title="进度条"
