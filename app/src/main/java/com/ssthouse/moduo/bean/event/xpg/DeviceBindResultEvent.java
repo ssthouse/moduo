@@ -20,10 +20,6 @@ public class DeviceBindResultEvent {
         this.did = did;
     }
 
-    public DeviceBindResultEvent(boolean isSuccess) {
-        this.isSuccess = isSuccess;
-    }
-
     public boolean isSuccess() {
         return isSuccess;
     }

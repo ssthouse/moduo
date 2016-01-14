@@ -13,7 +13,7 @@ import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.main.view.activity.DeviceInfoActivity;
-import com.ssthouse.moduo.main.view.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.VideoActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.List;

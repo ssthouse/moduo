@@ -7,18 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.control.util.ActivityUtil;
-import com.ssthouse.moduo.main.control.util.PreferenceHelper;
-import com.ssthouse.moduo.main.control.util.ToastHelper;
-import com.ssthouse.moduo.main.control.video.Communication;
-import com.ssthouse.moduo.main.control.xpg.SettingManager;
-import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.MainActivity;
 import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.control.util.ActivityUtil;
+import com.ssthouse.moduo.main.control.util.PreferenceHelper;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import de.greenrobot.event.EventBus;
@@ -35,6 +33,11 @@ public class LoadingActivity extends AppCompatActivity {
      * 用于判断---是否已经把无效的设备删除干净
      */
     private int wastedDeviceNum = 0;
+
+    /**
+     * 平台登录数目
+     */
+    private int loginNumber = 0;
 
     /**
      * 启动当前activity
@@ -60,8 +63,8 @@ public class LoadingActivity extends AppCompatActivity {
 //        }
 
         //加载视频对话sdk
-        loadSdkLib();
-        Communication.init(this);
+//        loadSdkLib();
+//        Communication.init(this);
 
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();

@@ -21,9 +21,10 @@ import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.main.control.util.NetUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.VideoActivity;
 import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
@@ -202,6 +203,11 @@ public class MainFragment extends Fragment {
             XPGController.getCurrentDevice()
                     .getXpgWifiDevice()
                     .setListener(XPGController.getInstance(getContext()).getDeviceListener());
+            //登陆视频sdk
+            Communication.getInstance(getContext()).
+                    addStreamer(XPGController.getCurrentDevice().getCidNumber()
+                            , XPGController.getCurrentDevice().getUsername(),
+                            XPGController.getCurrentDevice().getPassword());
         } else {
             ToastHelper.show(getContext(), "获取设备列表失败");
         }

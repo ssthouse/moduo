@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view;
+package com.ssthouse.moduo.main.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
@@ -30,8 +31,6 @@ import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.activity.SettingActivity;
-import com.ssthouse.moduo.main.view.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
@@ -45,7 +44,7 @@ import timber.log.Timber;
 /**
  * 当前activity不监听设备数据传达的event
  */
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity{
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
     /**
@@ -64,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private UserInfoFragment userInfoFragment;
     private MainFragment mainFragment;
 
+    /**
+     * fragment切换逻辑
+     */
     public enum FragmentState {
         SHARE_DEVICE_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
     }
@@ -106,6 +108,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         initFragment();
 
         //初始化视频sdk
+        //ToastHelper.show(this, "加载视频sdk so 文件");
+        System.loadLibrary("gnustl_shared");
+        System.loadLibrary("ffmpeg");
+        System.loadLibrary("avdecoder");
+        System.loadLibrary("sdk30");
+        System.loadLibrary("viewer30");
         communication = Communication.getInstance(this);
     }
 
@@ -214,22 +222,31 @@ public class MainActivity extends AppCompatActivity implements MainView {
         fragmentManager.beginTransaction().show(toFragment).commit();
     }
 
-    @Override
     public void showDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
 
-    @Override
     public void dismissDialog() {
         waitDialog.dismiss();
     }
 
-
     /*
     视频SDK回调
      */
+    /**
+     * 视频直播---登录成功回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(ViewerLoginResultEvent event) {
+        if (event.isSuccess()) {
+            Timber.e("视频直播---登录成功");
+        } else {
+            ToastHelper.show(this, "登陆视频sdk失败");
+        }
+    }
 
     /**
      * 视频设备连接状态事件
@@ -288,7 +305,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Timber.e("设备绑定回调");
         dismissDialog();
         if (event.isSuccess()) {
-            showDialog("正在切换当前设备");
             ToastHelper.show(this, "设备绑定成功");
             //将当前绑定设备设为---默认操作设备
             SettingManager.getInstance(this).setCurrentDid(event.getDid());

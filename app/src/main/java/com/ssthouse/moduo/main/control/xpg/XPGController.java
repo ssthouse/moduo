@@ -175,9 +175,9 @@ public class XPGController {
             //绑定设备回调
             Timber.e("绑定设备回调. 设备id:\t" + did);
             if (error == 0) {
-                EventBus.getDefault().post(new DeviceBindResultEvent(true));
+                EventBus.getDefault().post(new DeviceBindResultEvent(true, did));
             } else {
-                EventBus.getDefault().post(new DeviceBindResultEvent(false));
+                EventBus.getDefault().post(new DeviceBindResultEvent(false, null));
             }
         }
 

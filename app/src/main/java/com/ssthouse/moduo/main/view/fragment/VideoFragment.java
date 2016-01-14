@@ -19,7 +19,7 @@ import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.video.AudioHandler;
-import com.ssthouse.moduo.main.view.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 import timber.log.Timber;
 
@@ -162,7 +162,7 @@ public class VideoFragment extends Fragment {
     private void startLiveVideo() {
         surfaceViewLayout.addView(glSurfaceView);
         liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
-        Timber.e("liveStreamId :" + liveStreamId);
+        Timber.e("liveStreamId :" + liveStreamId + "   cid" + streamerCid);
         //初始显示等待dialog
         waitDialog.show();
     }

@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view;
+package com.ssthouse.moduo.main.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
 import com.ssthouse.moduo.main.view.fragment.CallingFragment;
 import com.ssthouse.moduo.main.view.fragment.VideoFragment;
 
+import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
@@ -56,6 +58,7 @@ public class VideoActivity extends AppCompatActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video);
+        EventBus.getDefault().register(this);
 
         //初始化fragment
         fragmentManager = getSupportFragmentManager();
@@ -90,13 +93,26 @@ public class VideoActivity extends AppCompatActivity{
                 .commit();
     }
 
+    /**
+     * 电话接听回调
+     * @param event
+     */
+    public void onEventMainThread(CallingResponseEvent event){
+        Timber.e("收到电话接通结果回调");
+        if(event.isSuccess()){
+            showVideoFragment();
+        }
+    }
+
     public void showDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
 
-    public void dismissDialog() {
-        waitDialog.dismiss();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

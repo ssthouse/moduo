@@ -11,6 +11,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
 
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 正在calling
@@ -22,12 +23,15 @@ public class CallingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_calling, container, false);
         initView(rootView);
         return rootView;
     }
 
+
     private void initView(View rootView) {
+        //todo---模拟接通电话
         rootView.findViewById(R.id.id_iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,5 +39,23 @@ public class CallingFragment extends Fragment {
             }
         });
 
+    }
+
+    /**
+     * 电话接听回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(CallingResponseEvent event) {
+        Timber.e("收到电话接通结果回调");
+        if (event.isSuccess()) {
+           //
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
