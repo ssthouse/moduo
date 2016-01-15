@@ -9,15 +9,11 @@ import android.view.WindowManager;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
-import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
-import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -28,11 +24,6 @@ import timber.log.Timber;
  * Created by ssthouse on 2015/12/17.
  */
 public class LoadingActivity extends AppCompatActivity {
-
-    /**
-     * 用于判断---是否已经把无效的设备删除干净
-     */
-    private int wastedDeviceNum = 0;
 
     /**
      * 启动当前activity
@@ -90,68 +81,12 @@ public class LoadingActivity extends AppCompatActivity {
             ToastHelper.show(this, "登陆成功!");
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginInfo(event);
-            //如果是第一次---还需要删除废除设备---否则跳转MainActivity
-            if (PreferenceHelper.getInstance(this).isFistIn()) {
-                XPGController.getInstance(this).getmCenter()
-                        .cGetBoundDevices(
-                                SettingManager.getInstance(this).getUid(),
-                                SettingManager.getInstance(this).getToken());
-                //不是第一次了
-                PreferenceHelper.getInstance(this).setIsFistIn(false);
-            } else {
-                MainActivity.start(this, true);
-                finish();
-            }
+            //跳转Activity
+            MainActivity.start(this, true);
+            finish();
         } else {
             MainActivity.start(this, false);
             Timber.e("机智云---登录失败");
-            finish();
-        }
-    }
-
-    /**
-     * 获取绑定设备的回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(GetBoundDeviceEvent event) {
-        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            return;
-        }
-        if (event.isSuccess()) {
-            //初始化---已废除设备数据
-            wastedDeviceNum = event.getXpgDeviceList().size();
-            Timber.e("已经绑定的设别数目为\t" + wastedDeviceNum);
-            for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
-                //删除设备
-                XPGController.getInstance(this).getmCenter().cUnbindDevice(
-                        SettingManager.getInstance(this).getUid(),
-                        SettingManager.getInstance(this).getToken(),
-                        xpgWifiDevice.getDid(),
-                        xpgWifiDevice.getPasscode());
-                Timber.e("尝试解绑");
-            }
-            //进入MainActivity
-            MainActivity.start(this, true);
-            finish();
-        }
-    }
-
-    /**
-     * 解绑设备的回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(UnbindResultEvent event) {
-        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            return;
-        }
-        //// TODO: 2015/12/23 不管成不成功--都要减少数目
-        wastedDeviceNum--;
-        Timber.e("又少一个");
-        if (wastedDeviceNum <= 0) {
-            //跳转MainActivity
-            MainActivity.start(this, true);
             finish();
         }
     }

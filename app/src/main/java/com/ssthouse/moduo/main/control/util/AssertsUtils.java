@@ -51,6 +51,7 @@ public class AssertsUtils {
 
     /**
      * 从assert中复制出文件到某个文件
+     *
      * @param c
      * @param orifile
      * @param desfile
@@ -77,14 +78,12 @@ public class AssertsUtils {
 
     /**
      * 复制assert中的配置文件到app安装目录
-     * */
+     */
     static public boolean copyAllAssertToCacheFolder(Context c) throws IOException {
-
         String[] files = c.getAssets().list("Devices");
         String filefolder = c.getFilesDir().toString();
         File devicefile = new File(filefolder + "/Devices/");
         devicefile.mkdirs();
-
         for (int i = 0; i < files.length; i++) {
             File devfile = new File(filefolder + "/Devices/" + files[i]);
             if (!devfile.exists()) {
@@ -95,7 +94,6 @@ public class AssertsUtils {
         for (int i = 0; i < filestr.length; i++) {
             Log.i("file", filestr[i]);
         }
-
         return true;
     }
 }
