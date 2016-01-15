@@ -18,8 +18,6 @@
 package com.ssthouse.moduo.main.control.xpg;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 
 import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.cons.xpg.JsonKeys;
@@ -247,27 +245,6 @@ public class CmdCenter {
     //
     // =================================================================
 
-    /**
-     * 发送指令.
-     * 抽象出主体逻辑的命令方法
-     *
-     * @param xpgWifiDevice the xpg wifi device
-     * @param key           the key
-     * @param value         the value
-     */
-    public void cWrite(XPGWifiDevice xpgWifiDevice, String key, Object value) {
-        try {
-            JSONObject jsonSend = new JSONObject();
-            JSONObject jsonParam = new JSONObject();
-            jsonSend.put("cmd", 1);
-            jsonParam.put(key, value);
-            jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
-            Timber.e(jsonSend.toString());
-            xpgWifiDevice.write(jsonSend.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 获取设备状态.
@@ -275,7 +252,7 @@ public class CmdCenter {
      * @param xpgWifiDevice the xpg wifi device
      */
     public void cGetStatus(XPGWifiDevice xpgWifiDevice) {
-        if(xpgWifiDevice == null){
+        if (xpgWifiDevice == null) {
             Timber.e("设备为空");
             return;
         }
@@ -307,7 +284,7 @@ public class CmdCenter {
      * @param passCode the pass code
      */
     public void cUnbindDevice(String uid, String token, String did,
-    String passCode) {
+                              String passCode) {
         xpgWifiGCC.unbindDevice(uid, token, did, passCode);
     }
 
@@ -331,71 +308,78 @@ public class CmdCenter {
     //
     // =================================================================
 
-    /**
-     * 数据点 KEY
-     */
-    public static final String KEY_TEMPERATURE = "temperature";
-    public static final String KEY_HUMIDITY = "humidity";
 
     /**
-     * C switch on.
+     * 发送指令.
+     * 抽象出主体逻辑的命令方法
      *
      * @param xpgWifiDevice the xpg wifi device
-     * @param isOn          the is on
+     * @param key           the key
+     * @param value         the value
      */
-    public void cSwitchOn(XPGWifiDevice xpgWifiDevice, boolean isOn) {
-        cWrite(xpgWifiDevice, JsonKeys.ON_OFF, isOn);
-        cGetStatus(xpgWifiDevice);
-    }
-
-    /**
-     * C color.
-     *
-     * @param xpgWifiDevice the xpg wifi device
-     * @param color
-     */
-    public void cColor(XPGWifiDevice xpgWifiDevice, int color) {
+    public void cWrite(XPGWifiDevice xpgWifiDevice, String key, Object value) {
+        //按照一定格式发送数据
         try {
-            final JSONObject jsonsend = new JSONObject();
-            JSONObject jsonparam = new JSONObject();
-            jsonsend.put("cmd", 1);
-            jsonparam.put(JsonKeys.COLOR_RED, Color.red(color));
-            jsonparam.put(JsonKeys.COLOR_GREEN, Color.green(color));
-            jsonparam.put(JsonKeys.COLOR_BLUE, Color.blue(color));
-            jsonparam.put(JsonKeys.MODE, 0);
-            jsonsend.put(JsonKeys.KEY_ACTION, jsonparam);
-            Log.i("sendjson", jsonsend.toString());
-            xpgWifiDevice.write(jsonsend.toString());
+            JSONObject jsonSend = new JSONObject();
+            JSONObject jsonParam = new JSONObject();
+            jsonSend.put("cmd", 1);
+            jsonParam.put(key, value);
+            jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
+            Timber.e(jsonSend.toString());
+            xpgWifiDevice.write(jsonSend.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        cGetStatus(xpgWifiDevice);
     }
 
     /**
-     * C brightness.
+     * 改变头部
+     *
+     * @param xpgWifiDevice
+     * @param xHead
+     * @param yHead
+     * @param zHead
      */
-    public void cColorTemp(XPGWifiDevice xpgWifiDevice, int num) {
+    public void cWriteHead(XPGWifiDevice xpgWifiDevice, int xHead, int yHead, int zHead) {
+        Timber.e("control moduo: △X:%d    △Y:%d    △Z:%d    ", xHead, yHead, zHead);
+        //按照一定格式发送数据
         try {
-            final JSONObject jsonsend = new JSONObject();
-            JSONObject jsonparam = new JSONObject();
-            jsonsend.put("cmd", 1);
-            jsonparam.put(JsonKeys.COLOR_TEMPERATURE, num);
-            jsonparam.put(JsonKeys.MODE, 1);
-            jsonsend.put(JsonKeys.KEY_ACTION, jsonparam);
-            Log.i("sendjson", jsonsend.toString());
-            xpgWifiDevice.write(jsonsend.toString());
+            JSONObject jsonSend = new JSONObject();
+            JSONObject jsonParam = new JSONObject();
+            jsonSend.put("cmd", 1);
+            jsonParam.put(JsonKeys.X_HEAD, xHead);
+            jsonParam.put(JsonKeys.Y_HEAD, yHead);
+            jsonParam.put(JsonKeys.Z_HEAD, zHead);
+            jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
+            Timber.e(jsonSend.toString());
+            xpgWifiDevice.write(jsonSend.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        cGetStatus(xpgWifiDevice);
     }
 
     /**
-     * C brightness.
+     * 改变身体
+     *
+     * @param xpgWifiDevice
+     * @param xBody
+     * @param yBody
+     * @param zBody
      */
-    public void cBrightness(XPGWifiDevice xpgWifiDevice, int progress) {
-        cWrite(xpgWifiDevice, JsonKeys.BRIGHTNESS, progress);
-        cGetStatus(xpgWifiDevice);
+    public void cWriteBody(XPGWifiDevice xpgWifiDevice, int xBody, int yBody, int zBody) {
+        //按照一定格式发送数据
+        try {
+            JSONObject jsonSend = new JSONObject();
+            JSONObject jsonParam = new JSONObject();
+            jsonSend.put("cmd", 1);
+            jsonParam.put(JsonKeys.X_BODY, xBody);
+            jsonParam.put(JsonKeys.Y_BODY, yBody);
+            jsonParam.put(JsonKeys.Z_BODY, zBody);
+            jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
+            Timber.e(jsonSend.toString());
+            xpgWifiDevice.write(jsonSend.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

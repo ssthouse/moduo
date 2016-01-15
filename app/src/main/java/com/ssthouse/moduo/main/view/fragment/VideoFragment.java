@@ -6,11 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.video.VideoHolder;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 /**
@@ -22,12 +26,14 @@ public class VideoFragment extends Fragment {
     private MaterialDialog waitDialog;
 
     /**
-     * 视频承接控件
+     * 陀螺仪管理类
      */
-    private RelativeLayout surfaceViewLayout;
+    private GyroscopeSensor gyroscopeSensor;
 
+    /**
+     * 视频逻辑管理类
+     */
     private VideoHolder videoHolder;
-    private long streamerCid;// 要观看的采集端cid
 
     /**
      * 获取fragment实例
@@ -43,25 +49,50 @@ public class VideoFragment extends Fragment {
         return videoFragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //初始化数据
-        streamerCid = getArguments().getLong(VideoActivity.ARGUMENT_CID_NUMBER);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //初始化view
         View rootView = inflater.inflate(R.layout.fragment_video_display, container, false);
-        surfaceViewLayout = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+        initView(rootView);
 
         //初始化视频播放类
-        videoHolder = new VideoHolder(getContext(), surfaceViewLayout, streamerCid);
+        videoHolder = new VideoHolder(getContext(),
+                (RelativeLayout) rootView.findViewById(R.id.id_rl_container),
+                getArguments().getLong(VideoActivity.ARGUMENT_CID_NUMBER));
+
+        //初始化传感器
+        gyroscopeSensor = new GyroscopeSensor(getContext());
+        gyroscopeSensor.setListener(new GyroscopeSensor.RotationChangeListener() {
+            @Override
+            public void call(int deltaX, int deltaY, int deltaZ) {
+                //// TODO: 2016/1/15 发送方向操作
+                XPGController.getInstance(getContext()).getmCenter().cWriteHead(
+                        XPGController.getCurrentDevice().getXpgWifiDevice(),
+                        deltaX,
+                        deltaY,
+                        deltaZ
+                );
+            }
+        });
 
         return rootView;
+    }
+
+    private void initView(View rootView) {
+        Switch sw = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    gyroscopeSensor.resetOrientation();
+                    gyroscopeSensor.start();
+                } else {
+                    gyroscopeSensor.pause();
+                }
+            }
+        });
     }
 
     /*

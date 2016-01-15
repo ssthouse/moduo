@@ -4,13 +4,10 @@ import android.app.Application;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.ssthouse.moduo.main.control.util.AssertsUtils;
 import com.ssthouse.moduo.bean.cons.Constant;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
-
-import java.io.IOException;
 
 import timber.log.Timber;
 
@@ -39,12 +36,12 @@ public class App extends Application {
         XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
                 Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
         //复制xpg配置文件
-        try {
-            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
-            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
-        } catch (IOException e) {
-            Timber.e("复制出错");
-            e.printStackTrace();
-        }
+//        try {
+//            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
+//            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
+//        } catch (IOException e) {
+//            Timber.e("复制出错");
+//            e.printStackTrace();
+//        }
     }
 }

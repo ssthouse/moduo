@@ -25,7 +25,6 @@ import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
-import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -86,7 +85,11 @@ public class MainFragment extends Fragment {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    HomeControlActivity.start(getContext());
+//                    HomeControlActivity.start(getContext());
+                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
+                            SettingManager.getInstance(getContext()).getUid(),
+                            SettingManager.getInstance(getContext()).getToken()
+                    );
                 }
             }
         });

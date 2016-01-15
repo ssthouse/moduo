@@ -5,6 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/id_menu_main"
+            android:checked="true"
             android:icon="@drawable/avatar_boy"
             android:title="首页" />
 
