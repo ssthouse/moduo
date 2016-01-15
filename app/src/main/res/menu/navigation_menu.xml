@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/id_menu_main"
-        android:icon="@drawable/avatar_boy"
-        android:title="首页" />
+    <!--单选listview-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/id_menu_main"
+            android:icon="@drawable/avatar_boy"
+            android:title="首页" />
 
-    <item
-        android:id="@+id/id_menu_user_info"
-        android:icon="@mipmap/ic_launcher"
-        android:title="个人资料" />
+        <item
+            android:id="@+id/id_menu_user_info"
+            android:icon="@mipmap/ic_launcher"
+            android:title="个人资料" />
 
-    <item
-        android:id="@+id/id_menu_about_moduo"
-        android:icon="@mipmap/ic_launcher"
-        android:title=" 关于魔哆" />
+        <item
+            android:id="@+id/id_menu_about_moduo"
+            android:icon="@mipmap/ic_launcher"
+            android:title=" 关于魔哆" />
 
-    <item
-        android:id="@+id/id_menu_share_device"
-        android:icon="@mipmap/ic_launcher"
-        android:title=" 生成二维码" />
+        <item
+            android:id="@+id/id_menu_share_device"
+            android:icon="@mipmap/ic_launcher"
+            android:title=" 生成二维码" />
+    </group>
 
     <item
         android:id="@+id/id_menu_setting"

@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
 import com.ssthouse.moduo.main.view.fragment.CallingFragment;
 import com.ssthouse.moduo.main.view.fragment.VideoFragment;
 
-import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
@@ -53,12 +52,11 @@ public class VideoActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏---不息屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video);
-        EventBus.getDefault().register(this);
 
         //初始化fragment
         fragmentManager = getSupportFragmentManager();
@@ -69,6 +67,10 @@ public class VideoActivity extends AppCompatActivity{
     }
 
     private void initView() {
+        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
+        getSupportActionBar().setTitle("视频控制");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //等待dialog
         waitDialog = new MaterialDialog.Builder(this)
                 .autoDismiss(false)
@@ -93,17 +95,6 @@ public class VideoActivity extends AppCompatActivity{
                 .commit();
     }
 
-    /**
-     * 电话接听回调
-     * @param event
-     */
-    public void onEventMainThread(CallingResponseEvent event){
-        Timber.e("收到电话接通结果回调");
-        if(event.isSuccess()){
-            showVideoFragment();
-        }
-    }
-
     public void showDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
@@ -111,8 +102,11 @@ public class VideoActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

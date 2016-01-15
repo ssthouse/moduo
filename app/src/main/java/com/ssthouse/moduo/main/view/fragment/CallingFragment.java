@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
+import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -39,6 +40,14 @@ public class CallingFragment extends Fragment {
             }
         });
 
+        //取消
+        rootView.findViewById(R.id.id_btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //退出Activity
+                getActivity().finish();
+            }
+        });
     }
 
     /**
@@ -49,7 +58,8 @@ public class CallingFragment extends Fragment {
     public void onEventMainThread(CallingResponseEvent event) {
         Timber.e("收到电话接通结果回调");
         if (event.isSuccess()) {
-           //
+            VideoActivity videoActivity = (VideoActivity) getActivity();
+            videoActivity.showVideoFragment();
         }
     }
 

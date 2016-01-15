@@ -1,15 +1,10 @@
-package com.ssthouse.moduo.main.view.fragment;
+package com.ssthouse.moduo.main.control.video;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
@@ -17,25 +12,24 @@ import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
 import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
-import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.control.video.AudioHandler;
-import com.ssthouse.moduo.main.view.activity.VideoActivity;
+import com.ssthouse.moduo.bean.event.video.VideoReadyEvent;
 
+import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 视频通话fragment
- * Created by ssthouse on 2016/1/12.
+ * 视频管理类---减轻videoFragment
+ * Created by ssthouse on 2016/1/15.
  */
-public class VideoFragment extends Fragment {
-
-    private MaterialDialog waitDialog;
+public class VideoHolder {
 
     /**
      * SDK控制类
      */
     private Viewer viewer;
     private Media media;
+
+    private Context context;
 
     /**
      * 视频承接控件
@@ -58,60 +52,34 @@ public class VideoFragment extends Fragment {
     private AudioHandler audioHandler;
 
     /**
-     * 获取fragment实例
+     * 构造方法
      *
-     * @param cidNumber
-     * @return
+     * @param surfaceViewLayout
+     * @param streamerCid
      */
-    public static VideoFragment newInstance(long cidNumber) {
-        VideoFragment videoFragment = new VideoFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(VideoActivity.ARGUMENT_CID_NUMBER, cidNumber);
-        videoFragment.setArguments(bundle);
-        return videoFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //初始化数据
-        streamerCid = getArguments().getLong(VideoActivity.ARGUMENT_CID_NUMBER);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //初始化Video
-        initVideo();
-
-        //初始化view
-        View rootView = inflater.inflate(R.layout.fragment_video_display, container, false);
-        initView(rootView);
-        return rootView;
-    }
-
-    private void initVideo() {
-        viewer = Viewer.getViewer();
-        media = viewer.getMedia();
-    }
-
-    private void initView(View rootView) {
-        surfaceViewLayout = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
-
-        //初始化播放控件
-        glSurfaceView = new GLSurfaceView(getContext());
-        glSurfaceView.setEGLContextClientVersion(2);
-        myRenderer = new GLViewYuvRender();
-        glSurfaceView.setRenderer(myRenderer);
-
-        waitDialog = new MaterialDialog.Builder(getContext())
-                .customView(R.layout.dialog_wait, true)
-                .autoDismiss(false)
-                .build();
+    public VideoHolder(Context context, RelativeLayout surfaceViewLayout, long streamerCid) {
+        this.context = context;
+        this.surfaceViewLayout = surfaceViewLayout;
+        this.streamerCid = streamerCid;
+        init();
     }
 
     /**
-     * 解码器回调器
+     * 初始化
+     */
+    private void init() {
+        viewer = Viewer.getViewer();
+        media = viewer.getMedia();
+
+        //初始化播放控件
+        glSurfaceView = new GLSurfaceView(context);
+        glSurfaceView.setEGLContextClientVersion(2);
+        myRenderer = new GLViewYuvRender();
+        glSurfaceView.setRenderer(myRenderer);
+    }
+
+    /**
+     * 解码回调器
      */
     private GLViewYuvRender.RenderYUVFrame renderYUVFrame = new GLViewYuvRender.RenderYUVFrame() {
         @Override
@@ -128,7 +96,7 @@ public class VideoFragment extends Fragment {
         public void onMediaStreamState(long streamId, MediaStreamState mediaStreamState) {
             Timber.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
             //隐藏dialog
-            waitDialog.dismiss();
+            EventBus.getDefault().post(new VideoReadyEvent());
             //监测链接状态
             if (mediaStreamState == MediaStreamState.CREATED) {
                 MediaDataDesc desc = media.getStreamDesc(liveStreamId);
@@ -158,16 +126,14 @@ public class VideoFragment extends Fragment {
     };
 
     //开始实时视频
-    private void startLiveVideo() {
+    public void startLiveVideo() {
         surfaceViewLayout.addView(glSurfaceView);
         liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
         Timber.e("liveStreamId :" + liveStreamId + "   cid" + streamerCid);
-        //初始显示等待dialog
-        waitDialog.show();
     }
 
     //停止音视频观看
-    private void stopWatch() {
+    public void stopWatch() {
         if (audioHandler != null) {
             audioHandler.releaseAudio();// stop audio play and record
             audioHandler = null;
@@ -194,25 +160,11 @@ public class VideoFragment extends Fragment {
         Timber.e("send cmd ret:" + ret);
     }
 
-    /*
-    生命周期控制
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-        startLiveVideo();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void resume() {
         media.setMediaStreamStateCallback(mediaStreamStateCallback);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void stop() {
         media.setMediaStreamStateCallback(null);
-        stopWatch();
     }
 }

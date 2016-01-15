@@ -44,7 +44,7 @@ import timber.log.Timber;
 /**
  * 当前activity不监听设备数据传达的event
  */
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
     /**
@@ -145,15 +145,19 @@ public class MainActivity extends AppCompatActivity{
                 switch (item.getItemId()) {
                     case R.id.id_menu_main:
                         switchFragment(FragmentState.MAIN_FRAGMENT);
+                        getSupportActionBar().setTitle("魔哆");
                         break;
                     case R.id.id_menu_user_info:
                         switchFragment(FragmentState.USER_INFO_FRAGMENT);
+                        getSupportActionBar().setTitle("个人资料");
                         break;
                     case R.id.id_menu_about_moduo:
                         switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
+                        getSupportActionBar().setTitle("关于魔哆");
                         break;
                     case R.id.id_menu_share_device:
                         switchFragment(FragmentState.SHARE_DEVICE_FRAGMENT);
+                        getSupportActionBar().setTitle("生成二维码");
                         break;
                     case R.id.id_menu_setting:
                         SettingActivity.start(MainActivity.this);
@@ -230,6 +234,7 @@ public class MainActivity extends AppCompatActivity{
     /*
     视频SDK回调
      */
+
     /**
      * 视频直播---登录成功回调
      *
@@ -346,11 +351,16 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() < (exitTimeInMils + 1500)) {
-            super.onBackPressed();
+        //判断当前是否为mainFragment
+        if (currentFragmentState == FragmentState.MAIN_FRAGMENT) {
+            if (System.currentTimeMillis() < (exitTimeInMils + 1500)) {
+                super.onBackPressed();
+            } else {
+                exitTimeInMils = System.currentTimeMillis();
+                ToastHelper.show(this, "再次点击退出");
+            }
         } else {
-            exitTimeInMils = System.currentTimeMillis();
-            ToastHelper.show(this, "再次点击退出");
+            switchFragment(FragmentState.MAIN_FRAGMENT);
         }
     }
 

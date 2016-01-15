@@ -175,8 +175,6 @@ public class MainFragment extends Fragment {
         //隐藏dialog
         waitDialog.dismiss();
         if (event.isSuccess()) {
-            //刷新主界面lv列表
-            ToastHelper.show(getContext(), "获取绑定设备成功,设备数目:\t" + event.getXpgDeviceList().size());
             //如果未绑定设备---需要先绑定
             if (event.getXpgDeviceList().size() <= 0) {
                 ToastHelper.show(getContext(), "当前未绑定设备,请先进行绑定");
@@ -209,7 +207,7 @@ public class MainFragment extends Fragment {
                             , XPGController.getCurrentDevice().getUsername(),
                             XPGController.getCurrentDevice().getPassword());
         } else {
-            ToastHelper.show(getContext(), "获取设备列表失败");
+            ToastHelper.show(getContext(), "获取绑定设备失败");
         }
     }
 
@@ -223,12 +221,14 @@ public class MainFragment extends Fragment {
         if (event.isSuccess()) {
             //改变全局状态
             Constant.isXpgLogin = true;
-            Timber.e("机智云---登录成功");
-            ToastHelper.show(getContext(), "登陆成功!");
+            tvModuoState.setText("魔哆登陆成功,欢迎使用。");
             //保存机智云登陆数据
             SettingManager.getInstance(getContext()).setLoginInfo(event);
             //获取设备
             initDevice();
+            //toast提示
+            Timber.e("机智云---登录成功");
+            ToastHelper.show(getContext(), "登陆成功!");
         } else {
             ToastHelper.show(getContext(), "登陆失败");
         }
