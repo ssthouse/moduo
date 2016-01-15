@@ -166,5 +166,6 @@ public class VideoHolder {
 
     public void stop() {
         media.setMediaStreamStateCallback(null);
+        stopWatch();
     }
 }
