@@ -108,12 +108,7 @@ public class MainActivity extends AppCompatActivity{
         initFragment();
 
         //初始化视频sdk
-        //ToastHelper.show(this, "加载视频sdk so 文件");
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("ffmpeg");
-        System.loadLibrary("avdecoder");
-        System.loadLibrary("sdk30");
-        System.loadLibrary("viewer30");
+        Communication.loadSdkLib();
         communication = Communication.getInstance(this);
     }
 

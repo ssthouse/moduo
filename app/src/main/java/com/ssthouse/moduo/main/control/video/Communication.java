@@ -70,6 +70,18 @@ public class Communication {
     }
 
     /**
+     * 加载视频对话sdk
+     */
+    public static void loadSdkLib() {
+        //ToastHelper.show(this, "加载视频sdk so 文件");
+        System.loadLibrary("gnustl_shared");
+        System.loadLibrary("ffmpeg");
+        System.loadLibrary("avdecoder");
+        System.loadLibrary("sdk30");
+        System.loadLibrary("viewer30");
+    }
+
+    /**
      * 构造方法
      *
      * @param context

@@ -35,11 +35,6 @@ public class LoadingActivity extends AppCompatActivity {
     private int wastedDeviceNum = 0;
 
     /**
-     * 平台登录数目
-     */
-    private int loginNumber = 0;
-
-    /**
      * 启动当前activity
      */
     public static void start(Context context) {
@@ -62,22 +57,8 @@ public class LoadingActivity extends AppCompatActivity {
 //            RegisterActivity.start(this);
 //        }
 
-        //加载视频对话sdk
-//        loadSdkLib();
-//        Communication.init(this);
-
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-    }
-
-    //加载视频对话sdk
-    private void loadSdkLib() {
-        //ToastHelper.show(this, "加载视频sdk so 文件");
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("ffmpeg");
-        System.loadLibrary("avdecoder");
-        System.loadLibrary("sdk30");
-        System.loadLibrary("viewer30");
     }
 
     /**
@@ -140,11 +121,6 @@ public class LoadingActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             //初始化---已废除设备数据
             wastedDeviceNum = event.getXpgDeviceList().size();
-            //如果为0---直接跳转
-//            if (wastedDeviceNum == 0) {
-//                jumpToMainActivity();
-//                return;
-//            }
             Timber.e("已经绑定的设别数目为\t" + wastedDeviceNum);
             for (XPGWifiDevice xpgWifiDevice : event.getXpgDeviceList()) {
                 //删除设备
@@ -155,7 +131,7 @@ public class LoadingActivity extends AppCompatActivity {
                         xpgWifiDevice.getPasscode());
                 Timber.e("尝试解绑");
             }
-            //// TODO: 2015/12/26
+            //进入MainActivity
             MainActivity.start(this, true);
             finish();
         }

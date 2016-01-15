@@ -56,6 +56,10 @@
             </intent-filter>
         </receiver>
 
+        <!--初次进入guide界面-->
+        <activity android:name=".main.view.activity.GuideActivity"
+            android:screenOrientation="portrait"/>
+
         <!--主界面-->
         <activity android:name=".main.view.activity.LoadingActivity">
             <intent-filter>
