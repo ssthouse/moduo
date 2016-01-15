@@ -8,6 +8,7 @@
 
     <!--wifi名称-->
     <android.support.design.widget.TextInputLayout
+        android:hint="wifi名"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp">
@@ -21,6 +22,7 @@
 
     <!--wifi密码输入框-->
     <android.support.design.widget.TextInputLayout
+        android:hint="密码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp">
