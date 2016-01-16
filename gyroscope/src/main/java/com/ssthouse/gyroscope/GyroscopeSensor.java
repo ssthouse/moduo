@@ -34,6 +34,11 @@ public class GyroscopeSensor {
     private Handler handler = new Handler();
 
     /**
+     * 当前xyz三轴状态
+     */
+    private int currentX, currentY, currentZ;
+
+    /**
      * 手机姿态改变listener
      */
     public interface RotationChangeListener {

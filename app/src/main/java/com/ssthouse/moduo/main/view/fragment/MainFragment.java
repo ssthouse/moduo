@@ -19,6 +19,7 @@ import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
+import com.ssthouse.moduo.main.control.util.ActivityUtil;
 import com.ssthouse.moduo.main.control.util.NetUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
@@ -245,6 +246,9 @@ public class MainFragment extends Fragment {
      * @param event
      */
     public void onEventMainThread(XpgDeviceStateEvent event) {
+        if(!ActivityUtil.isTopActivity(getActivity(), "MainActivity")){
+            return;
+        }
         if (event.isSuccess()) {
             //跳转控制界面
             if (event.getDid().equals(XPGController.getCurrentDevice().getXpgWifiDevice().getDid())) {

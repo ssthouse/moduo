@@ -114,5 +114,6 @@ public class VideoFragment extends Fragment {
     public void onStop() {
         super.onStop();
         videoHolder.stop();
+        gyroscopeSensor.pause();
     }
 }

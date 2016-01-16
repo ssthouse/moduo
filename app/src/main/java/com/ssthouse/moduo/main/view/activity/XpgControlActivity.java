@@ -145,7 +145,6 @@ public class XpgControlActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        //toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
         getSupportActionBar().setTitle("控制台");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

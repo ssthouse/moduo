@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
+import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 import de.greenrobot.event.EventBus;
@@ -16,6 +20,7 @@ import timber.log.Timber;
 
 /**
  * 正在calling
+ * 需要先登录设备
  * Created by ssthouse on 2016/1/12.
  */
 public class CallingFragment extends Fragment {
@@ -27,6 +32,12 @@ public class CallingFragment extends Fragment {
         EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_calling, container, false);
         initView(rootView);
+
+        //登陆设备
+        XPGController.getCurrentDevice().getXpgWifiDevice().login(
+                SettingManager.getInstance(getContext()).getUid(),
+                SettingManager.getInstance(getContext()).getToken()
+        );
         return rootView;
     }
 
@@ -48,6 +59,20 @@ public class CallingFragment extends Fragment {
                 getActivity().finish();
             }
         });
+    }
+
+    /**
+     * 设备登陆回调---登陆才能进行操作
+     *
+     * @param event
+     */
+    public void onEventMainThread(XPGLoginResultEvent event) {
+        if (event.isSuccess()) {
+            Timber.e("设备登陆成功");
+        } else {
+            getActivity().finish();
+            ToastHelper.show(getContext(), "设备登陆失败");
+        }
     }
 
     /**
