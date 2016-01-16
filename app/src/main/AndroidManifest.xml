@@ -85,6 +85,10 @@
             android:name=".main.view.activity.SettingActivity"
             android:screenOrientation="portrait" />
 
+        <!--密码锁-->
+        <activity android:name=".main.view.activity.account.GestureLockActivity"
+            android:screenOrientation="portrait"/>
+
         <!--展示wifi二维码-->
         <activity
             android:name=".main.view.activity.WifiCodeDispActivity"

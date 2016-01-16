@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.main.view.activity.account.GestureLockActivity;
 
 /**
  * 设置
@@ -22,7 +23,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private ListView lv;
 
-    private String args[] = {"常见问题", "问题反馈", "使用帮助", "使用条款"};
+    private String args[] = {"常见问题", "问题反馈", "使用帮助", "使用条款", "图形密码"};
 
     /**
      * 启动当前Activity
@@ -62,6 +63,10 @@ public class SettingActivity extends AppCompatActivity {
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 4:
+                        //todo
+                        GestureLockActivity.start(SettingActivity.this);
                         break;
                 }
             }

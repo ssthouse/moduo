@@ -1,1 +1,1 @@
-include ':app', ':gyroscope'
+include ':app', ':gyroscope', ':gesture'
