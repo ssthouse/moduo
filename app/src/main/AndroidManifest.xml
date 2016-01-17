@@ -41,7 +41,7 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
 
-    <application
+    <application xmlns:tools="http://schemas.android.com/tools"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -55,6 +55,10 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <!--app介绍-->
+        <activity android:name=".main.view.activity.AppIntroActivity"
+            android:screenOrientation="portrait"/>
 
         <!--初次进入guide界面-->
         <activity android:name=".main.view.activity.GuideActivity"

@@ -8,8 +8,8 @@ android {
         applicationId "com.ssthouse.moduo"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.2.0"
+        versionCode 121
+        versionName "1.2.1"
     }
     buildTypes {
         release {
@@ -68,4 +68,11 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile project(':gesture')
+    //app intro
+    compile 'com.github.paolorotolo:appintro:3.3.0'
+    //animation
+    compile 'com.github.florent37:viewanimator:1.0.0@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
+    //textview animation
+//    compile 'hanks.xyz:htextview-library:0.1.3'
 }

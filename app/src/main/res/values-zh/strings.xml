@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_close">关闭</string>
+    <string name="drawer_open">打开</string>
+    <string name="moduo_state_connected">已成功连接魔哆,欢迎使用</string>
+    <string name="moduo_state_connecting">正在连接魔哆...</string>
+    <string name="moduo_state_disconnect">尚未连接魔哆</string>
+</resources>

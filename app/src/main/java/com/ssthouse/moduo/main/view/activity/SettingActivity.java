@@ -61,6 +61,8 @@ public class SettingActivity extends AppCompatActivity {
                     case 1:
                         break;
                     case 2:
+                        //使用帮助
+                        AppIntroActivity.start(SettingActivity.this);
                         break;
                     case 3:
                         break;
