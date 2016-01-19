@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.view.fragment.NewGestureFragment;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
+import com.ssthouse.moduo.main.view.fragment.gesture.EditGestureFragment;
+import com.ssthouse.moduo.main.view.fragment.gesture.NewGestureFragment;
 
 /**
  * 手势密码
@@ -19,8 +21,8 @@ import com.ssthouse.moduo.main.view.fragment.NewGestureFragment;
 public class GestureLockActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-
     private NewGestureFragment newGestureFragment;
+    private EditGestureFragment editGestureFragment;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, GestureLockActivity.class);
@@ -35,12 +37,37 @@ public class GestureLockActivity extends AppCompatActivity {
         initView();
 
         initFragment();
+
+        //初始fragment切换
+        if (SettingManager.getInstance(this).getGestureLock().length() > 0) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.id_fragment_container, editGestureFragment)
+                    .commit();
+        }else{
+            fragmentManager.beginTransaction()
+                    .replace(R.id.id_fragment_container, newGestureFragment)
+                    .commit();
+        }
+    }
+
+    public void toNewGestureFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.id_fragment_container, newGestureFragment)
+                .commit();
+    }
+
+    public void toEditGestureFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.id_fragment_container, editGestureFragment)
+                .commit();
     }
 
     private void initFragment() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         fragmentManager = getSupportFragmentManager();
         newGestureFragment = new NewGestureFragment();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        editGestureFragment = new EditGestureFragment();
 
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, newGestureFragment)
@@ -54,7 +81,7 @@ public class GestureLockActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
