@@ -60,6 +60,12 @@ public class SettingManager {
      */
     private final String DID = "did";
 
+
+    /**
+     * 图形密码key
+     */
+    public static final String KEY_GESTURE_LOCK = "gesture_lock";
+
     /**
      * 构造方法
      *
@@ -96,6 +102,30 @@ public class SettingManager {
         setPhoneNumber("");
         setPassword("");
         setUserName("");
+    }
+
+    /**
+     * 获取手势密码
+     * @return
+     */
+    public String getGestureLock() {
+        return spf.getString(KEY_GESTURE_LOCK, null);
+    }
+
+    /**
+     * 设置图形密码
+     * @param gestureLock
+     * @return
+     */
+    public boolean setGestureLock(String gestureLock) {
+        if (gestureLock == null) {
+            return false;
+        }
+        spf.edit()
+                .putString(KEY_GESTURE_LOCK, gestureLock)
+                .commit();
+        Timber.e("图形密码:" + gestureLock);
+        return true;
     }
 
     /**

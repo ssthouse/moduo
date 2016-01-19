@@ -18,7 +18,6 @@ import com.ssthouse.moduo.main.view.fragment.NewGestureFragment;
  */
 public class GestureLockActivity extends AppCompatActivity {
 
-
     private FragmentManager fragmentManager;
 
     private NewGestureFragment newGestureFragment;
