@@ -73,6 +73,7 @@ public class EditGestureFragment extends Fragment {
                 if(!LockPatternView.patternToString(pattern)
                         .equals(SettingManager.getInstance(getContext()).getGestureLock())){
                     tvTip.setText("请重试");
+                    lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
                 }else{
                     GestureLockActivity activity = (GestureLockActivity) getActivity();
                     activity.toNewGestureFragment();

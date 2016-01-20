@@ -39,24 +39,22 @@ public class GestureLockActivity extends AppCompatActivity {
         initFragment();
 
         //初始fragment切换
-        if (SettingManager.getInstance(this).getGestureLock().length() > 0) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.id_fragment_container, editGestureFragment)
-                    .commit();
-        }else{
-            fragmentManager.beginTransaction()
-                    .replace(R.id.id_fragment_container, newGestureFragment)
-                    .commit();
+        if (SettingManager.getInstance(this).getGestureLock() != null) {
+            toEditGestureFragment();
+        } else {
+            toNewGestureFragment();
         }
     }
 
     public void toNewGestureFragment() {
+        getSupportActionBar().setTitle("新建图形密码");
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, newGestureFragment)
                 .commit();
     }
 
     public void toEditGestureFragment() {
+        getSupportActionBar().setTitle("修改图形密码");
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, editGestureFragment)
                 .commit();

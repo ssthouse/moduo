@@ -111,6 +111,7 @@ public class NewGestureFragment extends Fragment {
                     //检测到输入
                     if (pattern.size() < LockPatternView.MIN_LOCK_PATTERN_SIZE) {
                         tvTip.setText("至少需连接四个点,请重试");
+                        lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
                     } else {
                         //跳转到---再次输入确认状态
                         currentPatternStr = LockPatternView.patternToString(pattern);
@@ -124,6 +125,7 @@ public class NewGestureFragment extends Fragment {
                 } else if (currentState == State.STATE_CONFIRM_NEW) {
                     if (pattern.size() < LockPatternView.MIN_LOCK_PATTERN_SIZE) {
                         tvTip.setText("至少需连接四个点,请重试");
+                        lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
                     } else {
                         if (currentPatternStr.equals(LockPatternView.patternToString(pattern))) {
                             //显示确认按钮
