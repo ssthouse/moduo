@@ -2,6 +2,8 @@ package com.ssthouse.moduo;
 
 import android.app.Application;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVObject;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.ssthouse.moduo.bean.cons.Constant;
@@ -43,5 +45,12 @@ public class App extends Application {
 //            Timber.e("复制出错");
 //            e.printStackTrace();
 //        }
+
+        //leancloud
+        AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
+        AVObject testObject = new AVObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
+
     }
 }
