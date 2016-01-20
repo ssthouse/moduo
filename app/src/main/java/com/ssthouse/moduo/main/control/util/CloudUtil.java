@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.main.control.util;
 
+import android.content.Context;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
@@ -7,12 +9,14 @@ import com.avos.avoscloud.SaveCallback;
 import com.ssthouse.moduo.bean.ModuoInfo;
 import com.ssthouse.moduo.bean.UserInfo;
 import com.ssthouse.moduo.bean.device.Device;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * leancloud控制类
@@ -73,7 +77,6 @@ public class CloudUtil {
 
     /**
      * 保存设备数据到leancloud
-     *
      */
     public static void saveDeviceToCloud(final ModuoInfo moduoInfo) {
         Observable.just(moduoInfo)
@@ -159,6 +162,47 @@ public class CloudUtil {
                             avObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
                             avObject.saveInBackground(callback);
                         }
+                    }
+                });
+    }
+
+    /**
+     * 从云端获取用户信息
+     *
+     * @param username 用户名(机智云端用户名是唯一的)
+     * @return
+     */
+    public static void updateUserInfo(final Context context, final String username) {
+        Observable.just(username)
+                .map(new Func1<String, UserInfo>() {
+                    @Override
+                    public UserInfo call(String s) {
+                        AVQuery<AVObject> query = new AVQuery<AVObject>(CloudUtil.TABLE_USER_INFO);
+                        query.whereEqualTo(CloudUtil.KEY_USERNAME, s);
+                        AVObject userInfoObject = null;
+                        try {
+                            userInfoObject = query.getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                        if (userInfoObject == null) {
+                            return null;
+                        }
+                        return new UserInfo(userInfoObject.getString(CloudUtil.KEY_USERNAME),
+                                userInfoObject.getString(CloudUtil.KEY_PASSWORD),
+                                userInfoObject.getString(CloudUtil.KEY_GESTURE_PASSWORD));
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<UserInfo>() {
+                    @Override
+                    public void call(UserInfo userInfo) {
+                        if(userInfo == null){
+                            return;
+                        }
+                        SettingManager.getInstance(context).setCurrentUserInfo(userInfo);
+                        Timber.e(userInfo.toString());
                     }
                 });
     }

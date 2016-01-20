@@ -103,7 +103,7 @@ public class EmailRegisterFragment extends Fragment {
                 //保存登陆数据
                 SettingManager.getInstance(getContext()).setUserName(etEmailAddr.getText().toString());
                 SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
-                SettingManager.getInstance(getContext()).setLoginInfo(event);
+                SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
                 PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
                 //跳转loading activity
                 LoadingActivity.start(getContext());

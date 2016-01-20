@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
-import com.ssthouse.moduo.main.control.util.ToastHelper;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 
@@ -42,10 +41,10 @@ public class LoadingActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         //判断是否为匿名登录
-        if(SettingManager.getInstance(this).isAnonymousUser()) {
+        if (SettingManager.getInstance(this).isAnonymousUser()) {
             XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
             Timber.e("匿名登录");
-        }else{
+        } else {
             XPGController.getInstance(this).getmCenter().cLogin(
                     SettingManager.getInstance(this).getUserName(),
                     SettingManager.getInstance(this).getPassword()
@@ -64,12 +63,11 @@ public class LoadingActivity extends AppCompatActivity {
             return;
         }
         if (event.isSuccess()) {
-            //改变全局登陆状态
-            Constant.isXpgLogin = true;
             Timber.e("机智云---登录成功");
-            ToastHelper.show(this, "登陆成功!");
+            //更新本地用户数据
+            CloudUtil.updateUserInfo(this, SettingManager.getInstance(this).getUserName());
             //保存机智云登陆数据
-            SettingManager.getInstance(this).setLoginInfo(event);
+            SettingManager.getInstance(this).setLoginCacheInfo(event);
             //跳转Activity
             MainActivity.start(this);
             finish();

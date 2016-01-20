@@ -125,7 +125,7 @@ public class LoginFragment extends Fragment {
                 PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
                 SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
                 SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
-                SettingManager.getInstance(getContext()).setLoginInfo(event);
+                SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
                 //跳转loading activity
                 LoadingActivity.start(getContext());
                 //退出activity

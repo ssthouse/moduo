@@ -41,4 +41,9 @@ public class UserInfo {
     public void setGesturePassword(String gesturePassword) {
         this.gesturePassword = gesturePassword;
     }
+
+    @Override
+    public String toString() {
+        return username + "    " + password + "    " + gesturePassword+"-----";
+    }
 }

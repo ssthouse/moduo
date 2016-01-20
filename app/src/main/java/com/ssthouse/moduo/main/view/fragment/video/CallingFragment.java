@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
@@ -69,6 +70,7 @@ public class CallingFragment extends Fragment {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (event.isSuccess()) {
             Timber.e("设备登陆成功");
+            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
         } else {
             getActivity().finish();
             ToastHelper.show(getContext(), "设备登陆失败");

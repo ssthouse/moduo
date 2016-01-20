@@ -244,8 +244,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         waitDialog.dismiss();
         if (event.isSuccess()) {
             Timber.e("登陆成功");
+            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
-            SettingManager.getInstance(getContext()).setLoginInfo(event);
+            SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
             //登陆成功保存当前账号
             saveCurrentUserInfo();
             //刷新界面

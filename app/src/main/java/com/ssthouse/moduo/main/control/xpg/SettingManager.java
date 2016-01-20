@@ -21,13 +21,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.bean.ModuoInfo;
+import com.ssthouse.moduo.bean.UserInfo;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 
 import timber.log.Timber;
 
 /**
  * SharePreference处理类.
- * <p>
+ * <p/>
  * 保存:
  * 当前登陆账户数据
  * 当前绑定设备数据
@@ -81,6 +82,11 @@ public class SettingManager {
         return instance;
     }
 
+    /**
+     * 获取当前moduo Info
+     *
+     * @return
+     */
     public ModuoInfo getCurrentModuoInfo() {
         return new ModuoInfo(getCurrentDid(),
                 getPasscode(),
@@ -90,7 +96,7 @@ public class SettingManager {
     }
 
     /**
-     * 设置当前设备
+     * 设置当前moduo info
      *
      * @param moduoInfo
      */
@@ -173,6 +179,17 @@ public class SettingManager {
     }
 
     /**
+     * 设置当前userInfo
+     *
+     * @param userInfo
+     */
+    public void setCurrentUserInfo(UserInfo userInfo) {
+        setUserName(userInfo.getUsername());
+        setPassword(userInfo.getPassword());
+        setGestureLock(userInfo.getGesturePassword());
+    }
+
+    /**
      * 获取手势密码
      *
      * @return
@@ -224,7 +241,7 @@ public class SettingManager {
      *
      * @param event
      */
-    public void setLoginInfo(XPGLoginResultEvent event) {
+    public void setLoginCacheInfo(XPGLoginResultEvent event) {
         setUid(event.getUid());
         setToken(event.getToken());
     }

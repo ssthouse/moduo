@@ -12,11 +12,6 @@ public class Constant {
     全局标志位
      */
     /**
-     * 机智云登陆状态
-     */
-    public static boolean isXpgLogin = false;
-
-    /**
      * 是否在开发环境
      */
     public static final boolean isDebug = true;

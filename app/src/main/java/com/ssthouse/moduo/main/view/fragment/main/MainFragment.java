@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
 import com.ssthouse.moduo.bean.event.view.NetworkStateChangeEvent;
@@ -20,6 +19,7 @@ import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.NetUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
@@ -133,7 +133,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
         if (XPGController.getCurrentDevice() == null) {
             tvModuoState.setText("未连接魔哆");
         } else {
-            tvModuoState.setText("魔哆连接成功欢迎使用");
+            tvModuoState.setText("魔哆连接成功,欢迎使用");
         }
     }
 
@@ -233,18 +233,15 @@ public class MainFragment extends Fragment implements IFragmentUI {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-        Timber.e("登陆成功回调");
         if (event.isSuccess()) {
-            //改变全局状态
-            Constant.isXpgLogin = true;
-            tvModuoState.setText("魔哆登陆成功,欢迎使用。");
+            tvModuoState.setText("用户登陆成功");
+            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
-            SettingManager.getInstance(getContext()).setLoginInfo(event);
+            SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
             //获取设备
             initDevice();
             //toast提示
             Timber.e("机智云---登录成功");
-            ToastHelper.show(getContext(), "登陆成功!");
         } else {
             ToastHelper.show(getContext(), "登陆失败");
         }
