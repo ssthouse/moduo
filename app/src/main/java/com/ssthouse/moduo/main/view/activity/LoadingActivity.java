@@ -8,7 +8,6 @@ import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.cons.Constant;
-import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
@@ -50,19 +49,6 @@ public class LoadingActivity extends AppCompatActivity {
 
         //匿名登录
         XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-    }
-
-    /**
-     * 视频直播---登录成功回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(ViewerLoginResultEvent event) {
-        if (event.isSuccess()) {
-            Timber.e("视频直播---登录成功");
-        } else {
-            ToastHelper.show(this, "登陆视频sdk失败");
-        }
     }
 
     /**
