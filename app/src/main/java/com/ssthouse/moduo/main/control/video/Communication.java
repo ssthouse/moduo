@@ -12,6 +12,7 @@ import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
 import com.ssthouse.moduo.bean.cons.Constant;
+import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConfigChangedEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
@@ -171,6 +172,18 @@ public class Communication {
         //获取采集端的信息
         viewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
     }
+
+    //添加采集端
+    public void addStreamer(Device device){
+        if(device == null){
+            return;
+        }
+        viewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
+                device.getVideoUsername(), device.getVideoPassword());
+        //获取采集端的信息
+        viewer.getStreamerInfoMgr().getStreamerInfo(Long.parseLong(device.getVideoCidNumber()));
+    }
+
 
     //删除采集端
     public void removeStreamer(long streamerCid) {

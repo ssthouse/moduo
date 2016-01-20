@@ -116,11 +116,11 @@ public class CloudUtil {
     /**
      * 用户信息数据表
      */
-    private static final String TABLE_USER_INFO = "UserInfo";
+    public final static String TABLE_USER_INFO = "UserInfo";
 
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_PASSWORD = "password";
-    private static final String KEY_GESTURE_PASSWORD = "gesturePassword";
+    public final static String KEY_USERNAME = "username";
+    public final static String KEY_PASSWORD = "password";
+    public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
 
     /**
      * 保存用户信息

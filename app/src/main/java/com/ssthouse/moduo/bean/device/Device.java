@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
 import com.ssthouse.moduo.bean.ModuoInfo;
-import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -29,24 +28,12 @@ public class Device implements Serializable {
      */
     private XPGWifiDevice xpgWifiDevice;
 
-    /**
-     * 构造方法:
-     * <p>
-     * 传入一个已经绑定的机智云设备
-     * 自动获取视频sdk参数
-     *
-     * @param context       上下文
-     * @param xpgWifiDevice
-     */
-    public Device(Context context, XPGWifiDevice xpgWifiDevice) {
+    public Device(XPGWifiDevice xpgWifiDevice, ModuoInfo moduoInfo) {
         this.xpgWifiDevice = xpgWifiDevice;
-        //默认状态
+        this.videoCidNumber = moduoInfo.getCid();
+        this.videoUsername = moduoInfo.getVideoUsername();
+        this.videoPassword = moduoInfo.getVideoPassword();
         this.streamerPresenceState = StreamerPresenceState.OFFLINE;
-        //todo---参数检查---根据给的机智云设备---在preference中获取视频sdk参数
-        String did = xpgWifiDevice.getDid();
-        this.videoCidNumber = PreferenceHelper.getInstance(context).getCidNumber(did);
-        this.videoUsername = PreferenceHelper.getInstance(context).getUsername(did);
-        this.videoPassword = PreferenceHelper.getInstance(context).getPassword(did);
     }
 
     public Device(String videoCidNumber, String videoUsername, String videoPassword, XPGWifiDevice xpgWifiDevice) {

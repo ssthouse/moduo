@@ -125,6 +125,19 @@ public class SettingManager {
         //清除设备信息
         setCurrentDid("");
         setPasscode("");
+        setCidNumber("");
+        setVideoUsername("");
+        setVideoPassword("");
+    }
+
+    /**
+     * 清除本地魔哆数据
+     */
+    public void cleanLocalModuo(){
+        //清除设备信息
+        setCurrentDid("");
+        setPasscode("");
+        setCidNumber("");
         setVideoUsername("");
         setVideoPassword("");
     }

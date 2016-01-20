@@ -197,29 +197,23 @@ public class MainFragment extends Fragment implements IFragmentUI {
                 return;
             }
             //将当前绑定设备找出---设为currentDevice
-            if (!SettingManager.getInstance(getContext()).hasLocalModuo()) {
-                //todo---将最近绑定的设备设为当前设备
-                XPGController.setCurrentDevice(new Device(getContext(), event.getXpgDeviceList().get(0)));
-                SettingManager.getInstance(getContext()).setCurrentDid(event.getXpgDeviceList().get(0).getDid());
-                Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
-            } else {
+            if (SettingManager.getInstance(getContext()).hasLocalModuo()) {
                 //找到之前操作的设备
                 for (XPGWifiDevice xpgDevice : event.getXpgDeviceList()) {
                     if (xpgDevice.getDid().equals(SettingManager.getInstance(getContext()).getCurrentDid())) {
                         XPGController.setCurrentDevice(Device.getLocalDevice(getContext(), xpgDevice));
-                        Timber.e("找到了之前操作过的设备");
+                        Timber.e("找到之前操作过的设备");
                     }
                 }
+            } else {
+                XPGController.setCurrentDevice(getContext(), event.getXpgDeviceList().get(0));
+                Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
             }
             //设置监听器
-            XPGController.getCurrentDevice()
-                    .getXpgWifiDevice()
-                    .setListener(XPGController.getInstance(getContext()).getDeviceListener());
+            XPGController.refreshCurrentDeviceListener(getContext());
             //登陆视频sdk
-            Communication.getInstance(getContext()).
-                    addStreamer(Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()),
-                            XPGController.getCurrentDevice().getVideoUsername(),
-                            XPGController.getCurrentDevice().getVideoPassword());
+            Communication.getInstance(getContext())
+                    .addStreamer(XPGController.getCurrentDevice());
         } else {
             ToastHelper.show(getContext(), "获取绑定设备失败");
         }

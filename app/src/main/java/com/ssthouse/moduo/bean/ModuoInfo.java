@@ -60,4 +60,9 @@ public class ModuoInfo {
     public void setVideoPassword(String videoPassword) {
         this.videoPassword = videoPassword;
     }
+
+    @Override
+    public String toString() {
+        return did + "   " + passcode + "    " + cid + "    " + videoUsername + "    " + videoPassword;
+    }
 }

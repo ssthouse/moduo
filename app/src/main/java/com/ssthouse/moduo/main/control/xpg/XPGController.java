@@ -2,11 +2,16 @@ package com.ssthouse.moduo.main.control.xpg;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssthouse.moduo.bean.ModuoInfo;
 import com.ssthouse.moduo.bean.event.account.AnonymousUserTransEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLogoutEvent;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
@@ -29,6 +34,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -280,7 +290,7 @@ public class XPGController {
             Timber.e("用户登出回调");
             if (error == 0) {
                 EventBus.getDefault().post(new XPGLogoutEvent(true, error));
-            }else{
+            } else {
                 EventBus.getDefault().post(new XPGLogoutEvent(false, error));
             }
         }
@@ -320,5 +330,64 @@ public class XPGController {
 
     public static void setCurrentDevice(Device currentDevice) {
         XPGController.currentDevice = currentDevice;
+    }
+
+    /**
+     * 将找到的xpgWifiDevice设置为当前设备
+     *
+     * @param context
+     * @param xpgWifiDevice
+     */
+    public static void setCurrentDevice(final Context context, final XPGWifiDevice xpgWifiDevice) {
+        Observable.just(xpgWifiDevice.getDid())
+                .map(new Func1<String, AVObject>() {
+                    @Override
+                    public AVObject call(String s) {
+                        AVObject avObject = null;
+                        try {
+                            avObject = new AVQuery<AVObject>(CloudUtil.TABLE_MODUO_DEVICE)
+                                    .whereEqualTo(CloudUtil.KEY_DID, s)
+                                    .getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                        return avObject;
+                    }
+                }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<AVObject>() {
+                    @Override
+                    public void call(AVObject avObject) {
+                        if (avObject == null) {
+                            return;
+                        }
+                        //设置当前设备参数
+                        ModuoInfo moduoInfo = new ModuoInfo(avObject.getString(CloudUtil.KEY_DID),
+                                avObject.getString(CloudUtil.KEY_PASSCODE),
+                                avObject.getString(CloudUtil.KEY_CID),
+                                avObject.getString(CloudUtil.KEY_VIDEO_USERNAME),
+                                avObject.getString(CloudUtil.KEY_VIDEO_PASSWORD));
+                        SettingManager.getInstance(context).setCurrentModuoInfo(moduoInfo);
+                        //设置为当前设备
+                        XPGController.setCurrentDevice(new Device(xpgWifiDevice, moduoInfo));
+                        //设置监听器
+                        XPGController.refreshCurrentDeviceListener(context);
+                        Timber.e("从云端更新设备Info" + moduoInfo.toString());
+                    }
+                });
+    }
+
+    /**
+     * 刷新当前设备的listener
+     *
+     * @param context
+     */
+    public static void refreshCurrentDeviceListener(Context context) {
+        if (getCurrentDevice() == null) {
+            return;
+        }
+        //设置监听器
+        getCurrentDevice().getXpgWifiDevice()
+                .setListener(XPGController.getInstance(context).getDeviceListener());
     }
 }

@@ -220,6 +220,8 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         }
         if (event.isSuccess()) {
             Timber.e("注册成功");
+            //清除本地魔哆数据
+            SettingManager.getInstance(getContext()).cleanLocalModuo();
             //注册成功保存账号
             saveCurrentUserInfo();
             //登陆
@@ -244,6 +246,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         waitDialog.dismiss();
         if (event.isSuccess()) {
             Timber.e("登陆成功");
+            //清除本地魔哆数据
+            SettingManager.getInstance(getContext()).cleanLocalModuo();
+            //更新本地用户信息
             CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
             SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
