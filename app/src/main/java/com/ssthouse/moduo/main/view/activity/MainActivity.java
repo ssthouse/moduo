@@ -16,15 +16,20 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.ModuoInfo;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
@@ -43,6 +48,11 @@ import java.io.File;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -278,12 +288,11 @@ public class MainActivity extends AppCompatActivity {
         Timber.e("我接收到视频sdk状态更新");
         //修改设备状态
         for (Device device : XPGController.getDeviceList()) {
-            if (device.getVideoCidNumber() == event.getCidNumber()) {
-                device.setStreamerPresenceState(event.getState());
-                Timber.e("我更新了视频sdk状态");
-            }
+//            if (device.getVideoCidNumber() == event.getCidNumber()) {
+//                device.setStreamerPresenceState(event.getState());
+//                Timber.e("我更新了视频sdk状态");
+//            }
         }
-        //更新界面
     }
 
     /**
@@ -295,6 +304,12 @@ public class MainActivity extends AppCompatActivity {
         Timber.e("扫描Activity回调");
         if (event.isSuccess()) {
             showDialog("正在绑定设备,请稍候");
+            //将扫描到设备数据保存至cloud
+            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
+                    event.getPassCode(),
+                    event.getCid(),
+                    event.getVideoUsername(),
+                    event.getVideoPassword()));
             //开始绑定设备
             XPGController.getInstance(this).getmCenter().cBindDevice(
                     SettingManager.getInstance(this).getUid(),
@@ -303,8 +318,6 @@ public class MainActivity extends AppCompatActivity {
                     event.getPassCode(),
                     ""
             );
-        } else {
-            ToastHelper.show(this, "设备绑定失败");
         }
     }
 
@@ -313,17 +326,53 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param event
      */
-    public void onEventMainThread(DeviceBindResultEvent event) {
+    public void onEventMainThread(final DeviceBindResultEvent event) {
         Timber.e("设备绑定回调");
         dismissDialog();
         if (event.isSuccess()) {
             ToastHelper.show(this, "设备绑定成功");
-            //将当前绑定设备设为---默认操作设备
-            SettingManager.getInstance(this).setCurrentDid(event.getDid());
-            //请求设备列表
-            XPGController.getInstance(this).getmCenter().cGetBoundDevices(
-                    SettingManager.getInstance(this).getUid(),
-                    SettingManager.getInstance(this).getToken());
+            //获取设备Info信息
+            Observable.just(event.getDid())
+                    .map(new Func1<String, ModuoInfo>() {
+                        @Override
+                        public ModuoInfo call(String did) {
+                            AVQuery<AVObject> query = new AVQuery<AVObject>(CloudUtil.TABLE_MODUO_DEVICE);
+                            query.whereEqualTo(CloudUtil.KEY_DID, did);
+                            AVObject moduoObject = null;
+                            try {
+                                moduoObject = query.getFirst();
+                            } catch (AVException e) {
+                                e.printStackTrace();
+                            }
+                            if (moduoObject == null) {
+                                ToastHelper.show(MainActivity.this, "服务器端无该设备信息!");
+                                return null;
+                            }
+                            return new ModuoInfo(moduoObject.getString(CloudUtil.KEY_DID),
+                                    moduoObject.getString(CloudUtil.KEY_PASSCODE),
+                                    moduoObject.getString(CloudUtil.KEY_CID),
+                                    moduoObject.getString(CloudUtil.KEY_VIDEO_USERNAME),
+                                    moduoObject.getString(CloudUtil.KEY_VIDEO_PASSWORD));
+                        }
+                    })
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<ModuoInfo>() {
+                        @Override
+                        public void call(ModuoInfo moduoInfo) {
+                            if (moduoInfo == null) {
+                                Timber.e("服务器获取魔哆设备信息为空:did   " + event.getDid());
+                                return;
+                            }
+                            //保存设备信息到本地
+                            SettingManager.getInstance(MainActivity.this)
+                                    .setCurrentModuoInfo(moduoInfo);
+                            //保存设备信息到本地后---请求设备列表
+                            XPGController.getInstance(MainActivity.this).getmCenter().cGetBoundDevices(
+                                    SettingManager.getInstance(MainActivity.this).getUid(),
+                                    SettingManager.getInstance(MainActivity.this).getToken());
+                        }
+                    });
         } else {
             ToastHelper.show(this, "设备绑定失败");
         }
@@ -367,7 +416,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case SHARE_MODUO_FRAGMENT:
                 if (item.getItemId() == R.id.id_menu_share_moduo) {
-                    //// TODO: 2016/1/21 分享魔哆二维码
                     if (XPGController.getCurrentDevice() == null) {
                         ToastHelper.showModuoNotConnected(this);
                     }

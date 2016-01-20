@@ -3,7 +3,9 @@ package com.ssthouse.moduo.bean.device;
 import android.content.Context;
 
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
+import com.ssthouse.moduo.bean.ModuoInfo;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
+import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.Serializable;
@@ -17,31 +19,13 @@ public class Device implements Serializable {
     /*
     视频sdk数据
      */
-    /**
-     * 设备状态标识---使用的是sdk提供的枚举
-     */
     private StreamerPresenceState streamerPresenceState;
-
-    /**
-     * 视频SDK---设备cid编号
-     */
-    private long videoCidNumber;
-
-    /**
-     * 视频SDK---设备用户名
-     */
     private String videoUsername;
-
-    /**
-     * 视频SDK---设备密码
-     */
     private String videoPassword;
+    private String videoCidNumber;
 
     /*
     机智云sdk数据
-     */
-    /**
-     * 机智云设备
      */
     private XPGWifiDevice xpgWifiDevice;
 
@@ -65,6 +49,27 @@ public class Device implements Serializable {
         this.videoPassword = PreferenceHelper.getInstance(context).getPassword(did);
     }
 
+    public Device(String videoCidNumber, String videoUsername, String videoPassword, XPGWifiDevice xpgWifiDevice) {
+        this.videoCidNumber = videoCidNumber;
+        this.videoUsername = videoUsername;
+        this.videoPassword = videoPassword;
+        this.xpgWifiDevice = xpgWifiDevice;
+        this.streamerPresenceState = StreamerPresenceState.OFFLINE;
+    }
+
+    /**
+     * 获取本地参数组成的设备
+     *
+     * @return
+     */
+    public static Device getLocalDevice(Context context, XPGWifiDevice xpgWifiDevice) {
+        ModuoInfo moduoInfo = SettingManager.getInstance(context).getCurrentModuoInfo();
+        return new Device(moduoInfo.getCid(),
+                moduoInfo.getVideoUsername(),
+                moduoInfo.getVideoPassword(),
+                xpgWifiDevice);
+    }
+
     //getter---and---setter-------------------------------------------------------------------------
     public StreamerPresenceState getStreamerPresenceState() {
         return streamerPresenceState;
@@ -74,11 +79,11 @@ public class Device implements Serializable {
         this.streamerPresenceState = streamerPresenceState;
     }
 
-    public long getVideoCidNumber() {
+    public String getVideoCidNumber() {
         return videoCidNumber;
     }
 
-    public void setVideoCidNumber(long videoCidNumber) {
+    public void setVideoCidNumber(String videoCidNumber) {
         this.videoCidNumber = videoCidNumber;
     }
 

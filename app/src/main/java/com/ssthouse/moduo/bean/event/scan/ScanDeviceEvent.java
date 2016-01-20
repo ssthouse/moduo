@@ -17,9 +17,13 @@ public class ScanDeviceEvent {
      */
     private String passCode;
 
+    private String cid;
+    private String videoUsername;
+    private String videoPassword;
 
     /**
      * 失败的event
+     *
      * @param isSuccess
      */
     public ScanDeviceEvent(boolean isSuccess) {
@@ -28,14 +32,19 @@ public class ScanDeviceEvent {
 
     /**
      * 成功的event
+     *
      * @param isSuccess
      * @param did
      * @param passCode
      */
-    public ScanDeviceEvent(boolean isSuccess, String did, String passCode) {
+    public ScanDeviceEvent(boolean isSuccess, String did, String passCode, String cid,
+                           String videoUsername, String videoPassword) {
         this.isSuccess = isSuccess;
         this.did = did;
         this.passCode = passCode;
+        this.cid = cid;
+        this.videoUsername = videoUsername;
+        this.videoPassword = videoPassword;
     }
 
     public boolean isSuccess() {
@@ -60,5 +69,29 @@ public class ScanDeviceEvent {
 
     public void setPassCode(String passCode) {
         this.passCode = passCode;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public String getVideoUsername() {
+        return videoUsername;
+    }
+
+    public void setVideoUsername(String videoUsername) {
+        this.videoUsername = videoUsername;
+    }
+
+    public String getVideoPassword() {
+        return videoPassword;
+    }
+
+    public void setVideoPassword(String videoPassword) {
+        this.videoPassword = videoPassword;
     }
 }

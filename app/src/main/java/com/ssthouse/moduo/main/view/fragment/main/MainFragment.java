@@ -99,7 +99,8 @@ public class MainFragment extends Fragment implements IFragmentUI {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    VideoActivity.start(getContext(), XPGController.getCurrentDevice().getVideoCidNumber());
+                    VideoActivity.start(getContext(),
+                            Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
                 }
             }
         });
@@ -196,17 +197,16 @@ public class MainFragment extends Fragment implements IFragmentUI {
                 return;
             }
             //将当前绑定设备找出---设为currentDevice
-            String currentDid = SettingManager.getInstance(getContext()).getCurrentDid();
-            if (currentDid == null) {
+            if (!SettingManager.getInstance(getContext()).hasLocalModuo()) {
                 //todo---将最近绑定的设备设为当前设备
                 XPGController.setCurrentDevice(new Device(getContext(), event.getXpgDeviceList().get(0)));
                 SettingManager.getInstance(getContext()).setCurrentDid(event.getXpgDeviceList().get(0).getDid());
                 Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
             } else {
                 //找到之前操作的设备
-                for (XPGWifiDevice device : event.getXpgDeviceList()) {
-                    if (device.getDid().equals(currentDid)) {
-                        XPGController.setCurrentDevice(new Device(getContext(), device));
+                for (XPGWifiDevice xpgDevice : event.getXpgDeviceList()) {
+                    if (xpgDevice.getDid().equals(SettingManager.getInstance(getContext()).getCurrentDid())) {
+                        XPGController.setCurrentDevice(Device.getLocalDevice(getContext(), xpgDevice));
                         Timber.e("找到了之前操作过的设备");
                     }
                 }
@@ -217,7 +217,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
                     .setListener(XPGController.getInstance(getContext()).getDeviceListener());
             //登陆视频sdk
             Communication.getInstance(getContext()).
-                    addStreamer(XPGController.getCurrentDevice().getVideoCidNumber()
+                    addStreamer(Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber())
                             , XPGController.getCurrentDevice().getVideoUsername(),
                             XPGController.getCurrentDevice().getVideoPassword());
         } else {

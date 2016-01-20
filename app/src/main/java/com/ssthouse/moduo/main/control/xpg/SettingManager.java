@@ -20,13 +20,14 @@ package com.ssthouse.moduo.main.control.xpg;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ssthouse.moduo.bean.ModuoInfo;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 
 import timber.log.Timber;
 
 /**
  * SharePreference处理类.
- * <p/>
+ * <p>
  * 保存:
  * 当前登陆账户数据
  * 当前绑定设备数据
@@ -36,9 +37,7 @@ import timber.log.Timber;
 public class SettingManager {
 
     private SharedPreferences spf;
-
     private static SettingManager instance;
-
     private Context context;
 
     /**
@@ -56,6 +55,7 @@ public class SettingManager {
     private static final String UID = "uid";
     // 当前操作设备did
     private static final String DID = "did";
+    private static final String PASSCODE = "passcode";
     // 图形密码key
     private static final String KEY_GESTURE_LOCK = "gesture_lock";
 
@@ -81,6 +81,29 @@ public class SettingManager {
         return instance;
     }
 
+    public ModuoInfo getCurrentModuoInfo() {
+        return new ModuoInfo(getCurrentDid(),
+                getPasscode(),
+                getCidNumber(),
+                getVideoUsername(),
+                getVideoPassword());
+    }
+
+    /**
+     * 设置当前设备
+     *
+     * @param moduoInfo
+     */
+    public void setCurrentModuoInfo(ModuoInfo moduoInfo) {
+        //机智云参数
+        setCurrentDid(moduoInfo.getDid());
+        setPasscode(moduoInfo.getPasscode());
+        //视频参数
+        setCidNumber(moduoInfo.getCid());
+        setVideoUsername(moduoInfo.getVideoUsername());
+        setVideoPassword(moduoInfo.getVideoPassword());
+    }
+
     /**
      * SharePreference clean.
      */
@@ -93,6 +116,28 @@ public class SettingManager {
         setUserName("");
         //清除手势密码
         setGestureLock("");
+        //清除设备信息
+        setCurrentDid("");
+        setPasscode("");
+        setVideoUsername("");
+        setVideoPassword("");
+    }
+
+    /**
+     * 是否本地有保存魔哆Info
+     *
+     * @return
+     */
+    public boolean hasLocalModuo() {
+        if (getCurrentDid() != null
+                && getPasscode() != null
+                && getCidNumber() != null
+                && getVideoUsername() != null
+                && getVideoPassword() != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -153,11 +198,6 @@ public class SettingManager {
         return true;
     }
 
-    /**
-     * 设置当前设备
-     *
-     * @param did
-     */
     public void setCurrentDid(String did) {
         Timber.e("将当前设备改为:\t" + did);
         spf.edit()
@@ -165,13 +205,18 @@ public class SettingManager {
                 .commit();
     }
 
-    /**
-     * 获取当前操作设备
-     *
-     * @return
-     */
     public String getCurrentDid() {
         return spf.getString(DID, null);
+    }
+
+    public void setPasscode(String passcode) {
+        spf.edit()
+                .putString(PASSCODE, passcode)
+                .commit();
+    }
+
+    public String getPasscode() {
+        return spf.getString(PASSCODE, null);
     }
 
     /**
@@ -184,20 +229,10 @@ public class SettingManager {
         setToken(event.getToken());
     }
 
-    /**
-     * Sets the user name.
-     *
-     * @param name the new user name
-     */
     public void setUserName(String name) {
         spf.edit().putString(USER_NAME, name).commit();
     }
 
-    /**
-     * Gets the user name.
-     *
-     * @return the user name
-     */
     public String getUserName() {
         return spf.getString(USER_NAME, "");
     }
@@ -225,4 +260,42 @@ public class SettingManager {
     public String getUid() {
         return spf.getString(UID, "");
     }
+
+    /**
+     * 视频参数
+     */
+    private static final String VIDEO_USERNAME = "videoUsername";
+    private static final String VIDEO_PASSWORD = "videoPassword";
+    private static final String CID_NUMBER = "cidNumber";
+
+    public void setCidNumber(String cidNumber) {
+        spf.edit()
+                .putString(CID_NUMBER, cidNumber)
+                .commit();
+    }
+
+    public String getCidNumber() {
+        return spf.getString(CID_NUMBER, null);
+    }
+
+    public void setVideoUsername(String videoUsername) {
+        spf.edit()
+                .putString(VIDEO_USERNAME, videoUsername)
+                .commit();
+    }
+
+    public String getVideoUsername() {
+        return spf.getString(VIDEO_USERNAME, null);
+    }
+
+    public void setVideoPassword(String videoPassword) {
+        spf.edit()
+                .putString(VIDEO_PASSWORD, videoPassword)
+                .commit();
+    }
+
+    public String getVideoPassword() {
+        return spf.getString(VIDEO_PASSWORD, null);
+    }
+
 }

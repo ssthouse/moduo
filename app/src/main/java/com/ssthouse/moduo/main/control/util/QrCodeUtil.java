@@ -64,9 +64,7 @@ public class QrCodeUtil {
         Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
         Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
         //抛出扫描到设备的结果
-        EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode));
-        //将扫描到设备数据保存至cloud
-        CloudUtil.saveDeviceToCloud(did, passCode, cidStr, username, password);
+        EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode, cidStr, username, password));
     }
 
     /**

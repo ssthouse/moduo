@@ -106,7 +106,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //视频参数
-        long cidNumber = PreferenceHelper.getInstance(this).getCidNumber(mXpgWifiDevice.getDid());
+        String cidNumber = PreferenceHelper.getInstance(this).getCidNumber(mXpgWifiDevice.getDid());
         tvCidNumber.setText("" + cidNumber);
         String username = PreferenceHelper.getInstance(this).getUsername(mXpgWifiDevice.getDid());
         tvUsername.setText(username);
@@ -146,7 +146,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 XPGWifiDevice device = XPGController.getCurrentDevice().getXpgWifiDevice();
                 //获取分享的bitmap
                 PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(DeviceInfoActivity.this);
-                long cid = preferenceHelper.getCidNumber(device.getDid());
+                String cid = preferenceHelper.getCidNumber(device.getDid());
                 String username = preferenceHelper.getUsername(device.getDid());
                 String password = preferenceHelper.getPassword(device.getDid());
                 String content = QrCodeUtil.getDeviceQrCodeContent(device.getProductKey(), device.getDid(),

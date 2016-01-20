@@ -4,6 +4,8 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
+import com.ssthouse.moduo.bean.ModuoInfo;
+import com.ssthouse.moduo.bean.UserInfo;
 import com.ssthouse.moduo.bean.device.Device;
 
 import rx.Observable;
@@ -21,14 +23,13 @@ public class CloudUtil {
     /**
      * 魔哆设备数据表
      */
-    private static final String TABLE_MODUO_DEVICE = "ModuoDevice";
+    public static final String TABLE_MODUO_DEVICE = "ModuoDevice";
 
-    private static final String KEY_DID = "did";
-    private static final String KEY_PASSCODE = "passcode";
-    private static final String KEY_CID = "cid";
-    private static final String KEY_VIDEO_USERNAME = "videoUserName";
-    private static final String KEY_VIDEO_PASSWORD = "videoPassword";
-
+    public static final String KEY_DID = "did";
+    public static final String KEY_PASSCODE = "passcode";
+    public static final String KEY_CID = "cid";
+    public static final String KEY_VIDEO_USERNAME = "videoUserName";
+    public static final String KEY_VIDEO_PASSWORD = "videoPassword";
 
     /**
      * 保存设备数据到leancloud
@@ -72,20 +73,15 @@ public class CloudUtil {
 
     /**
      * 保存设备数据到leancloud
-     * @param did
-     * @param passcode
-     * @param cid
-     * @param videoUsername
-     * @param videoPassword
+     *
      */
-    public static void saveDeviceToCloud(final String did, final String passcode, final String cid, final String videoUsername,
-                                         final String videoPassword){
-        Observable.just(did)
-                .map(new Func1<String, AVObject>() {
+    public static void saveDeviceToCloud(final ModuoInfo moduoInfo) {
+        Observable.just(moduoInfo)
+                .map(new Func1<ModuoInfo, AVObject>() {
                     @Override
-                    public AVObject call(String s) {
+                    public AVObject call(ModuoInfo moduo) {
                         AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_MODUO_DEVICE);
-                        query.whereEqualTo(KEY_DID, s);
+                        query.whereEqualTo(KEY_DID, moduo.getDid());
                         AVObject moduoDevice = null;
                         try {
                             moduoDevice = query.getFirst();
@@ -103,11 +99,11 @@ public class CloudUtil {
                         //云端没有才保存
                         if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
-                            moduoDevice.put(KEY_DID, did);
-                            moduoDevice.put(KEY_PASSCODE, passcode);
-                            moduoDevice.put(KEY_CID, cid);
-                            moduoDevice.put(KEY_VIDEO_USERNAME, videoUsername);
-                            moduoDevice.put(KEY_VIDEO_PASSWORD, videoPassword);
+                            moduoDevice.put(KEY_DID, moduoInfo.getDid());
+                            moduoDevice.put(KEY_PASSCODE, moduoInfo.getPasscode());
+                            moduoDevice.put(KEY_CID, moduoInfo.getCid());
+                            moduoDevice.put(KEY_VIDEO_USERNAME, moduoInfo.getVideoUsername());
+                            moduoDevice.put(KEY_VIDEO_PASSWORD, moduoInfo.getVideoPassword());
                             moduoDevice.saveInBackground();
                         }
                     }
@@ -126,18 +122,16 @@ public class CloudUtil {
     /**
      * 保存用户信息
      *
-     * @param username
-     * @param password
-     * @param gesturePassword
+     * @param userInfo
+     * @param callback
      */
-    public static void saveUserInfoToCloud(final String username, final String password,
-                                           final String gesturePassword, final SaveCallback callback) {
-        Observable.just(username)
-                .map(new Func1<String, AVObject>() {
+    public static void saveUserInfoToCloud(final UserInfo userInfo, final SaveCallback callback) {
+        Observable.just(userInfo)
+                .map(new Func1<UserInfo, AVObject>() {
                     @Override
-                    public AVObject call(String s) {
+                    public AVObject call(UserInfo u) {
                         AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_USER_INFO);
-                        query.whereEqualTo(KEY_USERNAME, username);
+                        query.whereEqualTo(KEY_USERNAME, u.getUsername());
                         AVObject moduoDevice = null;
                         try {
                             moduoDevice = query.getFirst();
@@ -155,14 +149,14 @@ public class CloudUtil {
                         //判断是否已有用户
                         if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_USER_INFO);
-                            moduoDevice.put(KEY_USERNAME, username);
-                            moduoDevice.put(KEY_PASSWORD, password);
-                            moduoDevice.put(KEY_GESTURE_PASSWORD, gesturePassword);
+                            moduoDevice.put(KEY_USERNAME, userInfo.getUsername());
+                            moduoDevice.put(KEY_PASSWORD, userInfo.getPassword());
+                            moduoDevice.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
                             moduoDevice.saveInBackground(callback);
                         } else {
-                            avObject.put(KEY_USERNAME, username);
-                            avObject.put(KEY_PASSWORD, password);
-                            avObject.put(KEY_GESTURE_PASSWORD, gesturePassword);
+                            avObject.put(KEY_USERNAME, userInfo.getUsername());
+                            avObject.put(KEY_PASSWORD, userInfo.getPassword());
+                            avObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
                             avObject.saveInBackground(callback);
                         }
                     }

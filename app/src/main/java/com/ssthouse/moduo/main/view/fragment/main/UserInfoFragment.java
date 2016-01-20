@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.UserInfo;
 import com.ssthouse.moduo.bean.cons.xpg.GizwitsErrorMsg;
 import com.ssthouse.moduo.bean.event.account.AnonymousUserTransEvent;
 import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
@@ -198,12 +199,13 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                 || etPassword.getText().toString().length() < 6) {
             return;
         }
+        //用户数据保存带本地
         SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
         SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
         //用户数据保存到云端
-        CloudUtil.saveUserInfoToCloud(etUsername.getText().toString(),
-                MD5Util.getMdStr(etPassword.getText().toString()),
-                "",
+        CloudUtil.saveUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
+                        MD5Util.getMdStr(etPassword.getText().toString()),
+                        SettingManager.getInstance(getContext()).getGestureLock()),
                 null);
     }
 
