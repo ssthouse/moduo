@@ -217,8 +217,8 @@ public class MainFragment extends Fragment implements IFragmentUI {
                     .setListener(XPGController.getInstance(getContext()).getDeviceListener());
             //登陆视频sdk
             Communication.getInstance(getContext()).
-                    addStreamer(Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber())
-                            , XPGController.getCurrentDevice().getVideoUsername(),
+                    addStreamer(Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()),
+                            XPGController.getCurrentDevice().getVideoUsername(),
                             XPGController.getCurrentDevice().getVideoPassword());
         } else {
             ToastHelper.show(getContext(), "获取绑定设备失败");
