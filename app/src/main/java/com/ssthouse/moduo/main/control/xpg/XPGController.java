@@ -24,6 +24,7 @@ import com.ssthouse.moduo.bean.event.xpg.GetDeviceDataEvent;
 import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.control.video.Communication;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
 import com.xtremeprog.xpgconnect.XPGWifiSDKListener;
@@ -372,6 +373,9 @@ public class XPGController {
                         XPGController.setCurrentDevice(new Device(xpgWifiDevice, moduoInfo));
                         //设置监听器
                         XPGController.refreshCurrentDeviceListener(context);
+                        //登陆视频sdk
+                        Communication.getInstance(context)
+                                .addStreamer(XPGController.getCurrentDevice());
                         Timber.e("从云端更新设备Info" + moduoInfo.toString());
                     }
                 });

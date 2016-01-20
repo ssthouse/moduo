@@ -249,6 +249,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             //清除本地魔哆数据
             SettingManager.getInstance(getContext()).cleanLocalModuo();
             //更新本地用户信息
+
             CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
             SettingManager.getInstance(getContext()).setLoginCacheInfo(event);

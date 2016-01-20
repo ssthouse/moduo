@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -22,12 +23,6 @@ import timber.log.Timber;
  * Created by ssthouse on 2015/12/17.
  */
 public class VideoActivity extends AppCompatActivity{
-    /**
-     * 传给fragment的argument的key
-     */
-    public static final String ARGUMENT_CID_NUMBER = "cid";
-
-    public static final String EXTRA_CID_NUMBER = "cid";
 
     private FragmentManager fragmentManager;
     private CallingFragment callingFragment;
@@ -40,11 +35,9 @@ public class VideoActivity extends AppCompatActivity{
      * 启动当前activity
      *
      * @param context 上下文
-     * @param cid     采集端cid
      */
-    public static void start(Context context, long cid) {
+    public static void start(Context context) {
         Intent intent = new Intent(context, VideoActivity.class);
-        intent.putExtra("cid", cid);
         context.startActivity(intent);
     }
 
@@ -52,18 +45,20 @@ public class VideoActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏---不息屏
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_video);
+        initView();
+        initFragment();
+    }
 
+    private void initFragment() {
         //初始化fragment
         fragmentManager = getSupportFragmentManager();
         callingFragment = new CallingFragment();
-        videoFragment = VideoFragment.newInstance(getIntent().getLongExtra(EXTRA_CID_NUMBER, 0));
-
-        initView();
+        videoFragment = new VideoFragment();
+        //改变界面
+        showCallingFragment();
     }
 
     private void initView() {
@@ -79,8 +74,6 @@ public class VideoActivity extends AppCompatActivity{
 
         //开始calling
         Timber.e("开始打电话.....");
-        //改变界面
-        showCallingFragment();
     }
 
     public void showCallingFragment() {

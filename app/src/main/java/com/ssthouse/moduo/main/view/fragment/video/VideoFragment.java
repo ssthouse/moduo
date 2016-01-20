@@ -15,7 +15,6 @@ import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.video.VideoHolder;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 /**
  * 视频通话fragment
@@ -35,20 +34,6 @@ public class VideoFragment extends Fragment {
      */
     private VideoHolder videoHolder;
 
-    /**
-     * 获取fragment实例
-     *
-     * @param cidNumber
-     * @return
-     */
-    public static VideoFragment newInstance(long cidNumber) {
-        VideoFragment videoFragment = new VideoFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(VideoActivity.ARGUMENT_CID_NUMBER, cidNumber);
-        videoFragment.setArguments(bundle);
-        return videoFragment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +45,7 @@ public class VideoFragment extends Fragment {
         //初始化视频播放类
         videoHolder = new VideoHolder(getContext(),
                 (RelativeLayout) rootView.findViewById(R.id.id_rl_container),
-                getArguments().getLong(VideoActivity.ARGUMENT_CID_NUMBER));
+                Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
 
         //初始化传感器
         gyroscopeSensor = new GyroscopeSensor(getContext());

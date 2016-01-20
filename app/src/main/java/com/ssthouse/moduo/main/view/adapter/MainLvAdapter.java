@@ -124,8 +124,7 @@ public class MainLvAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //启动video activity
-                VideoActivity.start(context,
-                        Long.parseLong(deviceList.get(position).getVideoCidNumber()));
+                VideoActivity.start(context);
             }
         });
     }

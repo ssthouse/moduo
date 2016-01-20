@@ -99,8 +99,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    VideoActivity.start(getContext(),
-                            Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
+                    VideoActivity.start(getContext());
                 }
             }
         });
