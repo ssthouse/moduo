@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.bean.event.xpg;
+package com.ssthouse.moduo.bean.event.account;
 
 /**
  * 机智云注册事件:

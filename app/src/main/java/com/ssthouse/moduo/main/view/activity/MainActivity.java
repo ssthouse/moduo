@@ -34,7 +34,7 @@ import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
-import com.ssthouse.moduo.main.view.fragment.UserInfoFragment;
+import com.ssthouse.moduo.main.view.fragment.account.UserInfoFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -219,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         fragmentManager.beginTransaction().show(toFragment).commit();
+        //更新menu
+        invalidateOptionsMenu();
     }
 
     public void showDialog(String msg) {
@@ -319,22 +321,41 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        switch (currentFragmentState) {
+            case MAIN_FRAGMENT:
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+                break;
+            case USER_INFO_FRAGMENT:
+                getMenuInflater().inflate(R.menu.menu_user_info, menu);
+                break;
+            case ABOUT_MODUO_FRAGMENT:
+                getMenuInflater().inflate(R.menu.menu_empty, menu);
+                break;
+            case SHARE_DEVICE_FRAGMENT:
+                getMenuInflater().inflate(R.menu.menu_about_moduo, menu);
+                break;
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.id_menu_add_moduo:
-                //// TODO: 2016/1/14 添加魔哆
-                QrCodeUtil.startScan(this);
+        switch (currentFragmentState) {
+            case MAIN_FRAGMENT:
+                if (item.getItemId() == R.id.id_menu_add_moduo) {
+                    QrCodeUtil.startScan(this);
+                } else if (item.getItemId() == R.id.id_menu_share_wifi) {
+                    WifiCodeDispActivity.start(this);
+                }
                 break;
-            case R.id.id_menu_share_wifi:
-                WifiCodeDispActivity.start(this);
+            case USER_INFO_FRAGMENT:
+                break;
+            case ABOUT_MODUO_FRAGMENT:
+                break;
+            case SHARE_DEVICE_FRAGMENT:
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

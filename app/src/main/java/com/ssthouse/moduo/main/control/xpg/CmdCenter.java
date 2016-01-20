@@ -125,6 +125,15 @@ public class CmdCenter {
     }
 
     /**
+     * 注册用户
+     * @param userName
+     * @param password
+     */
+    public void cRegisterUser(String userName, String password) {
+        xpgWifiGCC.registerUser(userName, password);
+    }
+
+    /**
      * 匿名登录
      * <p/>
      * 如果一开始不需要直接注册账号，则需要进行匿名登录.

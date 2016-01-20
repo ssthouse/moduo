@@ -14,14 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.bean.event.xpg.MainViewOnDeviceUnBindEvent;
-import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.File;
@@ -174,7 +173,6 @@ public class DeviceInfoActivity extends AppCompatActivity {
     public void onEventMainThread(UnbindResultEvent event) {
         if (event.isSuccess()) {
             ToastHelper.show(this, "设备解绑成功");
-            EventBus.getDefault().post(new MainViewOnDeviceUnBindEvent());
         } else {
             ToastHelper.show(this, "设备解绑失败");
         }

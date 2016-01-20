@@ -14,7 +14,7 @@ import com.ssthouse.moduo.bean.event.xpg.DeviceDataChangedEvent;
 import com.ssthouse.moduo.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.bean.event.xpg.GetDeviceDataEvent;
-import com.ssthouse.moduo.bean.event.xpg.RegisterResultEvent;
+import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;

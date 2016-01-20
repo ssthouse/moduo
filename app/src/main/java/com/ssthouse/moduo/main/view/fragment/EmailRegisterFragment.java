@@ -16,7 +16,7 @@ import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.event.view.RegisterActivityDestoryEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.bean.event.xpg.RegisterResultEvent;
+import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 
 import butterknife.Bind;

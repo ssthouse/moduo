@@ -139,8 +139,7 @@ public class MainFragment extends Fragment {
                 .getmCenter()
                 .cGetBoundDevices(
                         SettingManager.getInstance(getContext()).getUid(),
-                        SettingManager.getInstance(getContext()).getToken()
-                );
+                        SettingManager.getInstance(getContext()).getToken());
     }
 
     /**
@@ -246,7 +245,7 @@ public class MainFragment extends Fragment {
      * @param event
      */
     public void onEventMainThread(XpgDeviceStateEvent event) {
-        if(!ActivityUtil.isTopActivity(getActivity(), "MainActivity")){
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity")) {
             return;
         }
         if (event.isSuccess()) {
