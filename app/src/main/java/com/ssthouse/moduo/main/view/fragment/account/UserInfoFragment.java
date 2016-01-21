@@ -170,6 +170,7 @@ public class UserInfoFragment extends Fragment {
                 btnLogOut.setVisibility(View.GONE);
                 tvUsername.setText("匿名");
             } else {
+                btnLogin.setVisibility(View.GONE);
                 tvUsername.setText(SettingManager.getInstance(getContext()).getUserName());
                 btnLogOut.setVisibility(View.VISIBLE);
             }
@@ -221,7 +222,6 @@ public class UserInfoFragment extends Fragment {
             Timber.e("注册成功");
             //注册成功保存账号
             saveCurrentUserInfo();
-
             //登陆
             XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
                     MD5Util.getMdStr(etPassword.getText().toString()));
