@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.bean.device.Device;
+import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
@@ -61,7 +62,7 @@ public class ShareModuoFragment extends Fragment implements IFragmentUI {
      */
     @Override
     public void updateUI() {
-        Device currentDevice = XPGController.getCurrentDevice();
+        final Device currentDevice = XPGController.getCurrentDevice();
         if (currentDevice == null) {
             ToastHelper.show(getContext(), "当前未连接魔哆");
         } else {
@@ -87,6 +88,16 @@ public class ShareModuoFragment extends Fragment implements IFragmentUI {
                         public void call(Bitmap bitmap) {
                             ivQrcode.setImageBitmap(bitmap);
                             waitDialog.dismiss();
+                            //保存did二维码图片
+                            Observable.just(bitmap)
+                                    .observeOn(Schedulers.newThread())
+                                    .subscribe(new Action1<Bitmap>() {
+                                        @Override
+                                        public void call(Bitmap bitmap) {
+                                            FileUtil.saveBitmap(getContext(), bitmap,
+                                                    currentDevice.getXpgWifiDevice().getDid());
+                                        }
+                                    });
                         }
                     });
         }

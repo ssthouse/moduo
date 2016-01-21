@@ -41,12 +41,6 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
-        //// 测试注册登陆逻辑
-//        if (StringUtils.isEmpty(SettingManager.getInstance(this).getUid())
-//                || StringUtils.isEmpty(SettingManager.getInstance(this).getToken())) {
-//            RegisterActivity.start(this);
-//        }
-
         //判断是否为匿名登录
         if(SettingManager.getInstance(this).isAnonymousUser()) {
             XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
@@ -77,10 +71,10 @@ public class LoadingActivity extends AppCompatActivity {
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginInfo(event);
             //跳转Activity
-            MainActivity.start(this, true);
+            MainActivity.start(this);
             finish();
         } else {
-            MainActivity.start(this, false);
+            MainActivity.start(this);
             Timber.e("机智云---登录失败");
             finish();
         }

@@ -7,6 +7,7 @@ import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.ssthouse.moduo.bean.cons.Constant;
 import com.ssthouse.moduo.main.control.util.AssertsUtils;
+import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
@@ -47,8 +48,9 @@ public class App extends Application {
             Timber.e("复制出错");
             e.printStackTrace();
         }
-
         //leancloud
         AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
+        //初始化sd卡文件路径
+        FileUtil.initModuoFolder();
     }
 }

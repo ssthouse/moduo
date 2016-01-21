@@ -26,6 +26,16 @@ public class FileUtil {
     public static final String MODUO_PICTURE_PATH = MODUO_SDCARD_FOLDER_PATH + "pic" + File.separator;
 
     /**
+     * 初始化魔哆sd卡路径
+     */
+    public static void initModuoFolder() {
+        File picFile = new File(MODUO_PICTURE_PATH);
+        if (!picFile.exists()) {
+            picFile.mkdirs();
+        }
+    }
+
+    /**
      * 保存bitmap到本地:
      * 因为一台设备的分享二维码是不会改变的, 所以did作为唯一识别
      *

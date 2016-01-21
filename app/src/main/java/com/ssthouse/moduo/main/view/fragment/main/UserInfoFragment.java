@@ -32,7 +32,7 @@ import timber.log.Timber;
  * 用户账号
  * Created by ssthouse on 2016/1/13.
  */
-public class UserInfoFragment extends Fragment implements IFragmentUI{
+public class UserInfoFragment extends Fragment implements IFragmentUI {
 
     private View rootView;
 
@@ -57,10 +57,10 @@ public class UserInfoFragment extends Fragment implements IFragmentUI{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
         initView(rootView);
-        Timber.e("onCreateView");
-        EventBus.getDefault().register(this);
+        updateUI();
         return rootView;
     }
 
@@ -152,9 +152,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI{
                         }
                     }
                 });
-
-        //显示下方UI
-        updateUI();
     }
 
     /**

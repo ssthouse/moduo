@@ -25,6 +25,7 @@ import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
@@ -36,7 +37,7 @@ import timber.log.Timber;
  * 主界面
  * Created by ssthouse on 2016/1/13.
  */
-public class MainFragment extends Fragment implements IFragmentUI{
+public class MainFragment extends Fragment implements IFragmentUI {
 
     private ImageView ivHomeControl;
     private ImageView ivVideo;
@@ -46,7 +47,6 @@ public class MainFragment extends Fragment implements IFragmentUI{
      * 魔哆状态
      */
     private TextView tvModuoState;
-
     private MaterialDialog waitDialog;
 
     /**
@@ -65,15 +65,10 @@ public class MainFragment extends Fragment implements IFragmentUI{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
         //查看网络状态
         isOffline = NetUtil.isConnected(getActivity());
-
         initView(rootView);
-
-        //todo---发出连接设备请求
         initDevice();
-
         return rootView;
     }
 
@@ -86,11 +81,11 @@ public class MainFragment extends Fragment implements IFragmentUI{
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-//                    HomeControlActivity.start(getContext());
-                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
-                            SettingManager.getInstance(getContext()).getUid(),
-                            SettingManager.getInstance(getContext()).getToken()
-                    );
+                    HomeControlActivity.start(getContext());
+//                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
+//                            SettingManager.getInstance(getContext()).getUid(),
+//                            SettingManager.getInstance(getContext()).getToken()
+//                    );
                 }
             }
         });
@@ -127,7 +122,16 @@ public class MainFragment extends Fragment implements IFragmentUI{
 
     @Override
     public void updateUI() {
-
+        //是否账号登陆
+        if (!SettingManager.getInstance(getContext()).isLogined()) {
+            tvModuoState.setText("未登录");
+            return;
+        }
+        if (XPGController.getCurrentDevice() == null) {
+            tvModuoState.setText("未连接魔哆");
+        } else {
+            tvModuoState.setText("魔哆连接成功欢迎使用");
+        }
     }
 
     private void showDialog(String msg) {
@@ -140,7 +144,6 @@ public class MainFragment extends Fragment implements IFragmentUI{
      * 初始化设备连接
      */
     private void initDevice() {
-        //获取绑定设备列表
         XPGController.getInstance(getContext())
                 .getmCenter()
                 .cGetBoundDevices(
@@ -218,6 +221,8 @@ public class MainFragment extends Fragment implements IFragmentUI{
         } else {
             ToastHelper.show(getContext(), "获取绑定设备失败");
         }
+        //刷新UI
+        updateUI();
     }
 
     /**
@@ -241,6 +246,8 @@ public class MainFragment extends Fragment implements IFragmentUI{
         } else {
             ToastHelper.show(getContext(), "登陆失败");
         }
+        //刷新UI
+        updateUI();
     }
 
     /**

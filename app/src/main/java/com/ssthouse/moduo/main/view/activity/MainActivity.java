@@ -49,8 +49,6 @@ import timber.log.Timber;
  * 当前activity不监听设备数据传达的event
  */
 public class MainActivity extends AppCompatActivity {
-
-    private static final String EXTRA_IS_LOGIN_SUCCESS = "isLoginSuccess";
     /**
      * 点两次退出程序
      */
@@ -93,11 +91,9 @@ public class MainActivity extends AppCompatActivity {
      * 启动当前activity
      *
      * @param context
-     * @param isLoginSuccess
      */
-    public static void start(Context context, boolean isLoginSuccess) {
+    public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(EXTRA_IS_LOGIN_SUCCESS, isLoginSuccess);
         context.startActivity(intent);
     }
 
@@ -149,19 +145,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.id_menu_main:
                         switchFragment(FragmentState.MAIN_FRAGMENT);
-                        getSupportActionBar().setTitle("魔哆");
                         break;
                     case R.id.id_menu_user_info:
                         switchFragment(FragmentState.USER_INFO_FRAGMENT);
-                        getSupportActionBar().setTitle("个人资料");
                         break;
                     case R.id.id_menu_about_moduo:
                         switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
-                        getSupportActionBar().setTitle("关于魔哆");
                         break;
                     case R.id.id_menu_share_moduo:
                         switchFragment(FragmentState.SHARE_MODUO_FRAGMENT);
-                        getSupportActionBar().setTitle("生成二维码");
                         break;
                     case R.id.id_menu_setting:
                         SettingActivity.start(MainActivity.this);
@@ -210,18 +202,22 @@ public class MainActivity extends AppCompatActivity {
             case MAIN_FRAGMENT:
                 currentFragmentState = FragmentState.MAIN_FRAGMENT;
                 toFragment = mainFragment;
+                getSupportActionBar().setTitle("魔哆");
                 break;
             case USER_INFO_FRAGMENT:
                 currentFragmentState = FragmentState.USER_INFO_FRAGMENT;
                 toFragment = userInfoFragment;
+                getSupportActionBar().setTitle("个人资料");
                 break;
             case ABOUT_MODUO_FRAGMENT:
                 currentFragmentState = FragmentState.ABOUT_MODUO_FRAGMENT;
                 toFragment = aboutModuoFragment;
+                getSupportActionBar().setTitle("关于魔哆");
                 break;
             case SHARE_MODUO_FRAGMENT:
                 currentFragmentState = FragmentState.SHARE_MODUO_FRAGMENT;
                 toFragment = shareDeviceFragment;
+                getSupportActionBar().setTitle("生成二维码");
                 break;
         }
         fragmentManager.beginTransaction().show(toFragment)

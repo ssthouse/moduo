@@ -16,9 +16,11 @@ import com.ssthouse.moduo.R;
  * 关于魔哆
  * Created by ssthouse on 2016/1/13.
  */
-public class AboutModuoFragment extends Fragment implements IFragmentUI{
+public class AboutModuoFragment extends Fragment implements IFragmentUI {
 
     private String[] args = {"型号", "网络", "总容量", "版本", "序列号"};
+
+    private ListView lv;
 
     @Nullable
     @Override
@@ -33,9 +35,8 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI{
     }
 
     private void initView(View rootView) {
-
         //初始化列表内容
-        ListView lv = (ListView) rootView.findViewById(R.id.id_lv);
+        lv = (ListView) rootView.findViewById(R.id.id_lv);
         lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -66,6 +67,6 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI{
 
     @Override
     public void updateUI() {
-
+        lv.invalidate();
     }
 }
