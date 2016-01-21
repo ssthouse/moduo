@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment;
+package com.ssthouse.moduo.main.view.fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +16,7 @@ import com.ssthouse.moduo.R;
  * 关于魔哆
  * Created by ssthouse on 2016/1/13.
  */
-public class AboutModuoFragment extends Fragment {
+public class AboutModuoFragment extends Fragment implements IFragmentUI{
 
     private String[] args = {"型号", "网络", "总容量", "版本", "序列号"};
 
@@ -62,5 +62,10 @@ public class AboutModuoFragment extends Fragment {
                 return itemView;
             }
         });
+    }
+
+    @Override
+    public void updateUI() {
+
     }
 }

@@ -24,15 +24,20 @@ import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.fragment.AboutModuoFragment;
-import com.ssthouse.moduo.main.view.fragment.MainFragment;
-import com.ssthouse.moduo.main.view.fragment.ShareDeviceFragment;
-import com.ssthouse.moduo.main.view.fragment.account.UserInfoFragment;
+import com.ssthouse.moduo.main.view.activity.account.UserInfoEditActivity;
+import com.ssthouse.moduo.main.view.fragment.main.AboutModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.main.IFragmentUI;
+import com.ssthouse.moduo.main.view.fragment.main.MainFragment;
+import com.ssthouse.moduo.main.view.fragment.main.ShareModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.main.UserInfoFragment;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLogOut = false;
 
     private FragmentManager fragmentManager;
-    private ShareDeviceFragment shareDeviceFragment;
+    private ShareModuoFragment shareDeviceFragment;
     private AboutModuoFragment aboutModuoFragment;
     private UserInfoFragment userInfoFragment;
     private MainFragment mainFragment;
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
      * fragment切换逻辑
      */
     public enum FragmentState {
-        SHARE_DEVICE_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
+        SHARE_MODUO_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
     }
 
     public FragmentState currentFragmentState = FragmentState.MAIN_FRAGMENT;
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mainFragment = new MainFragment();
         userInfoFragment = new UserInfoFragment();
         aboutModuoFragment = new AboutModuoFragment();
-        shareDeviceFragment = new ShareDeviceFragment();
+        shareDeviceFragment = new ShareModuoFragment();
         //初始化为MainFragment
         fragmentManager.beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
         fragmentManager.beginTransaction().add(R.id.id_fragment_container, userInfoFragment).commit();
@@ -153,8 +158,8 @@ public class MainActivity extends AppCompatActivity {
                         switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
                         getSupportActionBar().setTitle("关于魔哆");
                         break;
-                    case R.id.id_menu_share_device:
-                        switchFragment(FragmentState.SHARE_DEVICE_FRAGMENT);
+                    case R.id.id_menu_share_moduo:
+                        switchFragment(FragmentState.SHARE_MODUO_FRAGMENT);
                         getSupportActionBar().setTitle("生成二维码");
                         break;
                     case R.id.id_menu_setting:
@@ -191,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             case ABOUT_MODUO_FRAGMENT:
                 currentFragment = aboutModuoFragment;
                 break;
-            case SHARE_DEVICE_FRAGMENT:
+            case SHARE_MODUO_FRAGMENT:
                 currentFragment = shareDeviceFragment;
                 break;
         }
@@ -211,12 +216,15 @@ public class MainActivity extends AppCompatActivity {
                 currentFragmentState = FragmentState.ABOUT_MODUO_FRAGMENT;
                 toFragment = aboutModuoFragment;
                 break;
-            case SHARE_DEVICE_FRAGMENT:
-                currentFragmentState = FragmentState.SHARE_DEVICE_FRAGMENT;
+            case SHARE_MODUO_FRAGMENT:
+                currentFragmentState = FragmentState.SHARE_MODUO_FRAGMENT;
                 toFragment = shareDeviceFragment;
                 break;
         }
         fragmentManager.beginTransaction().show(toFragment).commit();
+        //刷新fragment的UI
+        IFragmentUI fragment = (IFragmentUI) toFragment;
+        fragment.updateUI();
         //更新menu
         invalidateOptionsMenu();
     }
@@ -329,8 +337,8 @@ public class MainActivity extends AppCompatActivity {
             case ABOUT_MODUO_FRAGMENT:
                 getMenuInflater().inflate(R.menu.menu_empty, menu);
                 break;
-            case SHARE_DEVICE_FRAGMENT:
-                getMenuInflater().inflate(R.menu.menu_about_moduo, menu);
+            case SHARE_MODUO_FRAGMENT:
+                getMenuInflater().inflate(R.menu.menu_share_moduo, menu);
                 break;
         }
         return true;
@@ -347,10 +355,25 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case USER_INFO_FRAGMENT:
+                if (item.getItemId() == R.id.id_menu_edit) {
+                    UserInfoEditActivity.start(this);
+                }
                 break;
             case ABOUT_MODUO_FRAGMENT:
                 break;
-            case SHARE_DEVICE_FRAGMENT:
+            case SHARE_MODUO_FRAGMENT:
+                if (item.getItemId() == R.id.id_menu_share_moduo) {
+                    //// TODO: 2016/1/21 分享魔哆二维码
+                    if (XPGController.getCurrentDevice() == null) {
+                        ToastHelper.showModuoNotConnected(this);
+                    }
+                    String picFileName = XPGController.getCurrentDevice().getXpgWifiDevice().getDid() + ".png";
+                    if (FileUtil.hasPicture(picFileName)) {
+                        FileUtil.sharePicture(this, new File(FileUtil.MODUO_PICTURE_PATH + picFileName));
+                    } else {
+                        ToastHelper.show(this, "二维码未生成");
+                    }
+                }
                 break;
         }
         return true;
@@ -385,9 +408,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /**
-         * 获取扫描二维码的结果
-         */
+        //获取扫描二维码的结果
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         QrCodeUtil.parseSacneResult(this, result);
         super.onActivityResult(requestCode, resultCode, data);

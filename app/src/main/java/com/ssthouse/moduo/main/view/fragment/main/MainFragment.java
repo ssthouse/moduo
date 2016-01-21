@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment;
+package com.ssthouse.moduo.main.view.fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +36,7 @@ import timber.log.Timber;
  * 主界面
  * Created by ssthouse on 2016/1/13.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements IFragmentUI{
 
     private ImageView ivHomeControl;
     private ImageView ivVideo;
@@ -122,6 +122,12 @@ public class MainFragment extends Fragment {
                 .customView(R.layout.dialog_wait, true)
                 .autoDismiss(false)
                 .build();
+    }
+
+
+    @Override
+    public void updateUI() {
+
     }
 
     private void showDialog(String msg) {
@@ -278,4 +284,5 @@ public class MainFragment extends Fragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 }

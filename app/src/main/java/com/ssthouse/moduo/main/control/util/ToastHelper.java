@@ -29,6 +29,10 @@ public class ToastHelper {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
+    public static void showModuoNotConnected(Context context){
+        ToastHelper.show(context, "当前未连接魔哆");
+    }
+
     public static void showOnCoding(Context context) {
         Toast.makeText(context, "功能正在开发中", Toast.LENGTH_LONG).show();
     }

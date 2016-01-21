@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.account;
+package com.ssthouse.moduo.main.view.fragment.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +32,7 @@ import timber.log.Timber;
  * 用户账号
  * Created by ssthouse on 2016/1/13.
  */
-public class UserInfoFragment extends Fragment {
+public class UserInfoFragment extends Fragment implements IFragmentUI{
 
     private View rootView;
 
@@ -160,7 +160,8 @@ public class UserInfoFragment extends Fragment {
     /**
      * 刷新UI
      */
-    private void updateUI() {
+    @Override
+    public void updateUI() {
         //根据当前登陆状况---显示下方的操作按钮
         if (SettingManager.getInstance(getContext()).isLogined()) {
             //是否为匿名登录

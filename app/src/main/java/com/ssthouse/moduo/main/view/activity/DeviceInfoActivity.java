@@ -152,7 +152,7 @@ public class DeviceInfoActivity extends AppCompatActivity {
                 String content = QrCodeUtil.getDeviceQrCodeContent(device.getProductKey(), device.getDid(),
                         device.getPasscode(), cid + "", username, password);
                 Bitmap bitmap = QrCodeUtil.generateQRCode(content);
-                File bitmapFile = new File(FileUtil.saveBitmap(DeviceInfoActivity.this, bitmap));
+                File bitmapFile = new File(FileUtil.saveBitmap(DeviceInfoActivity.this, bitmap, "test"));
                 //将照片保存到本地
                 //使用intent分享照片
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);

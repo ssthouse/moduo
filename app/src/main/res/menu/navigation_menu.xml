@@ -20,7 +20,7 @@
             android:title=" 关于魔哆" />
 
         <item
-            android:id="@+id/id_menu_share_device"
+            android:id="@+id/id_menu_share_moduo"
             android:icon="@mipmap/ic_launcher"
             android:title=" 生成二维码" />
     </group>
