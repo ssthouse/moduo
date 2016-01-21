@@ -18,14 +18,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.cons.scan.ScanCons;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.bean.event.xpg.DeviceBindResultEvent;
-import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
@@ -391,40 +389,7 @@ public class MainActivity extends AppCompatActivity {
          * 获取扫描二维码的结果
          */
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Timber.e("Cancelled scan");
-            } else {
-                String text = result.getContents();
-                //机智云sdk参数
-                String product_key = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PRODUCT_KEY);
-                String did = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_DID);
-                String passCode = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSCODE);
-                //视频sdk参数
-                String cidStr = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
-                String username = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
-                String password = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
-                //判断二维码扫描数据是否正确
-                if (product_key == null
-                        || did == null
-                        || passCode == null
-                        || cidStr == null
-                        || username == null
-                        || password == null) {
-                    ToastHelper.showLong(this, "请扫描正确的二维码");
-                    return;
-                }
-                long cidNumber = Long.parseLong(cidStr);
-                Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
-                Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
-                //将当前设备数据保存在本地
-                PreferenceHelper.getInstance(this).addDevice(did, cidNumber, username, password);
-                //抛出扫描
-                EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode));
-            }
-        } else {
-            ToastHelper.show(this, "二维码解析为空");
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+        QrCodeUtil.parseSacneResult(this, result);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

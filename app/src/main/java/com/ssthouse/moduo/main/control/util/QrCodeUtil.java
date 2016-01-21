@@ -9,8 +9,14 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.ssthouse.moduo.bean.cons.scan.ScanCons;
+import com.ssthouse.moduo.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.main.view.activity.ScanActivity;
+
+import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 二维码工具类
@@ -22,6 +28,43 @@ public class QrCodeUtil {
      * 二维码content前缀
      */
     private static final String qrCodePrefix = "http://site.gizwits.com/?";
+
+    /**
+     * 解析扫描出的魔哆设备数据
+     * @param context
+     * @param intentResult 魔哆二维码数据
+     */
+    public static void parseSacneResult(Context context, IntentResult intentResult){
+        if (intentResult == null || intentResult.getContents() == null) {
+            Timber.e("Cancelled scan");
+            ToastHelper.show(context, "扫描失败");
+            return;
+        }
+        String text = intentResult.getContents();
+        //机智云sdk参数
+        String product_key = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PRODUCT_KEY);
+        String did = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_DID);
+        String passCode = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSCODE);
+        //视频sdk参数
+        String cidStr = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
+        String username = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
+        String password = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
+        //判断二维码扫描数据是否正确
+        if (product_key == null
+                || did == null
+                || passCode == null
+                || cidStr == null
+                || username == null
+                || password == null) {
+            ToastHelper.showLong(context, "二维码数据出错");
+            return;
+        }
+        long cidNumber = Long.parseLong(cidStr);
+        Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
+        Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
+        //抛出扫描到设备的结果
+        EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode));
+    }
 
     /**
      * 获取设备分享二维码url
