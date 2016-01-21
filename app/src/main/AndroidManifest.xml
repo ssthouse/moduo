@@ -57,12 +57,15 @@
         </receiver>
 
         <!--app介绍-->
-        <activity android:name=".main.view.activity.AppIntroActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.view.activity.AppIntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
 
         <!--初次进入guide界面-->
-        <activity android:name=".main.view.activity.GuideActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.view.activity.GuideActivity"
+            android:screenOrientation="portrait" />
 
         <!--主界面-->
         <activity android:name=".main.view.activity.LoadingActivity">
@@ -73,8 +76,9 @@
         </activity>
 
         <!--用户信息修改-->
-        <activity android:name=".main.view.activity.account.UserInfoEditActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.view.activity.account.UserInfoEditActivity"
+            android:screenOrientation="portrait" />
 
         <!--用户登陆/注册-->
         <activity
@@ -94,8 +98,9 @@
             android:screenOrientation="portrait" />
 
         <!--密码锁-->
-        <activity android:name=".main.view.activity.account.GestureLockActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.view.activity.account.GestureLockActivity"
+            android:screenOrientation="portrait" />
 
         <!--展示wifi二维码-->
         <activity
@@ -111,8 +116,9 @@
             android:screenOrientation="portrait" />
 
         <!--家居控制activity-->
-        <activity android:name=".main.view.activity.HomeControlActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.view.activity.HomeControlActivity"
+            android:screenOrientation="portrait" />
 
         <!--设备参数界面-->
         <activity

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -200,7 +201,9 @@ public class MainActivity extends AppCompatActivity {
                 currentFragment = shareDeviceFragment;
                 break;
         }
-        fragmentManager.beginTransaction().hide(currentFragment).commit();
+        fragmentManager.beginTransaction().hide(currentFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
         //显示toFragment
         Fragment toFragment = null;
         switch (newState) {
@@ -221,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
                 toFragment = shareDeviceFragment;
                 break;
         }
-        fragmentManager.beginTransaction().show(toFragment).commit();
+        fragmentManager.beginTransaction().show(toFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
         //刷新fragment的UI
         IFragmentUI fragment = (IFragmentUI) toFragment;
         fragment.updateUI();

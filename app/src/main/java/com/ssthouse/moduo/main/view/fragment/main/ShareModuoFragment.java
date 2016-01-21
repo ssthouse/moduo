@@ -27,10 +27,9 @@ import rx.schedulers.Schedulers;
  * 分享设备fragment
  * Created by ssthouse on 2016/1/13.
  */
-public class ShareModuoFragment extends Fragment implements IFragmentUI{
+public class ShareModuoFragment extends Fragment implements IFragmentUI {
 
     private ImageView ivQrcode;
-
     private MaterialDialog waitDialog;
 
     @Nullable
@@ -39,7 +38,6 @@ public class ShareModuoFragment extends Fragment implements IFragmentUI{
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_share_device, container, false);
         initView(rootView);
-        updateUI();
         return rootView;
     }
 
