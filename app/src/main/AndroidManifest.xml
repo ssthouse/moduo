@@ -75,6 +75,11 @@
             </intent-filter>
         </activity>
 
+        <!--消息中心-->
+        <activity
+            android:name=".main.view.activity.MsgCenterActivity"
+            android:screenOrientation="portrait" />
+
         <!--用户信息修改-->
         <activity
             android:name=".main.view.activity.account.UserInfoEditActivity"

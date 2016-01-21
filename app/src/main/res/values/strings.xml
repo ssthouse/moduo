@@ -8,10 +8,10 @@
     <string name="moduo_state_connected">已成功连接魔哆,欢迎使用</string>
 
     <array name="test_string_array">
-        <item>测试设备1</item>
-        <item>测试设备2</item>
-        <item>测试设备3</item>
-        <item>测试设备4</item>
-        <item>测试设备5</item>
+        <item>测试item1</item>
+        <item>测试item2</item>
+        <item>测试item3</item>
+        <item>测试item4</item>
+        <item>测试item5</item>
     </array>
 </resources>

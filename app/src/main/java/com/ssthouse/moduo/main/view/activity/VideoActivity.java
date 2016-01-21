@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.view.fragment.CallingFragment;
-import com.ssthouse.moduo.main.view.fragment.VideoFragment;
+import com.ssthouse.moduo.main.view.fragment.video.CallingFragment;
+import com.ssthouse.moduo.main.view.fragment.video.VideoFragment;
 
 import timber.log.Timber;
 

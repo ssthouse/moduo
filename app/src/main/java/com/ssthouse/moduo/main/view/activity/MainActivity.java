@@ -119,13 +119,16 @@ public class MainActivity extends AppCompatActivity {
         aboutModuoFragment = new AboutModuoFragment();
         shareDeviceFragment = new ShareModuoFragment();
         //初始化为MainFragment
-        fragmentManager.beginTransaction().add(R.id.id_fragment_container, mainFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.id_fragment_container, userInfoFragment).commit();
-        fragmentManager.beginTransaction().hide(userInfoFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.id_fragment_container, aboutModuoFragment).commit();
-        fragmentManager.beginTransaction().hide(aboutModuoFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.id_fragment_container, shareDeviceFragment).commit();
-        fragmentManager.beginTransaction().hide(shareDeviceFragment).commit();
+        fragmentManager.beginTransaction()
+                .add(R.id.id_fragment_container, mainFragment)
+                .add(R.id.id_fragment_container, userInfoFragment)
+                .add(R.id.id_fragment_container, aboutModuoFragment)
+                .add(R.id.id_fragment_container, shareDeviceFragment)
+                .hide(userInfoFragment)
+                .hide(aboutModuoFragment)
+                .hide(shareDeviceFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
     }
 
     private void initView() {
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         fragmentManager.beginTransaction().hide(currentFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
         //显示toFragment
         Fragment toFragment = null;
@@ -221,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         fragmentManager.beginTransaction().show(toFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
         //刷新fragment的UI
         IFragmentUI fragment = (IFragmentUI) toFragment;

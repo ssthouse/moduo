@@ -26,6 +26,7 @@ import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
+import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
@@ -108,6 +109,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
             @Override
             public void onClick(View v) {
                 //// TODO: 2016/1/14 消息中心
+                MsgCenterActivity.start(getContext());
             }
         });
 
