@@ -61,14 +61,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/id_btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改为实名登陆" />
+            android:text="修改为实名登陆"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/id_btn_log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注销"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

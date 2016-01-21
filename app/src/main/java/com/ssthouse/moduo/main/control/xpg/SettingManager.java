@@ -26,7 +26,7 @@ import timber.log.Timber;
 
 /**
  * SharePreference处理类.
- * <p>
+ * <p/>
  * 保存:
  * 当前登陆账户数据
  * 当前绑定设备数据
@@ -37,6 +37,8 @@ public class SettingManager {
 
     private SharedPreferences spf;
 
+    private static SettingManager instance;
+
     private Context context;
 
     /**
@@ -45,26 +47,17 @@ public class SettingManager {
     private final String SHARE_PREFERENCES = "set";
 
     // 用户名
-    private final String USER_NAME = "username";
-    // 手机号码
-    private final String PHONE_NUM = "phonenumber";
+    private static final String USER_NAME = "username";
     // 密码
-    private final String PASSWORD = "password";
+    private static final String PASSWORD = "password";
     // 用户名
-    private final String TOKEN = "token";
+    private static final String TOKEN = "token";
     // 用户ID
-    private final String UID = "uid";
-
-    /**
-     * 当前操作设备did
-     */
-    private final String DID = "did";
-
-
-    /**
-     * 图形密码key
-     */
-    public static final String KEY_GESTURE_LOCK = "gesture_lock";
+    private static final String UID = "uid";
+    // 当前操作设备did
+    private static final String DID = "did";
+    // 图形密码key
+    private static final String KEY_GESTURE_LOCK = "gesture_lock";
 
     /**
      * 构造方法
@@ -75,11 +68,6 @@ public class SettingManager {
         this.context = context;
         spf = context.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE);
     }
-
-    /**
-     * 单例
-     */
-    private static SettingManager instance;
 
     /**
      * 获取单例
@@ -97,15 +85,51 @@ public class SettingManager {
      * SharePreference clean.
      */
     public void clean() {
+        //清除登陆信息
         setUid("");
         setToken("");
-        setPhoneNumber("");
+        //清除账户信息
         setPassword("");
         setUserName("");
+        //清除手势密码
+        setGestureLock("");
+    }
+
+    /**
+     * 是否已经登陆
+     *
+     * @return
+     */
+    public boolean isLogined() {
+        String uid = spf.getString(UID, null);
+        String token = spf.getString(TOKEN, null);
+        if (uid != null && uid.length() > 0
+                && token != null && token.length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 是否为匿名用户
+     *
+     * @return
+     */
+    public boolean isAnonymousUser() {
+        String username = spf.getString(USER_NAME, null);
+        String password = spf.getString(PASSWORD, null);
+        if (username != null && username.length() > 0
+                && password != null && password.length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
      * 获取手势密码
+     *
      * @return
      */
     public String getGestureLock() {
@@ -114,6 +138,7 @@ public class SettingManager {
 
     /**
      * 设置图形密码
+     *
      * @param gestureLock
      * @return
      */
@@ -175,24 +200,6 @@ public class SettingManager {
      */
     public String getUserName() {
         return spf.getString(USER_NAME, "");
-    }
-
-    /**
-     * Sets the phone number.
-     *
-     * @param phoneNumber the new phone number
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        spf.edit().putString(PHONE_NUM, phoneNumber).commit();
-    }
-
-    /**
-     * Gets the phone number.
-     *
-     * @return the phone number
-     */
-    public String getPhoneNumber() {
-        return spf.getString(PHONE_NUM, "");
     }
 
     public void setPassword(String psw) {

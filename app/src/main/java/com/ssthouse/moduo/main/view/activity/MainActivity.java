@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         Timber.e("我接收到视频sdk状态更新");
         //修改设备状态
         for (Device device : XPGController.getDeviceList()) {
-            if (device.getCidNumber() == event.getCidNumber()) {
+            if (device.getVideoCidNumber() == event.getCidNumber()) {
                 device.setStreamerPresenceState(event.getState());
                 Timber.e("我更新了视频sdk状态");
             }

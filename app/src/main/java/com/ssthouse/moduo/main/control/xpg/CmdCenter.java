@@ -115,6 +115,16 @@ public class CmdCenter {
     }
 
     /**
+     * 匿名用户转正常用户
+     * @param token
+     * @param username
+     * @param password
+     */
+    public void cTransferToNormalUser(String token, String username, String password){
+        xpgWifiGCC.transAnonymousUserToNormalUser(token, username, password);
+    }
+
+    /**
      * C register mail user.
      *
      * @param mailAddr the mail addr

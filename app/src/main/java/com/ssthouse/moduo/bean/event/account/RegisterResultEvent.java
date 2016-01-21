@@ -9,13 +9,16 @@ public class RegisterResultEvent {
 
     private boolean isSuccess;
 
+    private int errorCode;
+
     /**
      * 注册失败构造方法
      *
      * @param isSuccess
      */
-    public RegisterResultEvent(boolean isSuccess) {
+    public RegisterResultEvent(boolean isSuccess, int errorCode) {
         this.isSuccess = isSuccess;
+        this.errorCode = errorCode;
         uid = "";
         token = "";
     }
@@ -61,5 +64,13 @@ public class RegisterResultEvent {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 }

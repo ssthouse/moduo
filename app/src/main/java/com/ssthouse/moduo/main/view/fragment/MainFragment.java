@@ -103,7 +103,7 @@ public class MainFragment extends Fragment {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    VideoActivity.start(getContext(), XPGController.getCurrentDevice().getCidNumber());
+                    VideoActivity.start(getContext(), XPGController.getCurrentDevice().getVideoCidNumber());
                 }
             }
         });
@@ -206,9 +206,9 @@ public class MainFragment extends Fragment {
                     .setListener(XPGController.getInstance(getContext()).getDeviceListener());
             //登陆视频sdk
             Communication.getInstance(getContext()).
-                    addStreamer(XPGController.getCurrentDevice().getCidNumber()
-                            , XPGController.getCurrentDevice().getUsername(),
-                            XPGController.getCurrentDevice().getPassword());
+                    addStreamer(XPGController.getCurrentDevice().getVideoCidNumber()
+                            , XPGController.getCurrentDevice().getVideoUsername(),
+                            XPGController.getCurrentDevice().getVideoPassword());
         } else {
             ToastHelper.show(getContext(), "获取绑定设备失败");
         }

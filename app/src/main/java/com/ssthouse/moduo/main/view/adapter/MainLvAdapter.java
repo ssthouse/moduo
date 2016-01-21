@@ -95,7 +95,7 @@ public class MainLvAdapter extends BaseAdapter {
      */
     private void initVideoEvent(ViewHolder viewHolder, final int position) {
         //配置触发事件
-        viewHolder.tvCid.setText("设备Cid号码:" + deviceList.get(position).getCidNumber() + "");
+        viewHolder.tvCid.setText("设备Cid号码:" + deviceList.get(position).getVideoCidNumber() + "");
         //加载视频sdk状态
         String stateStr = "摄像头状态: ";
         boolean isVideoEnable = false;
@@ -124,7 +124,7 @@ public class MainLvAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //启动video activity
-                VideoActivity.start(context, deviceList.get(position).getCidNumber());
+                VideoActivity.start(context, deviceList.get(position).getVideoCidNumber());
             }
         });
     }

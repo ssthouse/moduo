@@ -47,8 +47,17 @@ public class LoadingActivity extends AppCompatActivity {
 //            RegisterActivity.start(this);
 //        }
 
-        //匿名登录
-        XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+        //判断是否为匿名登录
+        if(SettingManager.getInstance(this).isAnonymousUser()) {
+            XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+            Timber.e("匿名登录");
+        }else{
+            XPGController.getInstance(this).getmCenter().cLogin(
+                    SettingManager.getInstance(this).getUserName(),
+                    SettingManager.getInstance(this).getPassword()
+            );
+            Timber.e("实名登陆");
+        }
     }
 
     /**

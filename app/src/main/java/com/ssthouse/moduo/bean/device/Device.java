@@ -25,17 +25,17 @@ public class Device implements Serializable {
     /**
      * 视频SDK---设备cid编号
      */
-    private long cidNumber;
+    private long videoCidNumber;
 
     /**
      * 视频SDK---设备用户名
      */
-    private String username;
+    private String videoUsername;
 
     /**
      * 视频SDK---设备密码
      */
-    private String password;
+    private String videoPassword;
 
     /*
     机智云sdk数据
@@ -60,9 +60,9 @@ public class Device implements Serializable {
         this.streamerPresenceState = StreamerPresenceState.OFFLINE;
         //todo---参数检查---根据给的机智云设备---在preference中获取视频sdk参数
         String did = xpgWifiDevice.getDid();
-        this.cidNumber = PreferenceHelper.getInstance(context).getCidNumber(did);
-        this.username = PreferenceHelper.getInstance(context).getUsername(did);
-        this.password = PreferenceHelper.getInstance(context).getPassword(did);
+        this.videoCidNumber = PreferenceHelper.getInstance(context).getCidNumber(did);
+        this.videoUsername = PreferenceHelper.getInstance(context).getUsername(did);
+        this.videoPassword = PreferenceHelper.getInstance(context).getPassword(did);
     }
 
     //getter---and---setter-------------------------------------------------------------------------
@@ -74,28 +74,28 @@ public class Device implements Serializable {
         this.streamerPresenceState = streamerPresenceState;
     }
 
-    public long getCidNumber() {
-        return cidNumber;
+    public long getVideoCidNumber() {
+        return videoCidNumber;
     }
 
-    public void setCidNumber(long cidNumber) {
-        this.cidNumber = cidNumber;
+    public void setVideoCidNumber(long videoCidNumber) {
+        this.videoCidNumber = videoCidNumber;
     }
 
-    public String getUsername() {
-        return username;
+    public String getVideoUsername() {
+        return videoUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setVideoUsername(String videoUsername) {
+        this.videoUsername = videoUsername;
     }
 
-    public String getPassword() {
-        return password;
+    public String getVideoPassword() {
+        return videoPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setVideoPassword(String videoPassword) {
+        this.videoPassword = videoPassword;
     }
 
     public XPGWifiDevice getXpgWifiDevice() {

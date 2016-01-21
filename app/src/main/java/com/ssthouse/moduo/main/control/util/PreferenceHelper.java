@@ -75,14 +75,12 @@ public class PreferenceHelper {
      * 需要否根据一个设备did就获取到--它的cid---username---poassword--
      * User数据的key
      */
-    private interface DeviceInfoCons {
-        //设备名前缀
-        String CID_PREFIX = "cid_";
-        //用户名前缀
-        String USERNAME_PREFIX = "username_";
-        //密码前缀
-        String PASSWORD_PREFIX = "password_";
-    }
+    //设备名前缀
+    private static String CID_PREFIX = "cid_";
+    //用户名前缀
+    private static String USERNAME_PREFIX = "username_";
+    //密码前缀
+    private static String PASSWORD_PREFIX = "password_";
 
     /**
      * 添加设备
@@ -96,9 +94,9 @@ public class PreferenceHelper {
         //以机智云的did作为key---保存视频sdk的三个参数
         String did = device.getXpgWifiDevice().getDid();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(DeviceInfoCons.CID_PREFIX + did, device.getCidNumber())
-                .putString(DeviceInfoCons.USERNAME_PREFIX + did, device.getUsername())
-                .putString(DeviceInfoCons.PASSWORD_PREFIX + did, device.getPassword())
+        editor.putLong(CID_PREFIX + did, device.getVideoCidNumber())
+                .putString(USERNAME_PREFIX + did, device.getVideoUsername())
+                .putString(PASSWORD_PREFIX + did, device.getVideoPassword())
                 .commit();
     }
 
@@ -109,7 +107,7 @@ public class PreferenceHelper {
      * @return
      */
     public long getCidNumber(String did) {
-        return sharedPreferences.getLong(DeviceInfoCons.CID_PREFIX + did, 0);
+        return sharedPreferences.getLong(CID_PREFIX + did, 0);
     }
 
     /**
@@ -119,7 +117,7 @@ public class PreferenceHelper {
      * @return
      */
     public String getUsername(String did) {
-        return sharedPreferences.getString(DeviceInfoCons.USERNAME_PREFIX + did, null);
+        return sharedPreferences.getString(USERNAME_PREFIX + did, null);
     }
 
     /**
@@ -129,7 +127,7 @@ public class PreferenceHelper {
      * @return
      */
     public String getPassword(String did) {
-        return sharedPreferences.getString(DeviceInfoCons.PASSWORD_PREFIX + did, null);
+        return sharedPreferences.getString(PASSWORD_PREFIX + did, null);
     }
 
     /**
@@ -143,9 +141,9 @@ public class PreferenceHelper {
     public void addDevice(String did, long cidNumber, String username, String password) {
         //以机智云的did作为key---保存视频sdk的三个参数
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(DeviceInfoCons.CID_PREFIX + did, cidNumber)
-                .putString(DeviceInfoCons.USERNAME_PREFIX + did, username)
-                .putString(DeviceInfoCons.PASSWORD_PREFIX + did, password)
+        editor.putLong(CID_PREFIX + did, cidNumber)
+                .putString(USERNAME_PREFIX + did, username)
+                .putString(PASSWORD_PREFIX + did, password)
                 .commit();
     }
 
@@ -160,9 +158,9 @@ public class PreferenceHelper {
         String did = device.getXpgWifiDevice().getDid();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //根据did为key删除数据
-        editor.remove(DeviceInfoCons.CID_PREFIX + did)
-                .remove(DeviceInfoCons.USERNAME_PREFIX + did)
-                .remove(DeviceInfoCons.PASSWORD_PREFIX + did)
+        editor.remove(CID_PREFIX + did)
+                .remove(USERNAME_PREFIX + did)
+                .remove(PASSWORD_PREFIX + did)
                 .commit();
     }
 }

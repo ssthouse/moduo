@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssthouse.moduo.bean.event.account.AnonymousUserTransEvent;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
@@ -31,11 +32,11 @@ import timber.log.Timber;
 
 /**
  * XPG总控制器:
- * <p>
+ * <p/>
  * 监听两个接口:
  * XPGWiﬁSDKListener通用监听器，包含了注册、登录、配置设备、绑定设备等回调接口
  * XPGWiﬁDeviceListener设备监听器，包含了单个设备的登录、控制、状态上报等接口
- * <p>
+ * <p/>
  * Created by ssthouse on 2015/12/19.
  */
 public class XPGController {
@@ -93,7 +94,7 @@ public class XPGController {
 
     /**
      * XPGWifiDeviceListener
-     * <p>
+     * <p/>
      * 设备属性监听器。 设备连接断开、获取绑定参数、获取设备信息、控制和接受设备信息相关.
      */
     protected XPGWifiDeviceListener deviceListener = new XPGWifiDeviceListener() {
@@ -165,7 +166,7 @@ public class XPGController {
 
     /**
      * XPGWifiSDKListener
-     * <p>
+     * <p/>
      * sdk监听器。 配置设备上线、注册登录用户、搜索发现设备、用户绑定和解绑设备相关.
      */
     private XPGWifiSDKListener sdkListener = new XPGWifiSDKListener() {
@@ -226,7 +227,7 @@ public class XPGController {
                 EventBus.getDefault().post(new RegisterResultEvent(true, uid, token));
                 Timber.e("注册用户完成");
             } else {
-                EventBus.getDefault().post(new RegisterResultEvent(false));
+                EventBus.getDefault().post(new RegisterResultEvent(false, error));
                 Timber.e("注册用户失败: " + error + "\t" + errorMessage);
             }
         }
@@ -276,6 +277,16 @@ public class XPGController {
         public void didUserLogout(int error, String errorMessage) {
             //用户登出回调
             Timber.e("用户登出回调");
+        }
+
+        @Override
+        public void didTransUser(int error, String errorMessage) {
+            if (error == 0) {
+                EventBus.getDefault().post(new AnonymousUserTransEvent(true, 0));
+            } else {
+                EventBus.getDefault().post(new AnonymousUserTransEvent(false, error));
+            }
+            super.didTransUser(error, errorMessage);
         }
     };
 
