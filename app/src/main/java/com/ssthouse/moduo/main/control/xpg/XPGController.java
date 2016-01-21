@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssthouse.moduo.bean.event.account.AnonymousUserTransEvent;
+import com.ssthouse.moduo.bean.event.xpg.XPGLogoutEvent;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.bean.device.Device;
 import com.ssthouse.moduo.bean.device.DeviceData;
@@ -277,6 +278,11 @@ public class XPGController {
         public void didUserLogout(int error, String errorMessage) {
             //用户登出回调
             Timber.e("用户登出回调");
+            if (error == 0) {
+                EventBus.getDefault().post(new XPGLogoutEvent(true, error));
+            }else{
+                EventBus.getDefault().post(new XPGLogoutEvent(false, error));
+            }
         }
 
         @Override

@@ -31,7 +31,7 @@ public class CloudUtil {
 
 
     /**
-     * 保存到leancloud
+     * 保存设备数据到leancloud
      *
      * @param callback
      */
@@ -44,7 +44,7 @@ public class CloudUtil {
                         query.whereEqualTo(KEY_DID, device.getXpgWifiDevice().getDid());
                         AVObject moduoDevice = null;
                         try {
-                            moduoDevice =  query.getFirst();
+                            moduoDevice = query.getFirst();
                         } catch (AVException e) {
                             e.printStackTrace();
                         }
@@ -56,7 +56,8 @@ public class CloudUtil {
                 .subscribe(new Action1<AVObject>() {
                     @Override
                     public void call(AVObject avObject) {
-                        if(avObject == null){
+                        //判断远端是否已有
+                        if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
                             moduoDevice.put(KEY_DID, device.getXpgWifiDevice().getDid());
                             moduoDevice.put(KEY_PASSCODE, device.getXpgWifiDevice().getPasscode());
@@ -64,6 +65,13 @@ public class CloudUtil {
                             moduoDevice.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
                             moduoDevice.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
                             moduoDevice.saveInBackground(callback);
+                        } else {
+                            avObject.put(KEY_DID, device.getXpgWifiDevice().getDid());
+                            avObject.put(KEY_PASSCODE, device.getXpgWifiDevice().getPasscode());
+                            avObject.put(KEY_CID, device.getVideoCidNumber());
+                            avObject.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
+                            avObject.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
+                            avObject.saveInBackground(callback);
                         }
                     }
                 });
@@ -80,12 +88,13 @@ public class CloudUtil {
 
     /**
      * 保存用户信息
+     *
      * @param username
      * @param password
      * @param gesturePassword
      */
     public static void saveUserInfoToCloud(final String username, final String password,
-                                           final String gesturePassword, final SaveCallback callback){
+                                           final String gesturePassword, final SaveCallback callback) {
         Observable.just(username)
                 .map(new Func1<String, AVObject>() {
                     @Override
@@ -94,7 +103,7 @@ public class CloudUtil {
                         query.whereEqualTo(KEY_USERNAME, username);
                         AVObject moduoDevice = null;
                         try {
-                            moduoDevice =  query.getFirst();
+                            moduoDevice = query.getFirst();
                         } catch (AVException e) {
                             e.printStackTrace();
                         }
@@ -106,11 +115,18 @@ public class CloudUtil {
                 .subscribe(new Action1<AVObject>() {
                     @Override
                     public void call(AVObject avObject) {
-                        if(avObject == null){
+                        //判断是否已有用户
+                        if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_USER_INFO);
+                            moduoDevice.put(KEY_USERNAME, username);
                             moduoDevice.put(KEY_PASSWORD, password);
                             moduoDevice.put(KEY_GESTURE_PASSWORD, gesturePassword);
                             moduoDevice.saveInBackground(callback);
+                        } else {
+                            avObject.put(KEY_USERNAME, username);
+                            avObject.put(KEY_PASSWORD, password);
+                            avObject.put(KEY_GESTURE_PASSWORD, gesturePassword);
+                            avObject.saveInBackground(callback);
                         }
                     }
                 });

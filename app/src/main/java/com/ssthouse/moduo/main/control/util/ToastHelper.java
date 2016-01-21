@@ -32,4 +32,8 @@ public class ToastHelper {
     public static void showOnCoding(Context context) {
         Toast.makeText(context, "功能正在开发中", Toast.LENGTH_LONG).show();
     }
+
+    public static void showNoInternet(Context context){
+        Toast.makeText(context, "连接网络失败, 请重试", Toast.LENGTH_SHORT).show();
+    }
 }
