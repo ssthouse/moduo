@@ -228,7 +228,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (event.isSuccess()) {
             tvModuoState.setText("用户登陆成功");
-            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
+            CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
             SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
             //获取设备

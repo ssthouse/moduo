@@ -65,7 +65,7 @@ public class LoadingActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
             //更新本地用户数据
-            CloudUtil.updateUserInfo(this, SettingManager.getInstance(this).getUserName());
+            CloudUtil.updateUserInfoToLocal(this, SettingManager.getInstance(this).getUserName());
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginCacheInfo(event);
             //跳转Activity

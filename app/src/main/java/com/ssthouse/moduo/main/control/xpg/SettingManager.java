@@ -133,7 +133,7 @@ public class SettingManager {
     /**
      * 清除本地魔哆数据
      */
-    public void cleanLocalModuo(){
+    public void cleanLocalModuo() {
         //清除设备信息
         setCurrentDid("");
         setPasscode("");
@@ -148,11 +148,11 @@ public class SettingManager {
      * @return
      */
     public boolean hasLocalModuo() {
-        if (getCurrentDid() != null
-                && getPasscode() != null
-                && getCidNumber() != null
-                && getVideoUsername() != null
-                && getVideoPassword() != null) {
+        if (getCurrentDid() != null && getCurrentDid().length() != 0
+                && getPasscode() != null && getPasscode().length() != 0
+                && getCidNumber() != null && getCidNumber().length() != 0
+                && getVideoUsername() != null && getVideoUsername().length() != 0
+                && getVideoPassword() != null && getVideoPassword().length() != 0) {
             return true;
         } else {
             return false;
@@ -200,6 +200,10 @@ public class SettingManager {
         setUserName(userInfo.getUsername());
         setPassword(userInfo.getPassword());
         setGestureLock(userInfo.getGesturePassword());
+    }
+
+    public UserInfo getCurrentUserInfo() {
+        return new UserInfo(getUserName(), getPassword(), getGestureLock());
     }
 
     /**

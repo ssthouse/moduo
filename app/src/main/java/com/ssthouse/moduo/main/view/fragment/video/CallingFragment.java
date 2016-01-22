@@ -70,7 +70,7 @@ public class CallingFragment extends Fragment {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (event.isSuccess()) {
             Timber.e("设备登陆成功");
-            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
+            CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
         } else {
             getActivity().finish();
             ToastHelper.show(getContext(), "设备登陆失败");

@@ -7,9 +7,7 @@ package com.ssthouse.moduo.bean;
 public class UserInfo {
 
     private String username;
-
     private String password;
-
     private String gesturePassword;
 
     public UserInfo(String username, String password, String gesturePassword) {
@@ -44,6 +42,22 @@ public class UserInfo {
 
     @Override
     public String toString() {
-        return username + "    " + password + "    " + gesturePassword+"-----";
+        return username + "    " + password + "    " + gesturePassword + "-----";
+    }
+
+    /**
+     * 数据是否完成:
+     * 是否可被上传至Cloud
+     *
+     * @return
+     */
+    public boolean isComplete() {
+        if (username != null && username.length() != 0
+                && password != null && password.length() != 0
+                && gesturePassword != null && gesturePassword.length() != 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

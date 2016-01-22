@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ssthouse.gesture.LockPatternView;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 
@@ -22,14 +23,11 @@ import java.util.List;
  */
 public class NewGestureFragment extends Fragment {
 
-    private LockPatternView lockView;
-
-    private TextView tvTip;
-
     private State currentState = State.STATE_INPUT_NEW;
 
+    private LockPatternView lockView;
+    private TextView tvTip;
     private Button btnRedraw;
-
     private Button btnConfirm;
 
     /**
@@ -81,6 +79,8 @@ public class NewGestureFragment extends Fragment {
             public void onClick(View v) {
                 if (currentPatternStr != null) {
                     SettingManager.getInstance(getContext()).setGestureLock(currentPatternStr);
+                    //将新的用户数据提交到云端
+                    CloudUtil.updateUserInfoToCloud(SettingManager.getInstance(getContext()).getCurrentUserInfo());
                     ToastHelper.show(getContext(), "图形密码设置成功");
                     getActivity().finish();
                 }

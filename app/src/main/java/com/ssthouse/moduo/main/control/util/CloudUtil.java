@@ -123,56 +123,12 @@ public class CloudUtil {
     public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
 
     /**
-     * 保存用户信息
-     *
-     * @param userInfo
-     * @param callback
-     */
-    public static void saveUserInfoToCloud(final UserInfo userInfo, final SaveCallback callback) {
-        Observable.just(userInfo)
-                .map(new Func1<UserInfo, AVObject>() {
-                    @Override
-                    public AVObject call(UserInfo u) {
-                        AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_USER_INFO);
-                        query.whereEqualTo(KEY_USERNAME, u.getUsername());
-                        AVObject moduoDevice = null;
-                        try {
-                            moduoDevice = query.getFirst();
-                        } catch (AVException e) {
-                            e.printStackTrace();
-                        }
-                        return moduoDevice;
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<AVObject>() {
-                    @Override
-                    public void call(AVObject avObject) {
-                        //判断是否已有用户
-                        if (avObject == null) {
-                            AVObject moduoDevice = new AVObject(TABLE_USER_INFO);
-                            moduoDevice.put(KEY_USERNAME, userInfo.getUsername());
-                            moduoDevice.put(KEY_PASSWORD, userInfo.getPassword());
-                            moduoDevice.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
-                            moduoDevice.saveInBackground(callback);
-                        } else {
-                            avObject.put(KEY_USERNAME, userInfo.getUsername());
-                            avObject.put(KEY_PASSWORD, userInfo.getPassword());
-                            avObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
-                            avObject.saveInBackground(callback);
-                        }
-                    }
-                });
-    }
-
-    /**
      * 从云端获取用户信息
      *
      * @param username 用户名(机智云端用户名是唯一的)
      * @return
      */
-    public static void updateUserInfo(final Context context, final String username) {
+    public static void updateUserInfoToLocal(final Context context, final String username) {
         Observable.just(username)
                 .map(new Func1<String, UserInfo>() {
                     @Override
@@ -198,11 +154,58 @@ public class CloudUtil {
                 .subscribe(new Action1<UserInfo>() {
                     @Override
                     public void call(UserInfo userInfo) {
-                        if(userInfo == null){
+                        if (userInfo == null) {
                             return;
                         }
                         SettingManager.getInstance(context).setCurrentUserInfo(userInfo);
                         Timber.e(userInfo.toString());
+                        Timber.e("从云端获取用户数据---同步到本地");
+                    }
+                });
+    }
+
+    /**
+     * 本地数据保存到云端
+     *
+     * @param userInfo
+     */
+    public static void updateUserInfoToCloud(final UserInfo userInfo) {
+        //完整才上传
+        if (!userInfo.isComplete()) {
+            return;
+        }
+        Observable.just(userInfo)
+                .map(new Func1<UserInfo, AVObject>() {
+                    @Override
+                    public AVObject call(UserInfo userInfo) {
+                        AVObject avObject = null;
+                        try {
+                            avObject = new AVQuery(TABLE_USER_INFO)
+                                    .whereEqualTo(KEY_USERNAME, userInfo.getUsername())
+                                    .getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                        return avObject;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<AVObject>() {
+                    @Override
+                    public void call(AVObject avObject) {
+                        if (avObject == null) {
+                            AVObject newUserInfoObject = new AVObject(TABLE_USER_INFO);
+                            newUserInfoObject.put(KEY_USERNAME, userInfo.getUsername());
+                            newUserInfoObject.put(KEY_PASSWORD, userInfo.getPassword());
+                            newUserInfoObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
+                            newUserInfoObject.saveInBackground();
+                        } else {
+                            avObject.put(KEY_USERNAME, userInfo.getUsername());
+                            avObject.put(KEY_PASSWORD, userInfo.getPassword());
+                            avObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
+                            avObject.saveInBackground();
+                        }
                     }
                 });
     }

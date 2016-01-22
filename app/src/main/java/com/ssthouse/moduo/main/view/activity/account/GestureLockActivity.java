@@ -1,6 +1,7 @@
 package com.ssthouse.moduo.main.view.activity.account;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.view.fragment.gesture.EditGestureFragment;
@@ -24,6 +27,8 @@ public class GestureLockActivity extends AppCompatActivity {
     private NewGestureFragment newGestureFragment;
     private EditGestureFragment editGestureFragment;
 
+    private MaterialDialog exitDialog;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, GestureLockActivity.class);
         context.startActivity(intent);
@@ -38,11 +43,21 @@ public class GestureLockActivity extends AppCompatActivity {
 
         initFragment();
 
+        //未登录 或 匿名登录 退出
+        if (!SettingManager.getInstance(this).isLogined()) {
+            showExitDialog("请先登录后设置图形密码");
+            return;
+        }
+        if (SettingManager.getInstance(this).isAnonymousUser()) {
+            showExitDialog("当前为匿名登录");
+            return;
+        }
         //初始fragment切换
-        if (SettingManager.getInstance(this).getGestureLock() != null) {
-            toEditGestureFragment();
-        } else {
+        if (SettingManager.getInstance(this).getGestureLock() == null
+                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
             toNewGestureFragment();
+        } else {
+            toEditGestureFragment();
         }
     }
 
@@ -75,6 +90,24 @@ public class GestureLockActivity extends AppCompatActivity {
     private void initView() {
         setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
         getSupportActionBar().setTitle("新建图形密码");
+
+        exitDialog = new MaterialDialog.Builder(this)
+                .customView(R.layout.dialog_exit, true)
+                .autoDismiss(true)
+                .positiveText("确定")
+                .dismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                })
+                .build();
+    }
+
+    private void showExitDialog(String msg) {
+        TextView tvExit = (TextView) exitDialog.getCustomView().findViewById(R.id.id_tv_exit);
+        tvExit.setText(msg);
+        exitDialog.show();
     }
 
     @Override

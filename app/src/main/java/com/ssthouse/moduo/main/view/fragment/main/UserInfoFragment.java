@@ -48,12 +48,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
 
     private TextView tvUsername;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Timber.e("onCreate");
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -195,6 +189,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      * 保存当前用户名密码
      */
     private void saveCurrentUserInfo() {
+        Timber.e("保存用户数据到本地");
         if (etUsername.getText().toString().length() < 6
                 || etPassword.getText().toString().length() < 6) {
             return;
@@ -203,10 +198,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
         SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
         //用户数据保存到云端
-        CloudUtil.saveUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
+        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
                         MD5Util.getMdStr(etPassword.getText().toString()),
-                        SettingManager.getInstance(getContext()).getGestureLock()),
-                null);
+                        SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -249,8 +243,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             //清除本地魔哆数据
             SettingManager.getInstance(getContext()).cleanLocalModuo();
             //更新本地用户信息
-
-            CloudUtil.updateUserInfo(getContext(), SettingManager.getInstance(getContext()).getUserName());
+            CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
             //保存机智云登陆数据
             SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
             //登陆成功保存当前账号
