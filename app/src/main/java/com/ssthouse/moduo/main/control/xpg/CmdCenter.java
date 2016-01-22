@@ -360,7 +360,7 @@ public class CmdCenter {
      * @param zHead
      */
     public void cWriteHead(XPGWifiDevice xpgWifiDevice, int xHead, int yHead, int zHead) {
-        Timber.e("control moduo: △X:%d    △Y:%d    △Z:%d    ", xHead, yHead, zHead);
+//        Timber.e("control moduo: △X:%d    △Y:%d    △Z:%d    ", xHead, yHead, zHead);
         //按照一定格式发送数据
         try {
             JSONObject jsonSend = new JSONObject();
@@ -370,7 +370,7 @@ public class CmdCenter {
             jsonParam.put(JsonKeys.Y_HEAD, yHead);
             jsonParam.put(JsonKeys.Z_HEAD, zHead);
             jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
-            Timber.e(jsonSend.toString());
+//            Timber.e(jsonSend.toString());
             xpgWifiDevice.write(jsonSend.toString());
         } catch (JSONException e) {
             e.printStackTrace();

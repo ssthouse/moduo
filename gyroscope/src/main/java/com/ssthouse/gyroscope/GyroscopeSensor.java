@@ -54,11 +54,11 @@ public class GyroscopeSensor {
 
     /**
      * 构造方法
+     *
      * @param context
      */
     public GyroscopeSensor(Context context) {
         this.context = context;
-
         //初始化控制器
         orientationProvider = new CalibratedGyroscopeProvider((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
     }
@@ -72,16 +72,28 @@ public class GyroscopeSensor {
         public void run() {
             //获取数据
             EulerAngles eulerAngles = orientationProvider.getEulerAngles();
-            Timber.e("%.2f    %.2f    %.2f", eulerAngles.getRoll(), eulerAngles.getPitch(), eulerAngles.getYaw());
+//            Timber.e("%.2f    %.2f    %.2f", eulerAngles.getRoll(), eulerAngles.getPitch(), eulerAngles.getYaw());
 
             //计算出---三个轴的变化量
-
+            int deltaX = (int) (eulerAngles.getRoll() / 3.14 * 180);
+            int deltaY;
+            if (Math.abs(eulerAngles.getPitch()) > 1.5) {
+                deltaY = eulerAngles.getPitch() > 0 ? 90 : -90;
+            } else {
+                deltaY = (int) (eulerAngles.getPitch() / 1.5 * 90);
+            }
+            int deltaZ;
+            if (Math.abs(eulerAngles.getYaw()) > 1.5) {
+                deltaZ = eulerAngles.getYaw() > 0 ? 90 : -90;
+            } else {
+                deltaZ = (int) (eulerAngles.getYaw() / 1.5 * 90);
+            }
             //// TODO: 2016/1/12
             //将数据传递给监听器
             if (listener != null) {
-                listener.call(0, 0, 0);
+                listener.call(-deltaX, -deltaY, deltaZ);
+//                Timber.e("△X: " + deltaX + "    △Y: " + deltaY + "    △Z: " + deltaZ);
             }
-
             //重复发送
             handler.postDelayed(runnable, spaceTime);
         }
@@ -99,6 +111,20 @@ public class GyroscopeSensor {
         orientationProvider.start();
         //开启UI刷新
         handler.postDelayed(runnable, spaceTime);
+        //重置初始位置
+        resetInitRotation();
+    }
+
+    /**
+     * 重置初始位置
+     */
+    private void resetInitRotation() {
+        EulerAngles eulerAngles = orientationProvider.getEulerAngles();
+        currentX = (int) (eulerAngles.getRoll() * 100);
+        currentY = (int) (eulerAngles.getPitch() * 100);
+        currentZ = (int) (eulerAngles.getYaw() * 100);
+        //每次初始应该都是0才对
+        Timber.e("X:" + currentX + "    " + "Y:" + currentY + "   " + "Z:" + currentZ);
     }
 
     /**

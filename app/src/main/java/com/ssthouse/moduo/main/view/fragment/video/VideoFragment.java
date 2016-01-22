@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.gyroscope.GyroscopeSensor;
@@ -55,7 +56,7 @@ public class VideoFragment extends Fragment {
                 //// TODO: 2016/1/15 发送方向操作
                 XPGController.getInstance(getContext()).getmCenter().cWriteHead(
                         XPGController.getCurrentDevice().getXpgWifiDevice(),
-                        deltaX,
+                       deltaX,
                         deltaY,
                         deltaZ
                 );
@@ -63,6 +64,12 @@ public class VideoFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void showWaitDialog(String msg){
+        TextView tvWait = (TextView) waitDialog.getCustomView();
+        tvWait.setText(msg);
+        waitDialog.show();
     }
 
     private void initView(View rootView) {
