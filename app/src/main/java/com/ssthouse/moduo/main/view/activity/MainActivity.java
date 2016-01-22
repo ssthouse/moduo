@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //获取扫描二维码的结果
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        QrCodeUtil.parseSacneResult(this, result);
+        QrCodeUtil.parseScanResult(this, result);
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

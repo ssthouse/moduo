@@ -27,14 +27,15 @@ public class QrCodeUtil {
     /**
      * 二维码content前缀
      */
-    private static final String qrCodePrefix = "http://site.gizwits.com/?";
+    private static final String QR_CODE_PREFIX = "http://site.gizwits.com/?";
 
     /**
      * 解析扫描出的魔哆设备数据
+     *
      * @param context
      * @param intentResult 魔哆二维码数据
      */
-    public static void parseSacneResult(Context context, IntentResult intentResult){
+    public static void parseScanResult(Context context, IntentResult intentResult) {
         if (intentResult == null || intentResult.getContents() == null) {
             Timber.e("Cancelled scan");
             ToastHelper.show(context, "扫描失败");
@@ -64,6 +65,8 @@ public class QrCodeUtil {
         Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
         //抛出扫描到设备的结果
         EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode));
+        //将扫描到设备数据保存至cloud
+        CloudUtil.saveDeviceToCloud(did, passCode, cidStr, username, password);
     }
 
     /**
@@ -79,7 +82,7 @@ public class QrCodeUtil {
      */
     public static String getDeviceQrCodeContent(String productKey, String did, String passcode,
                                                 String cid, String username, String password) {
-        String content = qrCodePrefix +
+        String content = QR_CODE_PREFIX +
                 "product_key=" + productKey +
                 "&did=" + did +
                 "&passcode=" + passcode +
@@ -97,7 +100,7 @@ public class QrCodeUtil {
      * @return
      */
     public static String getWifiQrCodeContent(String wifiSsid, String password) {
-        String content = qrCodePrefix +
+        String content = QR_CODE_PREFIX +
                 "wifi_ssid=" + wifiSsid +
                 "&password=" + password;
         return content;
@@ -160,7 +163,6 @@ public class QrCodeUtil {
                 rawData[i + (j * w)] = color;
             }
         }
-
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
         bitmap.setPixels(rawData, 0, w, 0, 0, w, h);
         return bitmap;

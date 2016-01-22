@@ -56,7 +56,7 @@ public class MsgCenterActivity extends AppCompatActivity {
                 .add(R.id.id_fragment_container, msgListFragment)
                 .add(R.id.id_fragment_container, msgDetailFragment)
                 .hide(msgDetailFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
 

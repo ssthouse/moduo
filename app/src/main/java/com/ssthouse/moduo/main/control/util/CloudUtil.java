@@ -41,7 +41,7 @@ public class CloudUtil {
                     @Override
                     public AVObject call(String s) {
                         AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_MODUO_DEVICE);
-                        query.whereEqualTo(KEY_DID, device.getXpgWifiDevice().getDid());
+                        query.whereEqualTo(KEY_DID, s);
                         AVObject moduoDevice = null;
                         try {
                             moduoDevice = query.getFirst();
@@ -56,7 +56,7 @@ public class CloudUtil {
                 .subscribe(new Action1<AVObject>() {
                     @Override
                     public void call(AVObject avObject) {
-                        //判断远端是否已有
+                        //云端没有才保存
                         if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
                             moduoDevice.put(KEY_DID, device.getXpgWifiDevice().getDid());
@@ -65,13 +65,50 @@ public class CloudUtil {
                             moduoDevice.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
                             moduoDevice.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
                             moduoDevice.saveInBackground(callback);
-                        } else {
-                            avObject.put(KEY_DID, device.getXpgWifiDevice().getDid());
-                            avObject.put(KEY_PASSCODE, device.getXpgWifiDevice().getPasscode());
-                            avObject.put(KEY_CID, device.getVideoCidNumber());
-                            avObject.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
-                            avObject.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
-                            avObject.saveInBackground(callback);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 保存设备数据到leancloud
+     * @param did
+     * @param passcode
+     * @param cid
+     * @param videoUsername
+     * @param videoPassword
+     */
+    public static void saveDeviceToCloud(final String did, final String passcode, final String cid, final String videoUsername,
+                                         final String videoPassword){
+        Observable.just(did)
+                .map(new Func1<String, AVObject>() {
+                    @Override
+                    public AVObject call(String s) {
+                        AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_MODUO_DEVICE);
+                        query.whereEqualTo(KEY_DID, s);
+                        AVObject moduoDevice = null;
+                        try {
+                            moduoDevice = query.getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                        return moduoDevice;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<AVObject>() {
+                    @Override
+                    public void call(AVObject avObject) {
+                        //云端没有才保存
+                        if (avObject == null) {
+                            AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
+                            moduoDevice.put(KEY_DID, did);
+                            moduoDevice.put(KEY_PASSCODE, passcode);
+                            moduoDevice.put(KEY_CID, cid);
+                            moduoDevice.put(KEY_VIDEO_USERNAME, videoUsername);
+                            moduoDevice.put(KEY_VIDEO_PASSWORD, videoPassword);
+                            moduoDevice.saveInBackground();
                         }
                     }
                 });
