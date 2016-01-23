@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.event.view.AppIntroFinishEvent;
 import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.main.control.util.ActivityUtil;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
@@ -40,6 +40,19 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         EventBus.getDefault().register(this);
 
+        //是否第一次
+        if (SettingManager.getInstance(this).isFistIn()) {
+            SettingManager.getInstance(this).setIsFistIn(false);
+            AppIntroActivity.start(this);
+            return;
+        }
+
+        //尝试登陆
+        tryLogin();
+    }
+
+    //尝试登陆
+    private void tryLogin() {
         //判断是否为匿名登录
         if (SettingManager.getInstance(this).isAnonymousUser()) {
             XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
@@ -59,9 +72,9 @@ public class LoadingActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            return;
-        }
+//        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
+//            return;
+//        }
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
             //更新本地用户数据
@@ -74,6 +87,15 @@ public class LoadingActivity extends AppCompatActivity {
         } else {
             MainActivity.start(this);
             Timber.e("机智云---登录失败");
+            finish();
+        }
+    }
+
+    public void onEventMainThread(AppIntroFinishEvent event){
+        if(event.isSuccess()) {
+            tryLogin();
+        }else{
+            //介绍失败---直接退出
             finish();
         }
     }

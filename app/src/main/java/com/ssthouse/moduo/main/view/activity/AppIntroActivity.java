@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.bean.event.view.AppIntroFinishEvent;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ssthouse on 2016/1/17.
@@ -30,7 +33,7 @@ public class AppIntroActivity extends AppIntro {
 
     @Override
     public void onSkipPressed() {
-
+        EventBus.getDefault().post(new AppIntroFinishEvent(true));
     }
 
     @Override
@@ -42,10 +45,17 @@ public class AppIntroActivity extends AppIntro {
     public void onDonePressed() {
         finish();
         ToastHelper.show(this, "完成app介绍");
+        EventBus.getDefault().post(new AppIntroFinishEvent(true));
     }
 
     @Override
     public void onSlideChanged() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new AppIntroFinishEvent(false));
     }
 }

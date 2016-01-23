@@ -41,24 +41,38 @@ public class SettingManager {
     private static SettingManager instance;
     private Context context;
 
+    //第一次进去
+    private static final String IS_FIST_IN = "isFistIn";
+
     /**
      * preference文件名
      */
-    private final String SHARE_PREFERENCES = "set";
+    private static final String SHARE_PREFERENCES = "set";
 
-    // 用户名
+    /**
+     * 用户参数
+     */
     private static final String USER_NAME = "username";
-    // 密码
     private static final String PASSWORD = "password";
-    // 用户名
+    private static final String KEY_GESTURE_LOCK = "gesture_lock";
+    // 用户登陆缓存数据
     private static final String TOKEN = "token";
-    // 用户ID
     private static final String UID = "uid";
-    // 当前操作设备did
+
+    /**
+     * 机智云参数
+     */
     private static final String DID = "did";
     private static final String PASSCODE = "passcode";
-    // 图形密码key
-    private static final String KEY_GESTURE_LOCK = "gesture_lock";
+
+
+    /**
+     * 视频参数
+     */
+    private static final String VIDEO_USERNAME = "videoUsername";
+    private static final String VIDEO_PASSWORD = "videoPassword";
+    private static final String CID_NUMBER = "cidNumber";
+
 
     /**
      * 构造方法
@@ -83,34 +97,6 @@ public class SettingManager {
     }
 
     /**
-     * 获取当前moduo Info
-     *
-     * @return
-     */
-    public ModuoInfo getCurrentModuoInfo() {
-        return new ModuoInfo(getCurrentDid(),
-                getPasscode(),
-                getCidNumber(),
-                getVideoUsername(),
-                getVideoPassword());
-    }
-
-    /**
-     * 设置当前moduo info
-     *
-     * @param moduoInfo
-     */
-    public void setCurrentModuoInfo(ModuoInfo moduoInfo) {
-        //机智云参数
-        setCurrentDid(moduoInfo.getDid());
-        setPasscode(moduoInfo.getPasscode());
-        //视频参数
-        setCidNumber(moduoInfo.getCid());
-        setVideoUsername(moduoInfo.getVideoUsername());
-        setVideoPassword(moduoInfo.getVideoPassword());
-    }
-
-    /**
      * SharePreference clean.
      */
     public void clean() {
@@ -130,9 +116,38 @@ public class SettingManager {
         setVideoPassword("");
     }
 
-    /**
-     * 清除本地魔哆数据
-     */
+    //是否第一次
+    public boolean isFistIn() {
+        return spf.getBoolean(IS_FIST_IN, true);
+    }
+
+    public void setIsFistIn(boolean isFistIn) {
+        spf.edit()
+                .putBoolean(IS_FIST_IN, isFistIn)
+                .commit();
+    }
+
+    //获取当前moduo Info
+    public ModuoInfo getCurrentModuoInfo() {
+        return new ModuoInfo(getCurrentDid(),
+                getPasscode(),
+                getCidNumber(),
+                getVideoUsername(),
+                getVideoPassword());
+    }
+
+    //设置当前moduo info
+    public void setCurrentModuoInfo(ModuoInfo moduoInfo) {
+        //机智云参数
+        setCurrentDid(moduoInfo.getDid());
+        setPasscode(moduoInfo.getPasscode());
+        //视频参数
+        setCidNumber(moduoInfo.getCid());
+        setVideoUsername(moduoInfo.getVideoUsername());
+        setVideoPassword(moduoInfo.getVideoPassword());
+    }
+
+    //清除本地魔哆数据
     public void cleanLocalModuo() {
         //清除设备信息
         setCurrentDid("");
@@ -142,11 +157,7 @@ public class SettingManager {
         setVideoPassword("");
     }
 
-    /**
-     * 是否本地有保存魔哆Info
-     *
-     * @return
-     */
+    //是否本地有保存魔哆Info
     public boolean hasLocalModuo() {
         if (getCurrentDid() != null && getCurrentDid().length() != 0
                 && getPasscode() != null && getPasscode().length() != 0
@@ -207,6 +218,16 @@ public class SettingManager {
     }
 
     /**
+     * 保存用户登陆数据
+     *
+     * @param event
+     */
+    public void setLoginCacheInfo(XPGLoginResultEvent event) {
+        setUid(event.getUid());
+        setToken(event.getToken());
+    }
+
+    /**
      * 获取手势密码
      *
      * @return
@@ -253,16 +274,6 @@ public class SettingManager {
         return spf.getString(PASSCODE, null);
     }
 
-    /**
-     * 保存用户登陆数据
-     *
-     * @param event
-     */
-    public void setLoginCacheInfo(XPGLoginResultEvent event) {
-        setUid(event.getUid());
-        setToken(event.getToken());
-    }
-
     public void setUserName(String name) {
         spf.edit().putString(USER_NAME, name).commit();
     }
@@ -295,13 +306,9 @@ public class SettingManager {
         return spf.getString(UID, "");
     }
 
-    /**
-     * 视频参数
+    /*
+    视频参数设置
      */
-    private static final String VIDEO_USERNAME = "videoUsername";
-    private static final String VIDEO_PASSWORD = "videoPassword";
-    private static final String CID_NUMBER = "cidNumber";
-
     public void setCidNumber(String cidNumber) {
         spf.edit()
                 .putString(CID_NUMBER, cidNumber)
