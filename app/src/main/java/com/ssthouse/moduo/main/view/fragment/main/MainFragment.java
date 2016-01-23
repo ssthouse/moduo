@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.main.model.bean.db.TestItem;
 import com.ssthouse.moduo.main.model.bean.device.Device;
 import com.ssthouse.moduo.main.model.bean.device.DeviceData;
 import com.ssthouse.moduo.main.model.bean.event.view.NetworkStateChangeEvent;
@@ -70,6 +71,13 @@ public class MainFragment extends Fragment implements IFragmentUI {
         isOffline = NetUtil.isConnected(getActivity());
         initView(rootView);
         initDevice();
+
+        // TODO: 2016/1/23
+        new TestItem("hahahaha").save();
+        TestItem item = new TestItem();
+        item.testColumn1 = "test2";
+        item.save();
+
         return rootView;
     }
 

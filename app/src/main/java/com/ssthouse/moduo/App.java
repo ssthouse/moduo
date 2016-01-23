@@ -2,6 +2,7 @@ package com.ssthouse.moduo;
 
 import android.app.Application;
 
+import com.activeandroid.ActiveAndroid;
 import com.avos.avoscloud.AVOSCloud;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
@@ -27,6 +28,8 @@ public class App extends Application {
         super.onCreate();
         //初始化 log
         Timber.plant(new Timber.DebugTree());
+        //activeAndroid数据库
+        ActiveAndroid.initialize(this);
         //友盟统计
         MobclickAgent.setDebugMode(true);
         //友盟更新

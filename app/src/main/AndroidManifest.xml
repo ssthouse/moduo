@@ -49,6 +49,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        <!--数据库 activeAndroid-->
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="Moduo.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.ssthouse.moduo.main.bean.db.TestItem" />
+
         <!--网络的监听BroadCastReceiver-->
         <receiver android:name=".main.control.receiver.NetStateReceiver">
             <intent-filter>
