@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.xpg.UnbindResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;

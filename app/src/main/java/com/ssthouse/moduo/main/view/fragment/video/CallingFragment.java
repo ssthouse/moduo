@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.video.CallingResponseEvent;
-import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.video.CallingResponseEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;

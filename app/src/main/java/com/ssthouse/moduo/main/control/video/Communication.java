@@ -11,12 +11,12 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.ssthouse.moduo.bean.cons.Constant;
-import com.ssthouse.moduo.bean.device.Device;
-import com.ssthouse.moduo.bean.event.video.SessionStateEvent;
-import com.ssthouse.moduo.bean.event.video.StreamerConfigChangedEvent;
-import com.ssthouse.moduo.bean.event.video.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.bean.event.video.ViewerLoginResultEvent;
+import com.ssthouse.moduo.main.model.cons.Constant;
+import com.ssthouse.moduo.main.model.bean.device.Device;
+import com.ssthouse.moduo.main.model.bean.event.video.SessionStateEvent;
+import com.ssthouse.moduo.main.model.bean.event.video.StreamerConfigChangedEvent;
+import com.ssthouse.moduo.main.model.bean.event.video.StreamerConnectChangedEvent;
+import com.ssthouse.moduo.main.model.bean.event.video.ViewerLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

@@ -16,8 +16,8 @@ import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.control.util.PreferenceHelper;
 import com.ssthouse.moduo.main.control.util.StringUtils;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
-import com.ssthouse.moduo.bean.event.xpg.RegisterFragmentChangeEvent;
-import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.view.activity.LoadingActivity;
 
 import butterknife.Bind;

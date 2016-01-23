@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.view.MsgActivityToDetailEvent;
+import com.ssthouse.moduo.main.model.bean.event.view.MsgActivityToDetailEvent;
 
 import de.greenrobot.event.EventBus;
 

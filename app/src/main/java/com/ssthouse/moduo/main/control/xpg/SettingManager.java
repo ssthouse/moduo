@@ -20,9 +20,9 @@ package com.ssthouse.moduo.main.control.xpg;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ssthouse.moduo.bean.ModuoInfo;
-import com.ssthouse.moduo.bean.UserInfo;
-import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.ModuoInfo;
+import com.ssthouse.moduo.main.model.bean.UserInfo;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 
 import timber.log.Timber;
 

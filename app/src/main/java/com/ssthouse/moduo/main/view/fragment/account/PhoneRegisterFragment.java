@@ -17,8 +17,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
-import com.ssthouse.moduo.bean.event.xpg.AuthCodeSendResultEvent;
-import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.AuthCodeSendResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.account.RegisterResultEvent;
 
 import java.util.Timer;
 import java.util.TimerTask;

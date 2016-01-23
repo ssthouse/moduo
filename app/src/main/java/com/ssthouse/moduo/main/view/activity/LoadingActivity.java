@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.view.AppIntroFinishEvent;
-import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.view.AppIntroFinishEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;

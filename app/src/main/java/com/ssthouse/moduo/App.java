@@ -5,7 +5,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.ssthouse.moduo.bean.cons.Constant;
+import com.ssthouse.moduo.main.model.cons.Constant;
 import com.ssthouse.moduo.main.control.util.AssertsUtils;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.umeng.analytics.MobclickAgent;

@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.UserInfo;
-import com.ssthouse.moduo.bean.cons.xpg.GizwitsErrorMsg;
-import com.ssthouse.moduo.bean.event.account.AnonymousUserTransEvent;
-import com.ssthouse.moduo.bean.event.account.RegisterResultEvent;
-import com.ssthouse.moduo.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.bean.event.xpg.XPGLogoutEvent;
+import com.ssthouse.moduo.main.model.bean.UserInfo;
+import com.ssthouse.moduo.main.model.cons.xpg.GizwitsErrorMsg;
+import com.ssthouse.moduo.main.model.bean.event.account.AnonymousUserTransEvent;
+import com.ssthouse.moduo.main.model.bean.event.account.RegisterResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLogoutEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.MD5Util;

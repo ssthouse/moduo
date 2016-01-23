@@ -6,9 +6,9 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
-import com.ssthouse.moduo.bean.ModuoInfo;
-import com.ssthouse.moduo.bean.UserInfo;
-import com.ssthouse.moduo.bean.device.Device;
+import com.ssthouse.moduo.main.model.bean.ModuoInfo;
+import com.ssthouse.moduo.main.model.bean.UserInfo;
+import com.ssthouse.moduo.main.model.bean.device.Device;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 
 import rx.Observable;

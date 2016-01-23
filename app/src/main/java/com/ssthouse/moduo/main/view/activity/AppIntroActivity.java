@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.bean.event.view.AppIntroFinishEvent;
+import com.ssthouse.moduo.main.model.bean.event.view.AppIntroFinishEvent;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 
 import de.greenrobot.event.EventBus;

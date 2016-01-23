@@ -19,8 +19,8 @@ package com.ssthouse.moduo.main.control.xpg;
 
 import android.content.Context;
 
-import com.ssthouse.moduo.bean.cons.Constant;
-import com.ssthouse.moduo.bean.cons.xpg.JsonKeys;
+import com.ssthouse.moduo.main.model.cons.Constant;
+import com.ssthouse.moduo.main.model.cons.xpg.JsonKeys;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
 import com.xtremeprog.xpgconnect.XPGWifiSDK.XPGWifiConfigureMode;
