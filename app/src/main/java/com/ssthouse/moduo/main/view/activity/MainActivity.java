@@ -158,21 +158,24 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.id_menu_main:
                         switchFragment(FragmentState.MAIN_FRAGMENT);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.id_menu_user_info:
                         switchFragment(FragmentState.USER_INFO_FRAGMENT);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.id_menu_about_moduo:
                         switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.id_menu_share_moduo:
                         switchFragment(FragmentState.SHARE_MODUO_FRAGMENT);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.id_menu_setting:
                         SettingActivity.start(MainActivity.this);
                         break;
                 }
-                drawerLayout.closeDrawers();
                 return true;
             }
         });

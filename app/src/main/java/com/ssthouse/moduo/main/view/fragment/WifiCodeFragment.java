@@ -32,9 +32,7 @@ import rx.schedulers.Schedulers;
  */
 public class WifiCodeFragment extends Fragment {
 
-
     private MaterialDialog wifiPasscodeDialog;
-
     private MaterialDialog waitDialog;
 
     private ImageView ivQrCode;
@@ -44,7 +42,7 @@ public class WifiCodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wifi_code, container, false);
         initView(rootView);
-        wifiPasscodeDialog.show();
+        showWifiDialog();
         return rootView;
     }
 

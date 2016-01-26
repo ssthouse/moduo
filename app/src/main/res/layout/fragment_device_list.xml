@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/id_lv"
+        android:id="@+id/id_lv_setting"
         android:entries="@array/test_string_array"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

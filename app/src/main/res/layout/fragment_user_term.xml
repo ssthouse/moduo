@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/id_lv_setting"
+    <WebView
+        android:id="@+id/id_web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:entries="@array/test_string_array" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

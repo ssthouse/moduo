@@ -18,7 +18,6 @@ import com.ssthouse.moduo.main.view.fragment.WifiCodeFragment;
  */
 public class WifiCodeDispActivity extends AppCompatActivity {
 
-
     public static void start(Context context) {
         Intent intent = new Intent(context, WifiCodeDispActivity.class);
         context.startActivity(intent);

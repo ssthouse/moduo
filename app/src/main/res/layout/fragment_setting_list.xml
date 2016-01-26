@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
-
-    <CheckBox
-        android:id="@+id/id_cb_select_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:text="全选" />
 
     <ListView
         android:id="@+id/id_lv_setting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:entries="@array/test_string_array" />
+        android:divider="@color/md_grey_200"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

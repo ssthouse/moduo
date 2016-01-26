@@ -34,7 +34,7 @@ public class MsgListFragment extends Fragment{
     }
 
     private void initView(View rootView) {
-        lv = (ListView) rootView.findViewById(R.id.id_lv);
+        lv = (ListView) rootView.findViewById(R.id.id_lv_setting);
         lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {

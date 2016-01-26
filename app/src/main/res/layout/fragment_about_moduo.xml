@@ -15,7 +15,7 @@
 
     <ListView
         android:padding="16dp"
-        android:id="@+id/id_lv"
+        android:id="@+id/id_lv_setting"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

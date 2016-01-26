@@ -26,11 +26,6 @@ public class GyroscopeSensor {
      */
     private int spaceTime = 200;
 
-    /**
-     * 监听器
-     */
-    private RotationChangeListener listener;
-
     private Handler handler = new Handler();
 
     /**
@@ -39,16 +34,15 @@ public class GyroscopeSensor {
     private int currentX, currentY, currentZ;
 
     /**
+     * 监听器
+     */
+    private RotationChangeListener listener;
+
+    /**
      * 手机姿态改变listener
      */
     public interface RotationChangeListener {
-        /**
-         * 魔哆三个方向的delta值
-         *
-         * @param deltaX
-         * @param deltaY
-         * @param deltaZ
-         */
+        //魔哆三个方向的delta值
         void call(int deltaX, int deltaY, int deltaZ);
     }
 

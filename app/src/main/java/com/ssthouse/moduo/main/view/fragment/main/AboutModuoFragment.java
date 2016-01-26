@@ -36,7 +36,7 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI {
 
     private void initView(View rootView) {
         //初始化列表内容
-        lv = (ListView) rootView.findViewById(R.id.id_lv);
+        lv = (ListView) rootView.findViewById(R.id.id_lv_setting);
         lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {

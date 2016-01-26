@@ -11,14 +11,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.model.bean.db.TestItem;
-import com.ssthouse.moduo.main.model.bean.device.Device;
-import com.ssthouse.moduo.main.model.bean.device.DeviceData;
-import com.ssthouse.moduo.main.model.bean.event.view.NetworkStateChangeEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.main.control.util.ActivityUtil;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.NetUtil;
@@ -26,6 +18,13 @@ import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.model.bean.device.Device;
+import com.ssthouse.moduo.main.model.bean.device.DeviceData;
+import com.ssthouse.moduo.main.model.bean.event.view.NetworkStateChangeEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
@@ -71,13 +70,6 @@ public class MainFragment extends Fragment implements IFragmentUI {
         isOffline = NetUtil.isConnected(getActivity());
         initView(rootView);
         initDevice();
-
-        // TODO: 2016/1/23
-        new TestItem("hahahaha").save();
-        TestItem item = new TestItem();
-        item.testColumn1 = "test2";
-        item.save();
-
         return rootView;
     }
 
