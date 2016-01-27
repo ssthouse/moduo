@@ -31,6 +31,9 @@ public class JsonKeys {
     /** 实体字段名，代表对应的项目. */
     public final static String KEY_ACTION = "entity0";
 
+    //视频
+    public final static String VIDEO = "video";
+
     //-180 180
     public final static String X_HEAD = "x_head";
     //-90  90

@@ -48,6 +48,10 @@ public class CallingFragment extends Fragment {
         rootView.findViewById(R.id.id_iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //将video数据点置为1
+                XPGController.getInstance(getContext()).getmCenter().cWriteVideo(
+                        XPGController.getCurrentDevice().getXpgWifiDevice(), 1
+                );
                 EventBus.getDefault().post(new CallingResponseEvent(true));
             }
         });

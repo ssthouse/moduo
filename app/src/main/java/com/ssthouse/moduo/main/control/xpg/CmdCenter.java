@@ -351,6 +351,15 @@ public class CmdCenter {
         }
     }
 
+    //开启设备的video数据点---打开video
+    public void cWriteVideo(XPGWifiDevice xpgWifiDevice, int value){
+        if(value == 0) {
+            cWrite(xpgWifiDevice, JsonKeys.VIDEO, false);
+        }else if(value == 1){
+            cWrite(xpgWifiDevice, JsonKeys.VIDEO, true);
+        }
+    }
+
     /**
      * 改变头部
      *

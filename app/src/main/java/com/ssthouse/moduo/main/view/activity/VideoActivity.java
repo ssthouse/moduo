@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.fragment.video.CallingFragment;
 import com.ssthouse.moduo.main.view.fragment.video.VideoFragment;
 
@@ -98,6 +99,10 @@ public class VideoActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                //关闭视频数据点
+                XPGController.getInstance(this).getmCenter().cWriteVideo(
+                        XPGController.getCurrentDevice().getXpgWifiDevice(), 0
+                );
                 finish();
         }
         return super.onOptionsItemSelected(item);

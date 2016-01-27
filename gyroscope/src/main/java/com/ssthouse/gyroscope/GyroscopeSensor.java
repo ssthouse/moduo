@@ -24,7 +24,7 @@ public class GyroscopeSensor {
     /**
      * 间隔时间
      */
-    private int spaceTime = 200;
+    private int spaceTime = 50;
 
     private Handler handler = new Handler();
 
@@ -47,8 +47,6 @@ public class GyroscopeSensor {
     }
 
     /**
-     * 构造方法
-     *
      * @param context
      */
     public GyroscopeSensor(Context context) {
@@ -66,7 +64,6 @@ public class GyroscopeSensor {
         public void run() {
             //获取数据
             EulerAngles eulerAngles = orientationProvider.getEulerAngles();
-//            Timber.e("%.2f    %.2f    %.2f", eulerAngles.getRoll(), eulerAngles.getPitch(), eulerAngles.getYaw());
 
             //计算出---三个轴的变化量
             int deltaX = (int) (eulerAngles.getRoll() / 3.14 * 180);
@@ -85,8 +82,13 @@ public class GyroscopeSensor {
             //// TODO: 2016/1/12
             //将数据传递给监听器
             if (listener != null) {
-                listener.call(-deltaX, -deltaY, deltaZ);
-//                Timber.e("△X: " + deltaX + "    △Y: " + deltaY + "    △Z: " + deltaZ);
+                //只有不是全相等(数据没变化) 就发送数据
+                if (!(currentX == deltaX && currentY == deltaY && currentZ == deltaZ)) {
+                    currentX = deltaX;
+                    currentY = deltaY;
+                    currentZ = deltaZ;
+                    listener.call(-deltaX, -deltaY, deltaZ);
+                }
             }
             //重复发送
             handler.postDelayed(runnable, spaceTime);
