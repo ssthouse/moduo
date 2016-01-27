@@ -14,13 +14,8 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.control.util.SDCardUtil;
 import com.ssthouse.moduo.main.control.video.VideoHolder;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * 视频通话fragment
@@ -31,8 +26,8 @@ public class VideoFragment extends Fragment {
     private MaterialDialog waitDialog;
 
     //保存魔哆动的文件
-    private String moduoFilePath = SDCardUtil.getSDCardPath() + "ModuoText.txt";
-    private FileOutputStream fos;
+//    private String moduoFilePath = SDCardUtil.getSDCardPath() + "ModuoText.txt";
+//    private FileOutputStream fos;
 
     /**
      * 陀螺仪管理类
@@ -49,13 +44,13 @@ public class VideoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //// TODO: 2016/1/27
-        final File moduoFile = new File(moduoFilePath);
-        try {
-            moduoFile.createNewFile();
-            fos = new FileOutputStream(moduoFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        final File moduoFile = new File(moduoFilePath);
+//        try {
+//            moduoFile.createNewFile();
+//            fos = new FileOutputStream(moduoFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         //初始化view
         View rootView = inflater.inflate(R.layout.fragment_video_display, container, false);
@@ -71,12 +66,12 @@ public class VideoFragment extends Fragment {
         gyroscopeSensor.setListener(new GyroscopeSensor.RotationChangeListener() {
             @Override
             public void call(int deltaX, int deltaY, int deltaZ) {
-                //// TODO: 2016/1/15 发送方向操作
-                try {
-                    fos.write((-deltaX + " " + deltaY + " " + -deltaZ + "\n").getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                //// TODO: 2016/1/15 发送方向操作
+//                try {
+//                    fos.write((-deltaX + " " + deltaY + " " + -deltaZ + "\n").getBytes());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 XPGController.getInstance(getContext()).getmCenter()
                         .cWriteHead(XPGController.getCurrentDevice().getXpgWifiDevice(),
@@ -106,13 +101,13 @@ public class VideoFragment extends Fragment {
                     gyroscopeSensor.start();
                 } else {
                     gyroscopeSensor.pause();
-                    //todo 将序列用文件保存
-                    try {
-                        fos.flush();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    //todo 将序列用文件保存
+//                    try {
+//                        fos.flush();
+//                        fos.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         });
