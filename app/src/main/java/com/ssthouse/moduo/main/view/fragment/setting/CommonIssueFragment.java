@@ -26,13 +26,14 @@ public class CommonIssueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_common_issue, container, false);
-        ButterKnife.bind(this, rootView);
         initView(rootView);
         return rootView;
     }
 
     private void initView(View rootView) {
-        //初始化webView
+        ButterKnife.bind(this, rootView);
 
+        //初始化webView
+        webView.loadUrl("file:///android_asset/CommonIssue/index.html");
     }
 }

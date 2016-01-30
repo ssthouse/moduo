@@ -9,14 +9,6 @@
         app:showAsAction="always"
         android:title="添加魔哆" />
 
-    <item
-        android:id="@+id/id_action_pb"
-        android:orderInCategory="10"
-        android:title="进度条"
-        android:visible="false"
-        app:actionProviderClass="com.ssthouse.moduo.view.widget.TbProgressProvider"
-        app:showAsAction="always" />
-
     <item android:id="@+id/id_menu_share_wifi"
         android:title="生成wifi二维码"
         android:orderInCategory="100"
