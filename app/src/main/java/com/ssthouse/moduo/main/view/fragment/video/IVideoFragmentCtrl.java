@@ -1,9 +1,10 @@
 package com.ssthouse.moduo.main.view.fragment.video;
 
 /**
+ * 视频播放fragment控制接口
  * Created by ssthouse on 2016/2/1.
  */
-public interface IVideoFragmenCtrl {
+public interface IVideoFragmentCtrl {
 
     //隐藏控制面板
     void hideCtrlPanel();

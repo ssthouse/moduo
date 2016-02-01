@@ -82,7 +82,6 @@ public class VideoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("视频控制");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         //等待dialog
         waitDialog = new MaterialDialog.Builder(this)
                 .autoDismiss(false)
@@ -98,7 +97,6 @@ public class VideoActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        Timber.e("focu changed");
         if (isPortrait) {
             videoFragment.showCtrlPanel();
         } else {

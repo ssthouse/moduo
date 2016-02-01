@@ -31,7 +31,7 @@ import timber.log.Timber;
  * 视频通话fragment
  * Created by ssthouse on 2016/1/12.
  */
-public class VideoFragment extends Fragment implements IVideoFragmenCtrl {
+public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
 
     private MaterialDialog waitDialog;
 
@@ -99,25 +99,24 @@ public class VideoFragment extends Fragment implements IVideoFragmenCtrl {
         ivFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int orientation = getActivity().getRequestedOrientation();
-                if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    //编变竖屏
-                    toPortrait();
-                } else {
+                if (VideoActivity.isPortrait) {
                     //横屏
                     toLandscape();
+                } else {
+                    //编变竖屏
+                    toPortrait();
                 }
             }
         });
 
-        //控制面板Vi
-        // sible控制
+        //控制面板Visible控制
         videoContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCtrlPanelVisible){
+                //只有横屏会隐藏控制面板
+                if (isCtrlPanelVisible && VideoActivity.isPortrait == false) {
                     hideCtrlPanel();
-                }else{
+                } else {
                     showCtrlPanel();
                 }
             }
