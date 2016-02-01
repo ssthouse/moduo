@@ -21,6 +21,7 @@ import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.video.VideoHolder;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -109,6 +110,12 @@ public class VideoFragment extends Fragment {
 
     //初始化video
     private void initVideo() {
+        //启动采集端的视频
+        //将video数据点置为1
+        XPGController.getInstance(getContext()).getmCenter().cWriteVideo(
+                XPGController.getCurrentDevice().getXpgWifiDevice(), 1
+        );
+
         //初始化视频播放类
         videoHolder = new VideoHolder(getContext(),
                 (RelativeLayout) videoContainer,
@@ -132,23 +139,30 @@ public class VideoFragment extends Fragment {
 
     //横屏
     private void toLandscape() {
+        Timber.e("横屏");
+        VideoActivity videoActivity = (VideoActivity) getActivity();
+        VideoActivity.isPortrait = false;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //隐藏控制面板  todo---加上动画
         llControlPanel.setVisibility(View.GONE);
         //全屏---隐藏actionbar
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().hide();
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        activity.findViewById(R.id.id_tb).setVisibility(View.GONE);
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     //竖屏
     private void toPortrait() {
+        Timber.e("竖屏");
+        VideoActivity videoActivity = (VideoActivity) getActivity();
+        VideoActivity.isPortrait = true;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //显示控制面板    todo---加上动画
         llControlPanel.setVisibility(View.VISIBLE);
         //非全屏---显示actionbar
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().show();
+//        AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
+//        videoActivity.getSupportActionBar().show();
 //        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_);
     }
 

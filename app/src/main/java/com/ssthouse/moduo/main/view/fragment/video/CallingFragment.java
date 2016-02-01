@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.model.bean.event.video.CallingResponseEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.model.bean.event.video.CallingResponseEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.view.activity.VideoActivity;
 
 import de.greenrobot.event.EventBus;
@@ -48,10 +48,7 @@ public class CallingFragment extends Fragment {
         rootView.findViewById(R.id.id_iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //将video数据点置为1
-                XPGController.getInstance(getContext()).getmCenter().cWriteVideo(
-                        XPGController.getCurrentDevice().getXpgWifiDevice(), 1
-                );
+
                 EventBus.getDefault().post(new CallingResponseEvent(true));
             }
         });
@@ -89,8 +86,10 @@ public class CallingFragment extends Fragment {
     public void onEventMainThread(CallingResponseEvent event) {
         Timber.e("收到电话接通结果回调");
         if (event.isSuccess()) {
-            VideoActivity videoActivity = (VideoActivity) getActivity();
-            videoActivity.showVideoFragment();
+            //关闭callingActivity
+            getActivity().finish();
+            //启动videoActivity
+            VideoActivity.start(getActivity());
         }
     }
 

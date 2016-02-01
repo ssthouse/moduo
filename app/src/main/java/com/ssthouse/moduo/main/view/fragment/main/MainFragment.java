@@ -25,9 +25,9 @@ import com.ssthouse.moduo.main.model.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XpgDeviceStateEvent;
+import com.ssthouse.moduo.main.view.activity.CallingActivity;
 import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
-import com.ssthouse.moduo.main.view.activity.VideoActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
@@ -99,7 +99,7 @@ public class MainFragment extends Fragment implements IFragmentUI {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    VideoActivity.start(getContext());
+                    CallingActivity.start(getContext());
                 }
             }
         });

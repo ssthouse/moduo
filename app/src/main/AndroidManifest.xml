@@ -123,6 +123,11 @@
             android:name=".main.view.activity.WifiCodeDispActivity"
             android:screenOrientation="portrait" />
 
+        <!--视频 calling-->
+        <activity
+            android:name=".main.view.activity.CallingActivity"
+            android:screenOrientation="portrait" />
+
         <!--视频播放-->
         <activity android:name=".main.view.activity.VideoActivity" />
 
