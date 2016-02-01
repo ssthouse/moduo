@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.moduo.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,17 +9,21 @@ import android.support.v7.app.AppCompatActivity;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.moduo.view.fragment.ModuoFragment;
 
-
-public class MainActivity extends AppCompatActivity {
+//新版主界面
+public class ModuoActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-
     private ModuoFragment moduoFragment;
+
+    public static void start(Context context){
+        Intent intent = new Intent(context, ModuoActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_moduo);
 
         initView();
         initFragment();

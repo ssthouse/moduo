@@ -72,9 +72,6 @@ public class LoadingActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-//        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-//            return;
-//        }
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
             //更新本地用户数据
@@ -91,6 +88,10 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 如果是第一次进入---会先启动AppIntroActivity然后发出完成介绍的event
+     * @param event
+     */
     public void onEventMainThread(AppIntroFinishEvent event){
         if(event.isSuccess()) {
             tryLogin();

@@ -59,15 +59,8 @@ import timber.log.Timber;
  * 当前activity不监听设备数据传达的event
  */
 public class MainActivity extends AppCompatActivity {
-    /**
-     * 点两次退出程序
-     */
+    //点两次退出程序
     private long exitTimeInMils = 0;
-    /**
-     * 是否是退出到loading activity
-     * 决定是否要kill 当前线程
-     */
-    private boolean isLogOut = false;
 
     private FragmentManager fragmentManager;
     private ShareModuoFragment shareDeviceFragment;
@@ -440,10 +433,8 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
         //// TODO: 2016/1/10
         communication.destory();//销毁sdk
-        //todo---完全退出程序(若不是跳转到登陆界面)
-        if (!isLogOut) {
-            android.os.Process.killProcess(android.os.Process.myPid());//确保完全退出，释放所有资源
-        }
+        //确保完全退出，释放所有资源
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override
