@@ -21,7 +21,7 @@ import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.main.control.video.VideoHolder;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.view.activity.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.video.VideoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,9 +31,12 @@ import timber.log.Timber;
  * 视频通话fragment
  * Created by ssthouse on 2016/1/12.
  */
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements IVideoFragmenCtrl {
 
     private MaterialDialog waitDialog;
+
+    //控制面板是否可见
+    private boolean isCtrlPanelVisible;
 
     @Bind(R.id.id_ll_control)
     LinearLayout llControlPanel;
@@ -106,6 +109,19 @@ public class VideoFragment extends Fragment {
                 }
             }
         });
+
+        //控制面板Vi
+        // sible控制
+        videoContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isCtrlPanelVisible){
+                    hideCtrlPanel();
+                }else{
+                    showCtrlPanel();
+                }
+            }
+        });
     }
 
     //初始化video
@@ -137,10 +153,33 @@ public class VideoFragment extends Fragment {
         });
     }
 
+    @Override
+    public void hideCtrlPanel() {
+        isCtrlPanelVisible = false;
+        //下方面板
+        if (llControlPanel != null) {
+            llControlPanel.setVisibility(View.GONE);
+        }
+        //actionbar
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().hide();
+    }
+
+    @Override
+    public void showCtrlPanel() {
+        isCtrlPanelVisible = true;
+        //下方面板
+        if (llControlPanel != null) {
+            llControlPanel.setVisibility(View.VISIBLE);
+        }
+        //actionbar
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().show();
+    }
+
     //横屏
     private void toLandscape() {
         Timber.e("横屏");
-        VideoActivity videoActivity = (VideoActivity) getActivity();
         VideoActivity.isPortrait = false;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //隐藏控制面板  todo---加上动画
@@ -155,15 +194,12 @@ public class VideoFragment extends Fragment {
     //竖屏
     private void toPortrait() {
         Timber.e("竖屏");
-        VideoActivity videoActivity = (VideoActivity) getActivity();
         VideoActivity.isPortrait = true;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //显示控制面板    todo---加上动画
-        llControlPanel.setVisibility(View.VISIBLE);
+
         //非全屏---显示actionbar
-//        AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
-//        videoActivity.getSupportActionBar().show();
-//        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_);
+        AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
+        videoActivity.getSupportActionBar().show();
     }
 
     /*
@@ -187,4 +223,5 @@ public class VideoFragment extends Fragment {
         videoHolder.stop();
         gyroscopeSensor.pause();
     }
+
 }

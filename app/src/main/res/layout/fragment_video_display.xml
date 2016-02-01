@@ -45,10 +45,10 @@
 
         <!--全屏按钮-->
         <ImageView
-            android:background="@drawable/selector_video_ctrl_btn"
             android:id="@+id/id_iv_full_screen"
             android:layout_width="42dp"
             android:layout_height="42dp"
+            android:background="@drawable/selector_video_ctrl_btn"
             android:src="@drawable/ic_action_cast" />
     </LinearLayout>
 </FrameLayout>

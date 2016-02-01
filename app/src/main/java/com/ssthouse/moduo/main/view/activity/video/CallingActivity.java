@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.activity;
+package com.ssthouse.moduo.main.view.activity.video;
 
 import android.content.Context;
 import android.content.Intent;

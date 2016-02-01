@@ -25,7 +25,7 @@ import com.ssthouse.moduo.main.model.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XpgDeviceStateEvent;
-import com.ssthouse.moduo.main.view.activity.CallingActivity;
+import com.ssthouse.moduo.main.view.activity.video.CallingActivity;
 import com.ssthouse.moduo.main.view.activity.HomeControlActivity;
 import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;

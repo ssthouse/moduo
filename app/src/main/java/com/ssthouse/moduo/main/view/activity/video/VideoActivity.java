@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.activity;
+package com.ssthouse.moduo.main.view.activity.video;
 
 import android.content.Context;
 import android.content.Intent;
@@ -52,16 +52,15 @@ public class VideoActivity extends AppCompatActivity {
         //全屏---不息屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //横屏就全屏
-        if (!isPortrait) {
+        if(isPortrait){
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }else{
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_video);
-        initView();
         initFragment();
+        initView();
     }
 
     private void initFragment() {
@@ -83,6 +82,7 @@ public class VideoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("视频控制");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         //等待dialog
         waitDialog = new MaterialDialog.Builder(this)
                 .autoDismiss(false)
@@ -94,6 +94,17 @@ public class VideoActivity extends AppCompatActivity {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Timber.e("focu changed");
+        if (isPortrait) {
+            videoFragment.showCtrlPanel();
+        } else {
+            videoFragment.hideCtrlPanel();
+        }
+        super.onWindowFocusChanged(hasFocus);
     }
 
     //关闭当前视频---及界面

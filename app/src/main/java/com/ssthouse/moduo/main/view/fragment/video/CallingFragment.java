@@ -14,7 +14,7 @@ import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.model.bean.event.video.CallingResponseEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.main.view.activity.VideoActivity;
+import com.ssthouse.moduo.main.view.activity.video.VideoActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

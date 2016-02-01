@@ -125,11 +125,11 @@
 
         <!--视频 calling-->
         <activity
-            android:name=".main.view.activity.CallingActivity"
+            android:name=".main.view.activity.video.CallingActivity"
             android:screenOrientation="portrait" />
 
         <!--视频播放-->
-        <activity android:name=".main.view.activity.VideoActivity" />
+        <activity android:name=".main.view.activity.video.VideoActivity" />
 
         <!--xpg设备控制-->
         <activity
