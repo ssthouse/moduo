@@ -49,6 +49,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        <!--新魔哆启动activity-->
+        <activity
+            android:name=".moduo.view.activity.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <!--数据库 activeAndroid-->
         <meta-data
             android:name="AA_DB_NAME"
@@ -56,9 +66,6 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
-        <meta-data
-            android:name="AA_MODELS"
-            android:value="com.ssthouse.moduo.main.bean.db.TestItem" />
 
         <!--网络的监听BroadCastReceiver-->
         <receiver android:name=".main.control.receiver.NetStateReceiver">
@@ -79,12 +86,9 @@
             android:screenOrientation="portrait" />
 
         <!--主界面-->
-        <activity android:name=".main.view.activity.LoadingActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".main.view.activity.LoadingActivity"
+            android:screenOrientation="portrait" />
 
         <!--消息中心-->
         <activity
