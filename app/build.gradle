@@ -50,7 +50,6 @@ dependencies {
     }
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
-    //百度云推送
     //机智云SDK
     compile files('libs/XPGWifiSDK.jar')
     compile files('libs/easylink_only.jar')
@@ -73,8 +72,7 @@ dependencies {
     //animation
     compile 'com.github.florent37:viewanimator:1.0.0@aar'
     compile 'com.nineoldandroids:library:2.4.0'
-    //textview animation
-    //    compile 'hanks.xyz:htextview-library:0.1.3'
+    //leancloud集成
     compile files('libs/okio-1.6.0-leancloud.jar')
     compile files('libs/okhttp-2.6.0-leancloud.jar')
     compile files('libs/avoscloud-sdk-v3.12.3.jar')
