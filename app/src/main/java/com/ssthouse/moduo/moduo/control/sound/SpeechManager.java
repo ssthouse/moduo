@@ -30,7 +30,7 @@ public class SpeechManager implements ISpeechControl {
     private Context mContext;
 
     //录音文件的保存路径
-    private String mDir = Environment.getExternalStorageDirectory() + "/NewModuo";
+    private String mDir = Environment.getExternalStorageDirectory() + "/Moduo";
     private String mCurrentFilePath;
 
     //当前音量等级
