@@ -12,6 +12,7 @@ import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.moduo.view.activity.ModuoActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -79,10 +80,10 @@ public class LoadingActivity extends AppCompatActivity {
             //保存机智云登陆数据
             SettingManager.getInstance(this).setLoginCacheInfo(event);
             //跳转Activity
-            MainActivity.start(this);
+            ModuoActivity.start(this);
             finish();
         } else {
-            MainActivity.start(this);
+            ModuoActivity.start(this);
             Timber.e("机智云---登录失败");
             finish();
         }
