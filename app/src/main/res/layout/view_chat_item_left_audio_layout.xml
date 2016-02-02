@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    style="@style/ChatContent"
     android:background="@drawable/ic_chat_left_qp"
     android:clickable="true"
     android:gravity="center"
@@ -9,8 +8,8 @@
 
     <com.ssthouse.moduo.moduo.view.widget.AudioPlayButton
         android:id="@+id/id_btn_audio_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
 
     <TextView
         android:id="@+id/id_tv_audio_length"

@@ -4,6 +4,11 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!--聊天内容高度-->
+    <dimen name="chat_content_audio_height">40dp</dimen>
+    <dimen name="chat_content_text_height">30dp</dimen>
+
+
     <!-- 以下需要再整理 -->
     <dimen name="chat_BottomHeight">50dp</dimen>
     <dimen name="chat_ItemMarginTop">5dp</dimen>

@@ -53,15 +53,17 @@
                 android:src="@drawable/ic_chat_btn_fail_resend" />
         </FrameLayout>
 
+        <!--聊天内容-->
         <LinearLayout
             android:id="@+id/chat_right_layout_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/chat_right_iv_avatar"
             android:orientation="horizontal"
-            android:paddingLeft="40dp"></LinearLayout>
+            android:paddingLeft="40dp" />
 
+        <!--头像-->
         <ImageView
             android:id="@+id/chat_right_iv_avatar"
             style="@style/Avatar"
@@ -79,5 +81,6 @@
         android:layout_marginTop="3dp"
         android:ellipsize="end"
         android:gravity="right"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:visibility="gone" />
 </LinearLayout>

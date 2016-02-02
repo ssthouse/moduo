@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
 import com.avos.avoscloud.AVOSCloud;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.ssthouse.moduo.main.control.util.AssertsUtils;
@@ -27,7 +29,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //讯飞语音
-        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=56a6efef");
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=56a6efef");
         //初始化 log
         Timber.plant(new Timber.DebugTree());
         //activeAndroid数据库
@@ -37,10 +39,10 @@ public class App extends Application {
         //友盟更新
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
-//        //百度推送
-//        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
-//                "5cbIdRlHlm10M1IvSAfesaDM");
-        // 初始化机智云sdk
+        //百度推送
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+                "5cbIdRlHlm10M1IvSAfesaDM");
+        //初始化机智云sdk
         XPGWifiSDK.sharedInstance().startWithAppID(this, Constant.SettingSdkCons.APP_ID);
         XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
                 Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
