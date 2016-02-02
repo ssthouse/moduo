@@ -106,11 +106,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
-
         initView();
         initFragment();
-
         //初始化视频sdk
+        initVideoSdk();
+    }
+
+    //初始化视频sdk
+    private void initVideoSdk() {
         Communication.loadSdkLib();
         communication = Communication.getInstance(this);
     }
