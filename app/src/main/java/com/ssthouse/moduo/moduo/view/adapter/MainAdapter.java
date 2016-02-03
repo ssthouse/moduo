@@ -129,13 +129,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     //增加消息
     public void addMsg(MsgBean msgBean) {
         msgList.add(msgBean);
-        notifyDataSetChanged();
         mRecyclerView.smoothScrollBy(0, msgList.size() * 200);
+        notifyItemInserted(msgList.size() - 1);
     }
 
-    //添加MsgBean列表:
-    //用于向上添加数据
-    public void addMgList(List<MsgBean> newMsgList) {
+    //向上添加msgList
+    public void addMgList2Top(List<MsgBean> newMsgList) {
         if (newMsgList == null) {
             Timber.e("没有更多的聊天记录了");
             return;
@@ -144,8 +143,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
             msgList.add(0, newMsgList.get(i));
         }
         Timber.e("增加了: \t" + newMsgList.size());
-        notifyDataSetChanged();
         mRecyclerView.smoothScrollBy(0, 0);
+        notifyItemRangeInserted(0, newMsgList.size());
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -78,11 +79,11 @@ public class ModuoFragment extends Fragment {
         recycleChat.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MainAdapter(getContext(), recycleChat);
         recycleChat.setAdapter(mAdapter);
+        recycleChat.setItemAnimator(new LandingAnimator(new AccelerateDecelerateInterpolator()));
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // TODO: 2016/2/1 刷新加载数据
                 Observable.just(mAdapter.getMsgList().get(0))
                         .map(new Func1<MsgBean, List<MsgBean>>() {
                             @Override
@@ -98,7 +99,7 @@ public class ModuoFragment extends Fragment {
                                 if (msgList == null || msgList.size() == 0) {
                                     Toast.makeText(getContext(), "没有更多记录了", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    mAdapter.addMgList(msgList);
+                                    mAdapter.addMgList2Top(msgList);
                                 }
                                 //清除刷新状态
                                 swipeLayout.setRefreshing(false);
