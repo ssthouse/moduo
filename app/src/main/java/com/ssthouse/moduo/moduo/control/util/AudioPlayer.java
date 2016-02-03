@@ -43,10 +43,11 @@ public class AudioPlayer {
 
     //播放音频
     public void playAudio(String path, AudioPlayButton audioPlayButton) {
-        //如果正在播放当前path文件, 返回
-//        if (currentFilePath.equals(path) && isPlaying) {
-//            return;
-//        }
+        //正在播放其他的音频---停止当前播放
+        if (isPlaying && !currentFilePath.equals(path)) {
+            mMediaPlayer.stop();
+            currentAudioBtn.stopAnim();
+        }
         currentFilePath = path;
         currentAudioBtn = audioPlayButton;
         try {

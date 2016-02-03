@@ -72,6 +72,8 @@ dependencies {
     //animation
     compile 'com.github.florent37:viewanimator:1.0.0@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    //recycleView animation
+    compile 'jp.wasabeef:recyclerview-animators:2.2.0'
     //leancloud集成
     compile files('libs/okio-1.6.0-leancloud.jar')
     compile files('libs/okhttp-2.6.0-leancloud.jar')
