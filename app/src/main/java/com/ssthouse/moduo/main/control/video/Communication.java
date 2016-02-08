@@ -60,17 +60,6 @@ public class Communication {
     }
 
     /**
-     * 静态初始化方法
-     *
-     * @param context
-     */
-    public static void init(Context context) {
-        if (instance == null) {
-            instance = new Communication(context);
-        }
-    }
-
-    /**
      * 加载视频对话sdk
      */
     public static void loadSdkLib() {
