@@ -33,7 +33,7 @@ public class JPushReceiver extends BroadcastReceiver {
             // 在这里可以做些统计，或者做些其他工作
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
             Timber.e("用户点击打开了通知");
-            // 在这里可以自己写代码去定义用户点击后的行为
+            // 打开app主界面
             ModuoActivity.start(context);
         } else {
             Timber.e("Unhandled intent - " + intent.getAction());
