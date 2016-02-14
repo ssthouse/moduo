@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.moduo.view.fragment;
+package com.ssthouse.moduo.moduo.view.fragment.main.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,11 +14,10 @@ import android.widget.Toast;
 
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.moduo.control.util.DbHelper;
 import com.ssthouse.moduo.moduo.control.util.DimenUtil;
-import com.ssthouse.moduo.moduo.model.event.ModuoBigEvent;
 import com.ssthouse.moduo.moduo.view.adapter.MainAdapter;
 import com.ssthouse.moduo.moduo.view.adapter.MsgBean;
+import com.ssthouse.moduo.moduo.view.fragment.main.presenter.ModuoPresenter;
 import com.ssthouse.moduo.moduo.view.widget.ModuoView;
 import com.ssthouse.moduo.moduo.view.widget.record.RecordButton;
 
@@ -26,19 +25,15 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * 魔哆主界面
  * Created by ssthouse on 2016/1/24.
  */
-public class ModuoFragment extends Fragment {
+public class ModuoFragment extends Fragment implements ModuoFragmentView{
+
+    private ModuoPresenter mModuoPresenter;
 
     //魔哆图案
     @Bind(R.id.id_moduo)
@@ -62,10 +57,12 @@ public class ModuoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_moduo, container, false);
         ButterKnife.bind(this, rootView);
-        initView(rootView);
+        initView();
+
+        //presenter
+        mModuoPresenter = new ModuoPresenter(this);
         return rootView;
     }
 
@@ -74,37 +71,18 @@ public class ModuoFragment extends Fragment {
         smallModuoHeight = DimenUtil.dp2px(getContext(), 100);
     }
 
-    private void initView(View rootView) {
+    private void initView() {
         //聊天列表
         recycleChat.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MainAdapter(getContext(), recycleChat);
         recycleChat.setAdapter(mAdapter);
         recycleChat.setItemAnimator(new LandingAnimator(new AccelerateDecelerateInterpolator()));
 
+        //刷洗响应
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Observable.just(mAdapter.getMsgList().get(0))
-                        .map(new Func1<MsgBean, List<MsgBean>>() {
-                            @Override
-                            public List<MsgBean> call(MsgBean msgBean) {
-                                return DbHelper.getLastTenMsgBean(msgBean);
-                            }
-                        })
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<List<MsgBean>>() {
-                            @Override
-                            public void call(List<MsgBean> msgList) {
-                                if (msgList == null || msgList.size() == 0) {
-                                    Toast.makeText(getContext(), "没有更多记录了", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    mAdapter.addMgList2Top(msgList);
-                                }
-                                //清除刷新状态
-                                swipeLayout.setRefreshing(false);
-                            }
-                        });
+                mModuoPresenter.loadMoreMsg();
             }
         });
 
@@ -116,8 +94,23 @@ public class ModuoFragment extends Fragment {
         });
     }
 
-    //魔哆变小
-    private void animateToSmall() {
+
+    @Override
+    public void animate2Big() {
+        if (moduoView.getCurrentState() == ModuoView.State.STATE_BIG) {
+            return;
+        }
+        ViewAnimator.animate(swipeLayout)
+                .height(bigModuoHeight - smallModuoHeight, 0)
+                .andAnimate(moduoView)
+                .height(smallModuoHeight, bigModuoHeight)
+                .interpolator(new AccelerateDecelerateInterpolator())
+                .duration(ANIMATE_TWEEN)
+                .start();
+    }
+
+    @Override
+    public void animate2Small() {
         if (moduoView.getCurrentState() == ModuoView.State.STATE_SMALL) {
             return;
         }
@@ -131,41 +124,30 @@ public class ModuoFragment extends Fragment {
                 .start();
     }
 
-    //魔哆变大
-    private void animateToBig() {
-        if (moduoView.getCurrentState() == ModuoView.State.STATE_BIG) {
-            return;
+    @Override
+    public void loadMoreMsg(List<MsgBean> msgList) {
+        if (msgList == null || msgList.size() == 0) {
+            Toast.makeText(getContext(), "没有更多记录了", Toast.LENGTH_SHORT).show();
+        } else {
+            mAdapter.addMgList2Top(msgList);
         }
-        ViewAnimator.animate(swipeLayout)
-                .height(bigModuoHeight - smallModuoHeight, 0)
-                .andAnimate(moduoView)
-                .height(smallModuoHeight, bigModuoHeight)
-                .interpolator(new AccelerateDecelerateInterpolator())
-                .duration(ANIMATE_TWEEN)
-                .start();
+        //清除刷新状态
+        swipeLayout.setRefreshing(false);
     }
 
-    //魔哆变大事件回调
-    public void onEventMainThread(ModuoBigEvent event) {
-        animateToBig();
-    }
-
-    //添加msgBen回调
-    public void onEventMainThread(MsgBean msgBean) {
-        if (msgBean == null) {
-            return;
-        }
-        //魔哆变小
-        animateToSmall();
-        //添加数据到对话框
+    @Override
+    public void addMsgBean(MsgBean msgBean) {
         mAdapter.addMsg(msgBean);
-        //保存到数据库
-        DbHelper.saveMsgBean(msgBean);
+    }
+
+    @Override
+    public MsgBean getTopMsgBean() {
+        return mAdapter.getMsgList().get(0);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        mModuoPresenter.destroy();
     }
 }

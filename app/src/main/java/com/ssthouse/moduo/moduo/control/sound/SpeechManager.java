@@ -116,7 +116,7 @@ public class SpeechManager implements ISpeechControl {
 
     // 退出时释放连接
     @Override
-    public void destory() {
+    public void destroy() {
         mSpeechUnderstander.cancel();
         mSpeechUnderstander.destroy();
     }

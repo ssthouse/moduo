@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.moduo.view.fragment.ModuoFragment;
+import com.ssthouse.moduo.moduo.view.fragment.main.view.ModuoFragment;
 
 //新版主界面
 public class ModuoActivity extends AppCompatActivity {

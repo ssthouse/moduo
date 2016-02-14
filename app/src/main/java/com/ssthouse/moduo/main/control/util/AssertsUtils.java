@@ -53,15 +53,15 @@ public class AssertsUtils {
      * 从assert中复制出文件到某个文件
      *
      * @param c
-     * @param orifile
-     * @param desfile
+     * @param oriFile
+     * @param desFile
      * @return
      * @throws IOException
      */
-    static public boolean copyFileTo(Context c, String orifile, String desfile) throws IOException {
+    static public boolean copyFileTo(Context c, String oriFile, String desFile) throws IOException {
         InputStream myInput;
-        OutputStream myOutput = new FileOutputStream(desfile);
-        myInput = c.getAssets().open(orifile);
+        OutputStream myOutput = new FileOutputStream(desFile);
+        myInput = c.getAssets().open(oriFile);
         byte[] buffer = new byte[1024];
         int length = myInput.read(buffer);
         while (length > 0) {
@@ -81,18 +81,18 @@ public class AssertsUtils {
      */
     static public boolean copyAllAssertToCacheFolder(Context c) throws IOException {
         String[] files = c.getAssets().list("Devices");
-        String filefolder = c.getFilesDir().toString();
-        File devicefile = new File(filefolder + "/Devices/");
-        devicefile.mkdirs();
+        String fileFolder = c.getFilesDir().toString();
+        File deviceFile = new File(fileFolder + "/Devices/");
+        deviceFile.mkdirs();
         for (int i = 0; i < files.length; i++) {
-            File devfile = new File(filefolder + "/Devices/" + files[i]);
+            File devfile = new File(fileFolder + "/Devices/" + files[i]);
             if (!devfile.exists()) {
-                copyFileTo(c, "Devices/" + files[i], filefolder + "/Devices/" + files[i]);
+                copyFileTo(c, "Devices/" + files[i], fileFolder + "/Devices/" + files[i]);
             }
         }
-        String[] filestr = devicefile.list();
-        for (int i = 0; i < filestr.length; i++) {
-            Log.i("file", filestr[i]);
+        String[] fileStr = deviceFile.list();
+        for (int i = 0; i < fileStr.length; i++) {
+            Log.i("file", fileStr[i]);
         }
         return true;
     }

@@ -25,5 +25,5 @@ public interface ISpeechControl {
     boolean isCurrentAudioFileExit();
 
     //清除资源
-    void destory();
+    void destroy();
 }
