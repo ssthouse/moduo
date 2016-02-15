@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.activity;
+package com.ssthouse.moduo.main.view.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,19 +16,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.model.bean.ModuoInfo;
-import com.ssthouse.moduo.main.model.bean.device.Device;
-import com.ssthouse.moduo.main.model.bean.event.scan.ScanDeviceEvent;
-import com.ssthouse.moduo.main.model.bean.event.video.SessionStateEvent;
-import com.ssthouse.moduo.main.model.bean.event.video.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.main.model.bean.event.video.ViewerLoginResultEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
@@ -36,22 +26,25 @@ import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
+import com.ssthouse.moduo.main.model.bean.ModuoInfo;
+import com.ssthouse.moduo.main.model.bean.event.scan.ScanDeviceEvent;
+import com.ssthouse.moduo.main.model.bean.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.main.view.activity.SettingActivity;
+import com.ssthouse.moduo.main.view.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.main.view.activity.account.UserInfoEditActivity;
 import com.ssthouse.moduo.main.view.fragment.sliding.AboutModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.sliding.IFragmentUI;
-import com.ssthouse.moduo.main.view.fragment.sliding.main.View.MainFragment;
 import com.ssthouse.moduo.main.view.fragment.sliding.ShareModuoFragment;
 import com.ssthouse.moduo.main.view.fragment.sliding.UserInfoFragment;
+import com.ssthouse.moduo.main.view.fragment.sliding.main.View.MainFragment;
 
 import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -62,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     //点两次退出程序
     private long exitTimeInMils = 0;
 
+    private MainActivityModel mModel;
+
     private FragmentManager fragmentManager;
     private MainFragment mainFragment;              //首页
     private UserInfoFragment userInfoFragment;      //个人资料
@@ -70,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     //当前状态
     public FragmentState currentFragmentState = FragmentState.MAIN_FRAGMENT;
+
     /**
      * fragment状态切换
      */
@@ -107,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
+
+        //Model
+        mModel = new MainActivityModel();
+
         initView();
         initFragment();
         //初始化视频sdk
@@ -253,48 +253,6 @@ public class MainActivity extends AppCompatActivity {
         waitDialog.dismiss();
     }
 
-    /*
-    视频SDK回调
-     */
-
-    /**
-     * 视频直播---登录成功回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(ViewerLoginResultEvent event) {
-        if (event.isSuccess()) {
-            Timber.e("视频直播---登录成功");
-        } else {
-            ToastHelper.show(this, "登陆视频sdk失败");
-        }
-    }
-
-    /**
-     * 视频设备连接状态事件
-     *
-     * @param event
-     */
-    public void onEventMainThread(SessionStateEvent event) {
-        //刷新lv
-    }
-
-    /**
-     * 视频采集端连接状态回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(StreamerConnectChangedEvent event) {
-        Timber.e("我接收到视频sdk状态更新");
-        //修改设备状态
-        for (Device device : XPGController.getDeviceList()) {
-//            if (device.getVideoCidNumber() == event.getCidNumber()) {
-//                device.setStreamerPresenceState(event.getState());
-//                Timber.e("我更新了视频sdk状态");
-//            }
-        }
-    }
-
     /**
      * 扫描设备回调
      *
@@ -316,8 +274,7 @@ public class MainActivity extends AppCompatActivity {
                     SettingManager.getInstance(this).getToken(),
                     event.getDid(),
                     event.getPassCode(),
-                    ""
-            );
+                    "");
         }
     }
 
@@ -332,29 +289,7 @@ public class MainActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             ToastHelper.show(this, "设备绑定成功");
             //获取设备Info信息
-            Observable.just(event.getDid())
-                    .map(new Func1<String, ModuoInfo>() {
-                        @Override
-                        public ModuoInfo call(String did) {
-                            AVQuery<AVObject> query = new AVQuery<AVObject>(CloudUtil.TABLE_MODUO_DEVICE);
-                            query.whereEqualTo(CloudUtil.KEY_DID, did);
-                            AVObject moduoObject = null;
-                            try {
-                                moduoObject = query.getFirst();
-                            } catch (AVException e) {
-                                e.printStackTrace();
-                            }
-                            if (moduoObject == null) {
-                                ToastHelper.show(MainActivity.this, "服务器端无该设备信息!");
-                                return null;
-                            }
-                            return new ModuoInfo(moduoObject.getString(CloudUtil.KEY_DID),
-                                    moduoObject.getString(CloudUtil.KEY_PASSCODE),
-                                    moduoObject.getString(CloudUtil.KEY_CID),
-                                    moduoObject.getString(CloudUtil.KEY_VIDEO_USERNAME),
-                                    moduoObject.getString(CloudUtil.KEY_VIDEO_PASSWORD));
-                        }
-                    })
+            mModel.getUserInfo(event.getDid())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<ModuoInfo>() {

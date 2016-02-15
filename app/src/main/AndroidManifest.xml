@@ -135,7 +135,7 @@
 
         <!--主界面-->
         <activity
-            android:name=".main.view.activity.MainActivity"
+            android:name=".main.view.activity.main.MainActivity"
             android:label="魔哆"
             android:screenOrientation="portrait" />
 
