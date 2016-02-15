@@ -103,7 +103,7 @@ public class CloudUtil {
                         if (avObject == null) {
                             AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
                             moduoDevice.put(KEY_DID, moduoInfo.getDid());
-                            moduoDevice.put(KEY_PASSCODE, moduoInfo.getPasscode());
+                            moduoDevice.put(KEY_PASSCODE, moduoInfo.getPassCode());
                             moduoDevice.put(KEY_CID, moduoInfo.getCid());
                             moduoDevice.put(KEY_VIDEO_USERNAME, moduoInfo.getVideoUsername());
                             moduoDevice.put(KEY_VIDEO_PASSWORD, moduoInfo.getVideoPassword());

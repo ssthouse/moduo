@@ -31,12 +31,15 @@ import timber.log.Timber;
  * 视频通话fragment
  * Created by ssthouse on 2016/1/12.
  */
-public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
+public class VideoFragment extends Fragment implements VideoFragmentView {
 
-    private MaterialDialog waitDialog;
+    //Presenter
+    private VideoFragmentPresenter mPresenter;
 
     //控制面板是否可见
     private boolean isCtrlPanelVisible;
+
+    private MaterialDialog waitDialog;
 
     @Bind(R.id.id_ll_control)
     LinearLayout llControlPanel;
@@ -67,21 +70,18 @@ public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_video_display, container, false);
-        initView(rootView);
+        ButterKnife.bind(this, rootView);
+        initView();
+
         //初始化视频参数
         initVideo();
+
+        //Presenter
+        mPresenter = new VideoFragmentPresenter(this);
         return rootView;
     }
 
-    private void showWaitDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
-        tvWait.setText(msg);
-        waitDialog.show();
-    }
-
-    private void initView(View rootView) {
-        ButterKnife.bind(this, rootView);
-
+    private void initView() {
         //体感控制开关
         swGyroscopeControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -153,6 +153,18 @@ public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
     }
 
     @Override
+    public void showDialog(String msg) {
+        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        tvWait.setText(msg);
+        waitDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        waitDialog.dismiss();
+    }
+
+    @Override
     public void hideCtrlPanel() {
         isCtrlPanelVisible = false;
         //下方面板
@@ -177,11 +189,12 @@ public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
     }
 
     //横屏
-    private void toLandscape() {
+    @Override
+    public void toLandscape() {
         Timber.e("横屏");
         VideoActivity.isPortrait = false;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        //隐藏控制面板  todo---加上动画
+        //隐藏控制面板
         llControlPanel.setVisibility(View.GONE);
         //全屏---隐藏actionbar
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -191,7 +204,8 @@ public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
     }
 
     //竖屏
-    private void toPortrait() {
+    @Override
+    public void toPortrait() {
         Timber.e("竖屏");
         VideoActivity.isPortrait = true;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -223,4 +237,9 @@ public class VideoFragment extends Fragment implements IVideoFragmentCtrl {
         gyroscopeSensor.pause();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
 }

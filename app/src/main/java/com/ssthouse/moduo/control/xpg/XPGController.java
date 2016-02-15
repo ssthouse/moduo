@@ -44,11 +44,11 @@ import timber.log.Timber;
 
 /**
  * XPG总控制器:
- * <p/>
+ * <p>
  * 监听两个接口:
  * XPGWiﬁSDKListener通用监听器，包含了注册、登录、配置设备、绑定设备等回调接口
  * XPGWiﬁDeviceListener设备监听器，包含了单个设备的登录、控制、状态上报等接口
- * <p/>
+ * <p>
  * Created by ssthouse on 2015/12/19.
  */
 public class XPGController {
@@ -106,7 +106,7 @@ public class XPGController {
 
     /**
      * XPGWifiDeviceListener
-     * <p/>
+     * <p>
      * 设备属性监听器。 设备连接断开、获取绑定参数、获取设备信息、控制和接受设备信息相关.
      */
     protected XPGWifiDeviceListener deviceListener = new XPGWifiDeviceListener() {
@@ -138,10 +138,9 @@ public class XPGController {
         @Override
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
-            if (dataMap == null) {
-                // TODO: 2016/1/22  
-                //Timber.e("数据为空!!!\terrorCode:\t" + result);
-                //为空也要返回获取失败
+            if (dataMap == null || dataMap.get("data") == null) {
+                // TODO: 2016/1/22
+                Timber.e("收到设备空的消息, errorCode:\t" + result);
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 return;
             }
@@ -158,13 +157,11 @@ public class XPGController {
                 //发出事件
                 if (cmd == 3) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
+                    Timber.e("获取设备数据回调");
                 } else if (cmd == 4) {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
+                    Timber.e("设备主动推送数据变化");
                 }
-                Timber.e("抛出了获得的数据");
-            } else {
-                EventBus.getDefault().post(new GetDeviceDataEvent(false));
-                Timber.e("收到设备空的消息, errorCode:\t" + result);
             }
             //设备报警数据点类型，该种数据点只读，设备发生报警后该字段有内容，没有发生报警则没内容
             if (dataMap.get("alters") != null) {
@@ -179,7 +176,7 @@ public class XPGController {
 
     /**
      * XPGWifiSDKListener
-     * <p/>
+     * <p>
      * sdk监听器。 配置设备上线、注册登录用户、搜索发现设备、用户绑定和解绑设备相关.
      */
     private XPGWifiSDKListener sdkListener = new XPGWifiSDKListener() {

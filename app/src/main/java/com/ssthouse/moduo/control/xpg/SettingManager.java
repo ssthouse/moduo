@@ -140,7 +140,7 @@ public class SettingManager {
     public void setCurrentModuoInfo(ModuoInfo moduoInfo) {
         //机智云参数
         setCurrentDid(moduoInfo.getDid());
-        setPasscode(moduoInfo.getPasscode());
+        setPasscode(moduoInfo.getPassCode());
         //视频参数
         setCidNumber(moduoInfo.getCid());
         setVideoUsername(moduoInfo.getVideoUsername());

@@ -6,16 +6,18 @@ package com.ssthouse.moduo.model.bean;
  */
 public class ModuoInfo {
 
+    //机智云参数
     private String did;
-    private String passcode;
+    private String passCode;
 
+    //视频参数
     private String cid;
     private String videoUsername;
     private String videoPassword;
 
-    public ModuoInfo(String did, String passcode, String cid, String videoUsername, String videoPassword) {
+    public ModuoInfo(String did, String passCode, String cid, String videoUsername, String videoPassword) {
         this.did = did;
-        this.passcode = passcode;
+        this.passCode = passCode;
         this.cid = cid;
         this.videoUsername = videoUsername;
         this.videoPassword = videoPassword;
@@ -29,12 +31,12 @@ public class ModuoInfo {
         this.did = did;
     }
 
-    public String getPasscode() {
-        return passcode;
+    public String getPassCode() {
+        return passCode;
     }
 
-    public void setPasscode(String passcode) {
-        this.passcode = passcode;
+    public void setPassCode(String passCode) {
+        this.passCode = passCode;
     }
 
     public String getCid() {
@@ -63,6 +65,6 @@ public class ModuoInfo {
 
     @Override
     public String toString() {
-        return did + "   " + passcode + "    " + cid + "    " + videoUsername + "    " + videoPassword;
+        return did + "   " + passCode + "    " + cid + "    " + videoUsername + "    " + videoPassword;
     }
 }

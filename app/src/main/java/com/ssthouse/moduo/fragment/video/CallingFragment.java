@@ -6,16 +6,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.event.video.CallingResponseEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.activity.video.VideoActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
@@ -26,13 +29,20 @@ import timber.log.Timber;
  */
 public class CallingFragment extends Fragment {
 
+    @Bind(R.id.id_iv_avatar)
+    ImageView ivAvatar;
+
+    @Bind(R.id.id_btn_cancel)
+    ImageView btnCancel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         View rootView = inflater.inflate(R.layout.fragment_calling, container, false);
-        initView(rootView);
+        ButterKnife.bind(this, rootView);
+        initView();
 
         //登陆设备
         XPGController.getCurrentDevice().getXpgWifiDevice().login(
@@ -43,9 +53,9 @@ public class CallingFragment extends Fragment {
     }
 
 
-    private void initView(View rootView) {
+    private void initView() {
         //todo---模拟接通电话
-        rootView.findViewById(R.id.id_iv_avatar).setOnClickListener(new View.OnClickListener() {
+        ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -54,7 +64,7 @@ public class CallingFragment extends Fragment {
         });
 
         //取消
-        rootView.findViewById(R.id.id_btn_cancel).setOnClickListener(new View.OnClickListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //退出Activity
