@@ -186,6 +186,15 @@ public class SettingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(currentState != State.STATE_SETTING_LIST){
+            changeState(State.STATE_SETTING_LIST);
+            return;
+        }
+        super.onBackPressed();
+    }
+
     //settingActivity状态变化事件回调
     public void onEventMainThread(SettingAtyStateEvent event) {
         changeState(event.getToState());
