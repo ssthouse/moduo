@@ -19,6 +19,7 @@ import rx.schedulers.Schedulers;
  */
 public class ModuoPresenter {
 
+    //View Model
     private ModuoFragmentView mModuoFragmentView;
     private ModuoModel mModuoModel;
 

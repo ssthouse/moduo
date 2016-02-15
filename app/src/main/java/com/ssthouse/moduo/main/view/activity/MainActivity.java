@@ -63,19 +63,20 @@ public class MainActivity extends AppCompatActivity {
     private long exitTimeInMils = 0;
 
     private FragmentManager fragmentManager;
-    private ShareModuoFragment shareDeviceFragment;
-    private AboutModuoFragment aboutModuoFragment;
-    private UserInfoFragment userInfoFragment;
-    private MainFragment mainFragment;
+    private MainFragment mainFragment;              //首页
+    private UserInfoFragment userInfoFragment;      //个人资料
+    private ShareModuoFragment shareDeviceFragment; //分享魔哆
+    private AboutModuoFragment aboutModuoFragment;  //关于魔哆
 
+    //当前状态
+    public FragmentState currentFragmentState = FragmentState.MAIN_FRAGMENT;
     /**
-     * fragment切换逻辑
+     * fragment状态切换
      */
     public enum FragmentState {
         SHARE_MODUO_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
     }
 
-    public FragmentState currentFragmentState = FragmentState.MAIN_FRAGMENT;
 
     /**
      * 视频对话SDK管理类

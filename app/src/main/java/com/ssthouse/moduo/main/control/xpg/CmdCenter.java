@@ -116,11 +116,12 @@ public class CmdCenter {
 
     /**
      * 匿名用户转正常用户
+     *
      * @param token
      * @param username
      * @param password
      */
-    public void cTransferToNormalUser(String token, String username, String password){
+    public void cTransferToNormalUser(String token, String username, String password) {
         xpgWifiGCC.transAnonymousUserToNormalUser(token, username, password);
     }
 
@@ -136,6 +137,7 @@ public class CmdCenter {
 
     /**
      * 注册用户
+     *
      * @param userName
      * @param password
      */
@@ -344,7 +346,7 @@ public class CmdCenter {
             jsonSend.put("cmd", 1);
             jsonParam.put(key, value);
             jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
-            Timber.e(jsonSend.toString());
+            Timber.e("send_data:\t" + jsonSend.toString());
             xpgWifiDevice.write(jsonSend.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -352,10 +354,10 @@ public class CmdCenter {
     }
 
     //开启设备的video数据点---打开video
-    public void cWriteVideo(XPGWifiDevice xpgWifiDevice, int value){
-        if(value == 0) {
+    public void cWriteVideo(XPGWifiDevice xpgWifiDevice, int value) {
+        if (value == 0) {
             cWrite(xpgWifiDevice, JsonKeys.VIDEO, false);
-        }else if(value == 1){
+        } else if (value == 1) {
             cWrite(xpgWifiDevice, JsonKeys.VIDEO, true);
         }
     }

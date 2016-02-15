@@ -37,7 +37,7 @@ public class SettingActivity extends AppCompatActivity {
 
     //当前状态
     private State currentState;
-
+    //fragment状态
     public enum State {
         //列表
         STATE_SETTING_LIST,
