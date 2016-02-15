@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.main;
+package com.ssthouse.moduo.main.view.fragment.sliding;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

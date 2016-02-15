@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.main;
+package com.ssthouse.moduo.main.view.fragment.sliding.main.View;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +16,7 @@ import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
 import com.ssthouse.moduo.main.view.activity.video.CallingActivity;
+import com.ssthouse.moduo.main.view.fragment.sliding.main.presenter.MainFragmentPresenter;
 import com.ssthouse.moduo.moduo.view.activity.ModuoActivity;
 
 import butterknife.Bind;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends Fragment implements MainFragmentView {
 
+    //Presenter
     private MainFragmentPresenter mMainFragmentPresenter;
 
     @Bind(R.id.id_iv_home_control)
@@ -99,7 +101,6 @@ public class MainFragment extends Fragment implements MainFragmentView {
                 .autoDismiss(false)
                 .build();
     }
-
 
     @Override
     public void showDialog(String msg) {

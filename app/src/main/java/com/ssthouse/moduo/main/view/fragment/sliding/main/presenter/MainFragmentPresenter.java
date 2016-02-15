@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.main;
+package com.ssthouse.moduo.main.view.fragment.sliding.main.presenter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import com.ssthouse.moduo.main.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.main.model.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.main.view.activity.XpgControlActivity;
+import com.ssthouse.moduo.main.view.fragment.sliding.main.View.MainFragmentView;
+import com.ssthouse.moduo.main.view.fragment.sliding.main.model.MainFragmentModel;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

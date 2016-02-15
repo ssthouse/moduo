@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.main;
+package com.ssthouse.moduo.main.view.fragment.sliding;
 
 /**
  * 主fragment的公共控制接口

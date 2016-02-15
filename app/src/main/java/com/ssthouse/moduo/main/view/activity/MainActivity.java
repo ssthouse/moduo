@@ -37,11 +37,11 @@ import com.ssthouse.moduo.main.control.video.Communication;
 import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.account.UserInfoEditActivity;
-import com.ssthouse.moduo.main.view.fragment.main.AboutModuoFragment;
-import com.ssthouse.moduo.main.view.fragment.main.IFragmentUI;
-import com.ssthouse.moduo.main.view.fragment.main.MainFragment;
-import com.ssthouse.moduo.main.view.fragment.main.ShareModuoFragment;
-import com.ssthouse.moduo.main.view.fragment.main.UserInfoFragment;
+import com.ssthouse.moduo.main.view.fragment.sliding.AboutModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.sliding.IFragmentUI;
+import com.ssthouse.moduo.main.view.fragment.sliding.main.View.MainFragment;
+import com.ssthouse.moduo.main.view.fragment.sliding.ShareModuoFragment;
+import com.ssthouse.moduo.main.view.fragment.sliding.UserInfoFragment;
 
 import java.io.File;
 
