@@ -19,16 +19,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.main.control.util.CloudUtil;
 import com.ssthouse.moduo.main.control.util.FileUtil;
 import com.ssthouse.moduo.main.control.util.QrCodeUtil;
 import com.ssthouse.moduo.main.control.util.ToastHelper;
 import com.ssthouse.moduo.main.control.video.Communication;
-import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
-import com.ssthouse.moduo.main.model.bean.ModuoInfo;
-import com.ssthouse.moduo.main.model.bean.event.scan.ScanDeviceEvent;
-import com.ssthouse.moduo.main.model.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.main.view.activity.SettingActivity;
 import com.ssthouse.moduo.main.view.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.main.view.activity.account.UserInfoEditActivity;
@@ -42,20 +37,16 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * 当前activity不监听设备数据传达的event
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityView {
     //点两次退出程序
     private long exitTimeInMils = 0;
 
-    private MainActivityModel mModel;
+    //Presenter
+    private MainActivityPresenter mPresenter;
 
     private FragmentManager fragmentManager;
     private MainFragment mainFragment;              //首页
@@ -101,11 +92,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
 
-        //Model
-        mModel = new MainActivityModel();
+        //Presenter
+        mPresenter = new MainActivityPresenter(this, this);
 
         initView();
         initFragment();
@@ -184,6 +174,19 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+
+    @Override
+    public void showDialog(String msg) {
+        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        tvWait.setText(msg);
+        waitDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        waitDialog.dismiss();
+    }
+
     /**
      * 切换fragment
      *
@@ -243,76 +246,6 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    public void showDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
-        tvWait.setText(msg);
-        waitDialog.show();
-    }
-
-    public void dismissDialog() {
-        waitDialog.dismiss();
-    }
-
-    /**
-     * 扫描设备回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(ScanDeviceEvent event) {
-        Timber.e("扫描Activity回调");
-        if (event.isSuccess()) {
-            showDialog("正在绑定设备,请稍候");
-            //将扫描到设备数据保存至cloud
-            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
-                    event.getPassCode(),
-                    event.getCid(),
-                    event.getVideoUsername(),
-                    event.getVideoPassword()));
-            //开始绑定设备
-            XPGController.getInstance(this).getmCenter().cBindDevice(
-                    SettingManager.getInstance(this).getUid(),
-                    SettingManager.getInstance(this).getToken(),
-                    event.getDid(),
-                    event.getPassCode(),
-                    "");
-        }
-    }
-
-    /**
-     * 绑定设备回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(final DeviceBindResultEvent event) {
-        Timber.e("设备绑定回调");
-        dismissDialog();
-        if (event.isSuccess()) {
-            ToastHelper.show(this, "设备绑定成功");
-            //获取设备Info信息
-            mModel.getUserInfo(event.getDid())
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<ModuoInfo>() {
-                        @Override
-                        public void call(ModuoInfo moduoInfo) {
-                            if (moduoInfo == null) {
-                                Timber.e("服务器获取魔哆设备信息为空:did   " + event.getDid());
-                                return;
-                            }
-                            //保存设备信息到本地
-                            SettingManager.getInstance(MainActivity.this)
-                                    .setCurrentModuoInfo(moduoInfo);
-                            //保存设备信息到本地后---请求设备列表
-                            XPGController.getInstance(MainActivity.this).getmCenter().cGetBoundDevices(
-                                    SettingManager.getInstance(MainActivity.this).getUid(),
-                                    SettingManager.getInstance(MainActivity.this).getToken());
-                        }
-                    });
-        } else {
-            ToastHelper.show(this, "设备绑定失败");
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         switch (currentFragmentState) {
@@ -369,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        mPresenter.destroy();
         //// TODO: 2016/1/10
         communication.destory();//销毁sdk
         //确保完全退出，释放所有资源
