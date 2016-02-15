@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -311,6 +312,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
     @Override
     public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            drawerLayout.closeDrawer(Gravity.LEFT);
+            return;
+        }
         //判断当前是否为mainFragment
         if (currentFragmentState == FragmentState.MAIN_FRAGMENT) {
             if (System.currentTimeMillis() < (exitTimeInMils + 1500)) {
