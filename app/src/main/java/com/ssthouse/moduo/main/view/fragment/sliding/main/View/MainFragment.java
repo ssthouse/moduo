@@ -16,6 +16,7 @@ import com.ssthouse.moduo.main.control.xpg.SettingManager;
 import com.ssthouse.moduo.main.control.xpg.XPGController;
 import com.ssthouse.moduo.main.view.activity.MsgCenterActivity;
 import com.ssthouse.moduo.main.view.activity.video.CallingActivity;
+import com.ssthouse.moduo.main.view.fragment.sliding.IFragmentUI;
 import com.ssthouse.moduo.main.view.fragment.sliding.main.presenter.MainFragmentPresenter;
 import com.ssthouse.moduo.moduo.view.activity.ModuoActivity;
 
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
  * 主界面
  * Created by ssthouse on 2016/1/13.
  */
-public class MainFragment extends Fragment implements MainFragmentView {
+public class MainFragment extends Fragment implements MainFragmentView, IFragmentUI {
 
     //Presenter
     private MainFragmentPresenter mMainFragmentPresenter;
