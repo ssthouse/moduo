@@ -13,7 +13,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssthouse.moduo.main.model.cons.scan.ScanCons;
 import com.ssthouse.moduo.main.model.bean.event.scan.ScanDeviceEvent;
-import com.ssthouse.moduo.main.view.activity.ScanActivity;
+import com.ssthouse.moduo.main.activity.ScanActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

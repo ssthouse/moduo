@@ -1,6 +1,6 @@
 package com.ssthouse.moduo.main.model.bean.event.view;
 
-import com.ssthouse.moduo.main.view.activity.SettingActivity;
+import com.ssthouse.moduo.main.activity.SettingActivity;
 
 /**
  * settingActivity状态变化event
