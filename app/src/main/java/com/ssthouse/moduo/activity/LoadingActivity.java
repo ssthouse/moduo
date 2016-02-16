@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.activity.main.MainActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.event.view.AppIntroFinishEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.activity.main.MainActivity;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -75,6 +75,7 @@ public class LoadingActivity extends AppCompatActivity {
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
+            XPGController.setLogin(true);
             //更新本地用户数据
             CloudUtil.updateUserInfoToLocal(this, SettingManager.getInstance(this).getUserName());
             //保存机智云登陆数据
@@ -83,8 +84,9 @@ public class LoadingActivity extends AppCompatActivity {
             MainActivity.start(this);
             finish();
         } else {
-            MainActivity.start(this);
             Timber.e("机智云---登录失败");
+            XPGController.setLogin(false);
+            MainActivity.start(this);
             finish();
         }
     }

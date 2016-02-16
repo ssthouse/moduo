@@ -8,29 +8,28 @@ import com.avos.avoscloud.AVQuery;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.ssthouse.moduo.model.bean.ModuoInfo;
-import com.ssthouse.moduo.model.bean.event.account.AnonymousUserTransEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLogoutEvent;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.bean.device.Device;
 import com.ssthouse.moduo.model.bean.device.DeviceData;
+import com.ssthouse.moduo.model.bean.event.account.AnonymousUserTransEvent;
+import com.ssthouse.moduo.model.bean.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.AuthCodeSendResultEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.DeviceDataChangedEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XpgDeviceStateEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.GetDeviceDataEvent;
-import com.ssthouse.moduo.model.bean.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.model.bean.event.xpg.XPGLogoutEvent;
+import com.ssthouse.moduo.model.bean.event.xpg.XpgDeviceStateEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
 import com.xtremeprog.xpgconnect.XPGWifiSDKListener;
 import com.xtremeprog.xpgconnect.XPGWifiSSID;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -53,10 +52,29 @@ import timber.log.Timber;
  */
 public class XPGController {
 
-    //唯一单例
-    private static XPGController instance;
+    //单例
+    private static XPGController mInstance;
 
     private Context context;
+
+    //sdk登陆状态
+    private static boolean login = false;
+
+    /**
+     * 指令管理器.
+     */
+    protected CmdCenter mCenter;
+
+    /**
+     * SharePreference处理类.
+     */
+    protected SettingManager settingManager;
+
+    /**
+     * 当前操作的设备
+     */
+    protected static Device currentDevice;
+
 
     /**
      * 获取单例
@@ -64,10 +82,10 @@ public class XPGController {
      * @return
      */
     public static XPGController getInstance(Context context) {
-        if (instance == null) {
-            instance = new XPGController(context);
+        if (mInstance == null) {
+            mInstance = new XPGController(context);
         }
-        return instance;
+        return mInstance;
     }
 
     /**
@@ -83,26 +101,6 @@ public class XPGController {
         // 每次返回activity都要注册一次sdk监听器，保证sdk状态能正确回调
         mCenter.getXPGWifiSDK().setListener(sdkListener);
     }
-
-    /**
-     * 指令管理器.
-     */
-    protected CmdCenter mCenter;
-
-    /**
-     * SharePreference处理类.
-     */
-    protected SettingManager settingManager;
-
-    /**
-     * 设备列表.
-     */
-    protected static List<Device> deviceList = new ArrayList<>();
-
-    /**
-     * 当前操作的设备
-     */
-    protected static Device currentDevice;
 
     /**
      * XPGWifiDeviceListener
@@ -275,8 +273,10 @@ public class XPGController {
                                  String token) {
             //用户登陆回调
             if (error == 0) {
+                setLogin(true);
                 EventBus.getDefault().post(new XPGLoginResultEvent(true, uid, token));
             } else {
+                setLogin(false);
                 EventBus.getDefault().post(new XPGLoginResultEvent(false));
             }
             Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
@@ -288,6 +288,7 @@ public class XPGController {
             //用户登出回调
             Timber.e("用户登出回调");
             if (error == 0) {
+                setLogin(false);
                 EventBus.getDefault().post(new XPGLogoutEvent(true, error));
             } else {
                 EventBus.getDefault().post(new XPGLogoutEvent(false, error));
@@ -311,9 +312,6 @@ public class XPGController {
         return mCenter;
     }
 
-    public static List<Device> getDeviceList() {
-        return deviceList;
-    }
 
     public static Device getCurrentDevice() {
         return currentDevice;
@@ -321,10 +319,6 @@ public class XPGController {
 
     public XPGWifiDeviceListener getDeviceListener() {
         return deviceListener;
-    }
-
-    public void setDeviceListener(XPGWifiDeviceListener deviceListener) {
-        this.deviceListener = deviceListener;
     }
 
     public static void setCurrentDevice(Device currentDevice) {
@@ -391,5 +385,13 @@ public class XPGController {
         //设置监听器
         getCurrentDevice().getXpgWifiDevice()
                 .setListener(XPGController.getInstance(context).getDeviceListener());
+    }
+
+    public static boolean isLogin() {
+        return login;
+    }
+
+    public static void setLogin(boolean login) {
+        XPGController.login = login;
     }
 }

@@ -143,6 +143,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         waitDialog = new MaterialDialog.Builder(getContext())
                 .customView(R.layout.dialog_wait, true)
                 .build();
+        //初始等待Dialog
+        showWaitDialog("正在加载视频");
         confirmDialog = new MaterialDialog.Builder(getContext())
                 .content("魔哆退出视频通话")
                 .positiveText("确认")
@@ -186,19 +188,20 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     }
 
     @Override
-    public void showDialog(String msg) {
+    public void showWaitDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
 
     @Override
-    public void dismissDialog() {
+    public void dismissWaitDialog() {
         waitDialog.dismiss();
     }
 
     @Override
-    public void showConfirmDialog() {
+    public void showConfirmDialog(String msg) {
+        confirmDialog.setContent("msg");
         confirmDialog.show();
     }
 
@@ -251,11 +254,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //非全屏---显示actionbar
         AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
         videoActivity.getSupportActionBar().show();
-    }
-
-    @Override
-    public void closeVideo() {
-
     }
 
     /*

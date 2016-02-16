@@ -7,12 +7,12 @@ package com.ssthouse.moduo.fragment.video;
 public interface VideoFragmentView {
 
     //显示等待dialog
-    void showDialog(String msg);
+    void showWaitDialog(String msg);
     //隐藏等待Dialog
-    void dismissDialog();
+    void dismissWaitDialog();
 
     //显示确认退出Dialog
-    void showConfirmDialog();
+    void showConfirmDialog(String msg);
 
     //隐藏控制面板
     void hideCtrlPanel();
@@ -24,7 +24,4 @@ public interface VideoFragmentView {
     void toLandscape();
     //竖屏
     void toPortrait();
-
-    //关闭视频
-    void closeVideo();
 }

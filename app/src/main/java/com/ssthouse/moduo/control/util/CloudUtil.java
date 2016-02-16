@@ -1,15 +1,16 @@
 package com.ssthouse.moduo.control.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
+import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.bean.UserInfo;
 import com.ssthouse.moduo.model.bean.device.Device;
-import com.ssthouse.moduo.control.xpg.SettingManager;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -129,6 +130,10 @@ public class CloudUtil {
      * @return
      */
     public static void updateUserInfoToLocal(final Context context, final String username) {
+        //username不能为空
+        if(TextUtils.isEmpty(username)){
+            return;
+        }
         Observable.just(username)
                 .map(new Func1<String, UserInfo>() {
                     @Override

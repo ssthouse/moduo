@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         SHARE_MODUO_FRAGMENT, ABOUT_MODUO_FRAGMENT, USER_INFO_FRAGMENT, MAIN_FRAGMENT;
     }
 
-
     /**
      * 视频对话SDK管理类
      */
@@ -305,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         super.onDestroy();
         mPresenter.destroy();
         //// TODO: 2016/1/10
-        communication.destory();//销毁sdk
+        communication.destroy();//销毁sdk
         //确保完全退出，释放所有资源
         android.os.Process.killProcess(android.os.Process.myPid());
     }

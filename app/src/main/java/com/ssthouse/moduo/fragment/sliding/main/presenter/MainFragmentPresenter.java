@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.ssthouse.moduo.activity.XpgControlActivity;
+import com.ssthouse.moduo.activity.video.CallingActivity;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.main.View.MainFragmentView;
@@ -51,6 +53,24 @@ public class MainFragmentPresenter {
                 .cGetBoundDevices(
                         SettingManager.getInstance(mContext).getUid(),
                         SettingManager.getInstance(mContext).getToken());
+    }
+
+    //跳转到视频控制Activity
+    public void jump2Video() {
+        switch (Communication.getInstance(mContext).getStreamerPresenceState()) {
+            case INIT:
+                ToastHelper.show(mContext, "魔哆不在线");
+                break;
+            case OFFLINE:
+                ToastHelper.show(mContext, "魔哆不在线");
+                break;
+            case USRNAME_PWD_ERR:
+                ToastHelper.show(mContext, "魔哆用户名密码错误");
+                break;
+            case ONLINE:
+                CallingActivity.start(mContext);
+                break;
+        }
     }
 
     /**

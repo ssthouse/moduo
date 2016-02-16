@@ -95,10 +95,10 @@ public class VideoHolder {
         @Override
         public void onMediaStreamState(long streamId, MediaStreamState mediaStreamState) {
             Timber.e("streamId :" + streamId + ",state:" + mediaStreamState.intValue());
-            //隐藏dialog
-            EventBus.getDefault().post(new VideoReadyEvent());
             //监测链接状态
             if (mediaStreamState == MediaStreamState.CREATED) {
+                //视频准备完毕事件
+                EventBus.getDefault().post(new VideoReadyEvent(true));
                 MediaDataDesc desc = media.getStreamDesc(liveStreamId);
                 if (desc == null) {
                     Timber.e("get media desc error!");
@@ -121,6 +121,8 @@ public class VideoHolder {
                 }
             } else {
                 stopWatch();
+                //视频准备完毕事件
+                EventBus.getDefault().post(new VideoReadyEvent(false));
             }
         }
     };

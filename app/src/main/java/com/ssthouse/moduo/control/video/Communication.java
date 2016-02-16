@@ -11,12 +11,12 @@ import com.ichano.rvs.viewer.constant.LoginState;
 import com.ichano.rvs.viewer.constant.RvsSessionState;
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 import com.ichano.rvs.viewer.constant.StreamerPresenceState;
-import com.ssthouse.moduo.model.cons.Constant;
 import com.ssthouse.moduo.model.bean.device.Device;
 import com.ssthouse.moduo.model.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.bean.event.video.StreamerConfigChangedEvent;
 import com.ssthouse.moduo.model.bean.event.video.StreamerConnectChangedEvent;
 import com.ssthouse.moduo.model.bean.event.video.ViewerLoginResultEvent;
+import com.ssthouse.moduo.model.cons.Constant;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -42,9 +42,12 @@ public class Communication {
     private Viewer viewer;
 
     /**
-     * 登陆状态
+     * 视频SDK登陆状态
      */
-    private boolean hasLogin;
+    private boolean login;
+
+    //当前采集端的状态 初始状态为初始化
+    private StreamerPresenceState streamerPresenceState = StreamerPresenceState.INIT;
 
     /**
      * 获取单例
@@ -112,7 +115,7 @@ public class Communication {
             //TODO---需呀判断登陆失败
             if (loginState == LoginState.CONNECTED) {
                 //更新登陆状态
-                hasLogin = true;
+                login = true;
                 //放出登陆成功消息
                 EventBus.getDefault().post(new ViewerLoginResultEvent(true));
             }
@@ -139,18 +142,17 @@ public class Communication {
     private StreamerStateListener streamerStateListener = new StreamerStateListener() {
         @Override
         public void onStreamerPresenceState(long l, StreamerPresenceState streamerPresenceState) {
-            //TODO
             EventBus.getDefault().post(new StreamerConnectChangedEvent(l, streamerPresenceState));
-//            Timber.e("目前streamer的链接状态是:\t" + streamerPresenceState.name());
-            //ToastHelper.show(context, "设备" + l + "\t目前streamer的链接状态是:\t" + streamerPresenceState.name());
+            //更新streamer状态
+            Communication.this.streamerPresenceState = streamerPresenceState;
+            Timber.e("streamer状态:\t" + streamerPresenceState.name());
         }
 
         @Override
         public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
             //TODO
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
-//            Timber.e("目前streamer的配置状态是:\t" + streamerConfigState.name());
-            //ToastHelper.show(context, "设备" + l + "\t目前streamer的配置状态是:\t" + streamerConfigState.name());
+            Timber.e("streamer配置状态:\t" + streamerConfigState.name());
         }
     };
 
@@ -179,12 +181,20 @@ public class Communication {
         viewer.disconnectStreamer(streamerCid);
     }
 
-    public void destory() {
+    public void destroy() {
         viewer.logout();//登出平台
         viewer.destroy();//销毁sdk
     }
 
-    public boolean isHasLogin() {
-        return hasLogin;
+    public boolean isLogin() {
+        return login;
+    }
+
+    public StreamerPresenceState getStreamerPresenceState() {
+        return streamerPresenceState;
+    }
+
+    public void setStreamerPresenceState(StreamerPresenceState streamerPresenceState) {
+        this.streamerPresenceState = streamerPresenceState;
     }
 }

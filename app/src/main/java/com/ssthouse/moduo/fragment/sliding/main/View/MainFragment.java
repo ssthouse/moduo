@@ -11,14 +11,13 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.activity.ModuoActivity;
 import com.ssthouse.moduo.activity.MsgCenterActivity;
-import com.ssthouse.moduo.activity.video.CallingActivity;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
 import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
-import com.ssthouse.moduo.activity.ModuoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -80,12 +79,12 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         ivVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2016/1/14 判断当前视频连接状态
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
-                } else {
-                    CallingActivity.start(getContext());
+                    return;
                 }
+                //跳转视频Activity
+                mMainFragmentPresenter.jump2Video();
             }
         });
 
@@ -121,7 +120,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         if (!SettingManager.getInstance(getContext()).isLogined()) {
             tvModuoState.setText("未登录");
             return;
-        }else{
+        } else {
             tvModuoState.setText("用户登录成功, 未连接魔哆");
         }
         if (XPGController.getCurrentDevice() != null) {

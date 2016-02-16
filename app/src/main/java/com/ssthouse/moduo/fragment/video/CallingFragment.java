@@ -12,6 +12,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.event.video.CallingResponseEvent;
@@ -53,7 +54,6 @@ public class CallingFragment extends Fragment {
         return rootView;
     }
 
-
     private void initView() {
         //todo---模拟接通电话
         ivAvatar.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +83,8 @@ public class CallingFragment extends Fragment {
             Timber.e("设备登陆成功");
             CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
         } else {
-            getActivity().finish();
             ToastHelper.show(getContext(), "设备登陆失败");
+            getActivity().finish();
         }
     }
 
@@ -95,6 +95,10 @@ public class CallingFragment extends Fragment {
      */
     public void onEventMainThread(CallingResponseEvent event) {
         Timber.e("收到电话接通结果回调");
+        if (!Communication.getInstance(getContext()).isLogin()) {
+            ToastHelper.show(getContext(), "视频服务未连接");
+            return;
+        }
         if (event.isSuccess()) {
             //关闭callingActivity
             getActivity().finish();

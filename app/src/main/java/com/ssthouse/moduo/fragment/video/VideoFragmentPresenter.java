@@ -1,5 +1,6 @@
 package com.ssthouse.moduo.fragment.video;
 
+import com.ssthouse.moduo.model.bean.event.video.VideoReadyEvent;
 import com.ssthouse.moduo.model.bean.event.xpg.DeviceDataChangedEvent;
 
 import de.greenrobot.event.EventBus;
@@ -28,7 +29,18 @@ public class VideoFragmentPresenter {
             return;
         }
         if(!event.getChangedDeviceData().getVideo()){
-            mVideoFragmentView.showConfirmDialog();
+            mVideoFragmentView.showConfirmDialog("魔哆端退出视频通话");
+        }
+    }
+
+    //视频数据加载完毕回调
+    public void onEventMainThread(VideoReadyEvent event){
+        if(event.isSuccess()){
+            mVideoFragmentView.dismissWaitDialog();
+        }else{
+            mVideoFragmentView.dismissWaitDialog();
+            //视频准备失败(点确定退出)
+            mVideoFragmentView.showConfirmDialog("视频加载失败");
         }
     }
 
