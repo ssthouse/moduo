@@ -30,8 +30,9 @@ public class AudioHandler {
     private int audioPlaySampleRate;
     /**
      * 是否在录制
+     * 默认开始时对讲开启
      */
-    private boolean isRecordAudio = false;
+    private boolean isRecordAudio = true;
 
     /**
      * 播放线程

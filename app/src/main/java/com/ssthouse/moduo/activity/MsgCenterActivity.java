@@ -11,10 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.fragment.message.MsgDetailFragment;
+import com.ssthouse.moduo.fragment.message.MsgListFragment;
 import com.ssthouse.moduo.model.bean.event.view.MsgActivityToDetailEvent;
 import com.ssthouse.moduo.model.bean.event.view.MsgActivityToListEvent;
-import com.ssthouse.moduo.main.view.fragment.message.MsgDetailFragment;
-import com.ssthouse.moduo.main.view.fragment.message.MsgListFragment;
 
 import de.greenrobot.event.EventBus;
 

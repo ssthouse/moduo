@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.main.view.fragment.message;
+package com.ssthouse.moduo.fragment.message;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

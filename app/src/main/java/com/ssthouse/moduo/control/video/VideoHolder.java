@@ -154,6 +154,26 @@ public class VideoHolder {
         }
     }
 
+    //开启对讲
+    public boolean startTalk(){
+        if(audioHandler == null){
+            return false;
+        }else {
+            audioHandler.startTalk();
+            return true;
+        }
+    }
+
+    //停止对讲
+    public boolean stopTalk(){
+        if(audioHandler == null){
+            return false;
+        }else{
+            audioHandler.stopTalk();
+            return true;
+        }
+    }
+
     //测试自定义命令
     public void sendCmd(View view) {
         boolean ret = viewer.getCommand().sendCustomData(streamerCid, "test".getBytes());

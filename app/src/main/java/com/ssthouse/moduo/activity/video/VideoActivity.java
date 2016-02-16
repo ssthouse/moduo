@@ -16,8 +16,6 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.video.VideoFragment;
 
-import timber.log.Timber;
-
 /**
  * 视频对话activity
  * Created by ssthouse on 2015/12/17.
@@ -47,7 +45,6 @@ public class VideoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Timber.e("onCreate");
         super.onCreate(savedInstanceState);
         //全屏---不息屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -68,7 +65,6 @@ public class VideoActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         videoFragment = (VideoFragment) fragmentManager.findFragmentByTag(TAG_VIDEO_FRAGMENT);
         if (videoFragment == null) {
-            Timber.e("init fragment");
             videoFragment = new VideoFragment();
             //改变界面
             fragmentManager.beginTransaction()

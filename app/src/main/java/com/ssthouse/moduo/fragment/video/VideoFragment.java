@@ -48,6 +48,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Bind(R.id.id_sw_sensor_control)
     Switch swGyroscopeControl;
 
+    //对讲开关
+    @Bind(R.id.id_sw_toggle_voice)
+    Switch swToggleVoice;
+
     //视频承接view
     @Bind(R.id.id_rl_container)
     View videoContainer;
@@ -95,6 +99,18 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             }
         });
 
+        //对讲开关
+        swToggleVoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    videoHolder.startTalk();
+                }else{
+                    videoHolder.stopTalk();
+                }
+            }
+        });
+
         //全屏控制
         ivFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +137,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 }
             }
         });
+
+        waitDialog = new MaterialDialog.Builder(getContext())
+                .customView(R.layout.dialog_wait, true)
+                .build();
     }
 
     //初始化video
