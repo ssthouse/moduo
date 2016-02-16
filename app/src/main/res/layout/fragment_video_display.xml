@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/grey_transparent"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="体感操控" />
+            android:text="体感操控"
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/id_btn_drop"
@@ -38,12 +39,13 @@
 
         <!--对讲-->
         <Switch
-            android:checked="true"
             android:id="@+id/id_sw_toggle_voice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="对讲" />
+            android:checked="true"
+            android:text="对讲"
+            android:textColor="@color/white" />
 
         <!--全屏按钮-->
         <ImageView

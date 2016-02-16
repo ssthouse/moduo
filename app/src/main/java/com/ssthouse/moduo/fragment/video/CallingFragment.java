@@ -24,6 +24,7 @@ import timber.log.Timber;
 
 /**
  * 正在calling
+ * 接收到设备推送的video变化为1---表示对方接受
  * 需要先登录设备
  * Created by ssthouse on 2016/1/12.
  */
@@ -58,7 +59,6 @@ public class CallingFragment extends Fragment {
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EventBus.getDefault().post(new CallingResponseEvent(true));
             }
         });
