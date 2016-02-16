@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ssthouse.moduo">
 
+    <!--获取手机通知-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <!--扫描二维码-->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -75,11 +79,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <!--新魔哆启动activity-->
-        <activity
-            android:name=".activity.ModuoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!--数据库 activeAndroid-->
         <meta-data
@@ -88,14 +87,42 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
+        <!--数据库 activeAndroid-->
 
-        <!--网络的监听BroadCastReceiver-->
+
+        <!--******************************begin of BroadcastReceiver***********************-->
+        <!--网络的监听-->
         <receiver android:name=".control.receiver.NetStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
+        <!--短信接收器-->
+        <receiver android:name=".control.receiver.SmsReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <!--******************************begin of BroadcastReceiver***********************-->
+
+
+        <!--*************************************begin of activity*******************************-->
+        <!--主界面-->
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--魔哆对话-->
+        <activity
+            android:name=".activity.ModuoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--app介绍-->
         <activity
             android:name=".activity.AppIntroActivity"
@@ -106,16 +133,6 @@
         <activity
             android:name=".activity.GuideActivity"
             android:screenOrientation="portrait" />
-
-        <!--主界面-->
-        <activity
-            android:name=".activity.LoadingActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <!--消息中心-->
         <activity
@@ -177,7 +194,17 @@
             android:name=".activity.DeviceInfoActivity"
             android:screenOrientation="portrait" />
 
-        <!--友盟集成-->
+        <!--竖直屏幕的二维码扫描activity-->
+        <activity
+            android:name=".activity.ScanActivity"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!--*************************************end of activity*******************************-->
+
+
+        <!--*******************************************友盟集成*****************************-->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5672334e67e58e60760048ad" />
@@ -191,16 +218,10 @@
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--*******************************************友盟集成*****************************-->
 
-        <!--竖直屏幕的二维码扫描activity-->
-        <activity
-            android:name=".activity.ScanActivity"
-            android:screenOrientation="portrait"
-            android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <!--极光推送-->
+        <!--****************************begin of 极光推送************************************-->
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -313,6 +334,7 @@
             android:name="JPUSH_APPKEY"
             android:value="7210d34fc15cfeef01e9867a" />
         <!--  </>值来自开发者平台取得的AppKey-->
+        <!--****************************end of 极光推送************************************-->
 
     </application>
 

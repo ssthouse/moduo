@@ -137,7 +137,6 @@ public class XPGController {
         public void didReceiveData(XPGWifiDevice device,
                                    ConcurrentHashMap<String, Object> dataMap, int result) {
             if (dataMap == null || dataMap.get("data") == null) {
-                // TODO: 2016/1/22
                 Timber.e("收到设备空的消息, errorCode:\t" + result);
                 EventBus.getDefault().post(new GetDeviceDataEvent(false));
                 return;

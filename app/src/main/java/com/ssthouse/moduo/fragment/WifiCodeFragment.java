@@ -67,7 +67,7 @@ public class WifiCodeFragment extends Fragment {
                         EditText etSsid = (EditText) customView.findViewById(R.id.id_et_wifi_ssid);
                         EditText etPassword = (EditText) customView.findViewById(R.id.id_et_wifi_password);
                         if (!TextUtils.isEmpty(etSsid.getText()) && !TextUtils.isEmpty(etPassword.getText())) {
-                            //// TODO: 2016/1/13 生成二维码图片---显示在界面上
+                            //生成二维码图片---显示在界面上
                             String url = QrCodeUtil.getWifiQrCodeContent(etSsid.getText().toString(),
                                     etPassword.getText().toString());
                             loadQrCode(url);

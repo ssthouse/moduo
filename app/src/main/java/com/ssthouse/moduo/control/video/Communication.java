@@ -150,7 +150,7 @@ public class Communication {
 
         @Override
         public void onStreamerConfigState(long l, StreamerConfigState streamerConfigState) {
-            //TODO
+            //参数配置变化事件
             EventBus.getDefault().post(new StreamerConfigChangedEvent(streamerConfigState));
             Timber.e("streamer配置状态:\t" + streamerConfigState.name());
         }

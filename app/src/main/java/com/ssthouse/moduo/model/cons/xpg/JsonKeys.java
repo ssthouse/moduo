@@ -18,7 +18,6 @@
 package com.ssthouse.moduo.model.cons.xpg;
 
 /**
- * todo
  * Json对应字段表
  *
  * @author Lien

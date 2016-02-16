@@ -61,11 +61,9 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         ivHomeControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo---启动家居控制activity
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
                 } else {
-                    //todo---这里不跳转到家居控制activity---跳转到moduo对话activity
                     ModuoActivity.start(getContext());
 //                    HomeControlActivity.start(getContext());
 //                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
@@ -91,7 +89,6 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2016/1/14 消息中心
                 MsgCenterActivity.start(getContext());
             }
         });

@@ -40,7 +40,6 @@ public class GuideActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //// TODO: 2016/1/15 截取url跳转事件
                 return true;
             }
         });
