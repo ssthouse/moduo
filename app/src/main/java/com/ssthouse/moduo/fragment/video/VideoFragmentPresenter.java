@@ -28,7 +28,7 @@ public class VideoFragmentPresenter {
             return;
         }
         if(!event.getChangedDeviceData().getVideo()){
-            mVideoFragmentView.showDialog("视频中断");
+            mVideoFragmentView.showConfirmDialog();
         }
     }
 

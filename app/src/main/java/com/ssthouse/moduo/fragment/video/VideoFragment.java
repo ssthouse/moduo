@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
@@ -40,6 +41,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private boolean isCtrlPanelVisible;
 
     private MaterialDialog waitDialog;
+    private MaterialDialog confirmDialog;
 
     @Bind(R.id.id_ll_control)
     LinearLayout llControlPanel;
@@ -103,9 +105,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         swToggleVoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     videoHolder.startTalk();
-                }else{
+                } else {
                     videoHolder.stopTalk();
                 }
             }
@@ -140,6 +142,17 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
 
         waitDialog = new MaterialDialog.Builder(getContext())
                 .customView(R.layout.dialog_wait, true)
+                .build();
+        confirmDialog = new MaterialDialog.Builder(getContext())
+                .content("魔哆退出视频通话")
+                .positiveText("确认")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        getActivity().finish();
+                    }
+                })
+                .autoDismiss(false)
                 .build();
     }
 
@@ -182,6 +195,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Override
     public void dismissDialog() {
         waitDialog.dismiss();
+    }
+
+    @Override
+    public void showConfirmDialog() {
+        confirmDialog.show();
     }
 
     @Override
@@ -233,6 +251,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //非全屏---显示actionbar
         AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
         videoActivity.getSupportActionBar().show();
+    }
+
+    @Override
+    public void closeVideo() {
+
     }
 
     /*
