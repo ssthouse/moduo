@@ -50,33 +50,18 @@ public class LoadingActivity extends AppCompatActivity {
             return;
         }
 
-        //尝试登陆
+        //一秒后跳转MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                jump();
+                jump2Main();
             }
         }, 1000);
-//        jump();
     }
 
-    //尝试登陆
-    private void jump() {
-//        //判断是否为匿名登录
-//        if (SettingManager.getInstance(this).isAnonymousUser()) {
-//            XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-//            Timber.e("匿名登录");
-//        } else {
-//            XPGController.getInstance(this).getmCenter().cLogin(
-//                    SettingManager.getInstance(this).getUserName(),
-//                    SettingManager.getInstance(this).getPassword()
-//            );
-//            Timber.e("实名登陆");
-//        }
-
-
-        // TODO: 2016/2/17
-        MainActivity.start(this);
+    //跳转MainActivity
+    private void jump2Main(){
+        MainActivity.start(LoadingActivity.this);
         finish();
     }
 
@@ -86,7 +71,7 @@ public class LoadingActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-        if(!ActivityUtil.isTopActivity(this, "LoadingActivity")){
+        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
             Timber.e("LoadingActivity is not in the top!");
             return;
         }
@@ -110,12 +95,13 @@ public class LoadingActivity extends AppCompatActivity {
 
     /**
      * 如果是第一次进入---会先启动AppIntroActivity然后发出完成介绍的event
+     *
      * @param event
      */
-    public void onEventMainThread(AppIntroFinishEvent event){
-        if(event.isSuccess()) {
-            jump();
-        }else{
+    public void onEventMainThread(AppIntroFinishEvent event) {
+        if (event.isSuccess()) {
+            jump2Main();
+        } else {
             //介绍失败---直接退出
             finish();
         }

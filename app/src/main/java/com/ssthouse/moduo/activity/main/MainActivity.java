@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         super.onDestroy();
         mPresenter.destroy();
         communication.destroy();//销毁sdk
-        //todo---确保完全退出，释放所有资源
+        //确保完全退出，释放所有资源
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 

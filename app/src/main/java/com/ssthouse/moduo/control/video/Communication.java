@@ -15,7 +15,6 @@ import com.ssthouse.moduo.model.bean.device.Device;
 import com.ssthouse.moduo.model.bean.event.video.SessionStateEvent;
 import com.ssthouse.moduo.model.bean.event.video.StreamerConfigChangedEvent;
 import com.ssthouse.moduo.model.bean.event.video.StreamerConnectChangedEvent;
-import com.ssthouse.moduo.model.bean.event.video.ViewerLoginResultEvent;
 import com.ssthouse.moduo.model.cons.Constant;
 
 import de.greenrobot.event.EventBus;
@@ -115,9 +114,9 @@ public class Communication {
             //TODO---需呀判断登陆失败
             if (loginState == LoginState.CONNECTED) {
                 //更新登陆状态
-                login = true;
-                //放出登陆成功消息
-                EventBus.getDefault().post(new ViewerLoginResultEvent(true));
+                setLogin(true);
+            }else{
+                setLogin(false);
             }
             Timber.e("VIDEO SDK状态:\t" + loginState.name() + "\terror:   " + loginError.toString());
         }
@@ -188,6 +187,10 @@ public class Communication {
 
     public boolean isLogin() {
         return login;
+    }
+
+    public void setLogin(boolean login) {
+        this.login = login;
     }
 
     public StreamerPresenceState getStreamerPresenceState() {

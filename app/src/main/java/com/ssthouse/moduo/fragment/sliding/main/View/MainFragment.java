@@ -56,11 +56,10 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         ButterKnife.bind(this, rootView);
         initView();
 
-        //Presenter 初始化设备
+        //Presenter
         mMainFragmentPresenter = new MainFragmentPresenter(getContext(), this);
-        // TODO: 2016/2/17
-//        mMainFragmentPresenter.tryLogin();
 
+        //后台登陆机智云
         Observable.just("")
                 .map(new Func1<String, String>() {
                     @Override
