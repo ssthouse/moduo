@@ -119,7 +119,7 @@ public class Communication {
                 //放出登陆成功消息
                 EventBus.getDefault().post(new ViewerLoginResultEvent(true));
             }
-            Timber.e("现在状态是:\t" + loginState.name() + "\terror:   " + loginError.toString());
+            Timber.e("VIDEO SDK状态:\t" + loginState.name() + "\terror:   " + loginError.toString());
         }
 
         @Override
@@ -132,7 +132,7 @@ public class Communication {
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
             //TODO---抛出video回话状态变化事件
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
-            Timber.e("video状态为:\t" + rvsSessionState.name());
+            Timber.e("VIDEO SDK 会话状态为:\t" + rvsSessionState.name());
         }
     };
 

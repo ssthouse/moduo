@@ -6,12 +6,15 @@ import com.activeandroid.ActiveAndroid;
 import com.avos.avoscloud.AVOSCloud;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.ssthouse.moduo.control.util.AssertsUtils;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.cons.Constant;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
+
+import java.io.IOException;
 
 import cn.jpush.android.api.JPushInterface;
 import timber.log.Timber;
@@ -44,13 +47,13 @@ public class App extends Application {
         XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
                 Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
         XPGController.getInstance(this);
-//        try {
-//            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
-//            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
-//        } catch (IOException e) {
-//            Timber.e("复制出错");
-//            e.printStackTrace();
-//        }
+        try {
+            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
+            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());
+        } catch (IOException e) {
+            Timber.e("复制出错");
+            e.printStackTrace();
+        }
         //leancloud
         AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
         //初始化sd卡文件路径
