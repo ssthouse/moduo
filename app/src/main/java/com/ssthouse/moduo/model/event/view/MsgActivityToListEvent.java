@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.view;
+package com.ssthouse.moduo.model.event.view;
 
 /**
  * 退回msgList fragment

@@ -7,8 +7,8 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
-import com.ssthouse.moduo.model.bean.event.scan.ScanDeviceEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.scan.ScanDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;

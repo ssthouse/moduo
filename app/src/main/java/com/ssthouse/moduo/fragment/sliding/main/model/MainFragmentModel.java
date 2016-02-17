@@ -8,8 +8,8 @@ import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.Device;
-import com.ssthouse.moduo.model.bean.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import timber.log.Timber;

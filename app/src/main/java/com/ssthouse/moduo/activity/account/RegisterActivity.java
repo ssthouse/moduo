@@ -14,8 +14,8 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.account.EmailRegisterFragment;
 import com.ssthouse.moduo.fragment.account.LoginFragment;
 import com.ssthouse.moduo.fragment.account.PhoneRegisterFragment;
-import com.ssthouse.moduo.model.bean.event.view.RegisterActivityDestoryEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.model.event.view.RegisterActivityDestoryEvent;
+import com.ssthouse.moduo.model.event.xpg.RegisterFragmentChangeEvent;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;

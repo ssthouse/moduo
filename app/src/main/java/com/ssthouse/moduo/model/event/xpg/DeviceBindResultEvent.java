@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.xpg;
+package com.ssthouse.moduo.model.event.xpg;
 
 /**
  * 设备绑定结果事件

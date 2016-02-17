@@ -15,8 +15,8 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.bean.event.video.CallingResponseEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.video.CallingResponseEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

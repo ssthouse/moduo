@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.video;
+package com.ssthouse.moduo.model.event.video;
 
 /**
  * 拨号结果

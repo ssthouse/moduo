@@ -1,18 +1,22 @@
-package com.ssthouse.moduo.model.bean.event.xpg;
+package com.ssthouse.moduo.model.event.xpg;
 
 /**
- * 设备状态回调事件
- * Created by ssthouse on 2015/12/20.
+ * 解绑设备的回调
+ * Created by ssthouse on 2015/12/23.
  */
-public class XpgDeviceStateEvent {
+public class UnbindResultEvent {
+
+    private boolean isSuccess;
+
+    private String did;
+
     /**
+     * 构造方法
      *
+     * @param isSuccess
+     * @param did
      */
-    boolean isSuccess;
-
-    private String did ;
-
-    public XpgDeviceStateEvent(boolean isSuccess, String did) {
+    public UnbindResultEvent(boolean isSuccess, String did) {
         this.isSuccess = isSuccess;
         this.did = did;
     }

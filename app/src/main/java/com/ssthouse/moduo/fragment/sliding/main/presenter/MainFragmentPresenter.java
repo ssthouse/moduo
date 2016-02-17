@@ -13,11 +13,11 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.main.View.MainFragmentView;
 import com.ssthouse.moduo.fragment.sliding.main.model.MainFragmentModel;
 import com.ssthouse.moduo.model.bean.device.DeviceData;
-import com.ssthouse.moduo.model.bean.event.view.NetworkStateChangeEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.GetBoundDeviceEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.UnbindResultEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XpgDeviceStateEvent;
+import com.ssthouse.moduo.model.event.view.NetworkStateChangeEvent;
+import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceStateEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

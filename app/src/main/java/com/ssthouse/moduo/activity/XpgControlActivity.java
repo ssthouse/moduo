@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ByteUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.DeviceData;
-import com.ssthouse.moduo.model.bean.event.xpg.DeviceDataChangedEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.GetDeviceDataEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
+import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

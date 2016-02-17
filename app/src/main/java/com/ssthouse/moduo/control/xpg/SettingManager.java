@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.bean.UserInfo;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import timber.log.Timber;
 

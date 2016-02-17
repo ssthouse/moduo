@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.view;
+package com.ssthouse.moduo.model.event.view;
 
 /**
  * todo---需要保存跳转的消息详情fragment所需的数据

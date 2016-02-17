@@ -20,11 +20,11 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.UserInfo;
-import com.ssthouse.moduo.model.bean.event.account.AnonymousUserTransEvent;
-import com.ssthouse.moduo.model.bean.event.account.RegisterResultEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLogoutEvent;
 import com.ssthouse.moduo.model.cons.xpg.GizwitsErrorMsg;
+import com.ssthouse.moduo.model.event.account.AnonymousUserTransEvent;
+import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

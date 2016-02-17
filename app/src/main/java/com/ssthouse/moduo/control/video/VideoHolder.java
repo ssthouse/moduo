@@ -12,7 +12,7 @@ import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
 import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
-import com.ssthouse.moduo.model.bean.event.video.VideoReadyEvent;
+import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

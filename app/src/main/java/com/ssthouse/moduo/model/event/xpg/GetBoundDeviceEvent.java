@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.xpg;
+package com.ssthouse.moduo.model.event.xpg;
 
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 

@@ -14,13 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.model.bean.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.File;

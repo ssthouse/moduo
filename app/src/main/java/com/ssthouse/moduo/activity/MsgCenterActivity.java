@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.message.MsgDetailFragment;
 import com.ssthouse.moduo.fragment.message.MsgListFragment;
-import com.ssthouse.moduo.model.bean.event.view.MsgActivityToDetailEvent;
-import com.ssthouse.moduo.model.bean.event.view.MsgActivityToListEvent;
+import com.ssthouse.moduo.model.event.view.MsgActivityToDetailEvent;
+import com.ssthouse.moduo.model.event.view.MsgActivityToListEvent;
 
 import de.greenrobot.event.EventBus;
 

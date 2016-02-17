@@ -13,8 +13,8 @@ import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.bean.event.view.AppIntroFinishEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

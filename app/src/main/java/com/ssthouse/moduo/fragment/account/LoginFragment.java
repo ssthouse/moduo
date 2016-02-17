@@ -11,14 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.activity.LoadingActivity;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
-import com.ssthouse.moduo.model.bean.event.xpg.RegisterFragmentChangeEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.XPGLoginResultEvent;
-import com.ssthouse.moduo.activity.LoadingActivity;
+import com.ssthouse.moduo.control.xpg.SettingManager;
+import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.xpg.RegisterFragmentChangeEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

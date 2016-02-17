@@ -1,7 +1,7 @@
 package com.ssthouse.moduo.fragment.video;
 
-import com.ssthouse.moduo.model.bean.event.video.VideoReadyEvent;
-import com.ssthouse.moduo.model.bean.event.xpg.DeviceDataChangedEvent;
+import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
+import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

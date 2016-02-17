@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.view;
+package com.ssthouse.moduo.model.event.view;
 
 import com.ssthouse.moduo.activity.SettingActivity;
 

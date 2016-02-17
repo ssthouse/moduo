@@ -18,7 +18,7 @@ import com.ssthouse.moduo.fragment.setting.CommonIssueFragment;
 import com.ssthouse.moduo.fragment.setting.IssueFeedbackFragment;
 import com.ssthouse.moduo.fragment.setting.SettingListFragment;
 import com.ssthouse.moduo.fragment.setting.UserTermFragment;
-import com.ssthouse.moduo.model.bean.event.view.SettingAtyStateEvent;
+import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
 import de.greenrobot.event.EventBus;
 

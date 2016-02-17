@@ -15,10 +15,10 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.control.util.ToastHelper;
-import com.ssthouse.moduo.model.bean.event.xpg.AuthCodeSendResultEvent;
-import com.ssthouse.moduo.model.bean.event.account.RegisterResultEvent;
+import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
+import com.ssthouse.moduo.model.event.xpg.AuthCodeSendResultEvent;
 
 import java.util.Timer;
 import java.util.TimerTask;

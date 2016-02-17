@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.account;
+package com.ssthouse.moduo.model.event.account;
 
 /**
  * 匿名用户转普通用户

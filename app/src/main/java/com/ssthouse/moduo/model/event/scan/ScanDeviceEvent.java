@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.scan;
+package com.ssthouse.moduo.model.event.scan;
 
 /**
  * 扫描设备event

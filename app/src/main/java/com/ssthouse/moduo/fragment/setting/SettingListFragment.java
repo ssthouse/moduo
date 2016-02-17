@@ -11,10 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.model.bean.event.view.SettingAtyStateEvent;
 import com.ssthouse.moduo.activity.AppIntroActivity;
 import com.ssthouse.moduo.activity.SettingActivity;
 import com.ssthouse.moduo.activity.account.GestureLockActivity;
+import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

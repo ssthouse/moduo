@@ -11,9 +11,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.ssthouse.moduo.model.cons.scan.ScanCons;
-import com.ssthouse.moduo.model.bean.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.activity.ScanActivity;
+import com.ssthouse.moduo.model.cons.scan.ScanCons;
+import com.ssthouse.moduo.model.event.scan.ScanDeviceEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;

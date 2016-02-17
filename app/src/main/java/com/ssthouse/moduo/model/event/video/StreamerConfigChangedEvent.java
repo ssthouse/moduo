@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.bean.event.video;
+package com.ssthouse.moduo.model.event.video;
 
 import com.ichano.rvs.viewer.constant.StreamerConfigState;
 
