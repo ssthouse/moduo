@@ -14,6 +14,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.ModuoActivity;
 import com.ssthouse.moduo.activity.MsgCenterActivity;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
 import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
@@ -101,6 +102,10 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
+                    return;
+                }
+                if(!Communication.isLogin()){
+                    ToastHelper.show(getContext(), "视频服务未登录");
                     return;
                 }
                 //跳转视频Activity

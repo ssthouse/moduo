@@ -40,12 +40,9 @@ public class Communication {
      */
     private Viewer viewer;
 
-    /**
-     * 视频SDK登陆状态
-     */
-    private boolean login;
-
-    //当前采集端的状态 初始状态为初始化
+    //视频SDK登陆状态
+    private static boolean login;
+    //当前采集端的状态   初始状态为初始化
     private StreamerPresenceState streamerPresenceState = StreamerPresenceState.INIT;
 
     /**
@@ -111,11 +108,10 @@ public class Communication {
     private ViewerCallback viewerCallback = new ViewerCallback() {
         @Override
         public void onLoginResult(LoginState loginState, int i, LoginError loginError) {
-            //TODO---需呀判断登陆失败
             if (loginState == LoginState.CONNECTED) {
                 //更新登陆状态
                 setLogin(true);
-            }else{
+            } else {
                 setLogin(false);
             }
             Timber.e("VIDEO SDK状态:\t" + loginState.name() + "\terror:   " + loginError.toString());
@@ -123,13 +119,13 @@ public class Communication {
 
         @Override
         public void onUpdateCID(long l) {
-            //TODO---观看端cid发生变化
+            //观看端cid发生变化
             Timber.e("我的观看端cid发生了变化:\t" + l);
         }
 
         @Override
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
-            //TODO---抛出video回话状态变化事件
+            //video会话状态变化事件
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
             Timber.e("VIDEO SDK 会话状态为:\t" + rvsSessionState.name());
         }
@@ -164,8 +160,8 @@ public class Communication {
     }
 
     //添加采集端
-    public void addStreamer(Device device){
-        if(device == null){
+    public void addStreamer(Device device) {
+        if (device == null) {
             return;
         }
         viewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
@@ -185,12 +181,12 @@ public class Communication {
         viewer.destroy();//销毁sdk
     }
 
-    public boolean isLogin() {
+    public static boolean isLogin() {
         return login;
     }
 
-    public void setLogin(boolean login) {
-        this.login = login;
+    public static void setLogin(boolean isLogin) {
+        login = isLogin;
     }
 
     public StreamerPresenceState getStreamerPresenceState() {

@@ -35,7 +35,7 @@ public class MainFragmentPresenter {
     private Context mContext;
 
     //是否在离线状态
-    private boolean isOffline;
+    private boolean isOffline = true;
 
     public MainFragmentPresenter(Context context, MainFragmentView mainFragmentView) {
         this.mMainFragmentView = mainFragmentView;
@@ -48,6 +48,11 @@ public class MainFragmentPresenter {
      * 初始化设备连接
      */
     public void initDevice() {
+        //未登录---先登录
+        if(!XPGController.isLogin()){
+            tryLogin();
+            return;
+        }
         XPGController.getInstance(mContext)
                 .getmCenter()
                 .cGetBoundDevices(
@@ -103,15 +108,23 @@ public class MainFragmentPresenter {
                 //如果之前是离线状态---需要重新连接(视频会不断自动连接---机智云不会--需要手动重新连接)
                 if (isOffline) {
                     initDevice();
+                    isOffline = false;
                 }
                 break;
             case WIFI:
                 //如果离线---重新连接设备
                 if (isOffline) {
                     initDevice();
+                    isOffline = false;
                 }
                 break;
         }
+        //离线处理---两个sdk离线
+        if(isOffline){
+            XPGController.setLogin(false);
+            Communication.setLogin(false);
+        }
+        //刷新UI
         mMainFragmentView.updateUI();
     }
 
