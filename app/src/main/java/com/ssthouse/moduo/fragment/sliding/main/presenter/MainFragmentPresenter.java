@@ -57,7 +57,6 @@ public class MainFragmentPresenter {
 
     //尝试登陆
     public void tryLogin() {
-
         //判断是否为匿名登录
         if (SettingManager.getInstance(mContext).isAnonymousUser()) {
             XPGController.getInstance(mContext).getmCenter().cLoginAnonymousUser();

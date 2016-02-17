@@ -7,6 +7,7 @@ import com.avos.avoscloud.AVOSCloud;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.ssthouse.moduo.control.util.FileUtil;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.cons.Constant;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
@@ -42,6 +43,7 @@ public class App extends Application {
         XPGWifiSDK.sharedInstance().startWithAppID(this, Constant.SettingSdkCons.APP_ID);
         XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
                 Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
+        XPGController.getInstance(this);
 //        try {
 //            //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
 //            AssertsUtils.copyAllAssertToCacheFolder(this.getApplicationContext());

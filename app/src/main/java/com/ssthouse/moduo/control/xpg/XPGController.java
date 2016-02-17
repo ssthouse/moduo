@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssthouse.moduo.control.util.CloudUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.bean.device.Device;
@@ -279,7 +278,7 @@ public class XPGController {
                 EventBus.getDefault().post(new XPGLoginResultEvent(false));
             }
             Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
-            ToastHelper.show(context, "用户登陆回调");
+//            ToastHelper.show(context, "用户登陆回调");
         }
 
         @Override
