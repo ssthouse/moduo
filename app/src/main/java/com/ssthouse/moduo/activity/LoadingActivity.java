@@ -3,11 +3,13 @@ package com.ssthouse.moduo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.main.MainActivity;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -49,22 +51,33 @@ public class LoadingActivity extends AppCompatActivity {
         }
 
         //尝试登陆
-        tryLogin();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                jump();
+            }
+        }, 1000);
+//        jump();
     }
 
     //尝试登陆
-    private void tryLogin() {
-        //判断是否为匿名登录
-        if (SettingManager.getInstance(this).isAnonymousUser()) {
-            XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
-            Timber.e("匿名登录");
-        } else {
-            XPGController.getInstance(this).getmCenter().cLogin(
-                    SettingManager.getInstance(this).getUserName(),
-                    SettingManager.getInstance(this).getPassword()
-            );
-            Timber.e("实名登陆");
-        }
+    private void jump() {
+//        //判断是否为匿名登录
+//        if (SettingManager.getInstance(this).isAnonymousUser()) {
+//            XPGController.getInstance(this).getmCenter().cLoginAnonymousUser();
+//            Timber.e("匿名登录");
+//        } else {
+//            XPGController.getInstance(this).getmCenter().cLogin(
+//                    SettingManager.getInstance(this).getUserName(),
+//                    SettingManager.getInstance(this).getPassword()
+//            );
+//            Timber.e("实名登陆");
+//        }
+
+
+        // TODO: 2016/2/17
+        MainActivity.start(this);
+        finish();
     }
 
     /**
@@ -73,6 +86,10 @@ public class LoadingActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
+        if(!ActivityUtil.isTopActivity(this, "LoadingActivity")){
+            Timber.e("LoadingActivity is not in the top!");
+            return;
+        }
         if (event.isSuccess()) {
             Timber.e("机智云---登录成功");
             XPGController.setLogin(true);
@@ -97,7 +114,7 @@ public class LoadingActivity extends AppCompatActivity {
      */
     public void onEventMainThread(AppIntroFinishEvent event){
         if(event.isSuccess()) {
-            tryLogin();
+            jump();
         }else{
             //介绍失败---直接退出
             finish();

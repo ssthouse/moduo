@@ -36,6 +36,17 @@ public class MainActivityPresenter {
     }
 
     /**
+     * 初始化设备连接
+     */
+    private void initDevice() {
+        XPGController.getInstance(mContext)
+                .getmCenter()
+                .cGetBoundDevices(
+                        SettingManager.getInstance(mContext).getUid(),
+                        SettingManager.getInstance(mContext).getToken());
+    }
+
+    /**
      * 扫描设备回调
      *
      * @param event

@@ -21,6 +21,12 @@ import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 主界面
@@ -53,8 +59,39 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
 
         //Presenter 初始化设备
         mMainFragmentPresenter = new MainFragmentPresenter(getContext(), this);
-        mMainFragmentPresenter.initDevice();
+        // TODO: 2016/2/17
+//        mMainFragmentPresenter.tryLogin();
+
+        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                mMainFragmentPresenter.tryLogin();
+            }
+        });
+        observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Timber.e("try log int completed");
+                    }
+                });
+
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        // TODO: 2016/2/17
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Timber.e("try log");
+//                mMainFragmentPresenter.tryLogin();
+//            }
+//        }, 1000);
     }
 
     private void initView() {

@@ -55,6 +55,22 @@ public class MainFragmentPresenter {
                         SettingManager.getInstance(mContext).getToken());
     }
 
+    //尝试登陆
+    public void tryLogin() {
+
+        //判断是否为匿名登录
+        if (SettingManager.getInstance(mContext).isAnonymousUser()) {
+            XPGController.getInstance(mContext).getmCenter().cLoginAnonymousUser();
+            Timber.e("匿名登录");
+        } else {
+            XPGController.getInstance(mContext).getmCenter().cLogin(
+                    SettingManager.getInstance(mContext).getUserName(),
+                    SettingManager.getInstance(mContext).getPassword()
+            );
+            Timber.e("实名登陆");
+        }
+    }
+
     //跳转到视频控制Activity
     public void jump2Video() {
         switch (Communication.getInstance(mContext).getStreamerPresenceState()) {

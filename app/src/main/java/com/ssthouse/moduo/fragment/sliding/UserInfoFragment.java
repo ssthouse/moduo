@@ -192,6 +192,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         Timber.e("保存用户数据到本地");
         if (etUsername.getText().toString().length() < 6
                 || etPassword.getText().toString().length() < 6) {
+            Timber.e("用户名 | 密码  不合规范");
             return;
         }
         //用户数据保存带本地
@@ -199,8 +200,8 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
         //用户数据保存到云端
         CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
-                        MD5Util.getMdStr(etPassword.getText().toString()),
-                        SettingManager.getInstance(getContext()).getGestureLock()));
+                MD5Util.getMdStr(etPassword.getText().toString()),
+                SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -209,7 +210,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      * @param event
      */
     public void onEventMainThread(RegisterResultEvent event) {
-        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity")) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
             return;
         }
         if (event.isSuccess()) {
@@ -233,7 +234,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity")) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
             return;
         }
         loginOrRegisterDialog.dismiss();
@@ -261,7 +262,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      * @param event
      */
     public void onEventMainThread(AnonymousUserTransEvent event) {
-        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity")) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
             return;
         }
         waitDialog.dismiss();
@@ -280,7 +281,11 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         }
     }
 
+    //注销回调
     public void onEventMainThread(XPGLogoutEvent event) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
+            return;
+        }
         waitDialog.dismiss();
         ToastHelper.show(getContext(), "注销成功");
         updateUI();
