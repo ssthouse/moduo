@@ -104,7 +104,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
                     ToastHelper.show(getContext(), "当前没有设备连接");
                     return;
                 }
-                if(!Communication.isLogin()){
+                if (!Communication.isLogin()) {
                     ToastHelper.show(getContext(), "视频服务未登录");
                     return;
                 }

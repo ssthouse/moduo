@@ -177,7 +177,8 @@
             android:screenOrientation="portrait" />
 
         <!--视频播放-->
-        <activity android:name=".activity.video.VideoActivity" />
+        <activity android:name=".activity.video.VideoActivity"
+            android:screenOrientation="portrait"  />
 
         <!--xpg设备控制-->
         <activity

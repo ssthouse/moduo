@@ -9,7 +9,6 @@ import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.Viewer;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
-import com.ichano.rvs.viewer.codec.AudioType;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
@@ -109,16 +108,13 @@ public class VideoHolder {
                 Timber.e("audio :" + desc.getAudioType().toString() + ","
                         + desc.getSampRate());
                 // 根据对端的音视频格式进行编码器初始化，不使用sdk内置h264解码器可以不用关心
-                decoderId = media.initAVDecoder(desc.getAudioType(),
-                        desc.getSampRate());
-                myRenderer.setVideoDimension(desc.getVideoWidth(),
-                        desc.getVideoHeight());
+                decoderId = media.initAVDecoder(desc.getAudioType(), desc.getSampRate());
+                myRenderer.setVideoDimension(desc.getVideoWidth(), desc.getVideoHeight());
                 myRenderer.setYuvDataRender(renderYUVFrame);
-                if (desc.getAudioType() != AudioType.INVALID) {
-                    audioHandler = new AudioHandler(desc.getSampRate(),
-                            desc.getChannel(), liveStreamId, decoderId, media, streamerCid);
+//                if (desc.getAudioType() != AudioType.INVALID) {
+                    audioHandler = new AudioHandler(desc.getSampRate(), desc.getChannel(), liveStreamId, decoderId, media, streamerCid);
                     audioHandler.startAudioWorking();
-                }
+//                }
             } else {
                 stopWatch();
                 //视频准备完毕事件

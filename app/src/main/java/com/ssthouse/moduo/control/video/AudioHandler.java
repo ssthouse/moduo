@@ -96,7 +96,8 @@ public class AudioHandler {
      */
     private AudioRecord createAudioRecord() {
         AudioRecord audioRecord;
-        int minBufSize = AudioRecord.getMinBufferSize(8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        int minBufSize = AudioRecord.getMinBufferSize(8000, AudioFormat.CHANNEL_IN_MONO,
+                AudioFormat.ENCODING_PCM_16BIT);
         // 设置最小缓存大小
         if (minBufSize != AudioRecord.ERROR_BAD_VALUE) {
             if (minBufSize % 4096 != 0) {
@@ -104,7 +105,8 @@ public class AudioHandler {
             }
         }
         // 创建AudioRecord对象
-        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufSize);
+        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000,
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufSize);
         if (audioRecord.getState() == AudioRecord.STATE_INITIALIZED)
             return audioRecord;
         else
@@ -139,14 +141,14 @@ public class AudioHandler {
             recordThread.interrupt();
             recordThread = null;
         }
-        if (media != null) {
-            media.stopRevAudioStream(revStreamId);
-        }
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        if (media != null) {
+//            media.stopRevAudioStream(revStreamId);
+//        }
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -197,13 +199,13 @@ public class AudioHandler {
                         return;
                     }
                     try {
-                        short[] audioRecordData = new short[2048];
+                        short[] audioRecordData = new short[320];
                         int readsize = 0;
                         while (true) {
                             if (isRecordAudio) {
                                 audioRecord.startRecording();
 
-                                readsize = audioRecord.read(audioRecordData, 0, 2048);
+                                readsize = audioRecord.read(audioRecordData, 0, 320);
 
                                 if (readsize > 0) {
                                     media.writeRevAudioStreamData(audioRecordData, readsize);// 发送对讲语音到采集端，sdk内部进行g711编码
@@ -223,6 +225,10 @@ public class AudioHandler {
                         if (audioRecord != null) {
                             audioRecord.release();
                             audioRecord = null;
+                        }
+                        if (media != null)
+                        {
+                            media.stopRevAudioStream(revStreamId);
                         }
                         Timber.e("release audio record");
                     }
