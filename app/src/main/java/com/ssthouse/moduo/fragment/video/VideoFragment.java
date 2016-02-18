@@ -50,6 +50,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Bind(R.id.id_sw_sensor_control)
     Switch swGyroscopeControl;
 
+    @Bind(R.id.id_iv_drop)
+    ImageView ivDrop;
+
     //对讲开关
     @Bind(R.id.id_sw_toggle_voice)
     Switch swToggleVoice;
@@ -58,6 +61,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Bind(R.id.id_rl_container)
     View videoContainer;
 
+    //全屏切换
     @Bind(R.id.id_iv_full_screen)
     ImageView ivFullScreen;
 
@@ -83,7 +87,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         initVideo();
 
         //Presenter
-        mPresenter = new VideoFragmentPresenter(this);
+        mPresenter = new VideoFragmentPresenter(getContext(), this);
         return rootView;
     }
 
@@ -98,6 +102,15 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 } else {
                     gyroscopeSensor.pause();
                 }
+            }
+        });
+
+        //挂断
+        ivDrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //退出Activity  会自动清除video数据点
+                getActivity().finish();
             }
         });
 

@@ -28,8 +28,9 @@
             android:text="体感操控"
             android:textColor="@color/white" />
 
+        <!--挂断-->
         <ImageView
-            android:id="@+id/id_btn_drop"
+            android:id="@+id/id_iv_drop"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"

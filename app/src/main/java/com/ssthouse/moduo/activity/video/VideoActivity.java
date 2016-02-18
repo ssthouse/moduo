@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.video.VideoFragment;
 
 /**
@@ -101,27 +100,13 @@ public class VideoActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
     }
 
-    //关闭当前视频---及界面
-    private void closeVideo() {
-        //关闭视频数据点
-        XPGController.getInstance(this).getmCenter().cWriteVideo(
-                XPGController.getCurrentDevice().getXpgWifiDevice(), 0
-        );
-        //关闭activity
-        finish();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                closeVideo();
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        closeVideo();
-    }
 }

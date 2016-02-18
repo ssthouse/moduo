@@ -121,7 +121,8 @@ public class AudioHandler {
     private AudioTrack createTracker() {
         AudioTrack tracker;
         int maxJitter = AudioTrack.getMinBufferSize(audioPlaySampleRate, channelConfig, audioFormat);
-        tracker = new AudioTrack(AudioManager.STREAM_MUSIC, audioPlaySampleRate, channelConfig, audioFormat, maxJitter, AudioTrack.MODE_STREAM);
+        tracker = new AudioTrack(AudioManager.STREAM_MUSIC,
+                audioPlaySampleRate, channelConfig, audioFormat, maxJitter, AudioTrack.MODE_STREAM);
         if (tracker.getState() == AudioTrack.STATE_INITIALIZED) {
             return tracker;
         } else {

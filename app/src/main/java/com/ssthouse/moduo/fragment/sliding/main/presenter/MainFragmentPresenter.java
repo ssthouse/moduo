@@ -139,6 +139,7 @@ public class MainFragmentPresenter {
         mMainFragmentView.dismissDialog();
         if (event.isSuccess()) {
             mMainFragmentModel.setCurrentDevice(event);
+            Timber.e("设置当前device");
         } else {
             ToastHelper.show(mContext, "获取绑定设备失败");
         }

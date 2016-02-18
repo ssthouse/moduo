@@ -15,9 +15,9 @@ import android.widget.Toast;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.moduo.control.util.DimenUtil;
+import com.ssthouse.moduo.fragment.moduo.presenter.ModuoPresenter;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MainAdapter;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
-import com.ssthouse.moduo.fragment.moduo.presenter.ModuoPresenter;
 import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
 import com.ssthouse.moduo.fragment.moduo.view.widget.record.RecordButton;
 
@@ -33,6 +33,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
  */
 public class ModuoFragment extends Fragment implements ModuoFragmentView{
 
+    //Presenter
     private ModuoPresenter mModuoPresenter;
 
     //魔哆图案
