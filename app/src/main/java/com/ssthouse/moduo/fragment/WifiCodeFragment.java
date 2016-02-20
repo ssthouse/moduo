@@ -127,9 +127,12 @@ public class WifiCodeFragment extends Fragment {
      * 弹出输入wifi的dialog
      */
     private void showWifiDialog() {
-        String ssid = NetUtil.getCurentWifiSSID(getActivity());
-        EditText etSsid = (EditText) wifiPasscodeDialog.getCustomView().findViewById(R.id.id_et_wifi_ssid);
-        etSsid.setText(ssid);
+        //如果连接着wifi---显示默认连接的wifi名称
+        if(NetUtil.isWifi(getContext())) {
+            String ssid = NetUtil.getCurentWifiSSID(getActivity());
+            EditText etSsid = (EditText) wifiPasscodeDialog.getCustomView().findViewById(R.id.id_et_wifi_ssid);
+            etSsid.setText(ssid);
+        }
         wifiPasscodeDialog.show();
     }
 
