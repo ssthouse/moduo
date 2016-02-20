@@ -118,6 +118,13 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         swToggleVoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                XPGController.getInstance(getContext())
+                        .getmCenter()
+                        .cWriteCmd(XPGController.getCurrentDevice().getXpgWifiDevice(),
+                                Byte.decode("1"),
+                                Byte.decode("1"),
+                                Byte.decode("1"),
+                                Byte.decode("1"));
                 if (isChecked) {
                     videoHolder.startTalk();
                 } else {

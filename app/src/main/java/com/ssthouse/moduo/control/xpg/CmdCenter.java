@@ -18,6 +18,7 @@
 package com.ssthouse.moduo.control.xpg;
 
 import android.content.Context;
+import android.util.Base64;
 
 import com.ssthouse.moduo.model.cons.Constant;
 import com.ssthouse.moduo.model.cons.xpg.JsonKeys;
@@ -411,5 +412,17 @@ public class CmdCenter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    //发送控制命令
+    public void cWriteCmd(XPGWifiDevice xpgWifiDevice, byte device, byte no, byte param, byte value) {
+        byte data[] = new byte[4];
+        data[0] = device;
+        data[1] = no;
+        data[2] = param;
+        data[3] = value;
+        String cmdStr = Base64.encodeToString(data, Base64.NO_CLOSE);
+        Timber.e("cmdStr: "+cmdStr);
+        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdStr);
     }
 }

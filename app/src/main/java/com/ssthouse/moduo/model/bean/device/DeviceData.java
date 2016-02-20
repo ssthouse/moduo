@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssthouse.moduo.control.util.ByteUtils;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.io.Serializable;
@@ -226,8 +227,8 @@ public class DeviceData implements Serializable {
         Timber.e("湿度" + humidity);
         Timber.e("湿度" + luminance);
         Timber.e("湿度" + power);
-        Timber.e("湿度" + hwVersion);
-        Timber.e("湿度" + swVersion);
+        Timber.e("湿度" + ByteUtils.bytes2HexString(hwVersion));
+        Timber.e("湿度" + ByteUtils.bytes2HexString(swVersion));
         Timber.e("湿度" + video);
         Timber.e("湿度" + xHead);
         Timber.e("湿度" + yHead);
@@ -235,6 +236,8 @@ public class DeviceData implements Serializable {
         Timber.e("湿度" + xBody);
         Timber.e("湿度" + yBody);
         Timber.e("湿度" + zBody);
+        Timber.e("湿度" + dataObject.get(DeviceCons.KEY_CTRL_CMD).getAsString());
+        Timber.e("湿度" + ByteUtils.bytes2HexString(ctrlData));
         //返回解析出的数据
         return new DeviceData(device.getDid(), temperature, humidity, luminance, power, hwVersion,
                 swVersion, video, audio, xHead, yHead, zHead, xBody, yBody, zBody, ctrlCmd, ctrlData);

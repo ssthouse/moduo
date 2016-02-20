@@ -80,7 +80,7 @@ public class ByteUtils {
 			if (hex.length() == 1) {
 				hex = "0" + hex;
 			}
-			ret += hex.toUpperCase() + " ";
+			ret += hex.toUpperCase() + "";
 		}
 		return ret;
 	}

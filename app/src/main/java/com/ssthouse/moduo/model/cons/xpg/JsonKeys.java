@@ -45,4 +45,8 @@ public class JsonKeys {
     public final static String Y_BODY = "y_body";
     //-100 100
     public final static String Z_BODY = "z_body";
+
+    //控制命令
+    public final static String CTRL_CMD = "ctrl_cmd";
+    public final static String CTRL_DATA = "ctrl_data";
 }
