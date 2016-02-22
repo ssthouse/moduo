@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.setting.CommonIssueFragment;
@@ -20,6 +21,8 @@ import com.ssthouse.moduo.fragment.setting.SettingListFragment;
 import com.ssthouse.moduo.fragment.setting.UserTermFragment;
 import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -27,6 +30,9 @@ import de.greenrobot.event.EventBus;
  * Created by ssthouse on 2016/1/13.
  */
 public class SettingActivity extends AppCompatActivity {
+
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
 
     //管理fragment
     private FragmentManager fragmentManager;
@@ -65,8 +71,9 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_setting);
+        ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         currentState = State.STATE_SETTING_LIST;
         initView();
@@ -141,9 +148,16 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setTitle("通用设置");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("通用设置");
+    }
+
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
     }
 
     @Override

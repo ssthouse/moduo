@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
      */
     private Communication communication;
 
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
+
     @Bind(R.id.id_drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -129,8 +132,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     }
 
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tb);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setTitle("魔哆");
 
         //初始化抽屉事件
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -174,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                 .build();
     }
 
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
 
     @Override
     public void showDialog(String msg) {
@@ -218,22 +227,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
             case MAIN_FRAGMENT:
                 currentFragmentState = FragmentState.MAIN_FRAGMENT;
                 toFragment = mainFragment;
-                getSupportActionBar().setTitle("魔哆");
+                setTitle("魔哆");
                 break;
             case USER_INFO_FRAGMENT:
                 currentFragmentState = FragmentState.USER_INFO_FRAGMENT;
                 toFragment = userInfoFragment;
-                getSupportActionBar().setTitle("个人资料");
+                setTitle("个人资料");
                 break;
             case ABOUT_MODUO_FRAGMENT:
                 currentFragmentState = FragmentState.ABOUT_MODUO_FRAGMENT;
                 toFragment = aboutModuoFragment;
-                getSupportActionBar().setTitle("关于魔哆");
+                setTitle("关于魔哆");
                 break;
             case SHARE_MODUO_FRAGMENT:
                 currentFragmentState = FragmentState.SHARE_MODUO_FRAGMENT;
                 toFragment = shareDeviceFragment;
-                getSupportActionBar().setTitle("生成二维码");
+                setTitle("生成二维码");
                 break;
         }
         fragmentManager.beginTransaction().show(toFragment)
@@ -310,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }

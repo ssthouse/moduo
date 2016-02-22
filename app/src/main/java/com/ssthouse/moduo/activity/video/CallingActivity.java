@@ -9,15 +9,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.video.CallingFragment;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 打视频电话(等待接通)
  * Created by ssthouse on 2016/2/1.
  */
 public class CallingActivity extends AppCompatActivity {
+
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
 
     private FragmentManager fragmentManager;
     private CallingFragment callingFragment;
@@ -31,13 +38,21 @@ public class CallingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ativity_calling);
+        ButterKnife.bind(this);
         initView();
         initFragment();
     }
 
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
+
     private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setTitle("通话视频");
+        setSupportActionBar(toolbar);
+        setTitle("连线魔哆");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

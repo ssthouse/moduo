@@ -108,7 +108,7 @@
 
 
         <!--*************************************begin of activity*******************************-->
-        <!--主界面-->
+        <!--Loading界面-->
         <activity
             android:name=".activity.LoadingActivity"
             android:screenOrientation="portrait">
@@ -177,8 +177,9 @@
             android:screenOrientation="portrait" />
 
         <!--视频播放-->
-        <activity android:name=".activity.video.VideoActivity"
-            android:screenOrientation="portrait"  />
+        <activity
+            android:name=".activity.video.VideoActivity"
+            android:screenOrientation="portrait" />
 
         <!--xpg设备控制-->
         <activity

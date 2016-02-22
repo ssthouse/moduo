@@ -15,11 +15,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.video.VideoFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 视频对话activity
  * Created by ssthouse on 2015/12/17.
  */
 public class VideoActivity extends AppCompatActivity {
+
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
 
     //fragment管理
     private static final String TAG_VIDEO_FRAGMENT = "videoFragment";
@@ -55,6 +61,8 @@ public class VideoActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_video);
+        ButterKnife.bind(this);
+
         initFragment();
         initView();
     }
@@ -72,9 +80,16 @@ public class VideoActivity extends AppCompatActivity {
         }
     }
 
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
+
     private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setTitle("视频控制");
+        setSupportActionBar(toolbar);
+        setTitle("视频控制");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //等待dialog

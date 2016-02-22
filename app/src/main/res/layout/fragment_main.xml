@@ -16,6 +16,7 @@
             android:layout_width="199dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="281dp"
             android:layout_marginLeft="27dp"
             android:src="@drawable/index_home_button" />
@@ -25,9 +26,9 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="178dp"
-            android:layout_marginRight="21dp"
+            android:layout_marginLeft="189dp"
             android:src="@drawable/index_video_button" />
 
         <ImageView
@@ -48,16 +49,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:textSize="16sp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:background="@drawable/home_notice_bg"
                 android:id="@+id/id_tv_moduo_state"
                 android:layout_width="306dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp"
-                android:text="@string/moduo_state_disconnect" />
+                android:background="@drawable/home_notice_bg"
+                android:gravity="center"
+                android:text="@string/moduo_state_disconnect"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
