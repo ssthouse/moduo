@@ -2,50 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/index_home_bg"
     android:gravity="center"
     android:orientation="vertical">
 
+    <!--全部以bottom___left为参照物-->
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/id_iv_home_control"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/avatar_boy" />
+            android:layout_width="199dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="281dp"
+            android:layout_marginLeft="27dp"
+            android:src="@drawable/index_home_button" />
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/id_iv_video"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_toRightOf="@id/id_iv_home_control"
-            android:src="@drawable/avatar_boy" />
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="178dp"
+            android:layout_marginRight="21dp"
+            android:src="@drawable/index_video_button" />
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/id_iv_message"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="180dp"
-            android:src="@drawable/avatar_boy" />
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="86dp"
+            android:layout_marginLeft="39dp"
+            android:src="@drawable/index_manssge_button" />
+
+        <!--表示当前魔哆连接状态-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/home_notice_bg"
+                android:id="@+id/id_tv_moduo_state"
+                android:layout_width="306dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="25dp"
+                android:text="@string/moduo_state_disconnect" />
+
+        </LinearLayout>
 
     </RelativeLayout>
-
-    <!--表示当前魔哆连接状态-->
-    <TextView
-        android:id="@+id/id_tv_moduo_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/moduo_state_disconnect" />
 
 </LinearLayout>

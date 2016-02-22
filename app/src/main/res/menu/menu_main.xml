@@ -6,11 +6,12 @@
     <item
         android:id="@+id/id_menu_add_moduo"
         android:icon="@drawable/ic_action_new"
-        app:showAsAction="always"
-        android:title="添加魔哆" />
+        android:title="添加魔哆"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/id_menu_share_wifi"
-        android:title="生成wifi二维码"
+    <item
+        android:id="@+id/id_menu_share_wifi"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
+        android:title="生成wifi二维码"
+        app:showAsAction="never" />
 </menu>
