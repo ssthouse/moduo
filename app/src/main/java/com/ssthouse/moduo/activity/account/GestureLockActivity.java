@@ -17,11 +17,17 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 手势密码
  * Created by ssthouse on 2016/1/16.
  */
 public class GestureLockActivity extends AppCompatActivity {
+
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
 
     private FragmentManager fragmentManager;
     private NewGestureFragment newGestureFragment;
@@ -38,9 +44,9 @@ public class GestureLockActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gesture_lock);
+        ButterKnife.bind(this);
 
         initView();
-
         initFragment();
 
         //未登录 或 匿名登录 退出
@@ -87,9 +93,16 @@ public class GestureLockActivity extends AppCompatActivity {
                 .commit();
     }
 
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
+
     private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setTitle("新建图形密码");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setTitle("新建图形密码");
 
         exitDialog = new MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_exit, true)
