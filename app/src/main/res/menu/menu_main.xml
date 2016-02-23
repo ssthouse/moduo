@@ -7,12 +7,13 @@
         android:id="@+id/id_menu_add_moduo"
         android:icon="@drawable/home_ic_plus"
         android:title="添加魔哆"
+        app:actionLayout="@layout/menu_add_moduo"
         app:showAsAction="always" />
 
     <!--todo暂时不用-->
     <!--<item-->
-        <!--android:id="@+id/id_menu_share_wifi"-->
-        <!--android:orderInCategory="100"-->
-        <!--android:title="生成wifi二维码"-->
-        <!--app:showAsAction="never" />-->
+    <!--android:id="@+id/id_menu_share_wifi"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="生成wifi二维码"-->
+    <!--app:showAsAction="never" />-->
 </menu>
