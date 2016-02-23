@@ -21,7 +21,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.SettingActivity;
-import com.ssthouse.moduo.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.activity.account.UserInfoEditActivity;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
@@ -280,9 +279,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
             case MAIN_FRAGMENT:
                 if (item.getItemId() == R.id.id_menu_add_moduo) {
                     QrCodeUtil.startScan(this);
-                } else if (item.getItemId() == R.id.id_menu_share_wifi) {
-                    WifiCodeDispActivity.start(this);
                 }
+//                else if (item.getItemId() == R.id.id_menu_share_wifi) {
+//                    WifiCodeDispActivity.start(this);
+//                }
                 break;
             case USER_INFO_FRAGMENT:
                 if (item.getItemId() == R.id.id_menu_edit) {

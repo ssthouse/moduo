@@ -11,33 +11,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--魔哆编号-->
+        <ImageView
+            android:id="@+id/id_iv_moduo_number"
+            android:layout_width="93dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="488dp"
+            android:layout_marginLeft="250dp"
+            android:src="@drawable/home_menu_modo" />
+
+        <!--家居控制-->
         <ImageView
             android:id="@+id/id_iv_home_control"
             android:layout_width="199dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="281dp"
+            android:layout_marginBottom="330dp"
             android:layout_marginLeft="27dp"
             android:src="@drawable/index_home_button" />
 
+        <!--视频-->
         <ImageView
             android:id="@+id/id_iv_video"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="178dp"
+            android:layout_marginBottom="213dp"
             android:layout_marginLeft="189dp"
             android:src="@drawable/index_video_button" />
 
+        <!--消息提醒-->
         <ImageView
             android:id="@+id/id_iv_message"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="86dp"
+            android:layout_marginBottom="105dp"
             android:layout_marginLeft="39dp"
             android:src="@drawable/index_manssge_button" />
 
@@ -53,7 +67,7 @@
                 android:layout_width="306dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="48dp"
                 android:background="@drawable/home_notice_bg"
                 android:gravity="center"
                 android:text="@string/moduo_state_disconnect"

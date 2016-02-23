@@ -37,6 +37,11 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
     //Presenter
     private MainFragmentPresenter mMainFragmentPresenter;
 
+    //魔哆编号
+    @Bind(R.id.id_iv_moduo_number)
+    ImageView ivModuoNumber;
+
+    //家居-视频-消息
     @Bind(R.id.id_iv_home_control)
     ImageView ivHomeControl;
     @Bind(R.id.id_iv_video)
