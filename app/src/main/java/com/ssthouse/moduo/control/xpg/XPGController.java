@@ -51,13 +51,12 @@ import timber.log.Timber;
  */
 public class XPGController {
 
-    //单例
-    private static XPGController mInstance;
-
-    private Context context;
-
     //sdk登陆状态
     private static boolean login = false;
+
+    //单例
+    private static XPGController mInstance;
+    private Context context;
 
     /**
      * 指令管理器.
@@ -278,7 +277,6 @@ public class XPGController {
                 EventBus.getDefault().post(new XPGLoginResultEvent(false));
             }
             Timber.e("用户登陆回调:\t" + error + "\t" + errorMessage);
-//            ToastHelper.show(context, "用户登陆回调");
         }
 
         @Override

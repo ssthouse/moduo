@@ -2,7 +2,6 @@ package com.ssthouse.moduo.fragment.sliding.main.model;
 
 import android.content.Context;
 
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -56,8 +55,7 @@ public class MainFragmentModel {
 
     //保存登陆数据
     public void saveLoginInfo(XPGLoginResultEvent event) {
-        CloudUtil.updateUserInfoToLocal(mContext, SettingManager.getInstance(mContext).getUserName());
-        //保存机智云登陆数据
+        //保存机智云登陆token数据
         SettingManager.getInstance(mContext).setLoginCacheInfo(event);
     }
 }

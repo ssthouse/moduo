@@ -91,14 +91,18 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
-                } else {
-                    ModuoActivity.start(getContext());
+                    return;
+                }
+                if(!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline()){
+                    ToastHelper.show(getContext(), "魔哆不在线");
+                    return;
+                }
+                ModuoActivity.start(getContext());
 //                    HomeControlActivity.start(getContext());
 //                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
 //                            SettingManager.getInstance(getContext()).getUid(),
 //                            SettingManager.getInstance(getContext()).getToken()
 //                    );
-                }
             }
         });
 
