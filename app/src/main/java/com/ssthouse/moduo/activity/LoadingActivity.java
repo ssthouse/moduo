@@ -1,11 +1,15 @@
 package com.ssthouse.moduo.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.main.MainActivity;
@@ -50,18 +54,39 @@ public class LoadingActivity extends AppCompatActivity {
             return;
         }
 
-        //一秒后跳转MainActivity
-        new Handler().postDelayed(new Runnable() {
+        //启动动画
+        final ImageView ivBg = (ImageView) findViewById(R.id.id_iv_bg);
+        ValueAnimator animator = ObjectAnimator.ofFloat(ivBg, "scaleX", 1f, 1.1f);
+        animator.setDuration(1500);
+        ValueAnimator animator1 = ObjectAnimator.ofFloat(ivBg, "scaleY", 1f, 1.1f);
+        final AnimatorSet animatorSet = new AnimatorSet();
+        animator1.setDuration(1500);
+        animatorSet.play(animator).with(animator1);
+        animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
-            public void run() {
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
                 jump2Main();
             }
-        }, 1000);
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        animatorSet.start();
     }
 
     //跳转MainActivity
-    private void jump2Main(){
+    private void jump2Main() {
         MainActivity.start(LoadingActivity.this);
+        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 

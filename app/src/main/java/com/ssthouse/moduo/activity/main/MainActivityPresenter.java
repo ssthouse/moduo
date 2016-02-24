@@ -109,7 +109,6 @@ public class MainActivityPresenter {
         }
     }
 
-
     //注销回调
     public void onEventMainThread(XPGLogoutEvent event) {
         if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
