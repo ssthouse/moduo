@@ -32,17 +32,24 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 用户账号
+ * 用户账号:
+ * <p/>
  * Created by ssthouse on 2016/1/13.
  */
 public class UserInfoFragment extends Fragment implements IFragmentUI {
 
+    //实名登陆
     @Bind(R.id.id_btn_login)
     Button btnLogin;
+    //登出
     @Bind(R.id.id_btn_log_out)
     Button btnLogOut;
+    //用户名
     @Bind(R.id.id_tv_user_name)
     TextView tvUsername;
+    //密码
+    @Bind(R.id.id_tv_password)
+    TextView tvPassword;
 
     private MaterialDialog loginOrRegisterDialog;
     private MaterialDialog waitDialog;
@@ -154,24 +161,32 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     @Override
     public void updateUI() {
         //根据当前登陆状况---显示下方的操作按钮
-        if (SettingManager.getInstance(getContext()).isLogined()) {
-            //是否为匿名登录
-            if (SettingManager.getInstance(getContext()).isAnonymousUser()) {
-                btnLogin.setVisibility(View.VISIBLE);
-                btnLogin.setText("实名登陆");
-                btnLogOut.setVisibility(View.GONE);
-                tvUsername.setText("匿名");
-            } else {
-                btnLogin.setVisibility(View.GONE);
-                tvUsername.setText(SettingManager.getInstance(getContext()).getUserName());
-                btnLogOut.setVisibility(View.VISIBLE);
-            }
-        } else {
-            tvUsername.setText("未登陆");
-            btnLogin.setVisibility(View.VISIBLE);
-            btnLogin.setText("登陆");
-            btnLogOut.setVisibility(View.GONE);
+        SettingManager settingManager = SettingManager.getInstance(getContext());
+        //未登录
+        if (!settingManager.isLogined()) {
+            tvUsername.setText("未登录");
+            tvPassword.setText("未登录");
+            btnLogin.setEnabled(true);
+            btnLogOut.setEnabled(false);
+            return;
         }
+        //匿名登录
+        if (settingManager.isAnonymousUser()) {
+            tvUsername.setText("匿名登录");
+            tvPassword.setText("匿名登录");
+            btnLogin.setEnabled(true);
+            btnLogOut.setEnabled(false);
+            return;
+        }
+        //实名登陆---无法获取password长度
+        tvUsername.setText(settingManager.getUserName());
+        String strPassword = "";
+        for (int i = 0; i < settingManager.getUserName().length(); i++) {
+            strPassword += "*";
+        }
+        tvPassword.setText(strPassword);
+        btnLogin.setEnabled(false);
+        btnLogOut.setEnabled(true);
     }
 
     /**

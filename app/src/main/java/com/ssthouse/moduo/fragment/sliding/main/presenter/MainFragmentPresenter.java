@@ -167,6 +167,7 @@ public class MainFragmentPresenter {
     }
 
     /**
+     * todo
      * 设备状态变化回调:
      * 设备登陆成功---代表要跳转到控制界面
      * 直接跳转XPGControlActivity

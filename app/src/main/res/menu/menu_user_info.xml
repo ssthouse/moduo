@@ -6,6 +6,6 @@
         android:id="@+id/id_menu_edit"
         android:title="编辑"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_edit"/>
+        android:icon="@drawable/personal_edit"/>
 
 </menu>

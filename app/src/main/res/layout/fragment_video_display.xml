@@ -54,6 +54,6 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/ic_action_cast" />
+            android:src="@drawable/home_ic_menu" />
     </LinearLayout>
 </FrameLayout>

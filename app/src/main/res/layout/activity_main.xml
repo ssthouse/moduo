@@ -28,7 +28,7 @@
     <!--侧滑栏-->
     <android.support.design.widget.NavigationView
         android:id="@+id/id_navigation_view"
-        android:layout_width="wrap_content"
+        android:layout_width="262dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
