@@ -157,7 +157,6 @@ public class SettingManager {
         setVideoPassword("");
     }
 
-    //是否本地有保存魔哆Info
     public boolean hasLocalModuo() {
         if (getCurrentDid() != null && getCurrentDid().length() != 0
                 && getPasscode() != null && getPasscode().length() != 0
@@ -254,7 +253,7 @@ public class SettingManager {
     }
 
     public void setCurrentDid(String did) {
-        Timber.e("将当前设备改为:\t" + did);
+        Timber.e("将当前设备Did改为:\t" + did);
         spf.edit()
                 .putString(DID, did)
                 .commit();

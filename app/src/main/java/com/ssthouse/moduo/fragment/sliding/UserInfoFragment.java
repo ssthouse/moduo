@@ -83,8 +83,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                 showWaitDialog("正在注销账户");
                 //// TODO: 2016/1/20 注销账户--mainFragment也要改变
                 XPGController.getInstance(getContext()).getmCenter().cLogout();
-                SettingManager.getInstance(getContext()).clean();
-                XPGController.setCurrentDevice(null);
                 //刷新界面
                 getView();
             }
@@ -160,6 +158,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      */
     @Override
     public void updateUI() {
+        //刷新文字数据
+        getView();
+
         //根据当前登陆状况---显示下方的操作按钮
         SettingManager settingManager = SettingManager.getInstance(getContext());
         //未登录
@@ -297,10 +298,13 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
 
     //注销回调
     public void onEventMainThread(XPGLogoutEvent event) {
-        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity")) {
             return;
         }
         waitDialog.dismiss();
+        //本地数据清空---当前设备清空 todo
+        SettingManager.getInstance(getContext()).clean();
+        XPGController.setCurrentDevice(null);
         ToastHelper.show(getContext(), "注销成功");
         updateUI();
     }

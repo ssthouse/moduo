@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/sidemenu_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <!--头部布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/id_iv_close_nav"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_back" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/id_iv_avatar"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/avatar_boy" />
+
+
+        <TextView
+            android:id="@+id/id_tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="用户名"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <TextView
+            android:id="@+id/id_menu_main"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="主页"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <TextView
+            android:id="@+id/id_menu_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="个人资料"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <TextView
+            android:id="@+id/id_menu_about_moduo"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="关于魔哆"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <TextView
+            android:id="@+id/id_menu_share_moduo"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="生成二维码"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <TextView
+            android:id="@+id/id_menu_setting"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="通用设置"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!--分割线-->
+        <ImageView
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sidemenu_column_line" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/id_tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="#f8b019"
+            android:gravity="center"
+            android:text="注销"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,7 +1,9 @@
 package com.ssthouse.moduo.activity.main;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -9,6 +11,7 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
@@ -104,6 +107,15 @@ public class MainActivityPresenter {
         } else {
             ToastHelper.show(mContext, "设备绑定失败");
         }
+    }
+
+
+    //注销回调
+    public void onEventMainThread(XPGLogoutEvent event) {
+        if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
+            return;
+        }
+        mMainActivityView.dismissDialog();
     }
 
     public void destroy() {

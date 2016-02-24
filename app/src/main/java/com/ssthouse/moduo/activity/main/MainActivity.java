@@ -3,7 +3,6 @@ package com.ssthouse.moduo.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -75,10 +76,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Bind(R.id.id_drawer_layout)
     DrawerLayout drawerLayout;
 
-    @Bind(R.id.id_navigation_view)
-    NavigationView navigationView;
+    //侧滑栏
+    @Bind(R.id.id_iv_close_nav)
+    ImageView ivCloseNav;
+    @Bind(R.id.id_menu_main)
+    View menuMain;
+    @Bind(R.id.id_menu_about_moduo)
+    View menuAboutModuo;
+    @Bind(R.id.id_menu_user_info)
+    View menuUserInfo;
+    @Bind(R.id.id_menu_share_moduo)
+    View menuShareModuo;
+    @Bind(R.id.id_menu_setting)
+    View menuSetting;
+    @Bind(R.id.id_tv_logout)
+    TextView tvLogOut;
 
     private MaterialDialog waitDialog;
+
 
     /**
      * 启动当前activity
@@ -130,6 +145,34 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                 .commit();
     }
 
+    //menu点击事件
+    private View.OnClickListener menuClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.id_menu_main:
+                    switchFragment(FragmentState.MAIN_FRAGMENT);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.id_menu_user_info:
+                    switchFragment(FragmentState.USER_INFO_FRAGMENT);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.id_menu_about_moduo:
+                    switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.id_menu_share_moduo:
+                    switchFragment(FragmentState.SHARE_MODUO_FRAGMENT);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.id_menu_setting:
+                    SettingActivity.start(MainActivity.this);
+                    break;
+            }
+        }
+    };
+
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -141,32 +184,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         drawerToggle.syncState();
         drawerLayout.setDrawerListener(drawerToggle);
 
-        //抽屉中的点击事件
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        //侧滑栏点击事件
+        ivCloseNav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.id_menu_main:
-                        switchFragment(FragmentState.MAIN_FRAGMENT);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.id_menu_user_info:
-                        switchFragment(FragmentState.USER_INFO_FRAGMENT);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.id_menu_about_moduo:
-                        switchFragment(FragmentState.ABOUT_MODUO_FRAGMENT);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.id_menu_share_moduo:
-                        switchFragment(FragmentState.SHARE_MODUO_FRAGMENT);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.id_menu_setting:
-                        SettingActivity.start(MainActivity.this);
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+        });
+        menuMain.setOnClickListener(menuClickListener);
+        menuUserInfo.setOnClickListener(menuClickListener);
+        menuAboutModuo.setOnClickListener(menuClickListener);
+        menuShareModuo.setOnClickListener(menuClickListener);
+        menuSetting.setOnClickListener(menuClickListener);
+        //注销
+        tvLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog("正在注销...");
+                XPGController.getInstance(MainActivity.this).getmCenter().cLogout();
             }
         });
 
