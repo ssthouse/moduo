@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 用户信息编辑activity
@@ -17,7 +21,10 @@ import com.ssthouse.moduo.R;
  */
 public class UserInfoEditActivity extends AppCompatActivity {
 
-    public static void start(Context context){
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
+
+    public static void start(Context context) {
         Intent intent = new Intent(context, UserInfoEditActivity.class);
         context.startActivity(intent);
     }
@@ -26,14 +33,21 @@ public class UserInfoEditActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo_edit);
-
+        ButterKnife.bind(this);
         initView();
     }
 
-    private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
 
+    private void initView() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setTitle("个人资料");
     }
 
     @Override
@@ -44,7 +58,7 @@ public class UserInfoEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;

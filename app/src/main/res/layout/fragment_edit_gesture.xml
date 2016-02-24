@@ -12,6 +12,7 @@
         android:text="请输入原始图形密码" />
 
     <com.ssthouse.gesture.LockPatternView
+        android:background="@color/colorPrimary"
         android:id="@+id/id_gesture_lock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

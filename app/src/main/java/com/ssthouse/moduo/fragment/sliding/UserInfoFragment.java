@@ -26,6 +26,8 @@ import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
@@ -35,10 +37,12 @@ import timber.log.Timber;
  */
 public class UserInfoFragment extends Fragment implements IFragmentUI {
 
-    private View rootView;
-
-    private Button btnLogin;
-    private Button btnLogOut;
+    @Bind(R.id.id_btn_login)
+    Button btnLogin;
+    @Bind(R.id.id_btn_log_out)
+    Button btnLogOut;
+    @Bind(R.id.id_tv_user_name)
+    TextView tvUsername;
 
     private MaterialDialog loginOrRegisterDialog;
     private MaterialDialog waitDialog;
@@ -46,23 +50,19 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     private EditText etUsername;
     private EditText etPassword;
 
-    private TextView tvUsername;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
-        initView(rootView);
+        View rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
+        ButterKnife.bind(this, rootView);
+        initView();
         updateUI();
         return rootView;
     }
 
-    private void initView(View rootView) {
-        tvUsername = (TextView) rootView.findViewById(R.id.id_tv_user_name);
-
-        btnLogin = (Button) rootView.findViewById(R.id.id_btn_login);
+    private void initView() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             }
         });
 
-        btnLogOut = (Button) rootView.findViewById(R.id.id_btn_log_out);
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
