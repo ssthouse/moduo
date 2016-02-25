@@ -28,10 +28,10 @@
 
         <!--分割线-->
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
             android:src="@drawable/personal_line_bold" />
 
         <LinearLayout
@@ -44,7 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="26dp"
-                android:text="用户名 :" />
+                android:text="用户名 :"
+                android:textColor="#6b6b6b"
+                android:textSize="16sp" />
 
             <Space
                 android:layout_width="0dp"
@@ -56,7 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="26dp"
-                android:text="未登录" />
+                android:text="未登录"
+                android:textColor="#6b6b6b"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!--分割线-->
@@ -74,7 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="26dp"
-                android:text="密    码 :" />
+                android:text="密    码 :"
+                android:textColor="#6b6b6b"
+                android:textSize="16sp" />
 
             <Space
                 android:layout_width="0dp"
@@ -86,7 +92,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="26dp"
-                android:text="未登录" />
+                android:text="未登录"
+                android:textColor="#6b6b6b"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!--分割线-->
@@ -111,6 +119,7 @@
                 android:background="@drawable/personal_bottom_bind"
                 android:text="实名登陆"
                 android:textColor="@color/white"
+                android:textSize="15sp"
                 android:visibility="visible" />
 
             <Button
@@ -120,6 +129,7 @@
                 android:background="@drawable/personal_bottom_unbundling"
                 android:text="注销"
                 android:textColor="@color/white"
+                android:textSize="15sp"
                 android:visibility="visible" />
         </LinearLayout>
 
