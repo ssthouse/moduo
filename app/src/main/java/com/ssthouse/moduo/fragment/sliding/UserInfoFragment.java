@@ -45,7 +45,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     @Bind(R.id.id_btn_log_out)
     Button btnLogOut;
     //用户名
-    @Bind(R.id.id_tv_user_name)
+    @Bind(R.id.id_tv_username)
     TextView tvUsername;
     //密码
     @Bind(R.id.id_tv_password)

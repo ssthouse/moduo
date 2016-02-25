@@ -9,4 +9,6 @@ public interface MainActivityView {
     void showDialog(String msg);
 
     void dismissDialog();
+
+    void updateUI();
 }

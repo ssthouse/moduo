@@ -28,6 +28,7 @@ import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.AboutModuoFragment;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
@@ -77,9 +78,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Bind(R.id.id_drawer_layout)
     DrawerLayout drawerLayout;
 
-    //侧滑栏
+    /**********
+     * 侧滑栏
+     *************/
+    //关闭侧滑栏
     @Bind(R.id.id_iv_close_nav)
     ImageView ivCloseNav;
+    //注销
+    @Bind(R.id.id_tv_logout)
+    TextView tvLogOut;
+    //用户头像
+    @Bind(R.id.id_iv_avatar)
+    ImageView ivAvatar;
+    //用户名
+    @Bind(R.id.id_tv_username)
+    TextView tvUsername;
+    //四个板块
     @Bind(R.id.id_menu_main)
     View menuMain;
     @Bind(R.id.id_menu_about_moduo)
@@ -90,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     View menuShareModuo;
     @Bind(R.id.id_menu_setting)
     View menuSetting;
-    @Bind(R.id.id_tv_logout)
-    TextView tvLogOut;
 
     private MaterialDialog waitDialog;
 
@@ -175,29 +187,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     };
 
     private void initView() {
+        //actionbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setTitle("魔哆");
 
-        //初始化抽屉事件
+        //侧滑栏开关响应
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close);
         drawerToggle.syncState();
         drawerLayout.setDrawerListener(drawerToggle);
 
-        //侧滑栏点击事件
-        ivCloseNav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.closeDrawers();
-            }
-        });
-        menuMain.setOnClickListener(menuClickListener);
-        menuUserInfo.setOnClickListener(menuClickListener);
-        menuAboutModuo.setOnClickListener(menuClickListener);
-        menuShareModuo.setOnClickListener(menuClickListener);
-        menuSetting.setOnClickListener(menuClickListener);
-        //注销
+        /****************侧滑栏点击事件*******/
+        // 注销
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,6 +207,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                 XPGController.getInstance(MainActivity.this).getmCenter().cLogout();
             }
         });
+        //关闭侧滑栏
+        ivCloseNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+        });
+        //todo---用户头像---用户名
+        updateUI();
+        menuMain.setOnClickListener(menuClickListener);
+        menuUserInfo.setOnClickListener(menuClickListener);
+        menuAboutModuo.setOnClickListener(menuClickListener);
+        menuShareModuo.setOnClickListener(menuClickListener);
+        menuSetting.setOnClickListener(menuClickListener);
 
         //初始化dialog
         waitDialog = new MaterialDialog.Builder(this)
@@ -217,6 +233,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     private void setTitle(String strTitle) {
         TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
         tv.setText(strTitle);
+    }
+
+    //更新用户名
+    private void updateUsername() {
+        if (!XPGController.isLogin()) {
+            tvUsername.setText("未登录");
+            return;
+        }
+        if (SettingManager.getInstance(this).isAnonymousUser()) {
+            tvUsername.setText("匿名登录");
+            return;
+        }
+        tvUsername.setText(SettingManager.getInstance(this).getUserName());
+    }
+
+    //刷新UI
+    @Override
+    public void updateUI(){
+        updateUsername();
     }
 
     @Override
@@ -315,8 +350,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
             case MAIN_FRAGMENT:
                 if (item.getItemId() == R.id.id_menu_add_moduo) {
                     QrCodeUtil.startScan(this);
-                }
-                else if (item.getItemId() == R.id.id_menu_share_wifi) {
+                } else if (item.getItemId() == R.id.id_menu_share_wifi) {
                     WifiCodeDispActivity.start(this);
                 }
                 break;

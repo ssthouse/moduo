@@ -11,6 +11,7 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.event.scan.ScanDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 
 import de.greenrobot.event.EventBus;
@@ -109,12 +110,21 @@ public class MainActivityPresenter {
         }
     }
 
+    //登录回调
+    public void onEventMainThread(XPGLoginResultEvent event) {
+        if (event.isSuccess()) {
+            //保存登陆数据
+            mMainActivityView.updateUI();
+        }
+    }
+
     //注销回调
     public void onEventMainThread(XPGLogoutEvent event) {
         if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
             return;
         }
         mMainActivityView.dismissDialog();
+        mMainActivityView.updateUI();
     }
 
     public void destroy() {
