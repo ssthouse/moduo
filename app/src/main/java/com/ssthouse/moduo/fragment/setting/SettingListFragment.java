@@ -50,6 +50,7 @@ public class SettingListFragment extends Fragment {
                 switch (position) {
                     //常见问题
                     case 0:
+                        //发出跳转常见问题Fragment event
                         EventBus.getDefault()
                                 .post(new SettingAtyStateEvent(SettingActivity.State.STATE_COMMON_ISSUE));
                         break;
@@ -69,7 +70,7 @@ public class SettingListFragment extends Fragment {
                         break;
                     //图形密码
                     case 4:
-                        //todo
+                        //跳转图形密码设置activity
                         GestureLockActivity.start(getActivity());
                         break;
                 }

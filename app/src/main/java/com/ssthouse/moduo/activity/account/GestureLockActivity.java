@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
+import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * 手势密码
@@ -45,6 +48,7 @@ public class GestureLockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gesture_lock);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         initView();
         initFragment();
@@ -123,6 +127,14 @@ public class GestureLockActivity extends AppCompatActivity {
         exitDialog.show();
     }
 
+    //图形密码编辑完成回调
+    public void onEventMainThread(GestureLockFinishEvent event) {
+        if (!ActivityUtil.isTopActivity(this, "GestureLockActivity")) {
+            return;
+        }
+        finish();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -131,5 +143,11 @@ public class GestureLockActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

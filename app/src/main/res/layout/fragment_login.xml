@@ -33,10 +33,10 @@
 
             <EditText
                 android:id="@+id/id_et_password"
-                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="密码" />
+                android:hint="密码"
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -56,7 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/id_tv_phone_register"
@@ -72,6 +73,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="16dp"
-            android:text="邮箱注册"/>
+            android:text="邮箱注册" />
     </LinearLayout>
+
+    <!-- 匿名登录-->
+    <Button
+        android:id="@+id/id_btn_login_anonymous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="匿名登录" />
 </LinearLayout>

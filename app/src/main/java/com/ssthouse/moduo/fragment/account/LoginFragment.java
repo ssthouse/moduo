@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.activity.LoadingActivity;
+import com.ssthouse.moduo.activity.GuideActivity;
+import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -23,18 +24,12 @@ import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import timber.log.Timber;
 
 /**
- * 登陆fragment
+ * 用于第一次进入app的登陆fragment
  * Created by ssthouse on 2015/12/19.
  */
 public class LoginFragment extends Fragment {
-    /**
-     * 是否在使用当前fragment承接eventbus事件
-     */
-    boolean isInUse = false;
-
     /**
      * 用户名输入框
      */
@@ -50,6 +45,11 @@ public class LoginFragment extends Fragment {
      */
     @Bind(R.id.id_btn_login)
     Button btnLogin;
+
+    @Bind(R.id.id_btn_login_anonymous)
+    Button btnLoginAnonymous;
+
+    /**暂时不用************************************/
     /**
      * 手机号注册
      */
@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        View rootView = View.inflate(getContext(), R.layout.fragment_login, null);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, rootView);
         initView();
         return rootView;
@@ -76,20 +76,16 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.e(".....what happened?");
                 String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+                String password = MD5Util.getMdStr(etPassword.getText().toString());
                 //检查格式
-                if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
+                if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
                     ToastHelper.show(getContext(), "用户名和密码不可为空");
                     return;
                 }
-                //TODO---格式检查---登陆
-                isInUse = true;
+                //尝试登陆
                 XPGController.getInstance(getContext()).getmCenter()
                         .cLogin(username, password);
-                Timber.e(".....something wrong?");
-
             }
         });
 
@@ -108,6 +104,14 @@ public class LoginFragment extends Fragment {
                         RegisterFragmentChangeEvent.NextFragment.EMAIL_REGISTER_FRAGMENT));
             }
         });
+
+        //匿名登录
+        btnLoginAnonymous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ex
+            }
+        });
     }
 
     /**
@@ -116,23 +120,21 @@ public class LoginFragment extends Fragment {
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
-        if(isInUse) {
-            if (event.isSuccess()) {
-                //todo
-                isInUse = false;
-                ToastHelper.show(getContext(), "登陆成功");
-                //保存登陆数据
-                PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
-                SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
-                SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
-                SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
-                //跳转loading activity
-                LoadingActivity.start(getContext());
-                //退出activity
-                getActivity().finish();
-            } else {
-                ToastHelper.show(getContext(), "登陆失败");
-            }
+        if (event.isSuccess()) {
+            ToastHelper.show(getContext(), "登陆成功");
+            //保存登陆数据
+            PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
+            String username = etUsername.getText().toString();
+            String password = MD5Util.getMdStr(etPassword.getText().toString());
+            SettingManager settingManager = SettingManager.getInstance(getContext());
+            settingManager.setUserName(username);
+            settingManager.setPassword(password);
+            settingManager.setLoginCacheInfo(event);
+            //todo---通知GuideActivity进入下一步
+            GuideActivity guideActivity = (GuideActivity) getActivity();
+            guideActivity.switchFragment(GuideActivity.State.STATE_GESTURE_LOCK);
+        } else {
+            ToastHelper.show(getContext(), "登陆失败");
         }
     }
 

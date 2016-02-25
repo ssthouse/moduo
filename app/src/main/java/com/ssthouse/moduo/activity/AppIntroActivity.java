@@ -14,11 +14,12 @@ import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
 import de.greenrobot.event.EventBus;
 
 /**
+ * App介绍
  * Created by ssthouse on 2016/1/17.
  */
 public class AppIntroActivity extends AppIntro {
 
-    public static void start(Context context){
+    public static void start(Context context) {
         Intent intent = new Intent(context, AppIntroActivity.class);
         context.startActivity(intent);
     }
@@ -29,6 +30,12 @@ public class AppIntroActivity extends AppIntro {
         addSlide(AppIntroFragment.newInstance("Page2", "第二个介绍页面", R.drawable.intro2, R.color.colorPrimary));
         addSlide(AppIntroFragment.newInstance("Page3", "第三个介绍页面", R.drawable.intro3, R.color.colorPrimary));
         addSlide(AppIntroFragment.newInstance("Page4", "第四个介绍页面", R.drawable.intro4, R.color.colorPrimary));
+        //减少下方按钮
+        showSkipButton(false);
+        setProgressButtonEnabled(false);
+        //震动
+        setVibrate(true);
+        setVibrateIntensity(30);
     }
 
     @Override

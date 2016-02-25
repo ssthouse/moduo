@@ -8,15 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.WifiCodeFragment;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 手机连接的wifi形成二维码---供魔哆扫描
  * Created by ssthouse on 2016/1/13.
  */
 public class WifiCodeDispActivity extends AppCompatActivity {
+
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, WifiCodeDispActivity.class);
@@ -27,7 +34,7 @@ public class WifiCodeDispActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_code_disp);
-
+        ButterKnife.bind(this);
         initView();
 
         initFragment();
@@ -39,10 +46,17 @@ public class WifiCodeDispActivity extends AppCompatActivity {
                 .commit();
     }
 
+    //设置标题
+    private void setTitle(String strTitle) {
+        TextView tv = (TextView) toolbar.findViewById(R.id.id_tb_title);
+        tv.setText(strTitle);
+    }
+
     private void initView() {
-        setSupportActionBar((Toolbar) findViewById(R.id.id_tb));
-        getSupportActionBar().setTitle("连接绑定");
+        setSupportActionBar(toolbar);
+        setTitle("连接绑定");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

@@ -3,6 +3,7 @@
     android:layout_width="260dp"
     android:layout_height="match_parent"
     android:background="@drawable/sidemenu_bg"
+    android:clickable="true"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -36,7 +37,7 @@
             android:layout_width="104dp"
             android:layout_height="104dp"
             android:layout_marginTop="23dp"
-            android:src="@drawable/avatar_boy" />
+            android:src="@drawable/avatar" />
 
 
         <TextView
@@ -44,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:clickable="true"
             android:text="用户名"
             android:textColor="@color/white"
             android:textSize="14sp" />

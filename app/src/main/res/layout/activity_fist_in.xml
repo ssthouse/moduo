@@ -4,9 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/id_web_view"
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/id_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal" />
 
 </LinearLayout>

@@ -74,7 +74,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile project(':gesture')
     //app intro
-    compile 'com.github.paolorotolo:appintro:3.3.0'
+    compile 'com.github.paolorotolo:appintro:3.4.0'
     /************************* UI *******************************/
     //dialog 控件
     compile('com.github.afollestad.material-dialogs:core:0.8.5.2@aar') {

@@ -10,9 +10,9 @@
         app:showAsAction="always" />
 
     <!--todo暂时不用-->
-    <!--<item-->
-    <!--android:id="@+id/id_menu_share_wifi"-->
-    <!--android:orderInCategory="100"-->
-    <!--android:title="生成wifi二维码"-->
-    <!--app:showAsAction="never" />-->
+    <item
+    android:id="@+id/id_menu_share_wifi"
+    android:orderInCategory="100"
+    android:title="生成wifi二维码"
+    app:showAsAction="never" />
 </menu>

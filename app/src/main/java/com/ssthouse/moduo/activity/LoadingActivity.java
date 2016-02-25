@@ -18,6 +18,7 @@ import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
+import com.ssthouse.moduo.model.event.view.GuideFinishEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
@@ -49,8 +50,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         //是否第一次
         if (SettingManager.getInstance(this).isFistIn()) {
-            SettingManager.getInstance(this).setIsFistIn(false);
-            AppIntroActivity.start(this);
+            GuideActivity.start(this);
             return;
         }
 
@@ -118,11 +118,7 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 如果是第一次进入---会先启动AppIntroActivity然后发出完成介绍的event
-     *
-     * @param event
-     */
+    //AppIntroActivity完成介绍的event
     public void onEventMainThread(AppIntroFinishEvent event) {
         if (event.isSuccess()) {
             jump2Main();
@@ -130,6 +126,11 @@ public class LoadingActivity extends AppCompatActivity {
             //介绍失败---直接退出
             finish();
         }
+    }
+
+    //GuideActivity完成第一次介绍后回调事件
+    public void onEventMainThread(GuideFinishEvent event) {
+        jump2Main();
     }
 
     @Override

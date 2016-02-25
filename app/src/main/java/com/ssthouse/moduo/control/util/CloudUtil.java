@@ -131,7 +131,7 @@ public class CloudUtil {
      */
     public static void updateUserInfoToLocal(final Context context, final String username) {
         //username不能为空
-        if(TextUtils.isEmpty(username)){
+        if (TextUtils.isEmpty(username)) {
             return;
         }
         Observable.just(username)
@@ -171,6 +171,7 @@ public class CloudUtil {
 
     /**
      * 本地数据保存到云端
+     * 如果username不存在---就创建新的UserObject
      *
      * @param userInfo
      */
@@ -204,7 +205,12 @@ public class CloudUtil {
                             newUserInfoObject.put(KEY_USERNAME, userInfo.getUsername());
                             newUserInfoObject.put(KEY_PASSWORD, userInfo.getPassword());
                             newUserInfoObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());
-                            newUserInfoObject.saveInBackground();
+                            newUserInfoObject.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+
+                                }
+                            });
                         } else {
                             avObject.put(KEY_USERNAME, userInfo.getUsername());
                             avObject.put(KEY_PASSWORD, userInfo.getPassword());

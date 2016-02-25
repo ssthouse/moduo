@@ -6,7 +6,7 @@
         <item
             android:id="@+id/id_menu_main"
             android:checked="true"
-            android:icon="@drawable/avatar_boy"
+            android:icon="@drawable/avatar"
             android:title="首页" />
 
         <item
