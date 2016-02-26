@@ -19,7 +19,6 @@ import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.model.bean.UserInfo;
 import com.ssthouse.moduo.model.cons.xpg.GizwitsErrorMsg;
 import com.ssthouse.moduo.model.event.account.AnonymousUserTransEvent;
 import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
@@ -113,7 +112,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                         if (!NetUtil.isConnected(getContext())) {
                             ToastHelper.showNoInternet(getContext());
                         }
-                        waitDialog.show();
+                        showWaitDialog("正在登陆");
                         String username = etUsername.getText().toString();
                         String password = MD5Util.getMdStr(etPassword.getText().toString());
                         Timber.e(username + " : " + password);
@@ -134,7 +133,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                         if (!NetUtil.isConnected(getContext())) {
                             ToastHelper.showNoInternet(getContext());
                         }
-                        waitDialog.show();
+                        showWaitDialog("正在注册");
                         String username = etUsername.getText().toString();
                         String password = MD5Util.getMdStr(etPassword.getText().toString());
                         Timber.e(username + " : " + password);
@@ -198,12 +197,13 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     private void showWaitDialog(String msg) {
         TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
+        waitDialog.show();
     }
 
     /**
      * 保存当前用户名密码
      */
-    private void saveCurrentUserInfo() {
+    private void saveInputUserInfo() {
         Timber.e("保存用户数据到本地");
         if (etUsername.getText().toString().length() < 6
                 || etPassword.getText().toString().length() < 6) {
@@ -213,10 +213,10 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         //用户数据保存带本地
         SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
         SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
-        //用户数据保存到云端
-        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
-                MD5Util.getMdStr(etPassword.getText().toString()),
-                SettingManager.getInstance(getContext()).getGestureLock()));
+//        //todo---用户数据保存到云端
+//        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
+//                MD5Util.getMdStr(etPassword.getText().toString()),
+//                SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -233,7 +233,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             //清除本地魔哆数据
             SettingManager.getInstance(getContext()).cleanLocalModuo();
             //注册成功保存账号
-            saveCurrentUserInfo();
+            saveInputUserInfo();
             //登陆
             XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
                     MD5Util.getMdStr(etPassword.getText().toString()));
@@ -257,18 +257,17 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         if (event.isSuccess()) {
             Timber.e("登陆成功");
             //清除本地魔哆数据
-            SettingManager.getInstance(getContext()).cleanLocalModuo();
+            SettingManager settingManager = SettingManager.getInstance(getContext());
+            settingManager.cleanLocalModuo();
             //更新本地用户信息
-            CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
+            CloudUtil.updateUserInfoToLocal(getContext(), settingManager.getUserName());
             //保存机智云登陆数据
-            SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
-            //登陆成功保存当前账号
-            saveCurrentUserInfo();
-            //刷新界面
-            updateUI();
+            settingManager.setLoginCacheInfo(event);
         } else {
             Timber.e("登陆失败");
         }
+        //刷新界面
+        updateUI();
     }
 
     /**
@@ -284,9 +283,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         if (event.isSuccess()) {
             Timber.e("匿名用户转换成功");
             //登陆等待dialog
-            waitDialog.show();
+            showWaitDialog("正在登陆");
             //保存当前用户信息
-            saveCurrentUserInfo();
+            saveInputUserInfo();
             //登陆
             XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
                     MD5Util.getMdStr(etPassword.getText().toString()));

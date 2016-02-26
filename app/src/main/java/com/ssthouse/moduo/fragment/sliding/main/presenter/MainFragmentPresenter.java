@@ -1,8 +1,10 @@
 package com.ssthouse.moduo.fragment.sliding.main.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.ssthouse.moduo.activity.video.CallingActivity;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -13,6 +15,7 @@ import com.ssthouse.moduo.model.event.view.NetworkStateChangeEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
+import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -44,7 +47,7 @@ public class MainFragmentPresenter {
      */
     public void initDevice() {
         //未登录---先登录
-        if(!XPGController.isLogin()){
+        if (!XPGController.isLogin()) {
             tryLogin();
             return;
         }
@@ -88,11 +91,7 @@ public class MainFragmentPresenter {
         }
     }
 
-    /**
-     * 网络状态变化的回调
-     *
-     * @param event
-     */
+    //网络状态变化的回调
     public void onEventMainThread(NetworkStateChangeEvent event) {
         switch (event.getNetworkState()) {
             case NONE:
@@ -115,7 +114,7 @@ public class MainFragmentPresenter {
                 break;
         }
         //离线处理---两个sdk离线
-        if(isOffline){
+        if (isOffline) {
             XPGController.setLogin(false);
             Communication.setLogin(false);
         }
@@ -123,11 +122,7 @@ public class MainFragmentPresenter {
         mMainFragmentView.updateUI();
     }
 
-    /**
-     * 获取 绑定设备列表 回调
-     *
-     * @param event
-     */
+    //获取 绑定设备列表 回调
     public void onEventMainThread(GetBoundDeviceEvent event) {
         Timber.e("获取设备列表回调");
         //隐藏dialog
@@ -142,11 +137,7 @@ public class MainFragmentPresenter {
         mMainFragmentView.updateUI();
     }
 
-    /**
-     * sdk登录成功回调
-     *
-     * @param event
-     */
+    //sdk登录成功回调
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (event.isSuccess()) {
             //保存登陆数据
@@ -159,6 +150,22 @@ public class MainFragmentPresenter {
         }
         //刷新UI
         mMainFragmentView.updateUI();
+    }
+
+    //注销回调
+    public void onEventMainThread(XPGLogoutEvent event) {
+        if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
+            return;
+        }
+        mMainFragmentView.updateUI();
+    }
+
+    //解绑设备回调
+    public void onEventMainThread(UnbindResultEvent event) {
+        //请求设备列表
+        XPGController.getInstance(mContext).getmCenter().cGetBoundDevices(
+                SettingManager.getInstance(mContext).getUid(),
+                SettingManager.getInstance(mContext).getToken());
     }
 
 //    /**
@@ -185,18 +192,6 @@ public class MainFragmentPresenter {
 //            Timber.e("登陆失败...");
 //        }
 //    }
-
-    /**
-     * 解绑设备回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(UnbindResultEvent event) {
-        //请求设备列表
-        XPGController.getInstance(mContext).getmCenter().cGetBoundDevices(
-                SettingManager.getInstance(mContext).getUid(),
-                SettingManager.getInstance(mContext).getToken());
-    }
 
     public void destroy() {
         EventBus.getDefault().unregister(this);

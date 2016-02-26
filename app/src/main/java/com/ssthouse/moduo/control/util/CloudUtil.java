@@ -124,6 +124,7 @@ public class CloudUtil {
     public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
 
     /**
+     * todo
      * 从云端获取用户信息
      *
      * @param username 用户名(机智云端用户名是唯一的)
@@ -184,6 +185,7 @@ public class CloudUtil {
                 .map(new Func1<UserInfo, AVObject>() {
                     @Override
                     public AVObject call(UserInfo userInfo) {
+                        //搜索云端是否存在用户
                         AVObject avObject = null;
                         try {
                             avObject = new AVQuery(TABLE_USER_INFO)
@@ -200,6 +202,7 @@ public class CloudUtil {
                 .subscribe(new Action1<AVObject>() {
                     @Override
                     public void call(AVObject avObject) {
+                        //不存在新建
                         if (avObject == null) {
                             AVObject newUserInfoObject = new AVObject(TABLE_USER_INFO);
                             newUserInfoObject.put(KEY_USERNAME, userInfo.getUsername());
@@ -212,6 +215,7 @@ public class CloudUtil {
                                 }
                             });
                         } else {
+                            //存在更新数据
                             avObject.put(KEY_USERNAME, userInfo.getUsername());
                             avObject.put(KEY_PASSWORD, userInfo.getPassword());
                             avObject.put(KEY_GESTURE_PASSWORD, userInfo.getGesturePassword());

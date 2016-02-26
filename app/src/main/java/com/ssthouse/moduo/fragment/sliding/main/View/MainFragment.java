@@ -93,7 +93,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
                     ToastHelper.show(getContext(), "当前没有设备连接");
                     return;
                 }
-                if(!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline()){
+                if (!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline()) {
                     ToastHelper.show(getContext(), "魔哆不在线");
                     return;
                 }
@@ -153,12 +153,14 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         if (!XPGController.isLogin()) {
             tvModuoState.setText("未登录");
             return;
-        } else {
+        }
+        //登录---但设备不在线
+        if (XPGController.getCurrentDevice() == null) {
             tvModuoState.setText("用户登录成功, 未连接魔哆");
+            return;
         }
-        if (XPGController.getCurrentDevice() != null) {
-            tvModuoState.setText("魔哆连接成功,欢迎使用");
-        }
+        //登录---设备在线
+        tvModuoState.setText("魔哆连接成功,欢迎使用");
     }
 
     @Override

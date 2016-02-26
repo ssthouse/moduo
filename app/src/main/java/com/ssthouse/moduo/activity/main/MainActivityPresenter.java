@@ -108,14 +108,13 @@ public class MainActivityPresenter {
         } else {
             ToastHelper.show(mContext, "设备绑定失败");
         }
+        mMainActivityView.updateUI();
     }
 
     //登录回调
     public void onEventMainThread(XPGLoginResultEvent event) {
-        if (event.isSuccess()) {
-            //保存登陆数据
-            mMainActivityView.updateUI();
-        }
+        //保存登陆数据(不管登录成功没)
+        mMainActivityView.updateUI();
     }
 
     //注销回调
