@@ -23,7 +23,8 @@ import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
-import com.ssthouse.moduo.model.event.xpg.XpgDeviceStateEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceOnLineEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
 import com.xtremeprog.xpgconnect.XPGWifiSDKListener;
@@ -42,11 +43,11 @@ import timber.log.Timber;
 
 /**
  * XPG总控制器:
- * <p>
+ * <p/>
  * 监听两个接口:
  * XPGWiﬁSDKListener通用监听器，包含了注册、登录、配置设备、绑定设备等回调接口
  * XPGWiﬁDeviceListener设备监听器，包含了单个设备的登录、控制、状态上报等接口
- * <p>
+ * <p/>
  * Created by ssthouse on 2015/12/19.
  */
 public class XPGController {
@@ -102,7 +103,7 @@ public class XPGController {
 
     /**
      * XPGWifiDeviceListener
-     * <p>
+     * <p/>
      * 设备属性监听器。 设备连接断开、获取绑定参数、获取设备信息、控制和接受设备信息相关.
      */
     protected XPGWifiDeviceListener deviceListener = new XPGWifiDeviceListener() {
@@ -110,23 +111,24 @@ public class XPGController {
         @Override
         public void didDeviceOnline(XPGWifiDevice device, boolean isOnline) {
             Timber.e("设备上线");
-//            EventBus.getDefault().post(new XpgDeviceStateEvent());
+            EventBus.getDefault().post(new XpgDeviceOnLineEvent(device.getDid(), isOnline));
         }
 
         @Override
         public void didDisconnected(XPGWifiDevice device) {
             Timber.e("设备连接断开");
-//            EventBus.getDefault().post(new XpgDeviceStateEvent());
+            //todo---这个是在什么时候触发的??
+//            EventBus.getDefault().post(new XpgDeviceLoginEvent());
         }
 
         @Override
         public void didLogin(XPGWifiDevice device, int result) {
             Timber.e("设备登陆:\t" + device.getDid());
             if (result == 0) {
-                EventBus.getDefault().post(new XpgDeviceStateEvent(true, device.getDid()));
+                EventBus.getDefault().post(new XpgDeviceLoginEvent(true, device.getDid()));
                 Timber.e(device.getDid() + "登陆成功");
             } else {
-                EventBus.getDefault().post(new XpgDeviceStateEvent(false, device.getDid()));
+                EventBus.getDefault().post(new XpgDeviceLoginEvent(false, device.getDid()));
                 Timber.e(device.getDid() + "登陆失败");
             }
         }
@@ -171,7 +173,7 @@ public class XPGController {
 
     /**
      * XPGWifiSDKListener
-     * <p>
+     * <p/>
      * sdk监听器。 配置设备上线、注册登录用户、搜索发现设备、用户绑定和解绑设备相关.
      */
     private XPGWifiSDKListener sdkListener = new XPGWifiSDKListener() {

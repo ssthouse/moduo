@@ -26,6 +26,7 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
+ * todo---调试用Activity
  * xpg设备控制activity:
  * <p/>
  * 控制唯一单例XPGManager里面的currentDevice

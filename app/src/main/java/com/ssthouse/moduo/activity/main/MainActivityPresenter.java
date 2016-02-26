@@ -64,13 +64,6 @@ public class MainActivityPresenter {
 //                    event.getCid(),
 //                    event.getVideoUsername(),
 //                    event.getVideoPassword()));
-            //todo---将当前设备保存到本地--作为当前设备---(貌似在绑定的时候完成了)
-//            ModuoInfo moduoInfo = new ModuoInfo(event.getDid(),
-//                    event.getPassCode(),
-//                    event.getCid(),
-//                    event.getVideoUsername(),
-//                    event.getVideoPassword());
-//            SettingManager.getInstance(mContext).setCurrentModuoInfo(moduoInfo);
             //开始绑定设备
             XPGController.getInstance(mContext).getmCenter().cBindDevice(
                     SettingManager.getInstance(mContext).getUid(),

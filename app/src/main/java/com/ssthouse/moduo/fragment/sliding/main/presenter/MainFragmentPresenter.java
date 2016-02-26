@@ -16,6 +16,7 @@ import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceOnLineEvent;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -168,30 +169,14 @@ public class MainFragmentPresenter {
                 SettingManager.getInstance(mContext).getToken());
     }
 
-//    /**
-//     * todo
-//     * 设备状态变化回调:
-//     * 设备登陆成功---代表要跳转到控制界面
-//     * 直接跳转XPGControlActivity
-//     *
-//     * @param event
-//     */
-//    public void onEventMainThread(XpgDeviceStateEvent event) {
-//        if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
-//            return;
-//        }
-//        if (event.isSuccess()) {
-//            //跳转控制界面
-//            if (event.getDid().equals(XPGController.getCurrentDevice().getXpgWifiDevice().getDid())) {
-//                //跳转控制界面
-//                XpgControlActivity.start(mContext, new DeviceData());
-//            } else {
-//                Timber.e("不是当前设备在登陆...");
-//            }
-//        } else {
-//            Timber.e("登陆失败...");
-//        }
-//    }
+    //设备是否在线 状态变化 回调
+    public void onEventMainThread(XpgDeviceOnLineEvent event) {
+        if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
+            return;
+        }
+        //刷新UI
+        mMainFragmentView.updateUI();
+    }
 
     public void destroy() {
         EventBus.getDefault().unregister(this);
