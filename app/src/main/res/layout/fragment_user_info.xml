@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/personal_bg"
+    android:background="@drawable/fragment_bg"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/personal_content_bg"
+        android:background="@drawable/fragment_content_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 

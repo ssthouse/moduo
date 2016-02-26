@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -59,12 +58,19 @@ public class MainActivityPresenter {
         Timber.e("扫描Activity回调");
         if (event.isSuccess()) {
             mMainActivityView.showDialog("正在绑定设备,请稍候");
-            //将扫描到设备数据保存至cloud
-            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
-                    event.getPassCode(),
-                    event.getCid(),
-                    event.getVideoUsername(),
-                    event.getVideoPassword()));
+            //todo---将扫描到设备数据保存至cloud--生产时---应该魔哆所有数据都在leancloud上有
+//            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
+//                    event.getPassCode(),
+//                    event.getCid(),
+//                    event.getVideoUsername(),
+//                    event.getVideoPassword()));
+            //todo---将当前设备保存到本地--作为当前设备---(貌似在绑定的时候完成了)
+//            ModuoInfo moduoInfo = new ModuoInfo(event.getDid(),
+//                    event.getPassCode(),
+//                    event.getCid(),
+//                    event.getVideoUsername(),
+//                    event.getVideoPassword());
+//            SettingManager.getInstance(mContext).setCurrentModuoInfo(moduoInfo);
             //开始绑定设备
             XPGController.getInstance(mContext).getmCenter().cBindDevice(
                     SettingManager.getInstance(mContext).getUid(),
@@ -86,14 +92,14 @@ public class MainActivityPresenter {
         if (event.isSuccess()) {
             ToastHelper.show(mContext, "设备绑定成功");
             //获取设备Info信息
-            mMainActivityModel.getUserInfo(event.getDid())
+            mMainActivityModel.getModuoInfo(event.getDid())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<ModuoInfo>() {
                         @Override
                         public void call(ModuoInfo moduoInfo) {
                             if (moduoInfo == null) {
-                                Timber.e("服务器获取魔哆设备信息为空:did   " + event.getDid());
+                                ToastHelper.show(mContext, "服务器获取魔哆设备信息为空:did   " + event.getDid());
                                 return;
                             }
                             //保存设备信息到本地

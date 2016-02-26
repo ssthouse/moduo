@@ -56,9 +56,9 @@ public class LoadingActivity extends AppCompatActivity {
 
         //启动动画
         final ImageView ivBg = (ImageView) findViewById(R.id.id_iv_bg);
-        ValueAnimator animator = ObjectAnimator.ofFloat(ivBg, "scaleX", 1f, 1.1f);
+        ValueAnimator animator = ObjectAnimator.ofFloat(ivBg, "scaleX", 1f, 1.3f);
         animator.setDuration(1500);
-        ValueAnimator animator1 = ObjectAnimator.ofFloat(ivBg, "scaleY", 1f, 1.1f);
+        ValueAnimator animator1 = ObjectAnimator.ofFloat(ivBg, "scaleY", 1f, 1.3f);
         final AnimatorSet animatorSet = new AnimatorSet();
         animator1.setDuration(1500);
         animatorSet.play(animator).with(animator1);

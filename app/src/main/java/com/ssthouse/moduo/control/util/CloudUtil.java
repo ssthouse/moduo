@@ -64,13 +64,44 @@ public class CloudUtil {
                     public void call(AVObject avObject) {
                         //云端没有才保存
                         if (avObject == null) {
-                            AVObject moduoDevice = new AVObject(TABLE_MODUO_DEVICE);
-                            moduoDevice.put(KEY_DID, device.getXpgWifiDevice().getDid());
-                            moduoDevice.put(KEY_PASSCODE, device.getXpgWifiDevice().getPasscode());
-                            moduoDevice.put(KEY_CID, device.getVideoCidNumber());
-                            moduoDevice.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
-                            moduoDevice.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
-                            moduoDevice.saveInBackground(callback);
+                            AVObject moduoDeviceObj = new AVObject(TABLE_MODUO_DEVICE);
+                            moduoDeviceObj.put(KEY_DID, device.getXpgWifiDevice().getDid());
+                            moduoDeviceObj.put(KEY_PASSCODE, device.getXpgWifiDevice().getPasscode());
+                            moduoDeviceObj.put(KEY_CID, device.getVideoCidNumber());
+                            moduoDeviceObj.put(KEY_VIDEO_USERNAME, device.getVideoUsername());
+                            moduoDeviceObj.put(KEY_VIDEO_PASSWORD, device.getVideoUsername());
+                            moduoDeviceObj.saveInBackground(callback);
+                        }
+                    }
+                });
+    }
+
+
+    //根据did   获取云端设备数据(主要是视频用户名密码)
+    public static Observable<ModuoInfo> getDeviceFromCloud(String did) {
+        return Observable.just(did)
+                .map(new Func1<String, ModuoInfo>() {
+                    @Override
+                    public ModuoInfo call(String strDid) {
+                        //获取moduoObject
+                        AVQuery<AVObject> query = new AVQuery<AVObject>(TABLE_MODUO_DEVICE);
+                        query.whereEqualTo(KEY_DID, strDid);
+                        AVObject moduoDeviceObject = null;
+                        try {
+                            moduoDeviceObject = query.getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                            moduoDeviceObject = null;
+                        }
+                        //
+                        if (moduoDeviceObject == null) {
+                            return null;
+                        } else {
+                            return new ModuoInfo(moduoDeviceObject.getString(KEY_DID),
+                                    moduoDeviceObject.getString(KEY_PASSCODE),
+                                    moduoDeviceObject.getString(KEY_CID),
+                                    moduoDeviceObject.getString(KEY_VIDEO_USERNAME),
+                                    moduoDeviceObject.getString(KEY_VIDEO_PASSWORD));
                         }
                     }
                 });

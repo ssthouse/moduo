@@ -5,35 +5,54 @@
 
     <!--背景图-->
     <ImageView
-        android:src="@drawable/loading_bg"
-        android:scaleType="fitXY"
         android:id="@+id/id_iv_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/loading_bg" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/loading_white_bg" />
 
     <!--logo信息-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="魔哆"
-            android:textColor="@color/md_white_1000"
-            android:textSize="42dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="V1.0.0"
-            android:textColor="@color/md_white_1000" />
+            android:src="@drawable/loading_word" />
+
+        <ImageView
+            android:layout_width="148dp"
+            android:layout_height="226dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/loading_modo" />
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="魔哆"-->
+        <!--android:textColor="@color/md_white_1000"-->
+        <!--android:textSize="42dp" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:text="V1.0.0"-->
+        <!--android:textColor="@color/md_white_1000" />-->
     </LinearLayout>
 
 </FrameLayout>

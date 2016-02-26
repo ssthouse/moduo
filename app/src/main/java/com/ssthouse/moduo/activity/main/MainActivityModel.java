@@ -16,7 +16,7 @@ import timber.log.Timber;
  */
 public class MainActivityModel {
 
-    public Observable<ModuoInfo> getUserInfo(String did) {
+    public Observable<ModuoInfo> getModuoInfo(String did) {
         return Observable.just(did)
                 .map(new Func1<String, ModuoInfo>() {
                     @Override

@@ -236,6 +236,7 @@ public class SettingManager {
     }
 
     /**
+     * todo---应该不让单独调用比较安全
      * 设置图形密码
      *
      * @param gestureLock
@@ -289,7 +290,7 @@ public class SettingManager {
         return spf.getString(PASSWORD, "");
     }
 
-    public void setToken(String token) {
+    private void setToken(String token) {
         spf.edit().putString(TOKEN, token).commit();
     }
 
@@ -297,7 +298,7 @@ public class SettingManager {
         return spf.getString(TOKEN, "");
     }
 
-    public void setUid(String uid) {
+    private void setUid(String uid) {
         spf.edit().putString(UID, uid).commit();
     }
 
@@ -308,7 +309,7 @@ public class SettingManager {
     /*
     视频参数设置
      */
-    public void setCidNumber(String cidNumber) {
+    private void setCidNumber(String cidNumber) {
         spf.edit()
                 .putString(CID_NUMBER, cidNumber)
                 .commit();
@@ -318,7 +319,7 @@ public class SettingManager {
         return spf.getString(CID_NUMBER, null);
     }
 
-    public void setVideoUsername(String videoUsername) {
+    private void setVideoUsername(String videoUsername) {
         spf.edit()
                 .putString(VIDEO_USERNAME, videoUsername)
                 .commit();
@@ -328,7 +329,7 @@ public class SettingManager {
         return spf.getString(VIDEO_USERNAME, null);
     }
 
-    public void setVideoPassword(String videoPassword) {
+    private void setVideoPassword(String videoPassword) {
         spf.edit()
                 .putString(VIDEO_PASSWORD, videoPassword)
                 .commit();
