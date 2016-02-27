@@ -19,4 +19,25 @@
         <item>answer</item>
         <item>answer</item>
     </string-array>
+
+
+    <!--使用帮助中的question-->
+    <string-array name="using_help_question">
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+    </string-array>
+
+    <!--使用帮助中的answer-->
+    <string-array name="using_help_answer">
+        <item>answeransweransweransweransweransweransweransweranswe
+            ransweransweransweransweransweransweransweranswer
+        answeransweransweransweranswer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+    </string-array>
 </resources>

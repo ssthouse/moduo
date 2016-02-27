@@ -19,6 +19,7 @@ import com.ssthouse.moduo.fragment.setting.CommonIssueFragment;
 import com.ssthouse.moduo.fragment.setting.IssueFeedbackFragment;
 import com.ssthouse.moduo.fragment.setting.SettingListFragment;
 import com.ssthouse.moduo.fragment.setting.UserTermFragment;
+import com.ssthouse.moduo.fragment.setting.UsingHelpFragment;
 import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
 import butterknife.Bind;
@@ -36,13 +37,20 @@ public class SettingActivity extends AppCompatActivity {
 
     //管理fragment
     private FragmentManager fragmentManager;
+    //列表
     private SettingListFragment settingListFragment;
+    //反馈
     private IssueFeedbackFragment issueFeedbackFragment;
+    //常见问题
     private CommonIssueFragment commonIssueFragment;
+    //使用帮助
+    private UsingHelpFragment usingHelpFragment;
+    //使用条款
     private UserTermFragment userTermFragment;
 
     //当前状态
     private State currentState;
+
     //fragment状态
     public enum State {
         //列表
@@ -51,6 +59,8 @@ public class SettingActivity extends AppCompatActivity {
         STATE_COMMON_ISSUE,
         //问题反馈
         STATE_ISSUE_FEEDBACK,
+        //使用帮助
+        STATE_USING_HELP,
         //使用条款
         STATE_USER_TERM
     }
@@ -83,8 +93,9 @@ public class SettingActivity extends AppCompatActivity {
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
         settingListFragment = new SettingListFragment();
-        issueFeedbackFragment = new IssueFeedbackFragment();
         commonIssueFragment = new CommonIssueFragment();
+        issueFeedbackFragment = new IssueFeedbackFragment();
+        usingHelpFragment = new UsingHelpFragment();
         userTermFragment = new UserTermFragment();
 
         fragmentManager.beginTransaction()
@@ -94,6 +105,8 @@ public class SettingActivity extends AppCompatActivity {
                 .hide(commonIssueFragment)
                 .add(R.id.id_fragment_container, issueFeedbackFragment)
                 .hide(issueFeedbackFragment)
+                .add(R.id.id_fragment_container, usingHelpFragment)
+                .hide(usingHelpFragment)
                 .add(R.id.id_fragment_container, userTermFragment)
                 .hide(userTermFragment)
                 .commit();
@@ -117,6 +130,9 @@ public class SettingActivity extends AppCompatActivity {
             case STATE_ISSUE_FEEDBACK:
                 currentFragment = issueFeedbackFragment;
                 break;
+            case STATE_USING_HELP:
+                currentFragment = usingHelpFragment;
+                break;
             case STATE_USER_TERM:
                 currentFragment = userTermFragment;
                 break;
@@ -130,6 +146,9 @@ public class SettingActivity extends AppCompatActivity {
                 break;
             case STATE_ISSUE_FEEDBACK:
                 toFragment = issueFeedbackFragment;
+                break;
+            case STATE_USING_HELP:
+                toFragment = usingHelpFragment;
                 break;
             case STATE_USER_TERM:
                 toFragment = userTermFragment;
@@ -175,6 +194,10 @@ public class SettingActivity extends AppCompatActivity {
                 getMenuInflater().inflate(R.menu.menu_frg_issue_feedback, menu);
                 setTitle("问题反馈");
                 break;
+            case STATE_USING_HELP:
+                getMenuInflater().inflate(R.menu.menu_empty, menu);
+                setTitle("使用帮助");
+                break;
             case STATE_USER_TERM:
                 getMenuInflater().inflate(R.menu.menu_empty, menu);
                 setTitle("使用条款");
@@ -202,7 +225,7 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(currentState != State.STATE_SETTING_LIST){
+        if (currentState != State.STATE_SETTING_LIST) {
             changeState(State.STATE_SETTING_LIST);
             return;
         }

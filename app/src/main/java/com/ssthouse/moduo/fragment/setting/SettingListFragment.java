@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.activity.AppIntroActivity;
 import com.ssthouse.moduo.activity.SettingActivity;
 import com.ssthouse.moduo.activity.account.GestureLockActivity;
 import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
@@ -61,7 +60,8 @@ public class SettingListFragment extends Fragment {
                         break;
                     //使用帮助
                     case 2:
-                        AppIntroActivity.start(getActivity());
+                        EventBus.getDefault()
+                                .post(new SettingAtyStateEvent(SettingActivity.State.STATE_USING_HELP));
                         break;
                     //使用条款
                     case 3:
