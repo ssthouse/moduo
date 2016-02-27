@@ -8,7 +8,6 @@
 
     <LinearLayout
         style="@style/FragmentContent"
-        android:background="@drawable/fragment_content_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:src="@drawable/personal_line_bold" />
+            android:src="@drawable/line_bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +61,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/personal_line_light" />
+            android:src="@drawable/line_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +95,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/personal_line_light" />
+            android:src="@drawable/line_light" />
 
         <!--初始仅匿名登录按钮课件(因为初始未登录)-->
         <LinearLayout

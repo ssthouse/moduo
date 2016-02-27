@@ -31,7 +31,7 @@
 
     <!--************************fragment content style***********************************-->
     <style name="FragmentContent">
-        <item name="android:background">@drawable/bg_white_round_rect</item>
+        <item name="android:background">@drawable/fragment_content_bg</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">16dp</item>

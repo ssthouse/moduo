@@ -2,21 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:src="@mipmap/ic_launcher" />
+    <LinearLayout
+        style="@style/FragmentContent"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="91dp"
+            android:layout_height="139dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/modo" />
 
-    <ListView
-        android:padding="16dp"
-        android:id="@+id/id_lv_setting"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/line_bold" />
+
+        <ListView
+            android:id="@+id/id_lv_setting"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@drawable/line_light" />
+    </LinearLayout>
+
 </LinearLayout>

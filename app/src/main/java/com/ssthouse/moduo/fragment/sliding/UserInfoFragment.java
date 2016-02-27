@@ -250,6 +250,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
         if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
+            Timber.e("not in focus");
             return;
         }
         loginOrRegisterDialog.dismiss();
@@ -259,6 +260,9 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             //清除本地魔哆数据
             SettingManager settingManager = SettingManager.getInstance(getContext());
             settingManager.cleanLocalModuo();
+            //todo---填写的用户信息保存到本地---
+            settingManager.setUserName(etUsername.getText().toString());
+            settingManager.setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
             //更新本地用户信息
             CloudUtil.updateUserInfoToLocal(getContext(), settingManager.getUserName());
             //保存机智云登陆数据
