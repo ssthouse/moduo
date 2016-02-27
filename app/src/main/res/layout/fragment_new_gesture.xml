@@ -2,44 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/index_home_bg"
     android:orientation="vertical">
 
 
-    <!--提示文字-->
-    <TextView
-        android:id="@+id/id_tv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:text="绘制图形密码,请连接至少4个点" />
-
-    <com.ssthouse.gesture.LockPatternView
-        android:id="@+id/id_gesture_lock"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        style="@style/FragmentContent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/id_btn_redraw"
+        <ImageView
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/gesture_3x3_mini" />
+
+        <!--提示文字-->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="重绘"
-            android:visibility="invisible" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="绘制解锁图案"
+            android:textColor="#706A6A"
+            android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/id_btn_confirm"
+        <com.ssthouse.gesture.LockPatternView
+            android:id="@+id/id_gesture_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="31dp"
+            android:layout_marginRight="31dp"
+            android:layout_marginTop="43dp" />
+
+        <!--提示文字-->
+        <TextView
+            android:id="@+id/id_tv_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确认"
-            android:visibility="invisible" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="21dp"
+            android:text="绘制解锁图案"
+            android:textColor="#667485"
+            android:textSize="14sp" />
+
+        <!--下方操作按钮-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/id_btn_redraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重绘"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/id_btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确认"
+                android:visibility="invisible" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

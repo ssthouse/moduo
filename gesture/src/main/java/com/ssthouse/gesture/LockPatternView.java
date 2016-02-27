@@ -23,7 +23,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -38,7 +37,6 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -264,10 +262,12 @@ public class LockPatternView extends View {
 
         setClickable(true);
 
+        // TODO this should be from the style
         mPathPaint.setAntiAlias(true);
         mPathPaint.setDither(true);
-        mPathPaint.setColor(Color.WHITE);   // TODO this should be from the style
-        mPathPaint.setAlpha(mStrokeAlpha);
+        mPathPaint.setColor(0x3189cc);
+        //改为不透明
+        mPathPaint.setAlpha(255);
         mPathPaint.setStyle(Paint.Style.STROKE);
         mPathPaint.setStrokeJoin(Paint.Join.ROUND);
         mPathPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -275,15 +275,15 @@ public class LockPatternView extends View {
         // lot's of bitmaps!
         mBitmapBtnDefault = getBitmapFor(R.drawable.btn_code_lock_default_holo);
         mBitmapBtnTouched = getBitmapFor(R.drawable.btn_code_lock_touched_holo);
-        mBitmapCircleDefault = getBitmapFor(R.drawable.indicator_code_lock_point_area_default_holo);
-        mBitmapCircleGreen = getBitmapFor(R.drawable.indicator_code_lock_point_area_green_holo);
-        mBitmapCircleRed = getBitmapFor(R.drawable.indicator_code_lock_point_area_red_holo);
+        mBitmapCircleDefault = getBitmapFor(R.drawable.gesture_hand_password01);
+        mBitmapCircleGreen = getBitmapFor(R.drawable.gesture_hand_password_bule);
+        mBitmapCircleRed = getBitmapFor(R.drawable.gesture_hand_password01);
 
         mBitmapArrowGreenUp = getBitmapFor(R.drawable.indicator_code_lock_drag_direction_green_up);
         mBitmapArrowRedUp = getBitmapFor(R.drawable.indicator_code_lock_drag_direction_red_up);
 
         // bitmaps have the size of the largest bitmap in this group
-        final Bitmap bitmaps[] = {mBitmapBtnDefault, mBitmapBtnTouched, mBitmapCircleDefault,
+        final Bitmap bitmaps[] = {mBitmapCircleDefault,
                 mBitmapCircleGreen, mBitmapCircleRed};
 
         for (Bitmap bitmap : bitmaps) {
@@ -1028,7 +1028,7 @@ public class LockPatternView extends View {
         mCircleMatrix.preTranslate(-mBitmapWidth / 2, -mBitmapHeight / 2);
 
         canvas.drawBitmap(outerCircle, mCircleMatrix, mPaint);
-        canvas.drawBitmap(innerCircle, mCircleMatrix, mPaint);
+//        canvas.drawBitmap(innerCircle, mCircleMatrix, mPaint);
     }
 
     @Override
