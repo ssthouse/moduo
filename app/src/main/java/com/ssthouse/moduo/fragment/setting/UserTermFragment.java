@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.ssthouse.moduo.R;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -19,20 +17,17 @@ import butterknife.ButterKnife;
  */
 public class UserTermFragment extends Fragment {
 
-    @Bind(R.id.id_web_view)
-    WebView webView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_term, container, false);
         ButterKnife.bind(this, rootView);
-        initView(rootView);
+        initView();
         return rootView;
     }
 
-    private void initView(View rootView) {
-        //初始化webView
+    private void initView() {
 
     }
 

@@ -2,11 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/id_web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <LinearLayout
+        style="@style/FragmentContent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="18dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="【重要提示】"
+                    android:textColor="#ffbf23"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="    请您在开始使用魔哆智能家庭管家机器人产品（以下简称“本产品”）之前请务必仔细阅读并理解《用户许可使用协议》（以下简称“本协议”
+                    \n    请您在开始使用魔哆智能家庭管家机器人产品（以下简称“本产品”）之前请务必仔细阅读并理解《用户许可使用协议》（以下简称“本协议”
+                    \n    请您在开始使用魔哆智能家庭管家机器人产品（以下简称“本产品”）之前请务必仔细阅读并理解《用户许可使用协议》（以下简称“本协议”"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </LinearLayout>
