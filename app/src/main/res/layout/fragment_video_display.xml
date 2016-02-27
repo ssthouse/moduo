@@ -7,7 +7,7 @@
     <!--视频播放承接器-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="12dp"
@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/id_rl_container"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="240dp"
             android:layout_marginBottom="32dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
@@ -28,49 +28,111 @@
 
     <!--下方的操作栏-->
     <LinearLayout
-        android:id="@+id/id_ll_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_white_round_rect"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <!--传感器控制-->
-        <Switch
-            android:id="@+id/id_sw_sensor_control"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="31dp"
+            android:id="@+id/id_ll_control"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="体感操控"
-            android:textColor="@color/white" />
+            android:orientation="horizontal">
 
-        <!--挂断-->
-        <ImageView
-            android:id="@+id/id_iv_drop"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@mipmap/ic_launcher" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_controller" />
 
-        <!--对讲-->
-        <Switch
-            android:id="@+id/id_sw_toggle_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:checked="true"
-            android:text="对讲"
-            android:textColor="@color/white" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_photo" />
 
-        <!--全屏按钮-->
-        <ImageView
-            android:id="@+id/id_iv_full_screen"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/home_ic_menu" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_rideo" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_must" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_voice_down" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_voice_up" />
+
+
+            <!--传感器控制-->
+            <Switch
+                android:id="@+id/id_sw_sensor_control"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="体感操控"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <!--对讲-->
+            <Switch
+                android:id="@+id/id_sw_toggle_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="true"
+                android:text="对讲"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <!--全屏按钮-->
+            <ImageView
+                android:id="@+id/id_iv_full_screen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/home_ic_menu" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/id_tv_hangup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/video_buttom_hangup"
+            android:gravity="center"
+            android:text="挂断"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
     </LinearLayout>
+
 </FrameLayout>

@@ -43,6 +43,12 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private MaterialDialog waitDialog;
     private MaterialDialog confirmDialog;
 
+
+    //视频承接view
+    @Bind(R.id.id_rl_container)
+    View videoContainer;
+
+    //***********控制面板**************************
     @Bind(R.id.id_ll_control)
     LinearLayout llControlPanel;
 
@@ -50,16 +56,13 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Bind(R.id.id_sw_sensor_control)
     Switch swGyroscopeControl;
 
-    @Bind(R.id.id_iv_drop)
-    ImageView ivDrop;
+    //挂断
+    @Bind(R.id.id_tv_hangup)
+    TextView tvHangup;
 
     //对讲开关
     @Bind(R.id.id_sw_toggle_voice)
     Switch swToggleVoice;
-
-    //视频承接view
-    @Bind(R.id.id_rl_container)
-    View videoContainer;
 
     //全屏切换
     @Bind(R.id.id_iv_full_screen)
@@ -106,7 +109,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         });
 
         //挂断
-        ivDrop.setOnClickListener(new View.OnClickListener() {
+        tvHangup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //退出Activity  会自动清除video数据点
