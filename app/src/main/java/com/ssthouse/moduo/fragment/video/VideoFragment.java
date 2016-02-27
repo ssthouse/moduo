@@ -219,9 +219,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         waitDialog.dismiss();
     }
 
+    //显示确认退出Dialog
     @Override
     public void showConfirmDialog(String msg) {
-        confirmDialog.setContent("msg");
+        confirmDialog.setContent(msg);
         confirmDialog.show();
     }
 
