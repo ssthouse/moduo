@@ -14,8 +14,6 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.Device;
 
-import timber.log.Timber;
-
 /**
  * 关于魔哆
  * Created by ssthouse on 2016/1/13.
@@ -32,11 +30,7 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_about_moduo, container, false);
-
         initView(rootView);
-
-        //// TODO: 2016/1/13 尝试获取设备数据信息---然后更新界面
-
         return rootView;
     }
 
@@ -78,7 +72,7 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI {
     public void updateUI() {
         //获取新的设备数据
         if (XPGController.getCurrentDevice() == null) {
-            Timber.e("当前没有设备连接");
+            //Timber.e("当前没有设备连接");
             return;
         }
         Device device = XPGController.getCurrentDevice();

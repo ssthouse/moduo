@@ -30,21 +30,21 @@ public class SettingListFragment extends Fragment {
     private String lvEntity[] = {"常见问题", "问题反馈", "使用帮助", "使用条款", "图形密码"};
 
     @Bind(R.id.id_lv_setting)
-    ListView lvSetting;
+    ListView mlv;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_setting_list, container, false);
         ButterKnife.bind(this, rootView);
-        initView(rootView);
+        initView();
         return rootView;
     }
 
-    private void initView(View rootView) {
-        lvSetting.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_setting, lvEntity));
+    private void initView() {
+        mlv.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_setting, R.id.id_tv_content, lvEntity));
 
-        lvSetting.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {

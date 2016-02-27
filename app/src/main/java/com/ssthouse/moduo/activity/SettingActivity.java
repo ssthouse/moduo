@@ -165,19 +165,19 @@ public class SettingActivity extends AppCompatActivity {
         switch (currentState) {
             case STATE_SETTING_LIST:
                 getMenuInflater().inflate(R.menu.menu_empty, menu);
-                getSupportActionBar().setTitle("通用设置");
+                setTitle("通用设置");
                 break;
             case STATE_COMMON_ISSUE:
                 getMenuInflater().inflate(R.menu.menu_empty, menu);
-                getSupportActionBar().setTitle("常见问题");
+                setTitle("常见问题");
                 break;
             case STATE_ISSUE_FEEDBACK:
                 getMenuInflater().inflate(R.menu.menu_frg_issue_feedback, menu);
-                getSupportActionBar().setTitle("问题反馈");
+                setTitle("问题反馈");
                 break;
             case STATE_USER_TERM:
                 getMenuInflater().inflate(R.menu.menu_empty, menu);
-                getSupportActionBar().setTitle("使用条款");
+                setTitle("使用条款");
                 break;
         }
         return super.onCreateOptionsMenu(menu);
