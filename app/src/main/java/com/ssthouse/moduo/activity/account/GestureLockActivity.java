@@ -1,17 +1,19 @@
 package com.ssthouse.moduo.activity.account;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -36,7 +38,8 @@ public class GestureLockActivity extends AppCompatActivity {
     private NewGestureFragment newGestureFragment;
     private EditGestureFragment editGestureFragment;
 
-    private MaterialDialog exitDialog;
+    private Dialog confirmDialog;
+    private View confirmDialogView;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, GestureLockActivity.class);
@@ -55,19 +58,12 @@ public class GestureLockActivity extends AppCompatActivity {
 
         //未登录 或 匿名登录 退出
         if (!SettingManager.getInstance(this).isLogined()) {
-            showExitDialog("请先登录后设置图形密码");
+            showConfirmDialog("请登录后设置图形密码");
             return;
         }
         if (SettingManager.getInstance(this).isAnonymousUser()) {
-            showExitDialog("当前为匿名登录");
+            showConfirmDialog("当前为匿名登录");
             return;
-        }
-        //初始fragment切换
-        if (SettingManager.getInstance(this).getGestureLock() == null
-                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
-            toNewGestureFragment();
-        } else {
-            toEditGestureFragment();
         }
     }
 
@@ -95,6 +91,14 @@ public class GestureLockActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, newGestureFragment)
                 .commit();
+
+        //初始fragment切换
+        if (SettingManager.getInstance(this).getGestureLock() == null
+                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
+            toNewGestureFragment();
+        } else {
+            toEditGestureFragment();
+        }
     }
 
     //设置标题
@@ -108,23 +112,27 @@ public class GestureLockActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setTitle("新建图形密码");
 
-        exitDialog = new MaterialDialog.Builder(this)
-                .customView(R.layout.dialog_exit, true)
-                .autoDismiss(true)
-                .positiveText("确定")
-                .dismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                })
-                .build();
+        confirmDialogView = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_confirm, null);
+        confirmDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
+                .setView(confirmDialogView)
+                .setCancelable(false)
+                .create();
     }
 
-    private void showExitDialog(String msg) {
-        TextView tvExit = (TextView) exitDialog.getCustomView().findViewById(R.id.id_tv_exit);
+    private void showConfirmDialog(String msg) {
+        //提示文字
+        TextView tvExit = (TextView) confirmDialogView.findViewById(R.id.id_tv_content);
         tvExit.setText(msg);
-        exitDialog.show();
+        //点击事件---确认退出
+        confirmDialogView.findViewById(R.id.id_tv_confirm)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+        confirmDialog.show();
     }
 
     //图形密码编辑完成回调

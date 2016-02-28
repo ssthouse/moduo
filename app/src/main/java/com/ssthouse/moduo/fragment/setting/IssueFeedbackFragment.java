@@ -93,13 +93,13 @@ public class IssueFeedbackFragment extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
         waitDialogView = inflater.inflate(R.layout.dialog_wait, null);
-        waitDialog = new AlertDialog.Builder(getContext())
+        waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(waitDialogView)
                 .setCancelable(false)
                 .create();
 
         confirmDialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        confirmDialog = new AlertDialog.Builder(getContext())
+        confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
                 .setCancelable(false)
                 .create();

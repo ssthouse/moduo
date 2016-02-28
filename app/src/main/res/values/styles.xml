@@ -28,6 +28,10 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <!--****************************Dialog*******************************************-->
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">#00ffffff</item>
+    </style>
 
     <!--************************fragment content style***********************************-->
     <style name="FragmentContent">

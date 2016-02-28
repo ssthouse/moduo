@@ -191,7 +191,7 @@ public class SettingActivity extends AppCompatActivity {
                 setTitle("常见问题");
                 break;
             case STATE_ISSUE_FEEDBACK:
-                getMenuInflater().inflate(R.menu.menu_frg_issue_feedback, menu);
+                getMenuInflater().inflate(R.menu.menu_empty, menu);
                 setTitle("问题反馈");
                 break;
             case STATE_USING_HELP:
@@ -215,9 +215,6 @@ public class SettingActivity extends AppCompatActivity {
                 } else {
                     finish();
                 }
-                break;
-            //提交Issue
-            case R.id.id_menu_post_issue:
                 break;
         }
         return super.onOptionsItemSelected(item);
