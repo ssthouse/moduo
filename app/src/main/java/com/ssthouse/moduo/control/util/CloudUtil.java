@@ -36,6 +36,27 @@ public class CloudUtil {
     public static final String KEY_VIDEO_USERNAME = "videoUserName";
     public static final String KEY_VIDEO_PASSWORD = "videoPassword";
 
+
+    /**
+     * 用户信息数据表
+     */
+    public final static String TABLE_USER_INFO = "UserInfo";
+
+    public final static String KEY_USERNAME = "username";
+    public final static String KEY_PASSWORD = "password";
+    public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
+
+
+    /*****
+     * 用户返回数据表
+     */
+    public final static String TABLE_ISSUE_FEEDBACK = "IssueFeedback";
+    //用户联系方式
+    public final static String KEY_CONTACT_INFO = "contactInfo";
+    //反馈内容
+    public final static String KEY_ISSUE_CONTENT = "content";
+
+
     /**
      * 保存设备数据到leancloud
      *
@@ -144,15 +165,6 @@ public class CloudUtil {
                     }
                 });
     }
-
-    /**
-     * 用户信息数据表
-     */
-    public final static String TABLE_USER_INFO = "UserInfo";
-
-    public final static String KEY_USERNAME = "username";
-    public final static String KEY_PASSWORD = "password";
-    public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
 
     /**
      * todo

@@ -13,7 +13,6 @@ import com.ssthouse.moduo.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * 常见问题fragment
@@ -48,7 +47,6 @@ public class CommonIssueFragment extends Fragment {
             tvQuestion.setText(questions[i]);
             tvAnswer.setText(answers[i]);
             llContainer.addView(itemView);
-            Timber.e(i + "---------------");
         }
     }
 }
