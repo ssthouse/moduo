@@ -125,13 +125,15 @@ public class GestureLockActivity extends AppCompatActivity {
         TextView tvExit = (TextView) confirmDialogView.findViewById(R.id.id_tv_content);
         tvExit.setText(msg);
         //点击事件---确认退出
-        confirmDialogView.findViewById(R.id.id_tv_confirm)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        };
+        confirmDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(clickListener);
+        confirmDialogView.findViewById(R.id.id_iv_close).setOnClickListener(clickListener);
         confirmDialog.show();
     }
 

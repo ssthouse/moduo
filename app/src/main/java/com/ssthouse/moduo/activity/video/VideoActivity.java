@@ -54,9 +54,9 @@ public class VideoActivity extends AppCompatActivity {
         //全屏---不息屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if(isPortrait){
+        if (isPortrait) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }else{
+        } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
@@ -119,7 +119,13 @@ public class VideoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (isPortrait) {
+                    finish();
+                } else {
+                    //变回竖屏
+                    videoFragment.toPortrait();
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

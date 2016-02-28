@@ -118,15 +118,25 @@ public class IssueFeedbackFragment extends Fragment {
         } else {
             tvConfirmContent.setText("意见提交失败");
         }
-        TextView tvConfirm = (TextView) confirmDialogView.findViewById(R.id.id_tv_confirm);
-        tvConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmDialog.dismiss();
-                //返回列表fragment
-                EventBus.getDefault().post(new SettingAtyStateEvent(SettingActivity.State.STATE_SETTING_LIST));
-            }
-        });
+        //点击事件
+        confirmDialogView.findViewById(R.id.id_tv_confirm)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        confirmDialog.dismiss();
+                        //返回列表fragment
+                        EventBus.getDefault().post(new SettingAtyStateEvent(SettingActivity.State.STATE_SETTING_LIST));
+                    }
+                });
+        confirmDialogView.findViewById(R.id.id_iv_close)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        confirmDialog.dismiss();
+                        //返回列表fragment
+                        EventBus.getDefault().post(new SettingAtyStateEvent(SettingActivity.State.STATE_SETTING_LIST));
+                    }
+                });
         confirmDialog.show();
     }
 }
