@@ -110,6 +110,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         });
 
         //挂断
+        if (VideoActivity.isPortrait) {
+            tvHangup.setVisibility(View.VISIBLE);
+        } else {
+            tvHangup.setVisibility(View.GONE);
+        }
         tvHangup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,6 +279,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         activity.findViewById(R.id.id_tb).setVisibility(View.GONE);
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //隐藏hangup按钮
+        tvHangup.setVisibility(View.GONE);
     }
 
     //竖屏
@@ -286,6 +293,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //非全屏---显示actionbar
         AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
         videoActivity.getSupportActionBar().show();
+        //显示hangup按钮
+        tvHangup.setVisibility(View.VISIBLE);
     }
 
     /*

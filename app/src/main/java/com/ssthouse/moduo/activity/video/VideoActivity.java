@@ -1,5 +1,6 @@
 package com.ssthouse.moduo.activity.video;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.video.VideoFragment;
 
@@ -36,7 +38,8 @@ public class VideoActivity extends AppCompatActivity {
     public static boolean isPortrait = true;
 
     //等待dialog
-    private MaterialDialog waitDialog;
+    private View waitDialogView;
+    private AlertDialog waitDialog;
 
     /**
      * 启动当前activity
@@ -93,14 +96,15 @@ public class VideoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //等待dialog
-        waitDialog = new MaterialDialog.Builder(this)
-                .autoDismiss(false)
-                .customView(R.layout.dialog_wait, true)
-                .build();
+        waitDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
+                .setCancelable(false)
+                .setView(waitDialogView)
+                .create();
     }
 
     public void showDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
