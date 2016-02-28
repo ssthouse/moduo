@@ -1,5 +1,6 @@
 package com.ssthouse.moduo.fragment.video;
 
+import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
@@ -40,8 +39,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     //控制面板是否可见
     private boolean isCtrlPanelVisible;
 
-    private MaterialDialog waitDialog;
-    private MaterialDialog confirmDialog;
+    private AlertDialog waitDialog;
+    private View waitDialogView;
+    private AlertDialog confirmDialog;
+    private View confirmDialogView;
 
 
     //视频承接view
@@ -163,22 +164,20 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             }
         });
 
-        waitDialog = new MaterialDialog.Builder(getContext())
-                .customView(R.layout.dialog_wait, true)
-                .build();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        waitDialogView = inflater.inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(waitDialogView)
+                .setCancelable(false)
+                .create();
         //初始等待Dialog
         showWaitDialog("正在加载视频");
-        confirmDialog = new MaterialDialog.Builder(getContext())
-                .content("魔哆退出视频通话")
-                .positiveText("确认")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
-                        getActivity().finish();
-                    }
-                })
-                .autoDismiss(false)
-                .build();
+
+        confirmDialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(confirmDialogView)
+                .setCancelable(false)
+                .create();
     }
 
     //初始化video
@@ -212,7 +211,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
 
     @Override
     public void showWaitDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
@@ -225,7 +224,16 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     //显示确认退出Dialog
     @Override
     public void showConfirmDialog(String msg) {
-        confirmDialog.setContent(msg);
+        TextView tvContent = (TextView) confirmDialogView.findViewById(R.id.id_tv_content);
+        tvContent.setText(msg);
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        };
+        confirmDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(clickListener);
+        confirmDialogView.findViewById(R.id.id_iv_close).setOnClickListener(clickListener);
         confirmDialog.show();
     }
 
