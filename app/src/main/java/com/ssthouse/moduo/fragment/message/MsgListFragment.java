@@ -8,19 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.model.event.view.MsgActivityToDetailEvent;
-
-import de.greenrobot.event.EventBus;
+import com.ssthouse.moduo.control.util.ToastHelper;
 
 /**
  * 消息列表
  * Created by ssthouse on 2016/1/21.
  */
-public class MsgListFragment extends Fragment{
+public class MsgListFragment extends Fragment {
 
     private ListView lv;
 
@@ -34,6 +33,8 @@ public class MsgListFragment extends Fragment{
     }
 
     private void initView(View rootView) {
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+
         lv = (ListView) rootView.findViewById(R.id.id_lv_setting);
         lv.setAdapter(new BaseAdapter() {
             @Override
@@ -53,18 +54,39 @@ public class MsgListFragment extends Fragment{
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                TextView tv = new TextView(getContext());
-                tv.setText("测试");
-                return tv;
+                ViewHolder viewHolder;
+                if (convertView == null) {
+                    viewHolder = new ViewHolder();
+                    convertView = inflater.inflate(R.layout.item_msg_fragment, parent, false);
+                    //填充数据
+                    viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.id_tv_title);
+                    viewHolder.tvContent = (TextView) convertView.findViewById(R.id.id_tv_content);
+                    viewHolder.ivReaded = (ImageView) convertView.findViewById(R.id.id_iv_readed);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolder) convertView.getTag();
+                }
+                //todo---填充View的数据
+                //viewHolder.tvTitle.setText("");
+                //viewHolder.tvContent.setText("");
+                //viewHolder.ivReaded.setImageResource(R.drawable.msg_ic_collect);
+                return convertView;
             }
         });
-        
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //// TODO: 2016/1/21  
-                EventBus.getDefault().post(new MsgActivityToDetailEvent());
+                //// TODO: 2016/1/21  ---到时候把整个item发出去
+                //EventBus.getDefault().post(new MsgActivityToDetailEvent());
+                ToastHelper.show(getContext(), "功能正在开发中");
             }
         });
+    }
+
+    class ViewHolder {
+        TextView tvTitle;
+        TextView tvContent;
+        ImageView ivReaded;
     }
 }
