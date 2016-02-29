@@ -23,8 +23,6 @@ import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.video.VideoHolder;
 import com.ssthouse.moduo.control.xpg.XPGController;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -36,68 +34,154 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     //Presenter
     private VideoFragmentPresenter mPresenter;
 
-    //控制面板是否可见
-    private boolean isCtrlPanelVisible;
-
+    //Dialog
     private AlertDialog waitDialog;
     private View waitDialogView;
     private AlertDialog confirmDialog;
     private View confirmDialogView;
 
-
-    //视频承接view
-    @Bind(R.id.id_rl_container)
-    View videoContainer;
-
-    //***********控制面板**************************
-    @Bind(R.id.id_ll_control)
-    LinearLayout llControlPanel;
-
-    //陀螺仪控制开关
-    @Bind(R.id.id_sw_sensor_control)
-    Switch swGyroscopeControl;
-
-    //挂断
-    @Bind(R.id.id_tv_hangup)
-    TextView tvHangup;
-
-    //对讲开关
-    @Bind(R.id.id_sw_toggle_voice)
-    Switch swToggleVoice;
-
-    //全屏切换
-    @Bind(R.id.id_iv_full_screen)
-    ImageView ivFullScreen;
-
-    /**
-     * 陀螺仪管理类
-     */
+    //陀螺仪管理类
     private GyroscopeSensor gyroscopeSensor;
 
-    /**
-     * 视频逻辑管理类
-     */
+    //视频逻辑管理类
     private VideoHolder videoHolder;
+
+    //**********竖屏控件**************************
+    //视频承接
+    private RelativeLayout rlVideoContainerPort;
+    //控制面板
+    private Switch swSensorControlPort;
+    private Switch swToggleVoicePort;
+    private TextView tvHangupPort;
+    private ImageView ivFullScreenPort;
+
+    //********横屏控件****************************
+    //视频承接
+    private RelativeLayout rlVideoContainerLand;
+    //控制面板
+    private LinearLayout llTopControlLand;
+    private ImageView ivBackLand;
+    private LinearLayout llBottomControlLand;
+    private Switch swSensorControlPortLand;
+    private Switch swToggleVoicePortLand;
+    private TextView tvHangupPortLand;
+    private ImageView ivFullScreenPortLand;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_video_display, container, false);
-        ButterKnife.bind(this, rootView);
-        initView();
 
-        //初始化视频参数
-        initVideo();
+        View rootView;
+        if (VideoActivity.isPortrait) {
+            rootView = inflater.inflate(R.layout.fragment_video_portrait, container, false);
+            initPortView(rootView);
+            //初始化视频参数
+            initVideo(true);
+        } else {
+            rootView = inflater.inflate(R.layout.fragment_video_landscape, container, false);
+            initLandView(rootView);
+            //初始化视频参数
+            initVideo(false);
+        }
+
+        initDialog();
 
         //Presenter
         mPresenter = new VideoFragmentPresenter(getContext(), this);
         return rootView;
     }
 
-    private void initView() {
+    private void initLandView(View rootView) {
+        //actionbar
+        getActivity().findViewById(R.id.id_tb).setVisibility(View.GONE);
+
+        //视频承接
+        rlVideoContainerLand = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+        rlVideoContainerLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo---隐藏和显示控制面板---后期加动画
+                if (llTopControlLand.getVisibility() == View.VISIBLE) {
+                    llTopControlLand.setVisibility(View.GONE);
+                } else {
+                    llTopControlLand.setVisibility(View.VISIBLE);
+                }
+                if (llBottomControlLand.getVisibility() == View.VISIBLE) {
+                    llBottomControlLand.setVisibility(View.GONE);
+                } else {
+                    llBottomControlLand.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        //上方控制栏
+        llTopControlLand = (LinearLayout) rootView.findViewById(R.id.id_ll_top_video_control);
+
+        //返回竖屏
+        ivBackLand = (ImageView) rootView.findViewById(R.id.id_iv_back_2_portrait);
+        ivBackLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toPortrait();
+            }
+        });
+
+        //下方控制栏
+        llBottomControlLand = (LinearLayout) rootView.findViewById(R.id.id_ll_bottom_video_control);
+
+        swSensorControlPortLand = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
+        swSensorControlPortLand.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    gyroscopeSensor.resetOrientation();
+                    gyroscopeSensor.start();
+                } else {
+                    gyroscopeSensor.pause();
+                }
+            }
+        });
+
+        swToggleVoicePortLand = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
+        swToggleVoicePortLand.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                XPGController.getInstance(getContext())
+                        .getmCenter()
+                        .cWriteCmd(XPGController.getCurrentDevice().getXpgWifiDevice(),
+                                Byte.decode("1"),
+                                Byte.decode("1"),
+                                Byte.decode("1"),
+                                Byte.decode("1"));
+                if (isChecked) {
+                    videoHolder.startTalk();
+                } else {
+                    videoHolder.stopTalk();
+                }
+            }
+        });
+
+        ivFullScreenPortLand = (ImageView) rootView.findViewById(R.id.id_iv_full_screen);
+        ivFullScreenPortLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toPortrait();
+            }
+        });
+
+        //todo---一开始先隐藏控制栏
+        llTopControlLand.setVisibility(View.GONE);
+        llBottomControlLand.setVisibility(View.GONE);
+    }
+
+    private void initPortView(View rootView) {
+        //actionbar
+        getActivity().findViewById(R.id.id_tb).setVisibility(View.VISIBLE);
+
         //体感控制开关
-        swGyroscopeControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swSensorControlPort = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
+        swSensorControlPort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -110,12 +194,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         });
 
         //挂断
-        if (VideoActivity.isPortrait) {
-            tvHangup.setVisibility(View.VISIBLE);
-        } else {
-            tvHangup.setVisibility(View.GONE);
-        }
-        tvHangup.setOnClickListener(new View.OnClickListener() {
+        tvHangupPort = (TextView) rootView.findViewById(R.id.id_tv_hangup);
+        tvHangupPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //退出Activity  会自动清除video数据点
@@ -124,7 +204,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         });
 
         //对讲开关
-        swToggleVoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swToggleVoicePort = (Switch) rootView.findViewById(R.id.id_sw_toggle_voice);
+        swToggleVoicePort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 XPGController.getInstance(getContext())
@@ -143,32 +224,20 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         });
 
         //全屏控制
-        ivFullScreen.setOnClickListener(new View.OnClickListener() {
+        ivFullScreenPort = (ImageView) rootView.findViewById(R.id.id_iv_full_screen);
+        ivFullScreenPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (VideoActivity.isPortrait) {
-                    //横屏
-                    toLandscape();
-                } else {
-                    //编变竖屏
-                    toPortrait();
-                }
+                //横屏
+                toLandscape();
             }
         });
 
-        //控制面板Visible控制
-        videoContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //只有横屏会隐藏控制面板
-                if (isCtrlPanelVisible && VideoActivity.isPortrait == false) {
-                    hideCtrlPanel();
-                } else {
-                    showCtrlPanel();
-                }
-            }
-        });
+        //控制面板Visible控制--竖屏的时候没有监听事件
+        rlVideoContainerPort = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+    }
 
+    private void initDialog() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         waitDialogView = inflater.inflate(R.layout.dialog_wait, null);
         waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
@@ -185,8 +254,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 .create();
     }
 
-    //初始化video
-    private void initVideo() {
+    //初始化video---判断是否为竖屏
+    private void initVideo(boolean isPort) {
         //启动采集端的视频
         //将video数据点置为1
         XPGController.getInstance(getContext()).getmCenter().cWriteVideo(
@@ -194,9 +263,15 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         );
 
         //初始化视频播放类
-        videoHolder = new VideoHolder(getContext(),
-                (RelativeLayout) videoContainer,
-                Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
+        if (isPort) {
+            videoHolder = new VideoHolder(getContext(),
+                    rlVideoContainerPort,
+                    Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
+        } else {
+            videoHolder = new VideoHolder(getContext(),
+                    rlVideoContainerLand,
+                    Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
+        }
 
         //初始化传感器
         gyroscopeSensor = new GyroscopeSensor(getContext());
@@ -242,30 +317,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         confirmDialog.show();
     }
 
-    @Override
-    public void hideCtrlPanel() {
-        isCtrlPanelVisible = false;
-        //下方面板
-        if (llControlPanel != null) {
-            llControlPanel.setVisibility(View.GONE);
-        }
-        //actionbar
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().hide();
-    }
-
-    @Override
-    public void showCtrlPanel() {
-        isCtrlPanelVisible = true;
-        //下方面板
-        if (llControlPanel != null) {
-            llControlPanel.setVisibility(View.VISIBLE);
-        }
-        //actionbar
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().show();
-    }
-
     //横屏
     @Override
     public void toLandscape() {
@@ -273,14 +324,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         VideoActivity.isPortrait = false;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //隐藏控制面板
-        llControlPanel.setVisibility(View.GONE);
         //全屏---隐藏actionbar
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.findViewById(R.id.id_tb).setVisibility(View.GONE);
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //隐藏hangup按钮
-        tvHangup.setVisibility(View.GONE);
     }
 
     //竖屏
@@ -293,8 +341,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //非全屏---显示actionbar
         AppCompatActivity videoActivity = (AppCompatActivity) getActivity();
         videoActivity.getSupportActionBar().show();
-        //显示hangup按钮
-        tvHangup.setVisibility(View.VISIBLE);
     }
 
     /*

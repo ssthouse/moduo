@@ -110,16 +110,6 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (isPortrait) {
-            videoFragment.showCtrlPanel();
-        } else {
-            videoFragment.hideCtrlPanel();
-        }
-        super.onWindowFocusChanged(hasFocus);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

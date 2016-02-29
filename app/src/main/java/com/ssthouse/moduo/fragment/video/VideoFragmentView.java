@@ -14,12 +14,6 @@ public interface VideoFragmentView {
     //显示确认退出Dialog
     void showConfirmDialog(String msg);
 
-    //隐藏控制面板
-    void hideCtrlPanel();
-
-    //显示控制面板
-    void showCtrlPanel();
-
     //横屏
     void toLandscape();
     //竖屏

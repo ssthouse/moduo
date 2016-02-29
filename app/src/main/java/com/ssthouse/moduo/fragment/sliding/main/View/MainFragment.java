@@ -78,7 +78,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        Timber.e("try log int completed");
+                        Timber.e("try log init completed");
                     }
                 });
 

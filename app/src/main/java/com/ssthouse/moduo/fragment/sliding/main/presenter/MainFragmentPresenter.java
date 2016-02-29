@@ -78,7 +78,7 @@ public class MainFragmentPresenter {
     public void jump2Video() {
         switch (Communication.getInstance(mContext).getStreamerPresenceState()) {
             case INIT:
-                ToastHelper.show(mContext, "魔哆不在线");
+                ToastHelper.show(mContext, "魔哆摄像头不在线");
                 break;
             case OFFLINE:
                 ToastHelper.show(mContext, "魔哆不在线");
