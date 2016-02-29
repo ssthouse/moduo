@@ -40,10 +40,18 @@
         <LinearLayout
             android:id="@+id/id_ll_control"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="31dp"
-            android:gravity="center"
+            android:layout_height="76dp"
+            android:layout_marginTop="9dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <!--还原-->
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/id_iv_video_control_back"
+                android:layout_width="11dp"
+                android:layout_height="21dp"
+                android:src="@drawable/video_direction_back" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -53,6 +61,7 @@
                 android:src="@drawable/video_controller" />
 
             <ImageView
+                android:id="@+id/id_iv_take_photo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -60,6 +69,7 @@
                 android:src="@drawable/video_photo" />
 
             <ImageView
+                android:id="@+id/id_iv_take_video"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -67,6 +77,7 @@
                 android:src="@drawable/video_rideo" />
 
             <ImageView
+                android:id="@+id/id_iv_mute"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -74,6 +85,7 @@
                 android:src="@drawable/video_must" />
 
             <ImageView
+                android:id="@+id/id_iv_volume_down"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,6 +93,7 @@
                 android:src="@drawable/video_voice_down" />
 
             <ImageView
+                android:id="@+id/id_iv_volume_up"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -125,7 +138,7 @@
             android:layout_marginBottom="28dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/video_buttom_hangup"
             android:gravity="center"
             android:text="挂断"

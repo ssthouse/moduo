@@ -53,7 +53,14 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private Switch swSensorControlPort;
     private Switch swToggleVoicePort;
     private TextView tvHangupPort;
+    //一排操作按钮
+    private ImageView ivTakePhotoPort;
+    private ImageView ivTakeVideoPort;
+    private ImageView ivMutePort;
+    private ImageView ivVolumeDownPort;
+    private ImageView ivVolumeUpPort;
     private ImageView ivFullScreenPort;
+
 
     //********横屏控件****************************
     //视频承接

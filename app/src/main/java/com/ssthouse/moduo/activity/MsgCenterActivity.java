@@ -34,7 +34,14 @@ public class MsgCenterActivity extends AppCompatActivity {
     private MsgListFragment msgListFragment;
     private MsgDetailFragment msgDetailFragment;
 
-    public static void start(Context context){
+    //Fragment状态
+    private State currentState = State.STATE_MSG_LIST;
+
+    enum State {
+        STATE_MSG_LIST, STATE_MSG_DETAIL
+    }
+
+    public static void start(Context context) {
         Intent intent = new Intent(context, MsgCenterActivity.class);
         context.startActivity(intent);
     }
@@ -58,6 +65,7 @@ public class MsgCenterActivity extends AppCompatActivity {
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("消息中心");
     }
 
@@ -80,7 +88,8 @@ public class MsgCenterActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(MsgActivityToListEvent event) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //改变状态
+        currentState = State.STATE_MSG_LIST;
         fragmentManager.beginTransaction()
                 .show(msgListFragment)
                 .hide(msgDetailFragment)
@@ -94,12 +103,14 @@ public class MsgCenterActivity extends AppCompatActivity {
      * @param event
      */
     public void onEventMainThread(MsgActivityToDetailEvent event) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //改变状态
+        currentState = State.STATE_MSG_DETAIL;
         fragmentManager.beginTransaction()
                 .hide(msgListFragment)
                 .show(msgDetailFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
+        //todo---填充MsgDetailFragment数据
     }
 
     @Override
@@ -111,7 +122,11 @@ public class MsgCenterActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            EventBus.getDefault().post(new MsgActivityToListEvent());
+            if (currentState == State.STATE_MSG_LIST) {
+                finish();
+            } else if (currentState == State.STATE_MSG_DETAIL) {
+                EventBus.getDefault().post(new MsgActivityToListEvent());
+            }
         }
         return super.onOptionsItemSelected(item);
     }
