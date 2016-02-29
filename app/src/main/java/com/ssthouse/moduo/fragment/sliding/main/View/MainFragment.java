@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.ModuoActivity;
 import com.ssthouse.moduo.activity.MsgCenterActivity;
+import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -86,6 +87,14 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
     }
 
     private void initView() {
+        //切换魔哆
+        ivModuoNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchModuoActivity.start(getActivity());
+            }
+        });
+
         ivHomeControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
