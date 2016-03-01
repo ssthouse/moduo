@@ -315,9 +315,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                     case R.id.id_iv_mute:
                         isMute = !isMute;
                         if (isMute) {
-                            ivMutePort.setImageResource(R.drawable.video_must);
+                            ivMutePort.setImageResource(R.drawable.video_mute_blue);
                         } else {
-                            ivMutePort.setImageResource(R.drawable.modo);
+                            ivMutePort.setImageResource(R.drawable.video_mute_grey);
                         }
                         mPresenter.turnMute(isMute);
                         break;

@@ -31,13 +31,13 @@
             android:layout_marginTop="32dp" />
 
         <ImageView
-            android:layout_marginTop="7dp"
             android:id="@+id/id_iv_full_screen"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="6.6dp"
             android:layout_marginRight="6.6dp"
+            android:layout_marginTop="7dp"
             android:src="@drawable/video_full_screen" />
     </LinearLayout>
     <!--</LinearLayout>-->
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_controller" />
+                android:src="@drawable/video_sensor_controller_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_take_photo"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_photo" />
+                android:src="@drawable/video_take_photo_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_take_video"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_rideo" />
+                android:src="@drawable/video_take_video_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_mute"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_must" />
+                android:src="@drawable/video_mute_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_volume_down"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_voice_down" />
+                android:src="@drawable/video_voice_down_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_volume_up"
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
-                android:src="@drawable/video_voice_up" />
+                android:src="@drawable/video_voice_up_grey" />
 
 
             <!--传感器控制-->

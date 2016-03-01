@@ -41,43 +41,37 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_controller" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_photo" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_rideo" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_must" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_voice_down" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_video_ctrl_btn"
-            android:src="@drawable/video_voice_up" />
+            android:background="@drawable/selector_video_ctrl_btn" />
 
 
         <!--传感器控制-->
