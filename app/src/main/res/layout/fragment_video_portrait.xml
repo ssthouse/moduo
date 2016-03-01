@@ -48,12 +48,13 @@
             <!--还原-->
             <ImageView
                 android:visibility="gone"
-                android:id="@+id/id_iv_video_control_back"
+                android:id="@+id/id_iv_restore_control_panel"
                 android:layout_width="11dp"
                 android:layout_height="21dp"
                 android:src="@drawable/video_direction_back" />
 
             <ImageView
+                android:id="@+id/id_iv_sensor_control"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

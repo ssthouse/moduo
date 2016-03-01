@@ -42,6 +42,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
 
     //陀螺仪管理类
     private GyroscopeSensor gyroscopeSensor;
+    private boolean isInSensorControl = false;
 
     //视频逻辑管理类
     private VideoHolder videoHolder;
@@ -54,9 +55,13 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private Switch swToggleVoicePort;
     private TextView tvHangupPort;
     //一排操作按钮
+    private ImageView ivRestorePanelPort;
+    private ImageView ivSensorControlPort;
     private ImageView ivTakePhotoPort;
     private ImageView ivTakeVideoPort;
+    //静音按钮
     private ImageView ivMutePort;
+    private boolean isMute = false;
     private ImageView ivVolumeDownPort;
     private ImageView ivVolumeUpPort;
     private ImageView ivFullScreenPort;
@@ -186,6 +191,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //actionbar
         getActivity().findViewById(R.id.id_tb).setVisibility(View.VISIBLE);
 
+        //控制面板Visible控制--竖屏的时候没有监听事件
+        rlVideoContainerPort = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+
         //体感控制开关
         swSensorControlPort = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
         swSensorControlPort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -240,9 +248,88 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             }
         });
 
-        //控制面板Visible控制--竖屏的时候没有监听事件
-        rlVideoContainerPort = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+        //控制面板---从左往右
+        ivRestorePanelPort = (ImageView) rootView.findViewById(R.id.id_iv_restore_control_panel);
+        ivSensorControlPort = (ImageView) rootView.findViewById(R.id.id_iv_sensor_control);
+        ivTakePhotoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_photo);
+        ivTakeVideoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_video);
+        ivMutePort = (ImageView) rootView.findViewById(R.id.id_iv_mute);
+        ivVolumeDownPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_down);
+        ivVolumeUpPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_up);
+
+        //复原控制Panel
+        ivRestorePanelPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restoreControlPanel();
+            }
+        });
+
+        //体感控制
+        ivSensorControlPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //状态变化
+                isInSensorControl = !isInSensorControl;
+                if (isInSensorControl) {
+                    gyroscopeSensor.resetOrientation();
+                    gyroscopeSensor.start();
+                } else {
+                    gyroscopeSensor.pause();
+                }
+            }
+        });
+
+        //拍照
+        ivTakePhotoPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
+            }
+        });
+
+        //录像
+        ivTakeVideoPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2016/2/29 录像
+
+            }
+        });
+
+        //声音控制
+        View.OnClickListener volumeControlListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.id_iv_mute:
+                        isMute = !isMute;
+                        if (isMute) {
+                            ivMutePort.setImageResource(R.drawable.video_must);
+                        } else {
+                            ivMutePort.setImageResource(R.drawable.modo);
+                        }
+                        mPresenter.turnMute(isMute);
+                        break;
+                    case R.id.id_iv_volume_down:
+                        mPresenter.turnDownVolume();
+                        break;
+                    case R.id.id_iv_volume_up:
+                        mPresenter.turnUpVolume();
+                        break;
+                }
+            }
+        };
+        ivMutePort.setOnClickListener(volumeControlListener);
+        ivVolumeDownPort.setOnClickListener(volumeControlListener);
+        ivVolumeUpPort.setOnClickListener(volumeControlListener);
     }
+
+    //todo---恢复控制面板
+    private void restoreControlPanel() {
+
+    }
+
 
     private void initDialog() {
         LayoutInflater inflater = LayoutInflater.from(getContext());

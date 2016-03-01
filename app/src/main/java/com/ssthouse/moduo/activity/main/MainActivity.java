@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
     //初始化视频sdk
     private void initVideoSdk() {
-        Communication.loadSdkLib();
         communication = Communication.getInstance(this);
     }
 

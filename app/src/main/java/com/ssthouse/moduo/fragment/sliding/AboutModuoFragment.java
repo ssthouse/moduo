@@ -20,8 +20,8 @@ import com.ssthouse.moduo.model.bean.device.Device;
  */
 public class AboutModuoFragment extends Fragment implements IFragmentUI {
 
-    private String[] args = {"型号", "IP", "设备号", "版本"};
-    private String[] values = new String[]{"", "", "", "", ""};
+    private String[] args = {"型号", "IP", "设备号", "版本", "备注"};
+    private String[] values = new String[]{"", "", "", "", "", ""};
 
     private ListView mLv;
 
@@ -84,6 +84,8 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI {
         values[2] = device.getXpgWifiDevice().getDid();
         //Mac地址
         values[3] = device.getXpgWifiDevice().getMacAddress();
+        //备注
+        values[4] = device.getXpgWifiDevice().getRemark();
         //刷新UI
         mAdapter.notifyDataSetChanged();
     }

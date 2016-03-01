@@ -31,14 +31,14 @@ public class Communication {
     /**
      * 单例
      */
-    private static Communication instance;
+    private static Communication mInstance;
 
-    private Context context;
+    private Context mContext;
 
     /**
-     * 总管理类
+     * 视频SDK总管理类
      */
-    private Viewer viewer;
+    private Viewer mViewer;
 
     //视频SDK登陆状态
     private static boolean login;
@@ -52,16 +52,16 @@ public class Communication {
      * @return
      */
     public static Communication getInstance(Context context) {
-        if (instance == null) {
-            instance = new Communication(context);
+        if (mInstance == null) {
+            mInstance = new Communication(context);
         }
-        return instance;
+        return mInstance;
     }
 
     /**
      * 加载视频对话sdk
      */
-    public static void loadSdkLib() {
+    private void loadSdkLib() {
         //ToastHelper.show(this, "加载视频sdk so 文件");
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("ffmpeg");
@@ -76,8 +76,10 @@ public class Communication {
      * @param context
      */
     private Communication(Context context) {
-        this.context = context;
-        this.viewer = Viewer.getViewer();
+        //首先要加载sdk
+        loadSdkLib();
+        this.mContext = context;
+        this.mViewer = Viewer.getViewer();
         init();
     }
 
@@ -86,20 +88,20 @@ public class Communication {
      */
     private void init() {
         //初始化SDK
-        viewer.init(context, Constant.APP_VERSION_STR, context.getFilesDir().getAbsolutePath(),
+        mViewer.init(mContext, Constant.APP_VERSION_STR, mContext.getFilesDir().getAbsolutePath(),
                 Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/" + Constant.EXTERNAL_VIDEO_FOLDER_NAME);
         //TODO---打印日志
-        viewer.setDebugEnable(Constant.isDebug);
+        mViewer.setDebugEnable(Constant.isDebug);
         //初始化注册认证信息
-        viewer.setLoginInfo(Constant.VideoSdkCons.companyID, Constant.VideoSdkCons.companyKey,
+        mViewer.setLoginInfo(Constant.VideoSdkCons.companyID, Constant.VideoSdkCons.companyKey,
                 Constant.VideoSdkCons.appID, Constant.VideoSdkCons.license);
         //设置回调
-        viewer.setCallBack(viewerCallback);
+        mViewer.setCallBack(viewerCallback);
         //设置采集端状态回调
-        viewer.setStreamerStateListener(streamerStateListener);
+        mViewer.setStreamerStateListener(streamerStateListener);
         //正式登陆
-        viewer.login();
+        mViewer.login();
     }
 
     /**
@@ -154,9 +156,9 @@ public class Communication {
     //添加采集端
     public void addStreamer(long streamerCid, String user, String pass) {
         //连接采集端
-        viewer.connectStreamer(streamerCid, user, pass);
+        mViewer.connectStreamer(streamerCid, user, pass);
         //获取采集端的信息
-        viewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
+        mViewer.getStreamerInfoMgr().getStreamerInfo(streamerCid);
     }
 
     //添加采集端
@@ -164,21 +166,21 @@ public class Communication {
         if (device == null) {
             return;
         }
-        viewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
+        mViewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
                 device.getVideoUsername(), device.getVideoPassword());
         //获取采集端的信息
-        viewer.getStreamerInfoMgr().getStreamerInfo(Long.parseLong(device.getVideoCidNumber()));
+        mViewer.getStreamerInfoMgr().getStreamerInfo(Long.parseLong(device.getVideoCidNumber()));
     }
 
 
     //删除采集端
     public void removeStreamer(long streamerCid) {
-        viewer.disconnectStreamer(streamerCid);
+        mViewer.disconnectStreamer(streamerCid);
     }
 
     public void destroy() {
-        viewer.logout();//登出平台
-        viewer.destroy();//销毁sdk
+        mViewer.logout();//登出平台
+        mViewer.destroy();//销毁sdk
     }
 
     public static boolean isLogin() {
