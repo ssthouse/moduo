@@ -48,7 +48,7 @@ public class FileUtil {
         if (!picFile.exists()) {
             picFile.mkdirs();
         }
-        File videoFile = new File(MODUO_VIDEO_PIC_PATH);
+        File videoFile = new File(MODUO_VIDEO_VIDEO_PATH);
         if (!videoFile.exists()) {
             videoFile.mkdirs();
         }

@@ -51,6 +51,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     //视频承接
     private RelativeLayout rlVideoContainerPort;
     //控制面板
+    //控制面板是否正常状态---默认是
+    private boolean isPanelNormal = true;
     private Switch swSensorControlPort;
     private Switch swToggleVoicePort;
     private TextView tvHangupPort;
@@ -297,7 +299,12 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void onClick(View v) {
                 // TODO: 2016/2/29 录像
-
+                isInVideoRecord = !isInVideoRecord;
+                if (isInVideoRecord) {
+                    mPresenter.startTakeVideo(videoHolder.getLiveStreamDid());
+                } else {
+                    mPresenter.stopTakeVideo(videoHolder.getLiveStreamDid());
+                }
             }
         });
 
@@ -331,9 +338,31 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
 
     //todo---恢复控制面板
     private void restoreControlPanel() {
-
+        //隐藏三角
+        ivRestorePanelPort.setVisibility(View.GONE);
+        //其它的控件复原
+        ivSensorControlPort.setVisibility(View.VISIBLE);
+        ivTakePhotoPort.setVisibility(View.VISIBLE);
+        ivTakeVideoPort.setVisibility(View.VISIBLE);
+        ivMutePort.setVisibility(View.VISIBLE);
+        ivVolumeDownPort.setVisibility(View.VISIBLE);
+        ivVolumeUpPort.setVisibility(View.VISIBLE);
     }
 
+    //放大拍照或者
+    private void zoomButton(ImageView iv) {
+        //显示三角形
+        ivRestorePanelPort.setVisibility(View.VISIBLE);
+        //隐藏所有panel按钮
+        ivSensorControlPort.setVisibility(View.GONE);
+        ivTakePhotoPort.setVisibility(View.GONE);
+        ivTakeVideoPort.setVisibility(View.GONE);
+        ivMutePort.setVisibility(View.GONE);
+        ivVolumeDownPort.setVisibility(View.GONE);
+        ivVolumeUpPort.setVisibility(View.GONE);
+        //显示放大的按钮
+        iv.setVisibility(View.VISIBLE);
+    }
 
     private void initDialog() {
         LayoutInflater inflater = LayoutInflater.from(getContext());

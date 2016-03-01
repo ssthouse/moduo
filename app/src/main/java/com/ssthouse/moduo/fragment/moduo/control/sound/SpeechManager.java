@@ -2,7 +2,6 @@ package com.ssthouse.moduo.fragment.moduo.control.sound;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 
 import com.iflytek.cloud.ErrorCode;
@@ -12,6 +11,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.UnderstanderResult;
+import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.fragment.moduo.bean.event.VolumeChangEvent;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class SpeechManager implements ISpeechControl {
     private Context mContext;
 
     //录音文件的保存路径
-    private String mDir = Environment.getExternalStorageDirectory() + "/Moduo";
+    private String mDir = FileUtil.MODUO_TALK_PATH;
     private String mCurrentFilePath;
 
     //当前音量等级
@@ -110,7 +110,7 @@ public class SpeechManager implements ISpeechControl {
     @Override
     public boolean isCurrentAudioFileExit() {
         File currentAudioFile = new File(mCurrentFilePath);
-        Timber.e("mCurrentFilePath:\t"+mCurrentFilePath + (currentAudioFile.exists()?"存在":"不存在"));
+        Timber.e("mCurrentFilePath:\t" + mCurrentFilePath + (currentAudioFile.exists() ? "存在" : "不存在"));
         return currentAudioFile.exists();
     }
 
@@ -187,6 +187,6 @@ public class SpeechManager implements ISpeechControl {
 
     //获取随机文件名
     private String generateFilePath() {
-        return mDir + "/" + System.currentTimeMillis() + ".wav";
+        return mDir + System.currentTimeMillis() + ".wav";
     }
 }

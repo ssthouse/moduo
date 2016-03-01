@@ -71,21 +71,23 @@ public class VideoFragmentPresenter {
 
     //********************拍照---视频控制**********************************
     //开始录像
-    public void startTakeVideo(long streamerCid) {
+    public void startTakeVideo(long streamerDid) {
         //获取media控制类
         Media media = Communication.getInstance(mContext).getmViewer().getMedia();
         //生成文件path
         currentVideoPath = FileUtil.generateNewVideoFilePath();
-        media.startLocalRecord(streamerCid, currentVideoPath);
+        media.startLocalRecord(streamerDid, currentVideoPath);
+        Timber.e("start video");
     }
 
     //停止录像
-    public void stopTakeVideo(long streamerCid) {
+    public void stopTakeVideo(long streamerDid) {
         //获取media控制类
         Media media = Communication.getInstance(mContext).getmViewer().getMedia();
         //停止录制
-        media.stopLocalRecord(streamerCid);
+        media.stopLocalRecord(streamerDid);
         ToastHelper.show(mContext, "视频成功保存至:SD卡根目录\\" + currentVideoPath);
+        Timber.e("stop video");
     }
 
     //拍照
@@ -94,7 +96,7 @@ public class VideoFragmentPresenter {
         Media media = Communication.getInstance(mContext).getmViewer().getMedia();
         //生成文件path
         final String filePath = FileUtil.generateNewPicFilePath();
-        media.requestJpeg(streamerCid, 0, 0, RvsJpegType.NORMAL, new RecvJpegListener() {
+        media.requestJpeg(streamerCid, 0, 0, RvsJpegType.HD, new RecvJpegListener() {
             @Override
             public void onRecvJpeg(long l, byte[] bytes) {
                 ToastHelper.show(mContext, "截图成功保存至:" + filePath);
