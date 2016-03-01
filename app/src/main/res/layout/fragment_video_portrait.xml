@@ -15,14 +15,31 @@
     <!--android:gravity="center"-->
     <!--android:orientation="horizontal">-->
 
-    <RelativeLayout
-        android:id="@+id/id_rl_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="100dp"
-        android:background="@drawable/video_bg_screen" />
+        android:background="@drawable/bg_black_round_rect"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/id_rl_container"
+            android:layout_width="match_parent"
+            android:layout_height="246dp"
+            android:layout_marginTop="32dp" />
+
+        <ImageView
+            android:layout_marginTop="7dp"
+            android:id="@+id/id_iv_full_screen"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="6.6dp"
+            android:layout_marginRight="6.6dp"
+            android:src="@drawable/video_full_screen" />
+    </LinearLayout>
     <!--</LinearLayout>-->
 
     <!--下方的操作栏-->
@@ -47,11 +64,11 @@
 
             <!--还原-->
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/id_iv_restore_control_panel"
                 android:layout_width="11dp"
                 android:layout_height="21dp"
-                android:src="@drawable/video_direction_back" />
+                android:src="@drawable/video_direction_back"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/id_iv_sensor_control"
@@ -123,13 +140,6 @@
                 android:textColor="@color/white"
                 android:visibility="gone" />
 
-            <!--全屏按钮-->
-            <ImageView
-                android:id="@+id/id_iv_full_screen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/home_ic_menu" />
         </LinearLayout>
 
         <TextView

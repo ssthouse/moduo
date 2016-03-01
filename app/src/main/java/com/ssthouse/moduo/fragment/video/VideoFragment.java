@@ -108,6 +108,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         return rootView;
     }
 
+    //初始化横屏界面
     private void initLandView(View rootView) {
         //actionbar
         getActivity().findViewById(R.id.id_tb).setVisibility(View.GONE);
@@ -191,6 +192,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         llBottomControlLand.setVisibility(View.GONE);
     }
 
+    //初始化竖屏界面
     private void initPortView(View rootView) {
         //actionbar
         getActivity().findViewById(R.id.id_tb).setVisibility(View.VISIBLE);
