@@ -65,8 +65,10 @@
             <!--还原-->
             <ImageView
                 android:id="@+id/id_iv_restore_control_panel"
-                android:layout_width="11dp"
+                android:layout_width="72dp"
                 android:layout_height="21dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
                 android:src="@drawable/video_direction_back"
                 android:visibility="gone" />
 
@@ -118,6 +120,14 @@
                 android:background="@drawable/selector_video_ctrl_btn"
                 android:src="@drawable/video_voice_up_grey" />
 
+            <!--用于和左边的还原按钮对称-->
+            <ImageView
+                android:id="@+id/id_iv_restore_control_panel_empty"
+                android:layout_width="72dp"
+                android:layout_height="21dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:visibility="gone" />
 
             <!--传感器控制-->
             <Switch

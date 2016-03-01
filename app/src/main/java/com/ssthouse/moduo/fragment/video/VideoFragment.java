@@ -57,7 +57,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private Switch swToggleVoicePort;
     private TextView tvHangupPort;
     //一排操作按钮
+    //还原Panel的按钮  和  右边对称的空按钮
     private ImageView ivRestorePanelPort;
+    private ImageView ivRestorePanelPortEmpty;
     private ImageView ivSensorControlPort;
     private ImageView ivTakePhotoPort;
     //录像---是否在录像标志位
@@ -87,7 +89,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         View rootView;
         if (VideoActivity.isPortrait) {
             rootView = inflater.inflate(R.layout.fragment_video_portrait, container, false);
@@ -259,14 +260,16 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivSensorControlPort = (ImageView) rootView.findViewById(R.id.id_iv_sensor_control);
         ivTakePhotoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_photo);
         ivTakeVideoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_video);
-        ivMutePort = (ImageView) rootView.findViewById(R.id.id_iv_mute);
+        ivMutePort = (ImageView) rootView   .findViewById(R.id.id_iv_mute);
         ivVolumeDownPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_down);
         ivVolumeUpPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_up);
+        ivRestorePanelPortEmpty = (ImageView) rootView.findViewById(R.id.id_iv_restore_control_panel_empty);
 
         //复原控制Panel
         ivRestorePanelPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isPanelNormal = true;
                 restoreControlPanel();
             }
         });
@@ -280,8 +283,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 if (isInSensorControl) {
                     gyroscopeSensor.resetOrientation();
                     gyroscopeSensor.start();
+                    ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_blue);
                 } else {
                     gyroscopeSensor.pause();
+                    ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_grey);
                 }
             }
         });
@@ -290,6 +295,13 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivTakePhotoPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //panel正常状态---缩放控件
+                if (isPanelNormal) {
+                    isPanelNormal = false;
+                    zoomButton(ivTakePhotoPort);
+                    return;
+                }
+                //已为放大状态---响应点击事件
                 videoHolder.saveOneFrameJpeg();
             }
         });
@@ -298,11 +310,20 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivTakeVideoPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //panel正常状态---缩放控件
+                if (isPanelNormal) {
+                    isPanelNormal = false;
+                    zoomButton(ivTakeVideoPort);
+                    return;
+                }
+                //已为放大状态---响应点击事件
                 isInVideoRecord = !isInVideoRecord;
                 if (isInVideoRecord) {
                     mPresenter.startTakeVideo(videoHolder.getLiveStreamDid());
+                    ivTakeVideoPort.setImageResource(R.drawable.video_take_video_blue);
                 } else {
                     mPresenter.stopTakeVideo(videoHolder.getLiveStreamDid());
+                    ivTakeVideoPort.setImageResource(R.drawable.video_take_video_grey);
                 }
             }
         });
@@ -339,6 +360,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private void restoreControlPanel() {
         //隐藏三角
         ivRestorePanelPort.setVisibility(View.GONE);
+        ivRestorePanelPortEmpty.setVisibility(View.GONE);
         //其它的控件复原
         ivSensorControlPort.setVisibility(View.VISIBLE);
         ivTakePhotoPort.setVisibility(View.VISIBLE);
@@ -352,6 +374,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private void zoomButton(ImageView iv) {
         //显示三角形
         ivRestorePanelPort.setVisibility(View.VISIBLE);
+        ivRestorePanelPortEmpty.setVisibility(View.VISIBLE);
         //隐藏所有panel按钮
         ivSensorControlPort.setVisibility(View.GONE);
         ivTakePhotoPort.setVisibility(View.GONE);
