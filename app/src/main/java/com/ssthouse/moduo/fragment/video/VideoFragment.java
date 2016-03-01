@@ -119,11 +119,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void onClick(View v) {
                 //todo---隐藏和显示控制面板---后期加动画
-                if (llTopControlLand.getVisibility() == View.VISIBLE) {
-                    llTopControlLand.setVisibility(View.GONE);
-                } else {
-                    llTopControlLand.setVisibility(View.VISIBLE);
-                }
+//                if (llTopControlLand.getVisibility() == View.VISIBLE) {
+//                    llTopControlLand.setVisibility(View.GONE);
+//                } else {
+//                    llTopControlLand.setVisibility(View.VISIBLE);
+//                }
                 if (llBottomControlLand.getVisibility() == View.VISIBLE) {
                     llBottomControlLand.setVisibility(View.GONE);
                 } else {
