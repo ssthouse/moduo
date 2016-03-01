@@ -31,7 +31,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/prompt_icon_close" />
+            android:src="@drawable/dialog_btn_close" />
 
     </LinearLayout>
 

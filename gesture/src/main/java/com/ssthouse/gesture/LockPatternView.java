@@ -275,9 +275,9 @@ public class LockPatternView extends View {
         // lot's of bitmaps!
         mBitmapBtnDefault = getBitmapFor(R.drawable.btn_code_lock_default_holo);
         mBitmapBtnTouched = getBitmapFor(R.drawable.btn_code_lock_touched_holo);
-        mBitmapCircleDefault = getBitmapFor(R.drawable.gesture_hand_password01);
+        mBitmapCircleDefault = getBitmapFor(R.drawable.gesture_hand_password_gery);
         mBitmapCircleGreen = getBitmapFor(R.drawable.gesture_hand_password_bule);
-        mBitmapCircleRed = getBitmapFor(R.drawable.gesture_hand_password01);
+        mBitmapCircleRed = getBitmapFor(R.drawable.gesture_hand_password_red);
 
         mBitmapArrowGreenUp = getBitmapFor(R.drawable.indicator_code_lock_drag_direction_green_up);
         mBitmapArrowRedUp = getBitmapFor(R.drawable.indicator_code_lock_drag_direction_red_up);

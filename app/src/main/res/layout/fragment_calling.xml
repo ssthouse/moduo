@@ -22,7 +22,7 @@
             android:layout_width="276dp"
             android:layout_height="276dp"
             android:layout_marginTop="36dp"
-            android:src="@drawable/video_login_p" />
+            android:src="@drawable/callding_avatar_moduo" />
 
         <ImageView
             android:id="@+id/id_btn_cancel"
