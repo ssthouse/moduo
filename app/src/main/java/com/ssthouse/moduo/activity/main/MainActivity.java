@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                     }
                     String picFileName = XPGController.getCurrentDevice().getXpgWifiDevice().getDid() + ".png";
                     if (FileUtil.hasPicture(picFileName)) {
-                        FileUtil.sharePicture(this, new File(FileUtil.MODUO_PICTURE_PATH + picFileName));
+                        FileUtil.sharePicture(this, new File(FileUtil.MODUO_QRCODE_PATH + picFileName));
                     } else {
                         ToastHelper.show(this, "二维码未生成");
                     }

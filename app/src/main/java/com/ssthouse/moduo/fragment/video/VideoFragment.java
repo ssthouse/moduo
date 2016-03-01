@@ -58,7 +58,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private ImageView ivRestorePanelPort;
     private ImageView ivSensorControlPort;
     private ImageView ivTakePhotoPort;
+    //录像---是否在录像标志位
     private ImageView ivTakeVideoPort;
+    private boolean isInVideoRecord;
     //静音按钮
     private ImageView ivMutePort;
     private boolean isMute = false;
@@ -285,6 +287,8 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void onClick(View v) {
                 //todo
+                Timber.e("try pic");
+                mPresenter.takePhoto(videoHolder.getStreamerCid(), 0);
             }
         });
 
@@ -336,16 +340,16 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         waitDialogView = inflater.inflate(R.layout.dialog_wait, null);
         waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(waitDialogView)
-                .setCancelable(false)
                 .create();
+        waitDialog.setCanceledOnTouchOutside(false);
         //初始等待Dialog
         showWaitDialog("正在加载视频");
 
         confirmDialogView = inflater.inflate(R.layout.dialog_confirm, null);
         confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
-                .setCancelable(false)
                 .create();
+        confirmDialog.setCanceledOnTouchOutside(false);
     }
 
     //初始化video---判断是否为竖屏

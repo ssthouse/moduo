@@ -35,7 +35,7 @@ public class VideoHolder {
      */
     private RelativeLayout surfaceViewLayout;
 
-    private long liveStreamId;//播放流id
+    private long liveStreamDid;//播放流id
     private long decoderId; //解码器id
     private long streamerCid;// 要观看的采集端cid
 
@@ -83,7 +83,7 @@ public class VideoHolder {
     private GLViewYuvRender.RenderYUVFrame renderYUVFrame = new GLViewYuvRender.RenderYUVFrame() {
         @Override
         public void onRenderData(byte[] bytes, byte[] bytes1, byte[] bytes2) {
-            media.getVideoDecodedData(liveStreamId, decoderId, bytes, bytes1, bytes2);
+            media.getVideoDecodedData(liveStreamDid, decoderId, bytes, bytes1, bytes2);
         }
     };
 
@@ -98,7 +98,7 @@ public class VideoHolder {
             if (mediaStreamState == MediaStreamState.CREATED) {
                 //视频准备完毕事件
                 EventBus.getDefault().post(new VideoReadyEvent(true));
-                MediaDataDesc desc = media.getStreamDesc(liveStreamId);
+                MediaDataDesc desc = media.getStreamDesc(liveStreamDid);
                 if (desc == null) {
                     Timber.e("get media desc error!");
                     return;
@@ -112,7 +112,7 @@ public class VideoHolder {
                 myRenderer.setVideoDimension(desc.getVideoWidth(), desc.getVideoHeight());
                 myRenderer.setYuvDataRender(renderYUVFrame);
 //                if (desc.getAudioType() != AudioType.INVALID) {
-                    audioHandler = new AudioHandler(desc.getSampRate(), desc.getChannel(), liveStreamId, decoderId, media, streamerCid);
+                    audioHandler = new AudioHandler(desc.getSampRate(), desc.getChannel(), liveStreamDid, decoderId, media, streamerCid);
                     audioHandler.startAudioWorking();
 //                }
             } else {
@@ -126,8 +126,8 @@ public class VideoHolder {
     //开始实时视频
     public void startLiveVideo() {
         surfaceViewLayout.addView(glSurfaceView);
-        liveStreamId = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
-        Timber.e("liveStreamId :" + liveStreamId + "   cid" + streamerCid);
+        liveStreamDid = media.openLiveStream(streamerCid, 0, 0, 0);// 测试打开实时视频流
+        Timber.e("liveStreamDid :" + liveStreamDid + "   cid" + streamerCid);
     }
 
     //停止音视频观看
@@ -146,9 +146,9 @@ public class VideoHolder {
             media.destoryAVDecoder(decoderId);// 销毁解码器
             decoderId = 0;
         }
-        if (liveStreamId != 0) {
-            media.closeStream(liveStreamId);// 关闭实时流
-            liveStreamId = 0;
+        if (liveStreamDid != 0) {
+            media.closeStream(liveStreamDid);// 关闭实时流
+            liveStreamDid = 0;
         }
     }
 
@@ -185,5 +185,19 @@ public class VideoHolder {
     public void stop() {
         media.setMediaStreamStateCallback(null);
         stopWatch();
+    }
+
+    //getter----------------------------
+
+    public long getLiveStreamDid() {
+        return liveStreamDid;
+    }
+
+    public long getDecoderId() {
+        return decoderId;
+    }
+
+    public long getStreamerCid() {
+        return streamerCid;
     }
 }

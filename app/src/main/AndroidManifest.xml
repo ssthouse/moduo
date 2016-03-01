@@ -140,8 +140,9 @@
             android:screenOrientation="portrait" />
 
         <!--切换魔哆-->
-        <activity android:name=".activity.SwitchModuoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.SwitchModuoActivity"
+            android:screenOrientation="portrait" />
 
         <!--用户信息修改-->
         <activity

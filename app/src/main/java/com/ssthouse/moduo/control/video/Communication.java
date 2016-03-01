@@ -198,4 +198,8 @@ public class Communication {
     public void setStreamerPresenceState(StreamerPresenceState streamerPresenceState) {
         this.streamerPresenceState = streamerPresenceState;
     }
+
+    public Viewer getmViewer() {
+        return mViewer;
+    }
 }
