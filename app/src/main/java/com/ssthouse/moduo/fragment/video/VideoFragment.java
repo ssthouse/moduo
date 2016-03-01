@@ -288,9 +288,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivTakePhotoPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo
-                Timber.e("try pic");
-                mPresenter.takePhoto(videoHolder.getStreamerCid(), 0);
+                videoHolder.saveOneFrameJpeg();
             }
         });
 
@@ -298,7 +296,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivTakeVideoPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016/2/29 录像
                 isInVideoRecord = !isInVideoRecord;
                 if (isInVideoRecord) {
                     mPresenter.startTakeVideo(videoHolder.getLiveStreamDid());

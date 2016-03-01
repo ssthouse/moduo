@@ -1,6 +1,9 @@
 package com.ssthouse.moduo.control.video;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.opengl.GLSurfaceView;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -11,7 +14,12 @@ import com.ichano.rvs.viewer.bean.MediaDataDesc;
 import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
+import com.ssthouse.moduo.control.util.FileUtil;
+import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -44,6 +52,9 @@ public class VideoHolder {
      */
     private GLSurfaceView glSurfaceView;
     private GLViewYuvRender myRenderer;
+    //当前帧的yuv数据
+    private byte[] y, u, v;
+    private int videoWidth, videoHeight;
 
     /**
      * 播放控制类
@@ -83,6 +94,9 @@ public class VideoHolder {
     private GLViewYuvRender.RenderYUVFrame renderYUVFrame = new GLViewYuvRender.RenderYUVFrame() {
         @Override
         public void onRenderData(byte[] bytes, byte[] bytes1, byte[] bytes2) {
+            y = bytes;
+            u = bytes1;
+            v = bytes2;
             media.getVideoDecodedData(liveStreamDid, decoderId, bytes, bytes1, bytes2);
         }
     };
@@ -109,11 +123,13 @@ public class VideoHolder {
                         + desc.getSampRate());
                 // 根据对端的音视频格式进行编码器初始化，不使用sdk内置h264解码器可以不用关心
                 decoderId = media.initAVDecoder(desc.getAudioType(), desc.getSampRate());
-                myRenderer.setVideoDimension(desc.getVideoWidth(), desc.getVideoHeight());
+                videoWidth = desc.getVideoWidth();
+                videoHeight = desc.getVideoHeight();
+                myRenderer.setVideoDimension(videoWidth, videoHeight);
                 myRenderer.setYuvDataRender(renderYUVFrame);
 //                if (desc.getAudioType() != AudioType.INVALID) {
-                    audioHandler = new AudioHandler(desc.getSampRate(), desc.getChannel(), liveStreamDid, decoderId, media, streamerCid);
-                    audioHandler.startAudioWorking();
+                audioHandler = new AudioHandler(desc.getSampRate(), desc.getChannel(), liveStreamDid, decoderId, media, streamerCid);
+                audioHandler.startAudioWorking();
 //                }
             } else {
                 stopWatch();
@@ -153,20 +169,20 @@ public class VideoHolder {
     }
 
     //开启对讲
-    public boolean startTalk(){
-        if(audioHandler == null){
+    public boolean startTalk() {
+        if (audioHandler == null) {
             return false;
-        }else {
+        } else {
             audioHandler.startTalk();
             return true;
         }
     }
 
     //停止对讲
-    public boolean stopTalk(){
-        if(audioHandler == null){
+    public boolean stopTalk() {
+        if (audioHandler == null) {
             return false;
-        }else{
+        } else {
             audioHandler.stopTalk();
             return true;
         }
@@ -176,6 +192,33 @@ public class VideoHolder {
     public void sendCmd(View view) {
         boolean ret = viewer.getCommand().sendCustomData(streamerCid, "test".getBytes());
         Timber.e("send cmd ret:" + ret);
+    }
+
+    //截取一帧的图片
+    public void saveOneFrameJpeg() {
+        if (videoWidth == 0 || videoHeight == 0) {
+            ToastHelper.show(context, "视频数据格式有误, 请稍候重试");
+            return;
+        }
+        int yuvi = videoWidth * videoHeight;
+        int uvi = 0;
+        byte[] yuv = new byte[videoWidth * videoHeight * 3 / 2];
+        System.arraycopy(y, 0, yuv, 0, yuvi);
+        for (int i = 0; i < videoHeight / 2; i++) {
+            for (int j = 0; j < videoWidth / 2; j++) {
+                yuv[yuvi++] = v[uvi];
+                yuv[yuvi++] = u[uvi++];
+            }
+        }
+        String filePath = FileUtil.generateNewPicFilePath();
+        YuvImage yuvImage = new YuvImage(yuv, ImageFormat.NV21, videoWidth, videoHeight, null);
+        try {
+            yuvImage.compressToJpeg(new Rect(0, 0, videoWidth, videoHeight), 100, new FileOutputStream(filePath));
+            ToastHelper.show(context, "截屏成功保存至:\tSD卡根目录\\" + filePath);
+        } catch (FileNotFoundException e) {
+            ToastHelper.show(context, "图片截取失败!");
+            e.printStackTrace();
+        }
     }
 
     public void resume() {

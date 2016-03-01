@@ -5,19 +5,12 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.ichano.rvs.viewer.Media;
-import com.ichano.rvs.viewer.callback.RecvJpegListener;
-import com.ichano.rvs.viewer.constant.RvsJpegType;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
@@ -90,34 +83,34 @@ public class VideoFragmentPresenter {
         Timber.e("stop video");
     }
 
-    //拍照
-    public void takePhoto(long streamerCid, int streanerId) {
-        //获取media控制类
-        Media media = Communication.getInstance(mContext).getmViewer().getMedia();
-        //生成文件path
-        final String filePath = FileUtil.generateNewPicFilePath();
-        media.requestJpeg(streamerCid, 0, 0, RvsJpegType.HD, new RecvJpegListener() {
-            @Override
-            public void onRecvJpeg(long l, byte[] bytes) {
-                ToastHelper.show(mContext, "截图成功保存至:" + filePath);
-                Timber.e("数据长为:\t" + bytes.length);
-                try {
-                    OutputStream outputStream = new FileOutputStream(filePath);
-                    outputStream.write(bytes);
-                    outputStream.flush();
-                    outputStream.close();
-                    Timber.e("try complete pic");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Timber.e("wrong");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Timber.e("wrong");
-                }
-            }
-        });
-        Timber.e("did try pic in" + streamerCid);
-    }
+//    //拍照---接口貌似有问题---采取VideoHolder里面直接获取一帧数据流的方式截屏
+//    public void takePhoto(long streamerCid, int streanerId) {
+//        //获取media控制类
+//        Media media = Communication.getInstance(mContext).getmViewer().getMedia();
+//        //生成文件path
+//        final String filePath = FileUtil.generateNewPicFilePath();
+//        media.requestJpeg(streamerCid, 0, 0, RvsJpegType.HD, new RecvJpegListener() {
+//            @Override
+//            public void onRecvJpeg(long l, byte[] bytes) {
+//                ToastHelper.show(mContext, "截图成功保存至:" + filePath);
+//                Timber.e("数据长为:\t" + bytes.length);
+//                try {
+//                    OutputStream outputStream = new FileOutputStream(filePath);
+//                    outputStream.write(bytes);
+//                    outputStream.flush();
+//                    outputStream.close();
+//                    Timber.e("try complete pic");
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                    Timber.e("wrong");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Timber.e("wrong");
+//                }
+//            }
+//        });
+//        Timber.e("did try pic in" + streamerCid);
+//    }
 
     //设备数据变化的推送回调
     public void onEventMainThread(DeviceDataChangedEvent event) {
