@@ -2,25 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/index_home_bg"
     android:gravity="center"
     android:orientation="vertical">
 
-    <!--显示二维码-->
-    <ImageView
-        android:id="@+id/id_iv_qr_code"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+    <LinearLayout
+        style="@style/FragmentContent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="28dp"
-        android:text="注意:魔哆需连接wifi后才能使用" />
+        <!--显示二维码-->
+        <ImageView
+            android:id="@+id/id_iv_qr_code"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="55dp"
+            android:background="@drawable/qr_code_frame"
+            android:padding="10dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="37dp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:text="我们已将魔哆参数生成二维码, \n您可分享此二维码, 给其他人绑定魔哆。"
+            android:textColor="#423c3c"
+            android:textSize="15sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="33dp"
+            android:text="注意:魔哆需连接wifi后才能使用"
+            android:textColor="#667485"
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </LinearLayout>
