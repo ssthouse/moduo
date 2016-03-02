@@ -57,7 +57,6 @@ public class SwitchModuoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setTitle("切换魔哆");
-
     }
 
     //设置标题

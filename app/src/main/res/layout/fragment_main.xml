@@ -12,15 +12,20 @@
         android:layout_height="match_parent">
 
         <!--魔哆编号-->
-        <ImageView
-            android:id="@+id/id_iv_moduo_number"
+        <TextView
+            android:id="@+id/id_iv_moduo_remark"
             android:layout_width="93dp"
+            android:text="我的魔哆"
             android:layout_height="58dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="488dp"
             android:layout_marginLeft="250dp"
-            android:src="@drawable/home_menu_modo" />
+            android:background="@drawable/home_menu_modo"
+            android:gravity="center"
+            android:maxLength="5"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <!--家居控制-->
         <ImageView

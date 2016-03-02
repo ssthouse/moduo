@@ -203,9 +203,6 @@ public class SwitchModuoFragment extends Fragment {
 
     //获取设备列表回调
     public void onEventMainThread(GetBoundDeviceEvent event) {
-        if (!ActivityUtil.isTopActivity(getActivity(), "SwitchModuoActivity")) {
-            return;
-        }
         if (!event.isSuccess() || event.getXpgDeviceList() == null) {
             ToastHelper.show(getContext(), "获取设备列表失败");
             showLoadErr();

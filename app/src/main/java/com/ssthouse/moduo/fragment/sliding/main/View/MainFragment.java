@@ -39,8 +39,8 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
     private MainFragmentPresenter mMainFragmentPresenter;
 
     //魔哆编号
-    @Bind(R.id.id_iv_moduo_number)
-    ImageView ivModuoNumber;
+    @Bind(R.id.id_iv_moduo_remark)
+    TextView tvModuoRemark;
 
     //家居-视频-消息
     @Bind(R.id.id_iv_home_control)
@@ -88,7 +88,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
 
     private void initView() {
         //切换魔哆
-        ivModuoNumber.setOnClickListener(new View.OnClickListener() {
+        tvModuoRemark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SwitchModuoActivity.start(getActivity());
@@ -170,6 +170,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         }
         //登录---设备在线
         tvModuoState.setText("魔哆连接成功,欢迎使用");
+        tvModuoRemark.setText(XPGController.getCurrentDevice().getXpgWifiDevice().getRemark());
     }
 
     @Override
