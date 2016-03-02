@@ -2,26 +2,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/index_home_bg"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/id_tv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="请输入原始图形密码" />
 
-    <com.ssthouse.gesture.LockPatternView
-        android:id="@+id/id_gesture_lock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        style="@style/FragmentContent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/id_btn_forget_gesture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="忘记密码" />
+        <ImageView
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/gesture_3x3_mini" />
+
+        <!--提示文字-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="绘制解锁图案"
+            android:textColor="#706A6A"
+            android:textSize="14sp" />
+
+
+        <com.ssthouse.gesture.LockPatternView
+            android:id="@+id/id_gesture_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="31dp"
+            android:layout_marginRight="31dp"
+            android:layout_marginTop="43dp" />
+
+        <TextView
+            android:id="@+id/id_tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="21dp"
+            android:text="确认之前锁设的密码"
+            android:textColor="#667485"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/id_btn_forget_gesture"
+            android:layout_width="100dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_btn_blue"
+            android:gravity="center"
+            android:text="忘记密码"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
 
 </LinearLayout>

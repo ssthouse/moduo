@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--常见问题中的questions-->
+    <string-array name="common_issue_question">
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+    </string-array>
+
+    <!--常见问题中的answers-->
+    <string-array name="common_issue_answer">
+        <item>answeransweransweransweransweransweransweransweranswe
+            ransweransweransweransweransweransweransweranswer
+        answeransweransweransweranswer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+    </string-array>
+
+
+    <!--使用帮助中的question-->
+    <string-array name="using_help_question">
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+        <item>question</item>
+    </string-array>
+
+    <!--使用帮助中的answer-->
+    <string-array name="using_help_answer">
+        <item>answeransweransweransweransweransweransweransweranswe
+            ransweransweransweransweransweransweransweranswer
+        answeransweransweransweranswer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+        <item>answer</item>
+    </string-array>
+</resources>

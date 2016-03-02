@@ -2,26 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg"
     android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_margin="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/FragmentContent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="47dp"-->
+        <!--android:gravity="center_vertical">-->
 
         <EditText
-            android:hint="常用联系方式(可选)"
             android:id="@+id/id_et_contact_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="47dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@null"
+            android:hint="常用联系方式(可选)" />
+        <!--</android.support.design.widget.TextInputLayout>-->
 
-    <EditText
-        android:layout_margin="8dp"
-        android:background="@null"
-        android:hint="想跟我们说些什么呢?"
-        android:id="@+id/id_et_issue_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent "-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:contentDescription="分割线"-->
+            <!--android:src="@drawable/line_light" />-->
+
+        <ImageView
+            android:src="@drawable/line_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/id_et_issue_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="想跟我们说些什么呢?"
+            android:paddingTop="16dp" />
+
+        <TextView
+            android:id="@+id/id_tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/personal_bottom_unbundling"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </LinearLayout>

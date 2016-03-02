@@ -79,7 +79,6 @@ public class GyroscopeSensor {
             } else {
                 deltaZ = (int) (eulerAngles.getYaw() / 1.5 * 90);
             }
-            //// TODO: 2016/1/12
             //将数据传递给监听器
             if (listener != null) {
                 //只有不是全相等(数据没变化) 就发送数据

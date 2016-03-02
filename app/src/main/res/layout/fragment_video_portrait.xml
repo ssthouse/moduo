@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg">
+
+    <!--&lt;!&ndash;视频播放承接器&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="300dp"-->
+    <!--android:layout_marginLeft="16dp"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--android:layout_marginTop="12dp"-->
+    <!--android:background="@drawable/video_bg_screen"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/bg_black_round_rect"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/id_rl_container"
+            android:layout_width="match_parent"
+            android:layout_height="246dp"
+            android:layout_marginTop="32dp" />
+
+        <ImageView
+            android:id="@+id/id_iv_full_screen"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="6.6dp"
+            android:layout_marginRight="6.6dp"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/video_full_screen" />
+    </LinearLayout>
+    <!--</LinearLayout>-->
+
+    <!--下方的操作栏-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_white_round_rect"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/id_ll_control"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginTop="9dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!--还原-->
+            <ImageView
+                android:id="@+id/id_iv_restore_control_panel"
+                android:layout_width="72dp"
+                android:layout_height="21dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:src="@drawable/video_direction_back"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/id_iv_sensor_control"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_sensor_controller_grey" />
+
+            <ImageView
+                android:id="@+id/id_iv_take_photo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_take_photo_grey" />
+
+            <ImageView
+                android:id="@+id/id_iv_take_video"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_take_video_grey" />
+
+            <ImageView
+                android:id="@+id/id_iv_mute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_mute_grey" />
+
+            <ImageView
+                android:id="@+id/id_iv_volume_down"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_voice_down_grey" />
+
+            <ImageView
+                android:id="@+id/id_iv_volume_up"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_video_ctrl_btn"
+                android:src="@drawable/video_voice_up_grey" />
+
+            <!--用于和左边的还原按钮对称-->
+            <ImageView
+                android:id="@+id/id_iv_restore_control_panel_empty"
+                android:layout_width="72dp"
+                android:layout_height="21dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/id_tv_hangup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/video_buttom_hangup"
+            android:gravity="center"
+            android:text="挂断"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

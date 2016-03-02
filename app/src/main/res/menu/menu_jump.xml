@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--跳过-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/id_menu_jump"
+        android:icon="@drawable/qr_code_ic_next"
+        android:orderInCategory="999"
+        android:title="跳过"
+        app:showAsAction="withText|always" />
+</menu>

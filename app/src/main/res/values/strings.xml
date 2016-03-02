@@ -7,6 +7,13 @@
     <string name="moduo_state_connecting">正在连接魔哆...</string>
     <string name="moduo_state_connected">已成功连接魔哆,欢迎使用</string>
 
+
+    <!--录音按钮状态-->
+    <string name="str_record_normal">按住 说话</string>
+    <string name="str_record_recording">松开 结束</string>
+    <string name="str_record_want_cancel">松开手指 取消发送</string>
+    <string name="str_record_too_short">录音事件过短</string>
+
     <array name="test_string_array">
         <item>测试item1</item>
         <item>测试item2</item>
