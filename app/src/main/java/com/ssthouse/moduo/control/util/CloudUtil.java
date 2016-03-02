@@ -267,4 +267,28 @@ public class CloudUtil {
                     }
                 });
     }
+
+    /**
+     * 获取指定用户名的云端UserInfo AVObject
+     *
+     * @param username 指定username
+     * @return
+     */
+    public static Observable<AVObject> getUserInfoObject(final String username) {
+        return Observable.just(username)
+                .map(new Func1<String, AVObject>() {
+                    @Override
+                    public AVObject call(String s) {
+                        AVObject userInfoObj = null;
+                        try {
+                            userInfoObj = new AVQuery(TABLE_USER_INFO)
+                                    .whereEqualTo(KEY_USERNAME, username)
+                                    .getFirst();
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                        return userInfoObj;
+                    }
+                });
+    }
 }

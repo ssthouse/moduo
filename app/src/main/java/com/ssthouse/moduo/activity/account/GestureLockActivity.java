@@ -27,6 +27,7 @@ import de.greenrobot.event.EventBus;
 
 /**
  * 手势密码
+ * 正常登录的话---本地的手势密码应该是正确的
  * Created by ssthouse on 2016/1/16.
  */
 public class GestureLockActivity extends AppCompatActivity {
