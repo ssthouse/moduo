@@ -6,14 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.gesture.LockPatternView;
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.activity.account.GestureLockActivity;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.activity.account.GestureLockActivity;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class EditGestureFragment extends Fragment {
 
     private LockPatternView lockView;
 
-    private Button btnTip;
+    private TextView tvForgetGesture;
 
     @Nullable
     @Override
@@ -42,8 +41,8 @@ public class EditGestureFragment extends Fragment {
     private void initView(View rootView) {
         tvTip = (TextView) rootView.findViewById(R.id.id_tv_tip);
 
-        btnTip = (Button) rootView.findViewById(R.id.id_btn_forget_gesture);
-        btnTip.setOnClickListener(new View.OnClickListener() {
+        tvForgetGesture = (TextView) rootView.findViewById(R.id.id_btn_forget_gesture);
+        tvForgetGesture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //// TODO: 2016/1/19 输入密码对话框

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ssthouse.gesture.LockPatternView;
@@ -31,8 +30,8 @@ public class NewGestureFragment extends Fragment {
 
     private LockPatternView lockView;
     private TextView tvTip;
-    private Button btnRedraw;
-    private Button btnConfirm;
+    private TextView tvRedraw;
+    private TextView tvConfirm;
 
     /**
      * 当前选中的点String表示
@@ -64,8 +63,8 @@ public class NewGestureFragment extends Fragment {
     private void initView(View rootView) {
         tvTip = (TextView) rootView.findViewById(R.id.id_tv_tip);
 
-        btnRedraw = (Button) rootView.findViewById(R.id.id_btn_redraw);
-        btnRedraw.setOnClickListener(new View.OnClickListener() {
+        tvRedraw = (TextView) rootView.findViewById(R.id.id_btn_redraw);
+        tvRedraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //回复初始状态
@@ -73,12 +72,12 @@ public class NewGestureFragment extends Fragment {
                 lockView.clearPattern();
                 //tip文字
                 tvTip.setText("绘制图形密码,请连接至少4个点");
-                btnRedraw.setVisibility(View.INVISIBLE);
+                tvRedraw.setVisibility(View.INVISIBLE);
             }
         });
 
-        btnConfirm = (Button) rootView.findViewById(R.id.id_btn_confirm);
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+        tvConfirm = (TextView) rootView.findViewById(R.id.id_btn_confirm);
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!NetUtil.isConnected(getContext())) {
@@ -127,7 +126,7 @@ public class NewGestureFragment extends Fragment {
                     //跳转到---再次输入确认状态
                     currentPatternStr = LockPatternView.patternToString(pattern);
                     currentState = State.STATE_CONFIRM_NEW;
-                    btnRedraw.setVisibility(View.VISIBLE);
+                    tvRedraw.setVisibility(View.VISIBLE);
                     //清空lockpattern
                     lockView.clearPattern();
                     //提示再次输入确认密码
@@ -144,12 +143,14 @@ public class NewGestureFragment extends Fragment {
                     //和第一次不一样
                     if (!currentPatternStr.equals(LockPatternView.patternToString(pattern))) {
                         //隐藏确认按钮
-                        btnConfirm.setVisibility(View.INVISIBLE);
+                        tvConfirm.setVisibility(View.INVISIBLE);
                         tvTip.setText("请重试");
+                        //gesture变红
+                        lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
                         return;
                     }
                     //输入正确---显示确认按钮
-                    btnConfirm.setVisibility(View.VISIBLE);
+                    tvConfirm.setVisibility(View.VISIBLE);
                 }
             }
         });
