@@ -82,7 +82,7 @@ public class NewGestureFragment extends Fragment {
                 lockView.clearPattern();
                 //tip文字
                 tvTip.setText("至少需连接四个点, 请重试");
-                tvRedraw.setVisibility(View.INVISIBLE);
+                tvRedraw.setEnabled(false);
             }
         });
 
@@ -119,6 +119,8 @@ public class NewGestureFragment extends Fragment {
                                         waitDialog.dismiss();
                                         if (e == null) {
                                             ToastHelper.show(getContext(), "密码修改成功");
+                                            //将密码同步到本地
+                                            SettingManager.getInstance(getContext()).setGestureLock(currentPatternStr);
                                             //退出activity
                                             EventBus.getDefault().post(new GestureLockFinishEvent());
                                         } else {
@@ -162,7 +164,7 @@ public class NewGestureFragment extends Fragment {
                     //跳转到---再次输入确认状态
                     currentPatternStr = LockPatternView.patternToString(pattern);
                     currentState = State.STATE_CONFIRM_NEW;
-                    tvRedraw.setVisibility(View.VISIBLE);
+                    tvRedraw.setEnabled(true);
                     //清空lockpattern
                     lockView.clearPattern();
                     //提示再次输入确认密码
@@ -179,14 +181,14 @@ public class NewGestureFragment extends Fragment {
                     //和第一次不一样
                     if (!currentPatternStr.equals(LockPatternView.patternToString(pattern))) {
                         //隐藏确认按钮
-                        tvConfirm.setVisibility(View.INVISIBLE);
+                        tvConfirm.setEnabled(false);
                         tvTip.setText("请重试");
                         //gesture变红
                         lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
                         return;
                     }
                     //输入正确---显示确认按钮
-                    tvConfirm.setVisibility(View.VISIBLE);
+                    tvConfirm.setEnabled(true);
                 }
             }
         });
