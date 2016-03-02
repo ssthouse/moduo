@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ssthouse.gyroscope.GyroscopeSensor;
@@ -78,9 +76,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private LinearLayout llTopControlLand;
     private ImageView ivBackLand;
     private LinearLayout llBottomControlLand;
-    private Switch swSensorControlPortLand;
-    private Switch swToggleVoicePortLand;
-    private TextView tvHangupPortLand;
     private ImageView ivFullScreenPortLand;
 
     @Nullable
@@ -99,7 +94,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             //初始化视频参数
             initVideo(false);
         }
-
+        initSensorControl();
         initDialog();
 
         //Presenter
@@ -145,38 +140,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
 
         //下方控制栏
         llBottomControlLand = (LinearLayout) rootView.findViewById(R.id.id_ll_bottom_video_control);
-
-        swSensorControlPortLand = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
-        swSensorControlPortLand.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    gyroscopeSensor.resetOrientation();
-                    gyroscopeSensor.start();
-                } else {
-                    gyroscopeSensor.pause();
-                }
-            }
-        });
-
-        swToggleVoicePortLand = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
-        swToggleVoicePortLand.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                XPGController.getInstance(getContext())
-                        .getmCenter()
-                        .cWriteCmd(XPGController.getCurrentDevice().getXpgWifiDevice(),
-                                Byte.decode("1"),
-                                Byte.decode("1"),
-                                Byte.decode("1"),
-                                Byte.decode("1"));
-                if (isChecked) {
-                    videoHolder.startTalk();
-                } else {
-                    videoHolder.stopTalk();
-                }
-            }
-        });
 
         ivFullScreenPortLand = (ImageView) rootView.findViewById(R.id.id_iv_full_screen);
         ivFullScreenPortLand.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +187,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivSensorControlPort = (ImageView) rootView.findViewById(R.id.id_iv_sensor_control);
         ivTakePhotoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_photo);
         ivTakeVideoPort = (ImageView) rootView.findViewById(R.id.id_iv_take_video);
-        ivMutePort = (ImageView) rootView   .findViewById(R.id.id_iv_mute);
+        ivMutePort = (ImageView) rootView.findViewById(R.id.id_iv_mute);
         ivVolumeDownPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_down);
         ivVolumeUpPort = (ImageView) rootView.findViewById(R.id.id_iv_volume_up);
         ivRestorePanelPortEmpty = (ImageView) rootView.findViewById(R.id.id_iv_restore_control_panel_empty);
@@ -387,7 +350,10 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                     rlVideoContainerLand,
                     Long.parseLong(XPGController.getCurrentDevice().getVideoCidNumber()));
         }
+    }
 
+    //初始化Sensor控制
+    private void initSensorControl() {
         //初始化传感器
         gyroscopeSensor = new GyroscopeSensor(getContext());
         gyroscopeSensor.setListener(new GyroscopeSensor.RotationChangeListener() {
