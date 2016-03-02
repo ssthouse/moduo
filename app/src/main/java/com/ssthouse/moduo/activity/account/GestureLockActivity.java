@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -71,6 +72,7 @@ public class GestureLockActivity extends AppCompatActivity {
     public void toNewGestureFragment() {
         setTitle("新建图形密码");
         fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, newGestureFragment)
                 .commit();
     }
@@ -78,6 +80,7 @@ public class GestureLockActivity extends AppCompatActivity {
     public void toEditGestureFragment() {
         setTitle("修改图形密码");
         fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, editGestureFragment)
                 .commit();
     }

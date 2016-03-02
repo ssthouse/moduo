@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -78,6 +79,7 @@ public class VideoActivity extends AppCompatActivity {
             videoFragment = new VideoFragment();
             //改变界面
             fragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.id_fragment_container, videoFragment, TAG_VIDEO_FRAGMENT)
                     .commit();
         }
