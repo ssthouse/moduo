@@ -53,8 +53,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     //控制面板
     //控制面板是否正常状态---默认是
     private boolean isPanelNormal = true;
-    private Switch swSensorControlPort;
-    private Switch swToggleVoicePort;
     private TextView tvHangupPort;
     //一排操作按钮
     //还原Panel的按钮  和  右边对称的空按钮
@@ -201,20 +199,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //控制面板Visible控制--竖屏的时候没有监听事件
         rlVideoContainerPort = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
 
-        //体感控制开关
-        swSensorControlPort = (Switch) rootView.findViewById(R.id.id_sw_sensor_control);
-        swSensorControlPort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    gyroscopeSensor.resetOrientation();
-                    gyroscopeSensor.start();
-                } else {
-                    gyroscopeSensor.pause();
-                }
-            }
-        });
-
         //挂断
         tvHangupPort = (TextView) rootView.findViewById(R.id.id_tv_hangup);
         tvHangupPort.setOnClickListener(new View.OnClickListener() {
@@ -222,26 +206,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             public void onClick(View v) {
                 //退出Activity  会自动清除video数据点
                 getActivity().finish();
-            }
-        });
-
-        //对讲开关
-        swToggleVoicePort = (Switch) rootView.findViewById(R.id.id_sw_toggle_voice);
-        swToggleVoicePort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                XPGController.getInstance(getContext())
-                        .getmCenter()
-                        .cWriteCmd(XPGController.getCurrentDevice().getXpgWifiDevice(),
-                                Byte.decode("1"),
-                                Byte.decode("1"),
-                                Byte.decode("1"),
-                                Byte.decode("1"));
-                if (isChecked) {
-                    videoHolder.startTalk();
-                } else {
-                    videoHolder.stopTalk();
-                }
             }
         });
 

@@ -129,27 +129,6 @@
                 android:paddingRight="24dp"
                 android:visibility="gone" />
 
-            <!--传感器控制-->
-            <Switch
-                android:id="@+id/id_sw_sensor_control"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="体感操控"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-
-            <!--对讲-->
-            <Switch
-                android:id="@+id/id_sw_toggle_voice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:checked="true"
-                android:text="对讲"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-
         </LinearLayout>
 
         <TextView
