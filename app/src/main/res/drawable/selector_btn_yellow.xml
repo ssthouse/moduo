@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--不可用时灰色-->
+    <item android:drawable="@drawable/btn_gray" android:state_enabled="false" />
+
+    <!--按下背景为灰色-->
+    <item android:drawable="@drawable/btn_gray" android:state_pressed="true" />
+
+    <!--正常状态为蓝色-->
+    <item android:drawable="@drawable/personal_bottom_unbundling" />
+
+</selector>
