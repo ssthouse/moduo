@@ -112,12 +112,13 @@
 
         <ImageView
             android:id="@+id/id_iv_full_screen"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="6.6dp"
-            android:layout_marginRight="6.6dp"
-            android:layout_marginTop="7dp"
+            android:paddingBottom="6.6dp"
+            android:paddingLeft="6.6dp"
+            android:paddingRight="6.6dp"
+            android:paddingTop="6.6dp"
             android:src="@drawable/video_full_screen" />
     </LinearLayout>
 </FrameLayout>

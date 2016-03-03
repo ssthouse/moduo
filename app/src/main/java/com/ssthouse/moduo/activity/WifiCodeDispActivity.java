@@ -65,15 +65,13 @@ public class WifiCodeDispActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.id_menu_pass:
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pass, menu);
+        getMenuInflater().inflate(R.menu.menu_empty, menu);
         return true;
     }
 }

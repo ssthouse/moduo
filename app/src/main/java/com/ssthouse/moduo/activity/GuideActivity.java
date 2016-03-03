@@ -26,19 +26,21 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
- * 欢迎界面
+ * 第一次进入的导航界面
  * Created by ssthouse on 2016/1/15.
  */
 public class GuideActivity extends AppCompatActivity {
 
+    @Bind(R.id.id_tb)
+    Toolbar toolbar;
+
     private FragmentManager fragmentManager;
     //wifi二维码(给魔哆扫描)
     private WifiCodeFragment wifiCodeFragment;
+    //用户登陆fragment
     private LoginFragment loginFragment;
+    //新建密码锁fragment
     private NewGestureFragment newGestureFragment;
-
-    @Bind(R.id.id_tb)
-    Toolbar toolbar;
 
     //Fragment状态
     State currentState = State.STATE_WIFI_CODE;

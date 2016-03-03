@@ -93,6 +93,7 @@ public class GestureLockActivity extends AppCompatActivity {
         editGestureFragment = new EditGestureFragment();
 
         fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, newGestureFragment)
                 .commit();
 
