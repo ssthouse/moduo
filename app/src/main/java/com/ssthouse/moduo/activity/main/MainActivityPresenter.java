@@ -30,6 +30,8 @@ public class MainActivityPresenter {
     private MainActivityView mMainActivityView;
     private MainActivityModel mMainActivityModel;
 
+    private static final String DEFAULT_MODUO_REMARK = "我的魔哆";
+
     //构造方法
     public MainActivityPresenter(Context mContext, MainActivityView mainActivityView) {
         this.mContext = mContext;
@@ -70,7 +72,7 @@ public class MainActivityPresenter {
                     SettingManager.getInstance(mContext).getToken(),
                     event.getDid(),
                     event.getPassCode(),
-                    "");
+                    DEFAULT_MODUO_REMARK);
         }
     }
 

@@ -63,7 +63,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView{
         initView();
 
         //presenter
-        mModuoPresenter = new ModuoPresenter(this);
+        mModuoPresenter = new ModuoPresenter(getContext(), this);
         return rootView;
     }
 
@@ -79,7 +79,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView{
         recycleChat.setAdapter(mAdapter);
         recycleChat.setItemAnimator(new LandingAnimator(new AccelerateDecelerateInterpolator()));
 
-        //刷洗响应
+        //刷新响应
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -87,6 +87,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView{
             }
         });
 
+        //post在准备好后---获取dimens
         moduoView.post(new Runnable() {
             @Override
             public void run() {

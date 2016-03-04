@@ -16,6 +16,7 @@ import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
 import com.ssthouse.moduo.model.event.xpg.XpgDeviceOnLineEvent;
 
 import de.greenrobot.event.EventBus;
@@ -150,6 +151,11 @@ public class MainFragmentPresenter {
             ToastHelper.show(mContext, "登陆失败");
         }
         //刷新UI
+        mMainFragmentView.updateUI();
+    }
+
+    //todo---设备登陆成功回调
+    public void onEventMainThread(XpgDeviceLoginEvent event) {
         mMainFragmentView.updateUI();
     }
 

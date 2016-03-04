@@ -67,6 +67,8 @@ public class MainFragmentModel {
         }
         //设置监听器
         XPGController.refreshCurrentDeviceListener(mContext);
+        //todo---登陆当前设备
+        XPGController.getInstance(mContext).loginCurrentDevice();
         //登陆视频sdk
         Communication.getInstance(mContext)
                 .addStreamer(XPGController.getCurrentDevice());

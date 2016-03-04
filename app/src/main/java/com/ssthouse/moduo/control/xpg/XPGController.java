@@ -378,11 +378,25 @@ public class XPGController {
      */
     public static void refreshCurrentDeviceListener(Context context) {
         if (getCurrentDevice() == null) {
+            Timber.e("currentDevice 为 null");
             return;
         }
         //设置监听器
         getCurrentDevice().getXpgWifiDevice()
                 .setListener(XPGController.getInstance(context).getDeviceListener());
+    }
+
+    // TODO: 2016/3/4 登陆当前设备
+    public void loginCurrentDevice() {
+        if (currentDevice == null) {
+            Timber.e("currentDevice 为 null");
+            return;
+        }
+        SettingManager settingmanager = SettingManager.getInstance(context);
+        currentDevice.getXpgWifiDevice().login(
+                settingmanager.getUid(),
+                settingmanager.getToken()
+        );
     }
 
     public static boolean isLogin() {

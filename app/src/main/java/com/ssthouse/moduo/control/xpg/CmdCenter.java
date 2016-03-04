@@ -422,7 +422,12 @@ public class CmdCenter {
         data[2] = param;
         data[3] = value;
         String cmdStr = Base64.encodeToString(data, Base64.NO_CLOSE);
-        Timber.e("cmdStr: "+cmdStr);
+        Timber.e("cmdStr: " + cmdStr);
         cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdStr);
+    }
+
+    //发送cmd_ctrl命令
+    public void cWriteCmdCtrl(XPGWifiDevice xpgWifiDevice, CmdBean cmdBean) {
+        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValue());
     }
 }
