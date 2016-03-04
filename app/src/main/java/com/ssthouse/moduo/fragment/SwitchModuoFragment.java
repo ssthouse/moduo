@@ -34,6 +34,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 选择魔哆Fragment
@@ -253,10 +254,21 @@ public class SwitchModuoFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_switch_moduo, parent, false);
-            TextView tvRemark = (TextView) convertView.findViewById(R.id.id_tv_moduo_remark);
+            View rootView = LayoutInflater.from(getContext()).inflate(R.layout.item_switch_moduo, parent, false);
+            TextView tvRemark = (TextView) rootView.findViewById(R.id.id_tv_moduo_remark);
             tvRemark.setText(xpgWifiDeviceList.get(position).getRemark());
-            return convertView;
+            //标记当前的设备
+            // 如果当前没有wifi设备连接
+            if (XPGController.getCurrentDevice() != null) {
+                String did = xpgWifiDeviceList.get(position).getDid();
+                String currentDid = XPGController.getCurrentDevice().getXpgWifiDevice().getDid();
+                if (did.equals(currentDid)) {
+                    Timber.e("我设置了选中item" + position);
+                    Timber.e(did);
+                    rootView.findViewById(R.id.id_ll_item_container).setBackgroundColor(0xaaeeeeee);
+                }
+            }
+            return rootView;
         }
     };
 }
