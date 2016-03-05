@@ -325,7 +325,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //初始等待Dialog
         showWaitDialog("正在加载视频");
 
-        confirmDialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        confirmDialogView = inflater.inflate(R.layout.dialog_wait_confirm, null);
         confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
                 .create();

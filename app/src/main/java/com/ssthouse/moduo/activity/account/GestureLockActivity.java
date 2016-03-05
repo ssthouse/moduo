@@ -118,7 +118,7 @@ public class GestureLockActivity extends AppCompatActivity {
         setTitle("新建图形密码");
 
         confirmDialogView = LayoutInflater.from(this)
-                .inflate(R.layout.dialog_confirm, null);
+                .inflate(R.layout.dialog_wait_confirm, null);
         confirmDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
                 .setCancelable(false)

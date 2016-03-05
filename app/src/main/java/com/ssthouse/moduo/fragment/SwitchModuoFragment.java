@@ -26,6 +26,7 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.ArrayList;
@@ -67,8 +68,16 @@ public class SwitchModuoFragment extends Fragment {
     private View waitDialogView;
     private Dialog waitDialog;
 
+    //确认更改魔哆Dialog
+    private View sureChangeDialogView;
+    private Dialog sureChangeDialog;
+
     //当前长按的position
-    private int longClickPosition;
+    private int currentLongClickPosition;
+    //当前点按的position
+    private int currentClickPosition;
+    //当前设备position
+    private int currentModuoPosition = -1;
 
     //list---数据列表
     private List<XPGWifiDevice> xpgWifiDeviceList = new ArrayList<>();
@@ -88,14 +97,27 @@ public class SwitchModuoFragment extends Fragment {
     }
 
     private void initView() {
+        //长按编辑remark
         lv.setAdapter(adapter);
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                longClickPosition = position;
+                currentLongClickPosition = position;
                 showChangeRemarkDialog();
                 return true;
+            }
+        });
+
+        //点按切换魔哆
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == currentModuoPosition) {
+                    return;
+                }
+                //弹出确认switch对话框
+                currentClickPosition = position;
+                showConfirmSwitchDialog();
             }
         });
 
@@ -133,7 +155,7 @@ public class SwitchModuoFragment extends Fragment {
                     return;
                 }
                 //备注和之前是一样的
-                if (etRemark.getText().toString().equals(xpgWifiDeviceList.get(longClickPosition).getRemark())) {
+                if (etRemark.getText().toString().equals(xpgWifiDeviceList.get(currentLongClickPosition).getRemark())) {
                     ToastHelper.show(getContext(), "备注未变化");
                     return;
                 }
@@ -143,12 +165,12 @@ public class SwitchModuoFragment extends Fragment {
                         .getmCenter()
                         .cBindDevice(settingManager.getUid(),
                                 settingManager.getToken(),
-                                xpgWifiDeviceList.get(longClickPosition).getDid(),
-                                xpgWifiDeviceList.get(longClickPosition).getPasscode(),
+                                xpgWifiDeviceList.get(currentLongClickPosition).getDid(),
+                                xpgWifiDeviceList.get(currentLongClickPosition).getPasscode(),
                                 etRemark.getText().toString());
                 //隐藏当前dialog---显示waitDialog
                 changeRemarkDialog.dismiss();
-                waitDialog.show();
+                showWaitDialog("正在更改备注, 请稍候");
             }
         });
         changeRemarkDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
@@ -157,12 +179,51 @@ public class SwitchModuoFragment extends Fragment {
 
         //等待dialog
         waitDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wait, null);
-        TextView tvTip = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
-        tvTip.setText("正在更改备注, 请稍候");
         waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(waitDialogView)
                 .create();
         waitDialog.setCanceledOnTouchOutside(false);
+
+        //确认更换魔哆Dialog
+        sureChangeDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_msg_confirm, null);
+        sureChangeDialogView.findViewById(R.id.id_iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sureChangeDialog.dismiss();
+            }
+        });
+        sureChangeDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //隐藏confirmDialog   显示waitDialog
+                sureChangeDialog.dismiss();
+                showWaitDialog("正在切换魔哆, 请稍候");
+                SettingManager settingManager = SettingManager.getInstance(getContext());
+                //登陆当前选中的魔哆
+                xpgWifiDeviceList.get(currentClickPosition).login(
+                        settingManager.getUid(),
+                        settingManager.getToken()
+                );
+                //todo---改变本地的moduo数据
+            }
+        });
+        sureChangeDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(sureChangeDialogView)
+                .create();
+        sureChangeDialog.setCanceledOnTouchOutside(false);
+    }
+
+    //等待dialog
+    private void showWaitDialog(String msg) {
+        TextView tvTip = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
+        tvTip.setText(msg);
+        waitDialog.show();
+    }
+
+    private void showConfirmSwitchDialog() {
+        TextView tvContent = (TextView) sureChangeDialogView.findViewById(R.id.id_tv_content);
+        tvContent.setText("确认切换当前魔哆设备吗?");
+        sureChangeDialog.show();
     }
 
     private void getDeviceList() {
@@ -236,6 +297,20 @@ public class SwitchModuoFragment extends Fragment {
         getActivity().finish();
     }
 
+    //设备登陆结果回调
+    public void onEventMainThread(XpgDeviceLoginEvent event) {
+        waitDialog.dismiss();
+        //登陆成功---且是当前点击的设备
+        if (xpgWifiDeviceList.size() == 0) {
+            Timber.e("xogDeviceList is not initialed");
+            return;
+        }
+        if (event.isSuccess() && event.getDid().equals(xpgWifiDeviceList.get(currentClickPosition).getDid())) {
+            showLoading();
+            getDeviceList();
+        }
+    }
+
     private BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -266,6 +341,8 @@ public class SwitchModuoFragment extends Fragment {
                     Timber.e("我设置了选中item" + position);
                     Timber.e(did);
                     rootView.findViewById(R.id.id_ll_item_container).setBackgroundColor(0xaaeeeeee);
+                    //设置当前魔哆position
+                    currentModuoPosition = position;
                 }
             }
             return rootView;

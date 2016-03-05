@@ -98,7 +98,7 @@ public class IssueFeedbackFragment extends Fragment {
                 .setCancelable(false)
                 .create();
 
-        confirmDialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        confirmDialogView = inflater.inflate(R.layout.dialog_wait_confirm, null);
         confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
                 .setCancelable(false)
