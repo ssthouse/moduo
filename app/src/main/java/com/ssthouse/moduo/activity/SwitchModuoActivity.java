@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.fragment.SwitchModuoFragment;
+import com.ssthouse.moduo.fragment.moduoswitch.SwitchModuoFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
