@@ -6,9 +6,13 @@ package com.ssthouse.moduo.activity.main;
  */
 public interface MainActivityView {
 
-    void showDialog(String msg);
+    void showWaitDialog(String msg);
 
-    void dismissDialog();
+    void dismissWaitDialog();
 
     void updateUI();
+
+    //确认注销Dialog
+    void showConfirmLogoutDialog();
+    void dismissConfirmLogoutDialog();
 }

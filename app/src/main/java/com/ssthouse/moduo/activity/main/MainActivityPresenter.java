@@ -59,7 +59,7 @@ public class MainActivityPresenter {
     public void onEventMainThread(ScanDeviceEvent event) {
         Timber.e("扫描Activity回调");
         if (event.isSuccess()) {
-            mMainActivityView.showDialog("正在绑定设备,请稍候");
+            mMainActivityView.showWaitDialog("正在绑定设备,请稍候");
             //todo---将扫描到设备数据保存至cloud--生产时---应该魔哆所有数据都在leancloud上有
 //            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
 //                    event.getPassCode(),
@@ -83,7 +83,7 @@ public class MainActivityPresenter {
      */
     public void onEventMainThread(final DeviceBindResultEvent event) {
         Timber.e("设备绑定回调");
-        mMainActivityView.dismissDialog();
+        mMainActivityView.dismissWaitDialog();
         if (event.isSuccess()) {
             ToastHelper.show(mContext, "设备绑定成功");
             //获取设备Info信息
@@ -123,7 +123,8 @@ public class MainActivityPresenter {
         if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
             return;
         }
-        mMainActivityView.dismissDialog();
+        mMainActivityView.dismissWaitDialog();
+        mMainActivityView.dismissConfirmLogoutDialog();
         mMainActivityView.updateUI();
     }
 

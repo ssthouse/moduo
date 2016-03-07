@@ -163,7 +163,14 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             tvModuoState.setText("未登录");
             return;
         }
-        //如果没有当前设备    或者       当前设备没有登陆
+        //更新remark
+        updateRemark();
+        //更新魔哆文字状态
+        updateModuoState();
+    }
+
+    //更新魔哆文字状态
+    private void updateModuoState() {
         if (XPGController.getCurrentDevice() == null ||
                 !XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
             tvModuoState.setText("用户登录成功, 未连接魔哆");
@@ -171,6 +178,14 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         }
         //登录---设备在线
         tvModuoState.setText("魔哆连接成功,欢迎使用");
+    }
+
+    //更新MainFragment 的右上角remark
+    private void updateRemark() {
+        if (XPGController.getCurrentDevice() == null) {
+            tvModuoRemark.setText("我的魔哆");
+            return;
+        }
         tvModuoRemark.setText(XPGController.getCurrentDevice().getXpgWifiDevice().getRemark());
     }
 

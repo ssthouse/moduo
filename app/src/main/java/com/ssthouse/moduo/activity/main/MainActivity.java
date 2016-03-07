@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.activity.main;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ssthouse.moduo.R;
@@ -105,8 +107,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Bind(R.id.id_menu_setting)
     View menuSetting;
 
-    private MaterialDialog waitDialog;
+    //等待dialog
+    private View waitDialogView;
+    private Dialog waitDialog;
 
+    //确认注销dialog
+    private View confirmLogoutDialogView;
+    private Dialog confirmLogoutDialog;
 
     /**
      * 启动当前activity
@@ -202,8 +209,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog("正在注销...");
-                XPGController.getInstance(MainActivity.this).getmCenter().cLogout();
+                //弹出dialog
+                showConfirmLogoutDialog();
             }
         });
         //关闭侧滑栏
@@ -222,10 +229,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         menuSetting.setOnClickListener(menuClickListener);
 
         //初始化dialog
-        waitDialog = new MaterialDialog.Builder(this)
-                .autoDismiss(false)
-                .customView(R.layout.dialog_wait, true)
-                .build();
+        waitDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
+                .setView(waitDialogView)
+                .create();
+        waitDialog.setCanceledOnTouchOutside(false);
+
+        //确认logout dialog
+        confirmLogoutDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_msg_confirm, null);
+        confirmLogoutDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
+                .setView(confirmLogoutDialogView)
+                .create();
     }
 
     //设置标题
@@ -251,17 +265,38 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Override
     public void updateUI(){
         updateUsername();
+        //返回主fragment
+        switchFragment(FragmentState.MAIN_FRAGMENT);
     }
 
     @Override
-    public void showDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+    public void showConfirmLogoutDialog() {
+        TextView tvContent = (TextView) confirmLogoutDialogView.findViewById(R.id.id_tv_content);
+        tvContent.setText("确认注销?");
+        confirmLogoutDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWaitDialog("正在注销...");
+                XPGController.getInstance(MainActivity.this).getmCenter().cLogout();
+            }
+        });
+        confirmLogoutDialog.show();
+    }
+
+    @Override
+    public void dismissConfirmLogoutDialog() {
+        confirmLogoutDialog.dismiss();
+    }
+
+    @Override
+    public void showWaitDialog(String msg) {
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }
 
     @Override
-    public void dismissDialog() {
+    public void dismissWaitDialog() {
         waitDialog.dismiss();
     }
 
