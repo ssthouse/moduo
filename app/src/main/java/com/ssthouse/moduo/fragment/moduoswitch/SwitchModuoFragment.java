@@ -101,10 +101,19 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(final int position, View convertView, ViewGroup parent) {
                 View rootView = LayoutInflater.from(getContext()).inflate(R.layout.item_switch_moduo, parent, false);
                 TextView tvRemark = (TextView) rootView.findViewById(R.id.id_tv_moduo_remark);
                 tvRemark.setText(mPresenter.getXpgWifiDeviceList().get(position).getRemark());
+                //编辑remark按钮点击事件
+                ImageView ivEdit = (ImageView) rootView.findViewById(R.id.id_iv_edit);
+                ivEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.setCurrentLongClickPosition(position);
+                        showChangeRemarkDialog();
+                    }
+                });
                 //标记当前的设备
                 // 如果当前没有wifi设备连接
                 if (XPGController.getCurrentDevice() != null) {
@@ -132,18 +141,18 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             }
         });
 
-        //点按切换魔哆
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == mPresenter.getCurrentModuoPosition()) {
-                    return;
-                }
-                //弹出确认switch对话框
-                mPresenter.setCurrentClickPosition(position);
-                showConfirmSwitchDialog();
-            }
-        });
+        //todo---点按切换魔哆---该功能先放一放
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position == mPresenter.getCurrentModuoPosition()) {
+//                    return;
+//                }
+//                //弹出确认switch对话框
+//                mPresenter.setCurrentClickPosition(position);
+//                showConfirmSwitchDialog();
+//            }
+//        });
 
         //重新加载设备点击事件
         View.OnClickListener listener = new View.OnClickListener() {
