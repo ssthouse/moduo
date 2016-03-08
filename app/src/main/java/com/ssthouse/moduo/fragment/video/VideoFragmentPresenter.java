@@ -144,7 +144,7 @@ public class VideoFragmentPresenter {
 
     public void destroy() {
         //关闭视频数据点
-        CmdController.getmInstance().cWriteVideo(
+        CmdController.getInstance().cWriteVideo(
                 XPGController.getCurrentDevice().getXpgWifiDevice(), 0
         );
         EventBus.getDefault().unregister(this);

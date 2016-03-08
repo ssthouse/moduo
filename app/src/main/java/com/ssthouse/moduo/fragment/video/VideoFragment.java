@@ -113,7 +113,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         rlVideoContainerLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo---隐藏和显示控制面板---后期加动画
+                //隐藏和显示控制面板
 //                if (llTopControlLand.getVisibility() == View.VISIBLE) {
 //                    llTopControlLand.setVisibility(View.GONE);
 //                } else {
@@ -150,7 +150,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             }
         });
 
-        //todo---一开始先隐藏控制栏
+        //一开始先隐藏控制栏
         llTopControlLand.setVisibility(View.GONE);
         llBottomControlLand.setVisibility(View.GONE);
     }
@@ -286,7 +286,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         ivVolumeUpPort.setOnClickListener(volumeControlListener);
     }
 
-    //todo---恢复控制面板
+    //恢复控制面板
     private void restoreControlPanel() {
         //隐藏三角
         ivRestorePanelPort.setVisibility(View.GONE);
@@ -337,7 +337,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private void initVideo(boolean isPort) {
         //启动采集端的视频
         //将video数据点置为1
-        CmdController.getmInstance().cWriteVideo(
+        CmdController.getInstance().cWriteVideo(
                 XPGController.getCurrentDevice().getXpgWifiDevice(), 1
         );
 
@@ -361,7 +361,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void call(int deltaX, int deltaY, int deltaZ) {
                 Timber.e("%d              %d                   %d", -deltaX, deltaY, -deltaZ);
-                CmdController.getmInstance()
+                CmdController.getInstance()
                         .cWriteHead(XPGController.getCurrentDevice().getXpgWifiDevice(),
                                 -deltaX,
                                 deltaY,

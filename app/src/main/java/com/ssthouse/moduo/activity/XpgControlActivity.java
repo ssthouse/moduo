@@ -228,7 +228,7 @@ public class XpgControlActivity extends AppCompatActivity {
                         break;
                 }
                 //发出数据修改请求
-                CmdController.getmInstance().cWrite(
+                CmdController.getInstance().cWrite(
                         XPGController.getCurrentDevice().getXpgWifiDevice(),
                         key,
                         progress);

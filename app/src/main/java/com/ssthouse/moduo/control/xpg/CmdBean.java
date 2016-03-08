@@ -19,6 +19,11 @@ public class CmdBean {
         this.paramValue = paramValue;
     }
 
+    //获取实例
+    public static CmdBean getInstance(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
+        return new CmdBean(deviceType, deviceNumber, paramKey, paramValue);
+    }
+
     //获取数据
     public String getValueStr() {
         byte data[] = new byte[4];

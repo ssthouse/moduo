@@ -116,20 +116,20 @@ public class Communication {
             } else {
                 setLogin(false);
             }
-            Timber.e("VIDEO SDK状态:\t" + loginState.name() + "\terror:   " + loginError.toString());
+//            Timber.e("VIDEO SDK状态:\t" + loginState.name() + "\terror:   " + loginError.toString());
         }
 
         @Override
         public void onUpdateCID(long l) {
             //观看端cid发生变化
-            Timber.e("我的观看端cid发生了变化:\t" + l);
+//            Timber.e("我的观看端cid发生了变化:\t" + l);
         }
 
         @Override
         public void onSessionStateChange(long l, RvsSessionState rvsSessionState) {
             //video会话状态变化事件
             EventBus.getDefault().post(new SessionStateEvent(rvsSessionState));
-            Timber.e("VIDEO SDK 会话状态为:\t" + rvsSessionState.name());
+//            Timber.e("VIDEO SDK 会话状态为:\t" + rvsSessionState.name());
         }
     };
 

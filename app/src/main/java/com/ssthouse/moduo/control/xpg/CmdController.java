@@ -16,17 +16,17 @@ import timber.log.Timber;
  */
 public class CmdController {
 
-    private static CmdController mInstance;
+    private static CmdController instance;
 
-    private CmdController(){
+    private CmdController() {
 
     }
 
-    public static CmdController getmInstance() {
-        if(mInstance == null){
-            mInstance = new CmdController();
+    public static CmdController getInstance() {
+        if (instance == null) {
+            instance = new CmdController();
         }
-        return mInstance;
+        return instance;
     }
 
     // =================================================================
@@ -134,5 +134,13 @@ public class CmdController {
     //发送cmd_ctrl命令
     public void cWriteCmdCtrl(XPGWifiDevice xpgWifiDevice, CmdBean cmdBean) {
         cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValueStr());
+    }
+
+    //todo---测试在这里发送数据
+    public void testCmd() {
+        byte data[] = {9, 9, 9, 9};
+        CmdController.getInstance().cWriteCmdCtrl(
+                XPGController.getCurrentDevice().getXpgWifiDevice(), CmdBean.getInstance(data[0], data[1], data[2], data[3])
+        );
     }
 }

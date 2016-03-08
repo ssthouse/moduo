@@ -2,8 +2,6 @@ package com.ssthouse.moduo.fragment.moduo.presenter;
 
 import android.content.Context;
 
-import com.ssthouse.moduo.control.xpg.CmdBean;
-import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoBigEvent;
@@ -84,12 +82,6 @@ public class ModuoPresenter {
         mModuoFragmentView.addMsgBean(msgBean);
         //保存到数据库
         DbHelper.saveMsgBean(msgBean);
-
-        //todo---测试在这里发送数据
-        byte data[] = {9, 9, 9, 9};
-        CmdController.getmInstance().cWriteCmdCtrl(
-                XPGController.getCurrentDevice().getXpgWifiDevice(), new CmdBean(data[0], data[1], data[2], data[3])
-        );
     }
 
     public void destroy() {
