@@ -16,6 +16,7 @@ import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.model.event.video.VideoExceptionEvent;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 
 import java.io.FileNotFoundException;
@@ -113,8 +114,10 @@ public class VideoHolder {
                 //视频准备完毕事件
                 EventBus.getDefault().post(new VideoReadyEvent(true));
                 MediaDataDesc desc = media.getStreamDesc(liveStreamDid);
-                if (desc == null) {
+                //判断数据是否有效
+                if (desc == null || desc.getSampRate() == 0 || desc.getVideoWidth() <= 0 || desc.getVideoHeight() <= 0) {
                     Timber.e("get media desc error!");
+                    EventBus.getDefault().post(new VideoExceptionEvent());
                     return;
                 }
                 Timber.e("video :" + desc.getVideoType().toString() + ","

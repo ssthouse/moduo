@@ -82,7 +82,7 @@ public class MainFragmentPresenter {
                 ToastHelper.show(mContext, "魔哆摄像头不在线");
                 break;
             case OFFLINE:
-                ToastHelper.show(mContext, "魔哆不在线");
+                ToastHelper.show(mContext, "魔哆摄像头不在线");
                 break;
             case USRNAME_PWD_ERR:
                 ToastHelper.show(mContext, "魔哆用户名密码错误");

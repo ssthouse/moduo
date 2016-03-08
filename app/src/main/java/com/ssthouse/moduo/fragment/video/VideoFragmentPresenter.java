@@ -10,6 +10,7 @@ import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.video.VideoExceptionEvent;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
 
@@ -133,6 +134,11 @@ public class VideoFragmentPresenter {
             //视频准备失败(点确定退出)
             mVideoFragmentView.showConfirmDialog("视频加载失败");
         }
+    }
+
+    //视频出错event
+    public void onEventMainThread(VideoExceptionEvent event){
+        mVideoFragmentView.showConfirmDialog("视频加载失败");
     }
 
     public void destroy() {
