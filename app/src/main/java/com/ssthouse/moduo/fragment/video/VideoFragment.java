@@ -358,12 +358,43 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         gyroscopeSensor.setListener(new GyroscopeSensor.RotationChangeListener() {
             @Override
             public void call(int deltaX, int deltaY, int deltaZ) {
+                int speedX = 0, speedY = 0;
                 Timber.e("%d              %d                   %d", -deltaX, deltaY, -deltaZ);
+                //左+ 右-   上+ 下-
+                deltaX = -deltaX;
+                deltaZ = -deltaZ;
+                if (deltaX > 30) {
+                    speedX = 15;
+                } else if (deltaX > 15) {
+                    speedX = 10;
+                } else if (deltaX > 5) {
+                    speedX = 5;
+                } else if (deltaX < -30) {
+                    speedX = -15;
+                } else if (deltaX < -15) {
+                    speedX = -10;
+                } else if (deltaX < -5) {
+                    speedX = -5;
+                }
+
+                if (deltaY > 30) {
+                    speedY = 15;
+                } else if (deltaY > 15) {
+                    speedY = 10;
+                } else if (deltaY > 5) {
+                    speedY = 5;
+                } else if (deltaY < -30) {
+                    speedY = -15;
+                } else if (deltaY < -15) {
+                    speedY = -10;
+                } else if (deltaY < -5) {
+                    speedY = -5;
+                }
                 CmdController.getInstance()
                         .cWriteHead(XPGController.getCurrentDevice().getXpgWifiDevice(),
-                                -deltaX,
-                                deltaY,
-                                -deltaZ
+                                speedX,
+                                speedY,
+                                0
                         );
             }
         });

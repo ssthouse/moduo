@@ -126,6 +126,9 @@ public class MainFragmentPresenter {
 
     //获取 绑定设备列表 回调
     public void onEventMainThread(GetBoundDeviceEvent event) {
+        if (!ActivityUtil.isTopActivity((Activity) mContext, "MainActivity")) {
+            return;
+        }
         Timber.e("获取设备列表回调");
         //隐藏dialog
         mMainFragmentView.dismissDialog();
