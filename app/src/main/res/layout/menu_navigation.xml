@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:clickable="true"
-            android:text="用户名"
+            android:text="未登录"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

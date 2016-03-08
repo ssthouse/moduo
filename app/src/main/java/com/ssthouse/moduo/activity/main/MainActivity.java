@@ -220,8 +220,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                 drawerLayout.closeDrawers();
             }
         });
-        //todo---用户头像---用户名
-        updateUI();
+        //侧滑栏点击事件
         menuMain.setOnClickListener(menuClickListener);
         menuUserInfo.setOnClickListener(menuClickListener);
         menuAboutModuo.setOnClickListener(menuClickListener);
@@ -263,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
     //刷新UI
     @Override
-    public void updateUI(){
+    public void updateUI() {
         updateUsername();
     }
 

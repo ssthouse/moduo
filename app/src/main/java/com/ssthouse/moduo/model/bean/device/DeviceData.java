@@ -94,12 +94,10 @@ public class DeviceData implements Serializable {
      */
     private byte[] swVersion;
     /**
-     * todo---还不确定要怎么用
      * 视频标志位
      */
     private boolean video;
     /**
-     * todo---还不确定要怎么用
      * 音频标志位
      */
     private int audio;
@@ -117,12 +115,10 @@ public class DeviceData implements Serializable {
     private int zBody;
 
     /**
-     * todo
      * 控制 命令
      */
     private byte[] ctrlCmd;
     /**
-     * todo
      * 控制 数据
      */
     private byte[] ctrlData;
@@ -170,31 +166,6 @@ public class DeviceData implements Serializable {
         this.ctrlData = ctrlData;
     }
 
-
-    /**
-     * todo
-     * 空的测试用构造方法
-     */
-    public DeviceData(){
-        this.did = "";
-        this.temperature = 0;
-        this.humidity = 0;
-        this.luminance = 0;
-        this.power = 0;
-        this.hwVersion = new byte[]{0};
-        this.swVersion = new byte[]{0};
-        this.video = true;
-        this.audio = 1;
-        this.xHead = 0;
-        this.yHead = 0;
-        this.zHead = 0;
-        this.xBody = 0;
-        this.yBody = 0;
-        this.zBody = 0;
-        this.ctrlCmd = new byte[]{0};
-        this.ctrlData = new byte[]{0};
-    }
-
     /**
      * 根据设备返回map得到一个DeviceData
      *
@@ -223,7 +194,7 @@ public class DeviceData implements Serializable {
         int zBody = dataObject.get(DeviceCons.KEY_Z_BODY).getAsInt();
         byte[] ctrlCmd = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_CMD).getAsString(), Base64.DEFAULT);
         byte[] ctrlData = Base64.decode(dataObject.get(DeviceCons.KEY_CTRL_DATA).getAsString(), Base64.DEFAULT);
-        //// TODO: 2015/12/22
+        //查看数据
         Timber.e("湿度" + humidity);
         Timber.e("湿度" + luminance);
         Timber.e("湿度" + power);

@@ -231,8 +231,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 }
                 //已为放大状态---响应点击事件
                 videoHolder.saveOneFrameJpeg();
-                //todo---测试用
-                mPresenter.takePhoto(videoHolder.getStreamerCid(), 0);
             }
         });
 
