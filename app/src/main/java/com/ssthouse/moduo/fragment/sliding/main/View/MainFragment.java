@@ -100,10 +100,13 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
+                    // TODO: 2016/3/8 尝试连接设备
+                    mMainFragmentPresenter.initDevice();
                     return;
                 }
                 if (!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline()) {
                     ToastHelper.show(getContext(), "魔哆不在线");
+                    mMainFragmentPresenter.initDevice();
                     return;
                 }
                 ModuoActivity.start(getContext());

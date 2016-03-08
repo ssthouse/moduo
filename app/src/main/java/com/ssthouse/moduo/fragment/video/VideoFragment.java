@@ -19,6 +19,7 @@ import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.video.VideoHolder;
+import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 
 import timber.log.Timber;
@@ -336,7 +337,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private void initVideo(boolean isPort) {
         //启动采集端的视频
         //将video数据点置为1
-        XPGController.getInstance(getContext()).getmCenter().cWriteVideo(
+        CmdController.getmInstance().cWriteVideo(
                 XPGController.getCurrentDevice().getXpgWifiDevice(), 1
         );
 
@@ -360,7 +361,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void call(int deltaX, int deltaY, int deltaZ) {
                 Timber.e("%d              %d                   %d", -deltaX, deltaY, -deltaZ);
-                XPGController.getInstance(getContext()).getmCenter()
+                CmdController.getmInstance()
                         .cWriteHead(XPGController.getCurrentDevice().getXpgWifiDevice(),
                                 -deltaX,
                                 deltaY,

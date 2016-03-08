@@ -10,6 +10,7 @@ import com.ichano.rvs.viewer.constant.RvsJpegType;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
@@ -143,7 +144,7 @@ public class VideoFragmentPresenter {
 
     public void destroy() {
         //关闭视频数据点
-        XPGController.getInstance(mContext).getmCenter().cWriteVideo(
+        CmdController.getmInstance().cWriteVideo(
                 XPGController.getCurrentDevice().getXpgWifiDevice(), 0
         );
         EventBus.getDefault().unregister(this);
