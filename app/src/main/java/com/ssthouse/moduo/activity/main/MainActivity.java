@@ -265,8 +265,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Override
     public void updateUI(){
         updateUsername();
-        //返回主fragment
-        switchFragment(FragmentState.MAIN_FRAGMENT);
     }
 
     @Override

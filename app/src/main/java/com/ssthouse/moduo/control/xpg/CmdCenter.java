@@ -428,6 +428,6 @@ public class CmdCenter {
 
     //发送cmd_ctrl命令
     public void cWriteCmdCtrl(XPGWifiDevice xpgWifiDevice, CmdBean cmdBean) {
-        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValue());
+        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValueStr());
     }
 }

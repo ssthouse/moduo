@@ -50,7 +50,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
     @Bind(R.id.id_iv_message)
     ImageView ivMessage;
 
-    //魔哆状态[ 登陆失败  登陆成功(未连接魔哆) 魔哆连接成功]
+    //魔哆状态[ 登陆失败  登陆成功,未连接魔哆  魔哆连接成功]
     @Bind(R.id.id_tv_moduo_state)
     TextView tvModuoState;
     private MaterialDialog waitDialog;

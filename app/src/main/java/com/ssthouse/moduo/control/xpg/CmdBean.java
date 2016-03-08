@@ -20,7 +20,7 @@ public class CmdBean {
     }
 
     //获取数据
-    public String getValue() {
+    public String getValueStr() {
         byte data[] = new byte[4];
         data[0] = deviceType;
         data[1] = deviceNumber;
