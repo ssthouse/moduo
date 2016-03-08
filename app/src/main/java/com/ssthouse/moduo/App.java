@@ -17,6 +17,7 @@ import com.xtremeprog.xpgconnect.XPGWifiSDK;
 import java.io.IOException;
 
 import cn.jpush.android.api.JPushInterface;
+import im.fir.sdk.FIR;
 import timber.log.Timber;
 
 /**
@@ -58,5 +59,7 @@ public class App extends Application {
         AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
         //初始化sd卡文件路径
         FileUtil.initModuoFolder();
+        //BugHd
+        FIR.init(this);
     }
 }

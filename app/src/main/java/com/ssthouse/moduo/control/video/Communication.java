@@ -92,7 +92,7 @@ public class Communication {
                 Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/" + Constant.EXTERNAL_VIDEO_FOLDER_NAME);
         //TODO---打印日志
-        mViewer.setDebugEnable(Constant.isDebug);
+        mViewer.setDebugEnable(false);
         //初始化注册认证信息
         mViewer.setLoginInfo(Constant.VideoSdkCons.companyID, Constant.VideoSdkCons.companyKey,
                 Constant.VideoSdkCons.appID, Constant.VideoSdkCons.license);

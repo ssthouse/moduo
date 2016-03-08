@@ -18,10 +18,16 @@ public class CmdController {
 
     private static CmdController mInstance;
 
-    public static CmdController getmInstance() {
-        return mInstance;
+    private CmdController(){
+
     }
 
+    public static CmdController getmInstance() {
+        if(mInstance == null){
+            mInstance = new CmdController();
+        }
+        return mInstance;
+    }
 
     // =================================================================
     //

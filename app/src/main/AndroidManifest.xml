@@ -343,6 +343,11 @@
         <!--  </>值来自开发者平台取得的AppKey-->
         <!--****************************end of 极光推送************************************-->
 
+        <!--bugHD-->
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="2d27fca2df9e05406d01a799f424655e" />
+
     </application>
 
 </manifest>
