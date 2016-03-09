@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item android:id="@+id/id_menu_pass"
-        android:title="跳过"
-        android:icon="@drawable/ic_action_next_item"
-        app:showAsAction="always"/>
+    <item
+        android:id="@+id/id_menu_jump"
+        android:orderInCategory="999"
+        android:title="下一步"
+        app:showAsAction="withText|always" />
 </menu>

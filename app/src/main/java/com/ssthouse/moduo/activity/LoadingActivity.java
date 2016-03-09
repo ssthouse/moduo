@@ -1,15 +1,10 @@
 package com.ssthouse.moduo.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.main.MainActivity;
@@ -49,38 +44,38 @@ public class LoadingActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         //是否第一次
-        if (SettingManager.getInstance(this).isFistIn()) {
-            GuideActivity.start(this);
-            return;
-        }
+//        if (SettingManager.getInstance(this).isFistIn()) {
+        GuideActivity.start(this);
+        return;
+//        }
 
         //启动动画
-        final ImageView ivBg = (ImageView) findViewById(R.id.id_iv_bg);
-        ValueAnimator animator = ObjectAnimator.ofFloat(ivBg, "scaleX", 1f, 1.3f);
-        animator.setDuration(1500);
-        ValueAnimator animator1 = ObjectAnimator.ofFloat(ivBg, "scaleY", 1f, 1.3f);
-        final AnimatorSet animatorSet = new AnimatorSet();
-        animator1.setDuration(1500);
-        animatorSet.play(animator).with(animator1);
-        animatorSet.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                jump2Main();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-        animatorSet.start();
+//        final ImageView ivBg = (ImageView) findViewById(R.id.id_iv_bg);
+//        ValueAnimator animator = ObjectAnimator.ofFloat(ivBg, "scaleX", 1f, 1.3f);
+//        animator.setDuration(1500);
+//        ValueAnimator animator1 = ObjectAnimator.ofFloat(ivBg, "scaleY", 1f, 1.3f);
+//        final AnimatorSet animatorSet = new AnimatorSet();
+//        animator1.setDuration(1500);
+//        animatorSet.play(animator).with(animator1);
+//        animatorSet.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                jump2Main();
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//            }
+//        });
+//        animatorSet.start();
     }
 
     //跳转MainActivity
@@ -118,7 +113,7 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
-    //AppIntroActivity完成介绍的event
+    //todo---AppIntroActivity完成介绍的event
     public void onEventMainThread(AppIntroFinishEvent event) {
         if (event.isSuccess()) {
             jump2Main();
@@ -130,7 +125,13 @@ public class LoadingActivity extends AppCompatActivity {
 
     //GuideActivity完成第一次介绍后回调事件
     public void onEventMainThread(GuideFinishEvent event) {
-        jump2Main();
+        if (event.isSuccess()) {
+            //不是第一次了
+            SettingManager.getInstance(this).setIsFistIn(false);
+            jump2Main();
+        } else {
+            finish();
+        }
     }
 
     @Override

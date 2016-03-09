@@ -270,6 +270,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     public void showConfirmLogoutDialog() {
         TextView tvContent = (TextView) confirmLogoutDialogView.findViewById(R.id.id_tv_content);
         tvContent.setText("确认注销?");
+        confirmLogoutDialogView.findViewById(R.id.id_iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmLogoutDialog.dismiss();
+            }
+        });
         confirmLogoutDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

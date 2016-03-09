@@ -18,6 +18,7 @@ import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.event.view.GuideFinishEvent;
 import com.ssthouse.moduo.model.event.xpg.RegisterFragmentChangeEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
@@ -109,7 +110,8 @@ public class LoginFragment extends Fragment {
         btnLoginAnonymous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ex
+                //匿名登录---直接跳转主页
+                EventBus.getDefault().post(new GuideFinishEvent(true));
             }
         });
     }

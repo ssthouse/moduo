@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.WifiCodeFragment;
 import com.ssthouse.moduo.fragment.account.LoginFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
@@ -65,9 +64,6 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fist_in);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-
-        //不是第一次了
-        SettingManager.getInstance(this).setIsFistIn(false);
 
         initView();
         initFragment();
@@ -138,13 +134,15 @@ public class GuideActivity extends AppCompatActivity {
                 .hide(currentFragment)
                 .show(toFragment)
                 .commit();
+        //刷新menu
+        invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         switch (currentState) {
             case STATE_WIFI_CODE:
-                getMenuInflater().inflate(R.menu.menu_jump, menu);
+                getMenuInflater().inflate(R.menu.menu_next, menu);
                 break;
             case STATE_LOGIN:
                 getMenuInflater().inflate(R.menu.menu_jump, menu);
@@ -164,10 +162,10 @@ public class GuideActivity extends AppCompatActivity {
                     switchFragment(State.STATE_LOGIN);
                     break;
                 case STATE_LOGIN:
-                    exit();
+                    exit(true);
                     break;
                 case STATE_GESTURE_LOCK:
-                    exit();
+                    exit(true);
                     break;
             }
         }
@@ -176,18 +174,18 @@ public class GuideActivity extends AppCompatActivity {
 
     //手势密码编辑完成
     public void onEventMainThread(GestureLockFinishEvent event) {
-        exit();
+        exit(true);
     }
 
     //退出
-    private void exit() {
-        EventBus.getDefault().post(new GuideFinishEvent());
+    private void exit(boolean isSuccess) {
+        EventBus.getDefault().post(new GuideFinishEvent(isSuccess));
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        exit();
+        exit(false);
     }
 
     @Override

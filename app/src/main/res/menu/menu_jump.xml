@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/id_menu_jump"
-        android:icon="@drawable/qr_code_ic_next"
+        android:icon="@drawable/ic_action_next_item"
         android:orderInCategory="999"
         android:title="跳过"
         app:showAsAction="withText|always" />
