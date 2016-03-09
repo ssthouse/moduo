@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.fragment.account;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.GuideActivity;
 import com.ssthouse.moduo.control.util.MD5Util;
+import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
@@ -62,6 +65,13 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.id_tv_email_register)
     TextView tvEmailRegister;
 
+    //等待Dialog
+    private View waitDialogView;
+    private Dialog waitDialog;
+
+    //todo---注册dialog
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -84,6 +94,12 @@ public class LoginFragment extends Fragment {
                     ToastHelper.show(getContext(), "用户名和密码不可为空");
                     return;
                 }
+                if (!NetUtil.isConnected(getContext())) {
+                    ToastHelper.show(getContext(), "当前网络不可用");
+                    return;
+                }
+                //弹出等待登录dialog
+                showWaitDialog("正在登陆请稍候");
                 //尝试登陆
                 XPGController.getInstance(getContext()).getmCenter()
                         .cLogin(username, password);
@@ -116,12 +132,28 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    private void initDialog() {
+        waitDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(waitDialogView)
+                .setCancelable(false)
+                .create();
+    }
+
+    private void showWaitDialog(String msg) {
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
+        tvWait.setText(msg);
+        waitDialog.show();
+    }
+
     /**
      * 登陆结果回调
      *
      * @param event
      */
     public void onEventMainThread(XPGLoginResultEvent event) {
+        //隐藏dialog
+        waitDialog.dismiss();
         if (event.isSuccess()) {
             ToastHelper.show(getContext(), "登陆成功");
             //保存登陆数据

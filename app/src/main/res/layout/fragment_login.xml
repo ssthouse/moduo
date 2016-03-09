@@ -2,33 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fragment_bg"
     android:orientation="vertical">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        style="@style/FragmentContent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/id_iv_avatar"
+            android:layout_width="158dp"
+            android:layout_height="158dp"
+            android:layout_marginBottom="22dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/avatar" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <EditText
                 android:id="@+id/id_et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="用户名" />
+                android:hint="用户名"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="8dp">
 
             <EditText
@@ -36,50 +45,80 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/id_btn_login"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="登陆" />
-    </LinearLayout>
+            android:layout_height="38dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
+            <!--登录-->
+            <Button
+                android:id="@+id/id_btn_login"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="58dp"
+                android:background="@drawable/selector_btn_blue"
+                android:text="实名登陆"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:visibility="gone">
+            <!--注册-->
+            <Button
+                android:id="@+id/id_btn_register"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_btn_yellow"
+                android:text="注册"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/id_tv_phone_register"
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:text="手机号注册" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/id_tv_email_register"
+            <TextView
+                android:id="@+id/id_tv_phone_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="手机号注册" />
+
+            <TextView
+                android:id="@+id/id_tv_email_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="邮箱注册" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- 匿名登录-->
+        <Button
+            android:id="@+id/id_btn_login_anonymous"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:text="邮箱注册" />
+            android:layout_height="38dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_btn_yellow"
+            android:text="匿名登录"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
     </LinearLayout>
-
-    <!-- 匿名登录-->
-    <Button
-        android:id="@+id/id_btn_login_anonymous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="匿名登录" />
 </LinearLayout>

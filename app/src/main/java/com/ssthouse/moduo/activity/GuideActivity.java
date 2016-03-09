@@ -69,14 +69,11 @@ public class GuideActivity extends AppCompatActivity {
         initFragment();
     }
 
-    /**
-     * 加载webView
-     */
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle("初始化");
+        setTitle("连接魔哆");
     }
 
     //设置标题
@@ -121,12 +118,15 @@ public class GuideActivity extends AppCompatActivity {
         switch (toState) {
             case STATE_WIFI_CODE:
                 toFragment = wifiCodeFragment;
+                setTitle("连接魔哆");
                 break;
             case STATE_LOGIN:
                 toFragment = loginFragment;
+                setTitle("登陆");
                 break;
             case STATE_GESTURE_LOCK:
                 toFragment = newGestureFragment;
+                setTitle("设置图形密码");
                 break;
         }
         fragmentManager.beginTransaction()
