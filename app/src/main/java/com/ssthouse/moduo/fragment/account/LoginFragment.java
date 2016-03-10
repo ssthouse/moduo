@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.activity.GuideActivity;
+import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
@@ -21,6 +21,8 @@ import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.cons.xpg.GizwitsErrorMsg;
+import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.event.view.GuideFinishEvent;
 import com.ssthouse.moduo.model.event.xpg.RegisterFragmentChangeEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
@@ -28,6 +30,7 @@ import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * 用于第一次进入app的登陆fragment
@@ -50,8 +53,13 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.id_btn_login)
     Button btnLogin;
 
+    //匿名登录
     @Bind(R.id.id_btn_login_anonymous)
     Button btnLoginAnonymous;
+
+    //注册
+    @Bind(R.id.id_btn_register)
+    Button btnREgister;
 
     /**暂时不用************************************/
     /**
@@ -69,9 +77,6 @@ public class LoginFragment extends Fragment {
     private View waitDialogView;
     private Dialog waitDialog;
 
-    //todo---注册dialog
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -80,6 +85,7 @@ public class LoginFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, rootView);
         initView();
+        initDialog();
         return rootView;
     }
 
@@ -87,10 +93,9 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString();
-                String password = MD5Util.getMdStr(etPassword.getText().toString());
                 //检查格式
-                if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+                if (StringUtils.isEmpty(etUsername.getText().toString())
+                        || StringUtils.isEmpty(etPassword.getText().toString())) {
                     ToastHelper.show(getContext(), "用户名和密码不可为空");
                     return;
                 }
@@ -98,6 +103,8 @@ public class LoginFragment extends Fragment {
                     ToastHelper.show(getContext(), "当前网络不可用");
                     return;
                 }
+                String username = etUsername.getText().toString();
+                String password = MD5Util.getMdStr(etPassword.getText().toString());
                 //弹出等待登录dialog
                 showWaitDialog("正在登陆请稍候");
                 //尝试登陆
@@ -122,6 +129,19 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        //注册
+        btnREgister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //检查格式
+                if (StringUtils.isEmpty(etUsername.getText().toString())
+                        || StringUtils.isEmpty(etPassword.getText().toString())) {
+                    ToastHelper.show(getContext(), "用户名和密码不可为空");
+                    return;
+                }
+            }
+        });
+
         //匿名登录
         btnLoginAnonymous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +153,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void initDialog() {
+        //等待登录Dialog
         waitDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wait, null);
         waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(waitDialogView)
@@ -144,6 +165,49 @@ public class LoginFragment extends Fragment {
         TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
+    }
+
+    /**
+     * 注册回调
+     *
+     * @param event
+     */
+    public void onEventMainThread(RegisterResultEvent event) {
+        if (!ActivityUtil.isTopActivity(getActivity(), "MainActivity") || isHidden()) {
+            return;
+        }
+        if (event.isSuccess()) {
+            Timber.e("注册成功");
+            //清除本地魔哆数据
+            SettingManager.getInstance(getContext()).cleanLocalModuo();
+            //注册成功保存账号
+            saveInputUserInfo();
+            //登陆
+            XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
+                    MD5Util.getMdStr(etPassword.getText().toString()));
+        } else {
+            Timber.e("注册失败");
+            ToastHelper.show(getContext(), GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
+        }
+    }
+
+    /**
+     * 保存当前用户名密码
+     */
+    private void saveInputUserInfo() {
+        Timber.e("保存用户数据到本地");
+        if (etUsername.getText().toString().length() < 6
+                || etPassword.getText().toString().length() < 6) {
+            Timber.e("用户名 | 密码  不合规范");
+            return;
+        }
+        //用户数据保存带本地
+        SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
+        SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
+//        //todo---用户数据保存到云端
+//        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
+//                MD5Util.getMdStr(etPassword.getText().toString()),
+//                SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -165,8 +229,11 @@ public class LoginFragment extends Fragment {
             settingManager.setPassword(password);
             settingManager.setLoginCacheInfo(event);
             //todo---通知GuideActivity进入下一步
-            GuideActivity guideActivity = (GuideActivity) getActivity();
-            guideActivity.switchFragment(GuideActivity.State.STATE_GESTURE_LOCK);
+//            退出导航activity---继续LoadingActivity
+            getActivity().finish();
+            EventBus.getDefault().post(new GuideFinishEvent(true));
+//            GuideActivity guideActivity = (GuideActivity) getActivity();
+//            guideActivity.switchFragment(GuideActivity.State.STATE_GESTURE_LOCK);
         } else {
             ToastHelper.show(getContext(), "登陆失败");
         }

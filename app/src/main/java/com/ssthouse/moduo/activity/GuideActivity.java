@@ -145,7 +145,7 @@ public class GuideActivity extends AppCompatActivity {
                 getMenuInflater().inflate(R.menu.menu_next, menu);
                 break;
             case STATE_LOGIN:
-                getMenuInflater().inflate(R.menu.menu_jump, menu);
+                getMenuInflater().inflate(R.menu.menu_empty, menu);
                 break;
             case STATE_GESTURE_LOCK:
                 getMenuInflater().inflate(R.menu.menu_jump, menu);

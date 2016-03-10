@@ -238,7 +238,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
                     MD5Util.getMdStr(etPassword.getText().toString()));
         } else {
-            Timber.e("登陆失败");
+            Timber.e("注册失败");
             ToastHelper.show(getContext(), GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
     }
