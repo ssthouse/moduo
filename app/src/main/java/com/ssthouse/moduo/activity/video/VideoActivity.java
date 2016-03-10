@@ -119,6 +119,7 @@ public class VideoActivity extends AppCompatActivity {
                     finish();
                 } else {
                     //变回竖屏
+                    isPortrait = true;
                     videoFragment.toPortrait();
                 }
                 break;
@@ -126,4 +127,14 @@ public class VideoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isPortrait) {
+            finish();
+        } else {
+            //变回竖屏
+            isPortrait = true;
+            videoFragment.toPortrait();
+        }
+    }
 }

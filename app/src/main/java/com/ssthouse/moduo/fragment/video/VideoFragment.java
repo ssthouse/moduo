@@ -446,7 +446,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Override
     public void toPortrait() {
         Timber.e("竖屏");
-        VideoActivity.isPortrait = true;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //非全屏---显示actionbar
