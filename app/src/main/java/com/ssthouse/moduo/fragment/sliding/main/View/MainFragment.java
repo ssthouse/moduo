@@ -16,6 +16,7 @@ import com.ssthouse.moduo.activity.MsgCenterActivity;
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.ToastHelper;
 import com.ssthouse.moduo.control.video.Communication;
+import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
 import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
@@ -100,7 +101,6 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
                     ToastHelper.show(getContext(), "当前没有设备连接");
-                    // TODO: 2016/3/8 尝试连接设备
                     mMainFragmentPresenter.initDevice();
                     return;
                 }
@@ -109,12 +109,17 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
                     mMainFragmentPresenter.initDevice();
                     return;
                 }
+                //魔哆在线   但是未登录----尝试登陆
+                if (!XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
+                    ToastHelper.show(getContext(), "魔哆设备未登录, 请稍候重试");
+                    SettingManager settingManager = SettingManager.getInstance(getContext());
+                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
+                            settingManager.getUid(),
+                            settingManager.getToken()
+                    );
+                    return;
+                }
                 ModuoActivity.start(getContext());
-//                    HomeControlActivity.start(getContext());
-//                    XPGController.getCurrentDevice().getXpgWifiDevice().login(
-//                            SettingManager.getInstance(getContext()).getUid(),
-//                            SettingManager.getInstance(getContext()).getToken()
-//                    );
             }
         });
 
