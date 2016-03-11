@@ -31,7 +31,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
  * 魔哆主界面
  * Created by ssthouse on 2016/1/24.
  */
-public class ModuoFragment extends Fragment implements ModuoFragmentView{
+public class ModuoFragment extends Fragment implements ModuoFragmentView {
 
     //Presenter
     private ModuoPresenter mModuoPresenter;
@@ -92,6 +92,18 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView{
             @Override
             public void run() {
                 initDimens();
+            }
+        });
+
+        //点击魔哆大小变化
+        moduoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (moduoView.getCurrentState() == ModuoView.State.STATE_BIG) {
+                    animate2Small();
+                } else if (moduoView.getCurrentState() == ModuoView.State.STATE_SMALL) {
+                    animate2Big();
+                }
             }
         });
     }

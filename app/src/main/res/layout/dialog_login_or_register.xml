@@ -12,7 +12,9 @@
             android:id="@+id/id_et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="用户名" />
+            android:hint="用户名"
+            android:maxLength="20"
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -24,7 +26,9 @@
             android:id="@+id/id_et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="密码" />
+            android:hint="密码"
+            android:maxLength="20"
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout

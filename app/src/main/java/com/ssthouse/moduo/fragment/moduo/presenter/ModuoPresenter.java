@@ -2,14 +2,11 @@ package com.ssthouse.moduo.fragment.moduo.presenter;
 
 import android.content.Context;
 
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoBigEvent;
+import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
 import com.ssthouse.moduo.fragment.moduo.control.util.DbHelper;
 import com.ssthouse.moduo.fragment.moduo.model.ModuoModel;
 import com.ssthouse.moduo.fragment.moduo.view.ModuoFragmentView;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
-import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
 
 import java.util.List;
 
@@ -52,23 +49,13 @@ public class ModuoPresenter {
                 });
     }
 
-    //登陆
-    public void login() {
-        SettingManager settingManager = SettingManager.getInstance(mContext);
-        XPGController.getCurrentDevice().getXpgWifiDevice().login(
-                settingManager.getUid(),
-                settingManager.getToken()
-        );
-    }
-
-    //设备登陆回调
-    public void onEventMainThread(XpgDeviceLoginEvent event) {
-
-    }
-
     //魔哆变大事件回调
-    public void onEventMainThread(ModuoBigEvent event) {
-        mModuoFragmentView.animate2Big();
+    public void onEventMainThread(ModuoScaleChangeEvent event) {
+        if (event.isToBig()) {
+            mModuoFragmentView.animate2Big();
+        } else {
+            mModuoFragmentView.animate2Small();
+        }
     }
 
     //添加msgBen回调

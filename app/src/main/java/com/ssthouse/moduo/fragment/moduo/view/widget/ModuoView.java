@@ -23,7 +23,7 @@ public class ModuoView extends View implements View.OnClickListener {
     //当前魔哆位置
     private ModuoRect moduoRect;
 
-    private Bitmap bigModuo = BitmapFactory.decodeResource(getResources(), R.drawable.moduo);
+    private Bitmap bigModuo = BitmapFactory.decodeResource(getResources(), R.drawable.modo);
 
     //当前状态---初始为大!
     private State currentState = State.STATE_BIG;
@@ -72,7 +72,7 @@ public class ModuoView extends View implements View.OnClickListener {
         if (currentState == State.STATE_SMALL) {
             // TODO: 2016/1/28 暂时改为走路试试
             moduoRect.startWalk();
-//            EventBus.getDefault().post(new ModuoBigEvent());
+//            EventBus.getDefault().post(new ModuoScaleChangeEvent());
         }else{
 
         }
