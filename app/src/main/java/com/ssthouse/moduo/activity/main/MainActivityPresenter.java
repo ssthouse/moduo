@@ -60,12 +60,7 @@ public class MainActivityPresenter {
         Timber.e("扫描Activity回调");
         if (event.isSuccess()) {
             mMainActivityView.showWaitDialog("正在绑定设备,请稍候");
-            //todo---将扫描到设备数据保存至cloud--生产时---应该魔哆所有数据都在leancloud上有
-//            CloudUtil.saveDeviceToCloud(new ModuoInfo(event.getDid(),
-//                    event.getPassCode(),
-//                    event.getCid(),
-//                    event.getVideoUsername(),
-//                    event.getVideoPassword()));
+            //将
             //开始绑定设备
             XPGController.getInstance(mContext).getmCenter().cBindDevice(
                     SettingManager.getInstance(mContext).getUid(),
@@ -85,7 +80,7 @@ public class MainActivityPresenter {
         Timber.e("设备绑定回调");
         mMainActivityView.dismissWaitDialog();
         if (event.isSuccess()) {
-            ToastHelper.show(mContext, "设备绑定成功");
+            ToastHelper.show(mContext, "设备绑定成功, 正在自动登陆");
             //获取设备Info信息
             mMainActivityModel.getModuoInfo(event.getDid())
                     .subscribeOn(Schedulers.newThread())
