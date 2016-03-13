@@ -18,7 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -74,7 +74,7 @@ public class WifiCodeFragment extends Fragment {
                             //隐藏dialog
                             wifiPasscodeDialog.dismiss();
                         } else {
-                            ToastHelper.show(getActivity(), "wifi名称和密码不可为空");
+                            Toast.show("wifi名称和密码不可为空");
                         }
                     }
                 })

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
@@ -80,7 +80,7 @@ public class MainActivityPresenter {
         Timber.e("设备绑定回调");
         mMainActivityView.dismissWaitDialog();
         if (event.isSuccess()) {
-            ToastHelper.show(mContext, "设备绑定成功, 正在自动登陆");
+            Toast.show("设备绑定成功, 正在自动登陆");
             //获取设备Info信息
             mMainActivityModel.getModuoInfo(event.getDid())
                     .subscribeOn(Schedulers.newThread())
@@ -89,7 +89,7 @@ public class MainActivityPresenter {
                         @Override
                         public void call(ModuoInfo moduoInfo) {
                             if (moduoInfo == null) {
-                                ToastHelper.show(mContext, "服务器获取魔哆设备信息为空:did   " + event.getDid());
+                                Toast.show( "服务器获取魔哆设备信息为空:did   " + event.getDid());
                                 return;
                             }
                             //保存设备信息到本地
@@ -102,7 +102,7 @@ public class MainActivityPresenter {
                         }
                     });
         } else {
-            ToastHelper.show(mContext, "设备绑定失败");
+            Toast.show( "设备绑定失败");
         }
         mMainActivityView.updateUI();
     }

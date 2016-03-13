@@ -38,7 +38,7 @@ public class QrCodeUtil {
     public static void parseScanResult(Context context, IntentResult intentResult) {
         if (intentResult == null || intentResult.getContents() == null) {
             Timber.e("Cancelled scan");
-            ToastHelper.show(context, "扫描失败");
+            Toast.show("扫描失败");
             return;
         }
         String text = intentResult.getContents();
@@ -57,7 +57,7 @@ public class QrCodeUtil {
                 || cidStr == null
                 || username == null
                 || password == null) {
-            ToastHelper.showLong(context, "二维码数据出错");
+            Toast.showLong("二维码数据出错");
             return;
         }
         long cidNumber = Long.parseLong(cidStr);

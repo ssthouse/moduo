@@ -25,7 +25,7 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/qr_code_frame"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/modo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,11 +44,11 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="33dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView

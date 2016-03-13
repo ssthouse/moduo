@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.LoadingActivity;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
@@ -79,12 +79,12 @@ public class EmailRegisterFragment extends Fragment {
         //判断当前fragment是否响应外界的event
         if (isInUse) {
             if (event.isSuccess()) {
-                ToastHelper.show(getContext(), "注册成功, 正在登陆...");
+                Toast.show("注册成功, 正在登陆...");
                 //TODO---尝试登陆---保存uid和token和邮箱--和密码到本地
                 XPGController.getInstance(getContext()).getmCenter()
                         .cLogin(etEmailAddr.getText().toString(), etPassword.getText().toString());
             } else {
-                ToastHelper.show(getContext(), "注册失败");
+                Toast.show("注册失败");
             }
         }
     }
@@ -99,7 +99,7 @@ public class EmailRegisterFragment extends Fragment {
             if (event.isSuccess()) {
                 //// TODO: 2015/12/21
                 isInUse = false;
-                ToastHelper.show(getContext(), "登陆成功");
+                Toast.show("登陆成功");
                 //保存登陆数据
                 SettingManager.getInstance(getContext()).setUserName(etEmailAddr.getText().toString());
                 SettingManager.getInstance(getContext()).setPassword(etPassword.getText().toString());
@@ -110,7 +110,7 @@ public class EmailRegisterFragment extends Fragment {
                 //退出当前activity
                 EventBus.getDefault().post(new RegisterActivityDestoryEvent());
             } else {
-                ToastHelper.show(getContext(), "登陆失败");
+                Toast.show("登陆失败");
             }
         }
     }

@@ -19,7 +19,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.SettingActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
 import butterknife.Bind;
@@ -61,11 +61,11 @@ public class IssueFeedbackFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!NetUtil.isConnected(getContext())) {
-                    ToastHelper.show(getContext(), "当前网络不可用");
+                    Toast.show("当前网络不可用");
                     return;
                 }
                 if (TextUtils.isEmpty(etIssueContent.getText())) {
-                    ToastHelper.show(getContext(), "请写下对我们建议和意见");
+                    Toast.show("请写下对我们建议和意见");
                     return;
                 }
                 //将信息上传至leancloud

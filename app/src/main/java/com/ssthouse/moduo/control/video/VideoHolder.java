@@ -15,7 +15,7 @@ import com.ichano.rvs.viewer.callback.MediaStreamStateCallback;
 import com.ichano.rvs.viewer.constant.MediaStreamState;
 import com.ichano.rvs.viewer.render.GLViewYuvRender;
 import com.ssthouse.moduo.control.util.FileUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.model.event.video.VideoExceptionEvent;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
 
@@ -200,7 +200,7 @@ public class VideoHolder {
     //截取一帧的图片
     public void saveOneFrameJpeg() {
         if (videoWidth == 0 || videoHeight == 0) {
-            ToastHelper.show(context, "视频数据格式有误, 请稍候重试");
+            Toast.show("视频数据格式有误, 请稍候重试");
             return;
         }
         int yuvi = videoWidth * videoHeight;
@@ -217,9 +217,9 @@ public class VideoHolder {
         YuvImage yuvImage = new YuvImage(yuv, ImageFormat.NV21, videoWidth, videoHeight, null);
         try {
             yuvImage.compressToJpeg(new Rect(0, 0, videoWidth, videoHeight), 100, new FileOutputStream(filePath));
-            ToastHelper.show(context, "截屏成功保存至:\tSD卡根目录\\" + filePath);
+            Toast.show("截屏成功保存至:\tSD卡根目录\\" + filePath);
         } catch (FileNotFoundException e) {
-            ToastHelper.show(context, "图片截取失败!");
+            Toast.show("图片截取失败!");
             e.printStackTrace();
         }
     }

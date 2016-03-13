@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
@@ -60,12 +60,12 @@ public class SwitchModuoPresenter {
             return;
         }
         if (!event.isSuccess() || event.getXpgDeviceList() == null) {
-            ToastHelper.show(mContext, "获取设备列表失败");
+            Toast.show("获取设备列表失败");
             mSwitchFragmentView.showLoadErr();
             return;
         }
         if (event.getXpgDeviceList().size() == 0) {
-            ToastHelper.show(mContext, "当前未绑定魔哆设备");
+            Toast.show("当前未绑定魔哆设备");
             mSwitchFragmentView.showLoadErr();
             return;
         }
@@ -81,12 +81,12 @@ public class SwitchModuoPresenter {
         }
         //修改备注后---重新绑定失败
         if (!event.isSuccess()) {
-            ToastHelper.show(mContext, "备注修改失败, 请稍候重试");
+            Toast.show("备注修改失败, 请稍候重试");
             mSwitchFragmentView.dismissChangeRemarkDialog();
             return;
         }
         mSwitchFragmentView.dismissWaitDialog();
-        ToastHelper.show(mContext, "备注修改成功");
+        Toast.show("备注修改成功");
         //退出Activity
         SwitchModuoActivity activity = (SwitchModuoActivity) mContext;
         activity.finish();

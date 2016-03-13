@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.ssthouse.gyroscope.GyroscopeSensor;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.VideoHolder;
 import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -249,6 +250,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 //已为放大状态---响应点击事件
                 isInVideoRecord = !isInVideoRecord;
                 if (isInVideoRecord) {
+                    Toast.show("开始录像");
                     mPresenter.startTakeVideo(videoHolder.getLiveStreamDid());
                     ivTakeVideoPort.setImageResource(R.drawable.video_take_video_blue);
                 } else {

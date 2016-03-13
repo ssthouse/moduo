@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.ssthouse.gesture.LockPatternView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.account.GestureLockActivity;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class EditGestureFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //// TODO: 2016/1/19 输入密码对话框
-                ToastHelper.showOnCoding(getContext());
+                Toast.showOnCoding();
             }
         });
 

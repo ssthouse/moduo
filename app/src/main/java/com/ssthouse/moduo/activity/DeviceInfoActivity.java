@@ -17,7 +17,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
@@ -172,9 +172,9 @@ public class DeviceInfoActivity extends AppCompatActivity {
      */
     public void onEventMainThread(UnbindResultEvent event) {
         if (event.isSuccess()) {
-            ToastHelper.show(this, "设备解绑成功");
+            Toast.show("设备解绑成功");
         } else {
-            ToastHelper.show(this, "设备解绑失败");
+            Toast.show("设备解绑失败");
         }
     }
 

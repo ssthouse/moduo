@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.ByteUtils;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.DeviceData;
@@ -272,7 +272,7 @@ public class XpgControlActivity extends AppCompatActivity {
             updateUI();
             Timber.e("设备数据设置成功");
         } else {
-            ToastHelper.show(this, "数据设置失败");
+            Toast.show( "数据设置失败");
             Timber.e("设备数据设置失败");
             //还原原数据UI
             updateUI();
@@ -291,7 +291,7 @@ public class XpgControlActivity extends AppCompatActivity {
         //更新UI
         updateUI();
         //toast提示
-        ToastHelper.show(this, "设备数据更新");
+        Toast.show( "设备数据更新");
     }
 
     /**

@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.event.xpg.AuthCodeSendResultEvent;
@@ -113,7 +113,7 @@ public class PhoneRegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (etPhoneNumber.getText().toString().trim().length() != 11) {
-                    ToastHelper.show(getContext(), "手机号必须为11位");
+                    Toast.show("手机号必须为11位");
                     return;
                 }
                 //TODO---发送验证码
@@ -166,13 +166,13 @@ public class PhoneRegisterFragment extends Fragment {
     public void onEventMainThread(AuthCodeSendResultEvent event) {
         if (event.isSuccess()) {
             //TODO---显示---验证码输入框---确定框---密码输入框
-            ToastHelper.show(getContext(), "验证码发送成功");
+            Toast.show("验证码发送成功");
             etAuth.setVisibility(View.VISIBLE);
             btnStartPhoneRegister.setVisibility(View.VISIBLE);
             etPassword.setVisibility(View.VISIBLE);
         } else {
             //TODO---提示发送出错
-            ToastHelper.show(getContext(), "验证码发送失败");
+            Toast.show("验证码发送失败");
         }
         Timber.e("收到回调.......");
         //隐藏dialog
@@ -181,15 +181,16 @@ public class PhoneRegisterFragment extends Fragment {
 
     /**
      * 注册结果回调
+     *
      * @param event
      */
-    public void onEventMainThread(RegisterResultEvent event){
+    public void onEventMainThread(RegisterResultEvent event) {
         //判断当前fragment是否响应外界的event
-        if(isInUse){
-            if(event.isSuccess()){
-                ToastHelper.show(getContext(), "注册成功, 正在登陆...");
-            }else{
-                ToastHelper.show(getContext(), "注册失败");
+        if (isInUse) {
+            if (event.isSuccess()) {
+                Toast.show("注册成功, 正在登陆...");
+            } else {
+                Toast.show("注册失败");
             }
         }
     }

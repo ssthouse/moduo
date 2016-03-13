@@ -16,7 +16,7 @@ import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.cons.xpg.GizwitsErrorMsg;
@@ -106,11 +106,11 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                     public void onClick(View v) {
                         if (etUsername.getText().toString().length() < 6
                                 || etPassword.getText().toString().length() < 6) {
-                            ToastHelper.show(getContext(), "用户名或密码不可少于6位");
+                            Toast.show("用户名或密码不可少于6位");
                             return;
                         }
                         if (!NetUtil.isConnected(getContext())) {
-                            ToastHelper.showNoInternet(getContext());
+                            Toast.showNoInternet();
                         }
                         showWaitDialog("正在登陆");
                         String username = etUsername.getText().toString();
@@ -127,11 +127,11 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                     public void onClick(View v) {
                         if (etUsername.getText().toString().length() < 6
                                 || etPassword.getText().toString().length() < 6) {
-                            ToastHelper.show(getContext(), "用户名或密码不可少于6位");
+                            Toast.show("用户名或密码不可少于6位");
                             return;
                         }
                         if (!NetUtil.isConnected(getContext())) {
-                            ToastHelper.showNoInternet(getContext());
+                            Toast.showNoInternet();
                         }
                         showWaitDialog("正在注册");
                         String username = etUsername.getText().toString();
@@ -239,7 +239,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                     MD5Util.getMdStr(etPassword.getText().toString()));
         } else {
             Timber.e("注册失败");
-            ToastHelper.show(getContext(), GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
+            Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
     }
 
@@ -295,7 +295,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                     MD5Util.getMdStr(etPassword.getText().toString()));
         } else {
             Timber.e("匿名用户转换失败");
-            ToastHelper.show(getContext(), GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
+            Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
     }
 
@@ -308,7 +308,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         //本地数据清空---当前设备清空 todo
         SettingManager.getInstance(getContext()).clean();
         XPGController.setCurrentDevice(null);
-        ToastHelper.show(getContext(), "注销成功");
+        Toast.show("注销成功");
         updateUI();
     }
 

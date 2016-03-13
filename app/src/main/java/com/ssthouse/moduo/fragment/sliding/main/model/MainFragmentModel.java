@@ -3,7 +3,7 @@ package com.ssthouse.moduo.fragment.sliding.main.model;
 import android.content.Context;
 
 import com.ssthouse.moduo.control.util.CloudUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -34,7 +34,7 @@ public class MainFragmentModel {
     public void setCurrentDevice(GetBoundDeviceEvent event) {
         //如果未绑定设备---需要先绑定
         if (event.getXpgDeviceList().size() <= 0) {
-            ToastHelper.show(mContext, "当前未绑定设备,请先进行绑定");
+            Toast.show("当前未绑定设备,请先进行绑定");
             Timber.e("我还没有绑定过设备");
             return;
         }
@@ -58,7 +58,7 @@ public class MainFragmentModel {
                         @Override
                         public void call(ModuoInfo moduoInfo) {
                             if (moduoInfo == null) {
-                                ToastHelper.show(mContext, "获取服务器设备数据失败");
+                                Toast.show("获取服务器设备数据失败");
                             } else {
                                 SettingManager.getInstance(mContext).setCurrentModuoInfo(moduoInfo);
                             }

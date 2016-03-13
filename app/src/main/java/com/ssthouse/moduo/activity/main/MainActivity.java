@@ -28,7 +28,7 @@ import com.ssthouse.moduo.activity.WifiCodeDispActivity;
 import com.ssthouse.moduo.activity.account.UserInfoEditActivity;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -401,13 +401,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
             case SHARE_MODUO_FRAGMENT:
                 if (item.getItemId() == R.id.id_menu_share_moduo) {
                     if (XPGController.getCurrentDevice() == null) {
-                        ToastHelper.showModuoNotConnected(this);
+                        Toast.showModuoNotConnected();
                     }
                     String picFileName = XPGController.getCurrentDevice().getXpgWifiDevice().getDid() + ".png";
                     if (FileUtil.hasPicture(picFileName)) {
                         FileUtil.sharePicture(this, new File(FileUtil.MODUO_QRCODE_PATH + picFileName));
                     } else {
-                        ToastHelper.show(this, "二维码未生成");
+                        Toast.show("二维码未生成");
                     }
                 }
                 break;
@@ -436,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
                 super.onBackPressed();
             } else {
                 exitTimeInMils = System.currentTimeMillis();
-                ToastHelper.show(this, "再次点击退出");
+                Toast.show("再次点击退出");
             }
         } else {
             switchFragment(FragmentState.MAIN_FRAGMENT);

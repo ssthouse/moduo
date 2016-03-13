@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
@@ -184,12 +184,12 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             public void onClick(View v) {
                 //没有写备注
                 if (TextUtils.isEmpty(etRemark.getText())) {
-                    ToastHelper.show(getContext(), "请填写备注");
+                    Toast.show("请填写备注");
                     return;
                 }
                 //备注和之前是一样的
                 if (etRemark.getText().toString().equals(mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).getRemark())) {
-                    ToastHelper.show(getContext(), "备注未变化");
+                    Toast.show("备注未变化");
                     return;
                 }
                 //改变备注--重新绑定

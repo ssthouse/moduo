@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.QrCodeUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.Device;
 
@@ -64,7 +64,7 @@ public class ShareModuoFragment extends Fragment implements IFragmentUI {
     public void updateUI() {
         final Device currentDevice = XPGController.getCurrentDevice();
         if (currentDevice == null) {
-            ToastHelper.show(getContext(), "当前未连接魔哆");
+            Toast.show("当前未连接魔哆");
         } else {
             showWaitDialog("正在生成二维码请稍候");
             String urlContent = QrCodeUtil.getDeviceQrCodeContent(

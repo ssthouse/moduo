@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +33,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 Timber.e("number:" + msg.getOriginatingAddress()
                         + "   body:" + msg.getDisplayMessageBody() + "  time:"
                         + msg.getTimestampMillis());
-                ToastHelper.show(context, "number:" + msg.getOriginatingAddress()
+                Toast.show("number:" + msg.getOriginatingAddress()
                         + "   body:" + msg.getDisplayMessageBody() + "  time:"
                         + msg.getTimestampMillis());
                 //在这里写自己的逻辑

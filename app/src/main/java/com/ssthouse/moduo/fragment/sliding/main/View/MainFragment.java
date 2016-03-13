@@ -14,7 +14,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.ModuoActivity;
 import com.ssthouse.moduo.activity.MsgCenterActivity;
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -100,18 +100,18 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             @Override
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
-                    ToastHelper.show(getContext(), "当前没有设备连接");
+                    Toast.show("当前没有设备连接");
                     mMainFragmentPresenter.initDevice();
                     return;
                 }
                 if (!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline()) {
-                    ToastHelper.show(getContext(), "魔哆不在线");
+                    Toast.show("魔哆不在线");
                     mMainFragmentPresenter.initDevice();
                     return;
                 }
                 //魔哆在线   但是未登录----尝试登陆
                 if (!XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
-                    ToastHelper.show(getContext(), "魔哆设备未登录, 请稍候重试");
+                    Toast.show("魔哆设备未登录, 请稍候重试");
                     SettingManager settingManager = SettingManager.getInstance(getContext());
                     XPGController.getCurrentDevice().getXpgWifiDevice().login(
                             settingManager.getUid(),
@@ -127,11 +127,11 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             @Override
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
-                    ToastHelper.show(getContext(), "当前没有设备连接");
+                    Toast.show("当前没有设备连接");
                     return;
                 }
                 if (!Communication.isLogin()) {
-                    ToastHelper.show(getContext(), "视频服务未登录");
+                    Toast.show("视频服务未登录");
                     return;
                 }
                 //跳转视频Activity

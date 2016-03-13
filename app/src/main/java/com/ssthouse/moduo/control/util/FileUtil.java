@@ -125,7 +125,7 @@ public class FileUtil {
      */
     public static String generateNewPicFilePath() {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh:mm:ss");
         String fileName = dateFormat.format(date);
         return MODUO_VIDEO_PIC_PATH + fileName + ".jpg";
     }
@@ -137,7 +137,7 @@ public class FileUtil {
      */
     public static String generateNewVideoFilePath() {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh:mm:ss");
         String fileName = dateFormat.format(date);
         return MODUO_VIDEO_VIDEO_PATH + fileName + ".mp4";
     }

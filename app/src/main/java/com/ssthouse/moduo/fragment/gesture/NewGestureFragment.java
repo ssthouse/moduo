@@ -16,7 +16,7 @@ import com.ssthouse.gesture.LockPatternView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
 
@@ -91,11 +91,11 @@ public class NewGestureFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!NetUtil.isConnected(getContext())) {
-                    ToastHelper.show(getContext(), "当前网络未连接");
+                    Toast.show("当前网络未连接");
                     return;
                 }
                 if (currentPatternStr == null) {
-                    ToastHelper.show(getContext(), "图形密码不可为空");
+                    Toast.show("图形密码不可为空");
                     return;
                 }
                 //todo---只有提交成功了---才能退出---将新的用户数据提交到云端
@@ -108,7 +108,7 @@ public class NewGestureFragment extends Fragment {
                             public void call(AVObject avObject) {
                                 //用户在云端不存在
                                 if (avObject == null) {
-                                    ToastHelper.show(getContext(), "密码上传云端失败");
+                                    Toast.show("密码上传云端失败");
                                     waitDialog.dismiss();
                                     return;
                                 }
@@ -118,13 +118,13 @@ public class NewGestureFragment extends Fragment {
                                     public void done(AVException e) {
                                         waitDialog.dismiss();
                                         if (e == null) {
-                                            ToastHelper.show(getContext(), "密码修改成功");
+                                            Toast.show("密码修改成功");
                                             //将密码同步到本地
                                             SettingManager.getInstance(getContext()).setGestureLock(currentPatternStr);
                                             //退出activity
                                             EventBus.getDefault().post(new GestureLockFinishEvent());
                                         } else {
-                                            ToastHelper.show(getContext(), "密码上传云端失败");
+                                            Toast.show("密码上传云端失败");
                                         }
                                     }
                                 });

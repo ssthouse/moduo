@@ -18,7 +18,7 @@ import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.cons.xpg.GizwitsErrorMsg;
@@ -96,11 +96,11 @@ public class LoginFragment extends Fragment {
                 //检查格式
                 if (StringUtils.isEmpty(etUsername.getText().toString())
                         || StringUtils.isEmpty(etPassword.getText().toString())) {
-                    ToastHelper.show(getContext(), "用户名和密码不可为空");
+                    Toast.show( "用户名和密码不可为空");
                     return;
                 }
                 if (!NetUtil.isConnected(getContext())) {
-                    ToastHelper.show(getContext(), "当前网络不可用");
+                    Toast.show( "当前网络不可用");
                     return;
                 }
                 String username = etUsername.getText().toString();
@@ -136,7 +136,7 @@ public class LoginFragment extends Fragment {
                 //检查格式
                 if (StringUtils.isEmpty(etUsername.getText().toString())
                         || StringUtils.isEmpty(etPassword.getText().toString())) {
-                    ToastHelper.show(getContext(), "用户名和密码不可为空");
+                    Toast.show("用户名和密码不可为空");
                     return;
                 }
             }
@@ -187,7 +187,7 @@ public class LoginFragment extends Fragment {
                     MD5Util.getMdStr(etPassword.getText().toString()));
         } else {
             Timber.e("注册失败");
-            ToastHelper.show(getContext(), GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
+            Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
     }
 
@@ -219,7 +219,7 @@ public class LoginFragment extends Fragment {
         //隐藏dialog
         waitDialog.dismiss();
         if (event.isSuccess()) {
-            ToastHelper.show(getContext(), "登陆成功");
+            Toast.show("登陆成功");
             //保存登陆数据
             PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
             String username = etUsername.getText().toString();
@@ -235,7 +235,7 @@ public class LoginFragment extends Fragment {
 //            GuideActivity guideActivity = (GuideActivity) getActivity();
 //            guideActivity.switchFragment(GuideActivity.State.STATE_GESTURE_LOCK);
         } else {
-            ToastHelper.show(getContext(), "登陆失败");
+            Toast.show( "登陆失败");
         }
     }
 

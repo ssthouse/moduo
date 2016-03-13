@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
 
 import de.greenrobot.event.EventBus;
@@ -51,7 +51,7 @@ public class AppIntroActivity extends AppIntro {
     @Override
     public void onDonePressed() {
         finish();
-        ToastHelper.show(this, "完成app介绍");
+        Toast.show( "完成app介绍");
         EventBus.getDefault().post(new AppIntroFinishEvent(true));
     }
 

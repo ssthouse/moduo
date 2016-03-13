@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.ssthouse.moduo.activity.video.CallingActivity;
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -79,13 +79,13 @@ public class MainFragmentPresenter {
     public void jump2Video() {
         switch (Communication.getInstance(mContext).getStreamerPresenceState()) {
             case INIT:
-                ToastHelper.show(mContext, "魔哆摄像头不在线");
+                Toast.show("魔哆摄像头不在线");
                 break;
             case OFFLINE:
-                ToastHelper.show(mContext, "魔哆摄像头不在线");
+                Toast.show("魔哆摄像头不在线");
                 break;
             case USRNAME_PWD_ERR:
-                ToastHelper.show(mContext, "魔哆用户名密码错误");
+                Toast.show("魔哆用户名密码错误");
                 break;
             case ONLINE:
                 CallingActivity.start(mContext);
@@ -98,7 +98,7 @@ public class MainFragmentPresenter {
         switch (event.getNetworkState()) {
             case NONE:
                 isOffline = true;
-                ToastHelper.show(mContext, "网络连接已断开");
+                Toast.show("网络连接已断开");
                 break;
             case MOBILE:
                 //如果之前是离线状态---需要重新连接(视频会不断自动连接---机智云不会--需要手动重新连接)
@@ -136,7 +136,7 @@ public class MainFragmentPresenter {
             mMainFragmentModel.setCurrentDevice(event);
             Timber.e("设置当前device");
         } else {
-            ToastHelper.show(mContext, "获取绑定设备失败");
+            Toast.show("获取绑定设备失败");
         }
         //刷新UI
         mMainFragmentView.updateUI();
@@ -151,7 +151,7 @@ public class MainFragmentPresenter {
             initDevice();
             Timber.e("机智云---登录成功");
         } else {
-            ToastHelper.show(mContext, "登陆失败");
+            Toast.show("登陆失败");
         }
         //刷新UI
         mMainFragmentView.updateUI();

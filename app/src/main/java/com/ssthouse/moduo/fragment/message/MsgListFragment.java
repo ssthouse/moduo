@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 
 /**
  * 消息列表
@@ -79,7 +79,7 @@ public class MsgListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //// TODO: 2016/1/21  ---到时候把整个item发出去
                 //EventBus.getDefault().post(new MsgActivityToDetailEvent());
-                ToastHelper.show(getContext(), "功能正在开发中");
+                Toast.show("功能正在开发中");
             }
         });
     }

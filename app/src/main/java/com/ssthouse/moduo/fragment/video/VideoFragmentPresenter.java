@@ -6,7 +6,7 @@ import android.media.AudioManager;
 
 import com.ichano.rvs.viewer.Media;
 import com.ssthouse.moduo.control.util.FileUtil;
-import com.ssthouse.moduo.control.util.ToastHelper;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -81,7 +81,7 @@ public class VideoFragmentPresenter {
         Media media = Communication.getInstance(mContext).getmViewer().getMedia();
         //停止录制
         media.stopLocalRecord(streamerDid);
-        ToastHelper.show(mContext, "视频成功保存至:SD卡根目录\\" + currentVideoPath);
+        Toast.show("视频成功保存至:SD卡根目录\\" + currentVideoPath);
         Timber.e("stop video");
     }
 

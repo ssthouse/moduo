@@ -8,6 +8,7 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.ssthouse.moduo.control.util.AssertsUtils;
 import com.ssthouse.moduo.control.util.FileUtil;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.cons.Constant;
 import com.umeng.analytics.MobclickAgent;
@@ -36,6 +37,7 @@ public class App extends Application {
         JPushInterface.init(this);
         //初始化 log
         Timber.plant(new Timber.DebugTree());
+        Toast.init(this);
         //activeAndroid数据库
         ActiveAndroid.initialize(this);
         //友盟统计
