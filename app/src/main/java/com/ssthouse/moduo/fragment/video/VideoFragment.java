@@ -77,7 +77,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private LinearLayout llTopControlLand;
     private ImageView ivBackLand;
     private LinearLayout llBottomControlLand;
-    private ImageView ivFullScreenPortLand;
+    private ImageView ivFullScreenLand;
 
     @Nullable
     @Override
@@ -142,10 +142,11 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //下方控制栏
         llBottomControlLand = (LinearLayout) rootView.findViewById(R.id.id_ll_bottom_video_control);
 
-        ivFullScreenPortLand = (ImageView) rootView.findViewById(R.id.id_iv_full_screen);
-        ivFullScreenPortLand.setOnClickListener(new View.OnClickListener() {
+        ivFullScreenLand = (ImageView) rootView.findViewById(R.id.id_iv_full_screen);
+        ivFullScreenLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                VideoActivity.isPortrait = true;
                 toPortrait();
             }
         });
@@ -179,6 +180,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
             @Override
             public void onClick(View v) {
                 //横屏
+                VideoActivity.isPortrait = false;
                 toLandscape();
             }
         });
@@ -432,7 +434,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     @Override
     public void toLandscape() {
         Timber.e("横屏");
-        VideoActivity.isPortrait = false;
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //隐藏控制面板
         //全屏---隐藏actionbar
