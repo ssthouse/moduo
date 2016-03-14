@@ -4,17 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/fragment_bg">
 
-    <!--&lt;!&ndash;视频播放承接器&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="300dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_marginRight="16dp"-->
-    <!--android:layout_marginTop="12dp"-->
-    <!--android:background="@drawable/video_bg_screen"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal">-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,11 +13,13 @@
         android:background="@drawable/bg_black_round_rect"
         android:orientation="vertical">
 
+        <!--todo>>>摄像头装反了 暂时旋转180度-->
         <RelativeLayout
             android:id="@+id/id_rl_container"
             android:layout_width="match_parent"
             android:layout_height="246dp"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="32dp"
+            android:rotation="180" />
 
         <ImageView
             android:id="@+id/id_iv_full_screen"
@@ -78,54 +69,54 @@
                 android:id="@+id/id_iv_sensor_control"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_sensor_controller_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_take_photo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_take_photo_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_take_video"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_take_video_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_mute"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_mute_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_volume_down"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_voice_down_grey" />
 
             <ImageView
                 android:id="@+id/id_iv_volume_up"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="center"
                 android:layout_weight="1"
                 android:background="@drawable/selector_video_ctrl_btn"
+                android:scaleType="center"
                 android:src="@drawable/video_voice_up_grey" />
 
             <!--用于和左边的还原按钮对称-->
