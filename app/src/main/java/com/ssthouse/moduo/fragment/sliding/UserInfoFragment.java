@@ -233,6 +233,12 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                 XPGController.getInstance(getContext()).getmCenter().cLogout();
             }
         });
+        confirmDialogView.findViewById(R.id.id_iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();
+            }
+        });
         confirmDialog.show();
     }
 

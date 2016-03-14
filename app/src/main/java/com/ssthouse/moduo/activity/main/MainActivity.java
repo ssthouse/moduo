@@ -205,6 +205,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         drawerLayout.setDrawerListener(drawerToggle);
 
         /****************侧滑栏点击事件*******/
+        //用户名   头像>>>点击跳转UserInfoFragment
+        View.OnClickListener userInfoCLickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchFragment(FragmentState.USER_INFO_FRAGMENT);
+                drawerLayout.closeDrawers();
+            }
+        };
+        tvUsername.setOnClickListener(userInfoCLickListener);
+        ivAvatar.setOnClickListener(userInfoCLickListener);
+
         // 注销
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
