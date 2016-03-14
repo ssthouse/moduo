@@ -22,6 +22,8 @@ import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -35,10 +37,14 @@ public class NewGestureFragment extends Fragment {
 
     private State currentState = State.STATE_INPUT_NEW;
 
-    private LockPatternView lockView;
-    private TextView tvTip;
-    private TextView tvRedraw;
-    private TextView tvConfirm;
+    @Bind(R.id.id_gesture_lock)
+    LockPatternView lockView;
+    @Bind(R.id.id_tv_tip)
+    TextView tvTip;
+    @Bind(R.id.id_tv_redraw)
+    TextView tvRedraw;
+    @Bind(R.id.id_tv_confirm)
+    TextView tvConfirm;
 
     private AlertDialog waitDialog;
     private View waitDialogView;
@@ -66,14 +72,12 @@ public class NewGestureFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_new_gesture, container, false);
-        initView(rootView);
+        ButterKnife.bind(this, rootView);
+        initView();
         return rootView;
     }
 
-    private void initView(View rootView) {
-        tvTip = (TextView) rootView.findViewById(R.id.id_tv_tip);
-
-        tvRedraw = (TextView) rootView.findViewById(R.id.id_btn_redraw);
+    private void initView() {
         tvRedraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +87,11 @@ public class NewGestureFragment extends Fragment {
                 //tip文字
                 tvTip.setText("至少需连接四个点, 请重试");
                 tvRedraw.setEnabled(false);
+                //确认按钮不可用
+                tvConfirm.setEnabled(false);
             }
         });
 
-        tvConfirm = (TextView) rootView.findViewById(R.id.id_btn_confirm);
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,8 +137,6 @@ public class NewGestureFragment extends Fragment {
                         });
             }
         });
-
-        lockView = (LockPatternView) rootView.findViewById(R.id.id_gesture_lock);
 
         lockView.setOnPatternListener(new LockPatternView.OnPatternListener() {
             @Override

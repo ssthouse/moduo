@@ -56,7 +56,7 @@
 
             <TextView
                 android:enabled="false"
-                android:id="@+id/id_btn_redraw"
+                android:id="@+id/id_tv_redraw"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/selector_btn_blue"
@@ -71,7 +71,7 @@
 
             <TextView
                 android:enabled="false"
-                android:id="@+id/id_btn_confirm"
+                android:id="@+id/id_tv_confirm"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/selector_btn_yellow"

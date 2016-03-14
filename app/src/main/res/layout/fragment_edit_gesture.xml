@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="21dp"
-            android:text="确认之前锁设的密码"
+            android:text="验证原始密码"
             android:textColor="#667485"
             android:textSize="14sp" />
 

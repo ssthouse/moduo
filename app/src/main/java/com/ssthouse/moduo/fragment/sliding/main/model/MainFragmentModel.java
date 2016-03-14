@@ -65,7 +65,7 @@ public class MainFragmentModel {
                         }
                     });
         }
-        //设置监听器
+        //设置当前设备监听器
         XPGController.refreshCurrentDeviceListener(mContext);
         //todo---登陆当前设备
         XPGController.getInstance(mContext).loginCurrentDevice();

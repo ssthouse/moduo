@@ -15,16 +15,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVObject;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
+import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
+import com.ssthouse.moduo.fragment.gesture.EmptyFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * 手势密码
@@ -37,6 +43,7 @@ public class GestureLockActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private FragmentManager fragmentManager;
+    private EmptyFragment emptyFragment;
     private NewGestureFragment newGestureFragment;
     private EditGestureFragment editGestureFragment;
 
@@ -56,6 +63,7 @@ public class GestureLockActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         initView();
+        initDialog();
         initFragment();
 
         //未登录 或 匿名登录 退出
@@ -67,6 +75,25 @@ public class GestureLockActivity extends AppCompatActivity {
             showConfirmDialog("当前为匿名登录");
             return;
         }
+
+        //todo---尝试获取云端服务器的密码---获取失败也是直接退出---成功才跳转到验证Fragment
+        CloudUtil.getUserInfoObject(SettingManager.getInstance(this).getUserName())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<AVObject>() {
+                    @Override
+                    public void call(AVObject avObject) {
+                        if(avObject == null){
+                            showConfirmDialog("获取用户密码锁信息失败, 请稍后重试");
+                        }else {
+                            //将密码数据更新到本地
+                            String gestureLock = (String) avObject.get(CloudUtil.KEY_GESTURE_PASSWORD);
+                            SettingManager.getInstance(GestureLockActivity.this).setGestureLock(gestureLock);
+                            //切换fragment
+                            toEditGestureFragment();
+                        }
+                    }
+                });
     }
 
     public void toNewGestureFragment() {
@@ -89,21 +116,22 @@ public class GestureLockActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fragmentManager = getSupportFragmentManager();
+        emptyFragment = new EmptyFragment();
         newGestureFragment = new NewGestureFragment();
         editGestureFragment = new EditGestureFragment();
 
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.id_fragment_container, newGestureFragment)
+                .replace(R.id.id_fragment_container, emptyFragment)
                 .commit();
 
         //初始fragment切换
-        if (SettingManager.getInstance(this).getGestureLock() == null
-                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
-            toNewGestureFragment();
-        } else {
-            toEditGestureFragment();
-        }
+//        if (SettingManager.getInstance(this).getGestureLock() == null
+//                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
+//            toNewGestureFragment();
+//        } else {
+//            toEditGestureFragment();
+//        }
     }
 
     //设置标题
@@ -116,7 +144,9 @@ public class GestureLockActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setTitle("新建图形密码");
+    }
 
+    private void initDialog() {
         confirmDialogView = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_wait_confirm, null);
         confirmDialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
@@ -125,6 +155,7 @@ public class GestureLockActivity extends AppCompatActivity {
                 .create();
     }
 
+    //显示确认退出Dialog
     private void showConfirmDialog(String msg) {
         //提示文字
         TextView tvExit = (TextView) confirmDialogView.findViewById(R.id.id_tv_content);

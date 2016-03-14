@@ -157,7 +157,7 @@ public class MainFragmentPresenter {
         mMainFragmentView.updateUI();
     }
 
-    //todo---设备登陆成功回调
+    //设备登陆成功回调
     public void onEventMainThread(XpgDeviceLoginEvent event) {
         mMainFragmentView.updateUI();
     }
