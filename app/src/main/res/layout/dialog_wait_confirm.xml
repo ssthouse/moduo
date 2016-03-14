@@ -28,9 +28,13 @@
 
         <ImageView
             android:id="@+id/id_iv_close"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
             android:src="@drawable/dialog_btn_close" />
 
     </LinearLayout>
