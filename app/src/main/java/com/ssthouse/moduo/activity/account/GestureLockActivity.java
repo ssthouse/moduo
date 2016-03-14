@@ -76,16 +76,16 @@ public class GestureLockActivity extends AppCompatActivity {
             return;
         }
 
-        //todo---尝试获取云端服务器的密码---获取失败也是直接退出---成功才跳转到验证Fragment
+        //尝试获取云端服务器的密码---获取失败也是直接退出---成功才跳转到验证Fragment
         CloudUtil.getUserInfoObject(SettingManager.getInstance(this).getUserName())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<AVObject>() {
                     @Override
                     public void call(AVObject avObject) {
-                        if(avObject == null){
+                        if (avObject == null) {
                             showConfirmDialog("获取用户密码锁信息失败, 请稍后重试");
-                        }else {
+                        } else {
                             //将密码数据更新到本地
                             String gestureLock = (String) avObject.get(CloudUtil.KEY_GESTURE_PASSWORD);
                             SettingManager.getInstance(GestureLockActivity.this).setGestureLock(gestureLock);
@@ -97,7 +97,7 @@ public class GestureLockActivity extends AppCompatActivity {
     }
 
     public void toNewGestureFragment() {
-        setTitle("新建图形密码");
+        setTitle("新手势");
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, newGestureFragment)
@@ -105,7 +105,7 @@ public class GestureLockActivity extends AppCompatActivity {
     }
 
     public void toEditGestureFragment() {
-        setTitle("修改图形密码");
+        setTitle("验证手势");
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, editGestureFragment)
@@ -124,14 +124,6 @@ public class GestureLockActivity extends AppCompatActivity {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.id_fragment_container, emptyFragment)
                 .commit();
-
-        //初始fragment切换
-//        if (SettingManager.getInstance(this).getGestureLock() == null
-//                || SettingManager.getInstance(this).getGestureLock().length() == 0) {
-//            toNewGestureFragment();
-//        } else {
-//            toEditGestureFragment();
-//        }
     }
 
     //设置标题
