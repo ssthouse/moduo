@@ -18,8 +18,7 @@
             android:id="@+id/id_rl_container"
             android:layout_width="match_parent"
             android:layout_height="246dp"
-            android:layout_marginTop="32dp"
-            android:rotation="180" />
+            android:layout_marginTop="32dp" />
 
         <ImageView
             android:id="@+id/id_iv_full_screen"

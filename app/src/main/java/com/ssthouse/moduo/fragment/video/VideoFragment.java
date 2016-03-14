@@ -162,8 +162,14 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
         //actionbar
         getActivity().findViewById(R.id.id_tb).setVisibility(View.VISIBLE);
 
+
         //控制面板Visible控制--竖屏的时候没有监听事件
         rlVideoContainerPort = (RelativeLayout) rootView.findViewById(R.id.id_rl_container);
+//        //摄像头是反的---旋转180
+//        rlVideoContainerPort.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_180));
+//        ObjectAnimator.ofFloat(rlVideoContainerPort, "rotation", 0, 20)
+//                .setDuration(1000)
+//                .start();
 
         //挂断
         tvHangupPort = (TextView) rootView.findViewById(R.id.id_tv_hangup);

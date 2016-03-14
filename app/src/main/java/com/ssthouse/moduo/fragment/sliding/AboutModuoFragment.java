@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.Device;
 
@@ -20,8 +21,8 @@ import com.ssthouse.moduo.model.bean.device.Device;
  */
 public class AboutModuoFragment extends Fragment implements IFragmentUI {
 
-    private String[] args = {"型号", "IP", "设备号", "版本", "备注"};
-    private String[] values = new String[]{"", "", "", "", "", ""};
+    private String[] args = {"型号", "IP", "设备号", "版本", "备注", "摄像头编号"};
+    private String[] values = new String[]{"", "", "", "", "", "", ""};
 
     private ListView mLv;
 
@@ -86,6 +87,8 @@ public class AboutModuoFragment extends Fragment implements IFragmentUI {
         values[3] = device.getXpgWifiDevice().getMacAddress();
         //备注
         values[4] = device.getXpgWifiDevice().getRemark();
+        //视频CID
+        values[5] = SettingManager.getInstance(getContext()).getCidNumber();
         //刷新UI
         mAdapter.notifyDataSetChanged();
     }

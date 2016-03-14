@@ -90,7 +90,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmDialog("确认注销账户?");
+                showConfirmDialog("确认注销?");
                 //刷新界面
                 getView();
             }
@@ -107,7 +107,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
 
         //确认注销dialog
         confirmDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_msg_confirm, null);
-        confirmDialog = new AlertDialog.Builder(getContext())
+        confirmDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
                 .setView(confirmDialogView)
                 .create();
 
@@ -152,6 +152,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                         }
                         if (!NetUtil.isConnected(getContext())) {
                             Toast.showNoInternet();
+                            return;
                         }
                         showWaitDialog("正在注册");
                         String username = etUsername.getText().toString();
@@ -221,7 +222,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     }
 
     private void showConfirmDialog(String msg) {
-        TextView tvConfirm = (TextView) confirmDialogView.findViewById(R.id.id_tv_confirm);
+        TextView tvConfirm = (TextView) confirmDialogView.findViewById(R.id.id_tv_content);
         tvConfirm.setText(msg);
         confirmDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +233,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                 XPGController.getInstance(getContext()).getmCenter().cLogout();
             }
         });
+        confirmDialog.show();
     }
 
     /**
@@ -263,6 +265,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             return;
         }
         if (event.isSuccess()) {
+            Toast.show("注册成功");
             Timber.e("注册成功");
             //清除本地魔哆数据
             SettingManager.getInstance(getContext()).cleanLocalModuo();
@@ -275,6 +278,8 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             Timber.e("注册失败");
             Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
+        //刷新UI
+        updateUI();
     }
 
     /**
