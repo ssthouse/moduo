@@ -13,6 +13,8 @@ import android.widget.ListView;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.SettingActivity;
 import com.ssthouse.moduo.activity.account.GestureLockActivity;
+import com.ssthouse.moduo.control.util.NetUtil;
+import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.model.event.view.SettingAtyStateEvent;
 
 import butterknife.Bind;
@@ -70,6 +72,10 @@ public class SettingListFragment extends Fragment {
                         break;
                     //图形密码
                     case 4:
+                        if (!NetUtil.isConnected(getContext())) {
+                            Toast.show("当前无网络连接");
+                            return;
+                        }
                         //跳转图形密码设置activity
                         GestureLockActivity.start(getActivity());
                         break;

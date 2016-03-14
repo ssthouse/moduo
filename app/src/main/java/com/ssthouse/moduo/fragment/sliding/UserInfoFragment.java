@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.fragment.sliding;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,8 +52,16 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     @Bind(R.id.id_tv_password)
     TextView tvPassword;
 
+    //登陆  注册  Dialog
     private MaterialDialog loginOrRegisterDialog;
-    private MaterialDialog waitDialog;
+
+    //等待dialog
+    private Dialog waitDialog;
+    private View waitDialogView;
+
+    //确认dialog
+    private Dialog confirmDialog;
+    private View confirmDialogView;
 
     private EditText etUsername;
     private EditText etPassword;
@@ -64,6 +74,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         View rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
         ButterKnife.bind(this, rootView);
         initView();
+        initDialog();
         updateUI();
         return rootView;
     }
@@ -79,19 +90,28 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWaitDialog("正在注销账户");
-                //// TODO: 2016/1/20 注销账户--mainFragment也要改变
-                XPGController.getInstance(getContext()).getmCenter().cLogout();
+                showConfirmDialog("确认注销账户?");
                 //刷新界面
                 getView();
             }
         });
+    }
 
-        waitDialog = new MaterialDialog.Builder(getContext())
-                .customView(R.layout.dialog_wait, true)
-                .autoDismiss(false)
-                .build();
+    private void initDialog() {
+        //等待dialog
+        waitDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(waitDialogView)
+                .create();
+        waitDialog.setCanceledOnTouchOutside(false);
 
+        //确认注销dialog
+        confirmDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_msg_confirm, null);
+        confirmDialog = new AlertDialog.Builder(getContext())
+                .setView(confirmDialogView)
+                .create();
+
+        //登陆或注册dialog
         loginOrRegisterDialog = new MaterialDialog.Builder(getContext())
                 .title("登陆")
                 .customView(R.layout.dialog_login_or_register, true)
@@ -195,9 +215,23 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
      * @param msg
      */
     private void showWaitDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
+    }
+
+    private void showConfirmDialog(String msg) {
+        TextView tvConfirm = (TextView) confirmDialogView.findViewById(R.id.id_tv_confirm);
+        tvConfirm.setText(msg);
+        confirmDialogView.findViewById(R.id.id_tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();    //隐藏当前confirm dialog
+                showWaitDialog("正在注销"); //显示等待dialog
+                //登出
+                XPGController.getInstance(getContext()).getmCenter().cLogout();
+            }
+        });
     }
 
     /**

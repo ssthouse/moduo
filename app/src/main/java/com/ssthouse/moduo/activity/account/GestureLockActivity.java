@@ -19,6 +19,7 @@ import com.avos.avoscloud.AVObject;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.CloudUtil;
+import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
 import com.ssthouse.moduo.fragment.gesture.EmptyFragment;
@@ -73,6 +74,11 @@ public class GestureLockActivity extends AppCompatActivity {
         }
         if (SettingManager.getInstance(this).isAnonymousUser()) {
             showConfirmDialog("当前为匿名登录");
+            return;
+        }
+        //无网络连接   退出
+        if (!NetUtil.isConnected(this)) {
+            showConfirmDialog("当前无网络连接");
             return;
         }
 
