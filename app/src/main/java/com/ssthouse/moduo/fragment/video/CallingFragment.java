@@ -10,13 +10,9 @@ import android.widget.ImageView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
-import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.video.CallingResponseEvent;
-import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,12 +41,6 @@ public class CallingFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_calling, container, false);
         ButterKnife.bind(this, rootView);
         initView();
-
-        //登陆设备
-        XPGController.getCurrentDevice().getXpgWifiDevice().login(
-                SettingManager.getInstance(getContext()).getUid(),
-                SettingManager.getInstance(getContext()).getToken()
-        );
         return rootView;
     }
 
@@ -71,21 +61,6 @@ public class CallingFragment extends Fragment {
                 getActivity().finish();
             }
         });
-    }
-
-    /**
-     * 设备登陆回调---登陆才能进行操作
-     *
-     * @param event
-     */
-    public void onEventMainThread(XPGLoginResultEvent event) {
-        if (event.isSuccess()) {
-            Timber.e("设备登陆成功");
-            CloudUtil.updateUserInfoToLocal(getContext(), SettingManager.getInstance(getContext()).getUserName());
-        } else {
-            Toast.show("设备登陆失败");
-            getActivity().finish();
-        }
     }
 
     /**
