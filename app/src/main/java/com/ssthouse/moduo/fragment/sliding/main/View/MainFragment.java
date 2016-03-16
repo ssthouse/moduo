@@ -99,6 +99,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         ivHomeControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateUI();
                 if (XPGController.getCurrentDevice() == null) {
                     Toast.show("当前没有设备连接");
                     mMainFragmentPresenter.initDevice();
@@ -111,7 +112,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
                 }
                 //魔哆在线   但是未登录----尝试登陆
                 if (!XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
-                    Toast.show("魔哆设备未登录, 请稍候重试");
+                    Toast.show("魔哆设备未连接, 请稍候重试");
                     SettingManager settingManager = SettingManager.getInstance(getContext());
                     XPGController.getCurrentDevice().getXpgWifiDevice().login(
                             settingManager.getUid(),

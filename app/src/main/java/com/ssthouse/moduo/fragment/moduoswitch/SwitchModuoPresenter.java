@@ -5,9 +5,11 @@ import android.content.Context;
 
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.ActivityUtil;
+import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
@@ -17,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -103,9 +108,25 @@ public class SwitchModuoPresenter {
             Timber.e("xogDeviceList is not initialed");
             return;
         }
+        //判断是否为点击的list中的魔哆
         if (event.isSuccess() && event.getDid().equals(xpgWifiDeviceList.get(currentClickPosition).getDid())) {
-            mSwitchFragmentView.showLoading();
-            getDeviceList();
+            //切换登设备成功---改变本地魔哆
+            CloudUtil.getDeviceFromCloud(event.getDid())
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<ModuoInfo>() {
+                        @Override
+                        public void call(ModuoInfo moduoInfo) {
+                            if (moduoInfo == null) {
+                                Toast.show("服务器端数据获取失败, 请稍候重试");
+                                return;
+                            }
+                            //更新本地魔哆数据---刷新界面
+                            SettingManager.getInstance(mContext).setCurrentModuoInfo(moduoInfo);
+                            mSwitchFragmentView.showLoading();
+                            getDeviceList();
+                        }
+                    });
         }
     }
 

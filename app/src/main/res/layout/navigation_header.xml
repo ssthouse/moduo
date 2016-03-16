@@ -15,7 +15,7 @@
 
     <!--魔哆名字-->
     <TextView
-        android:id="@+id/id_tv_moduo_name"
+        android:id="@+id/id_tv_moduo_did"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

@@ -57,7 +57,7 @@ public class XPGController {
 
     //单例
     private static XPGController mInstance;
-    private Context context;
+    private static Context context;
 
     /**
      * 指令管理器.
@@ -110,13 +110,13 @@ public class XPGController {
 
         @Override
         public void didDeviceOnline(XPGWifiDevice device, boolean isOnline) {
-            Timber.e("设备上线");
+            Timber.e("设备上线\t" + device.getDid());
             EventBus.getDefault().post(new XpgDeviceOnLineEvent(device.getDid(), isOnline));
         }
 
         @Override
         public void didDisconnected(XPGWifiDevice device) {
-            Timber.e("设备连接断开");
+            Timber.e("设备连接断开\t" + device.getDid());
             //todo---这个是在什么时候触发的??
             EventBus.getDefault().post(new XpgDeviceOnLineEvent(device.getDid(), false));
         }
@@ -372,7 +372,7 @@ public class XPGController {
     }
 
     /**
-     * 刷新当前设备的listener
+     * 刷新当前设备listener
      *
      * @param context
      */
@@ -386,17 +386,30 @@ public class XPGController {
                 .setListener(XPGController.getInstance(context).getDeviceListener());
     }
 
-    // TODO: 2016/3/4 登陆当前设备
-    public void loginCurrentDevice() {
+    //登陆当前设备
+    public static boolean loginCurrentDevice() {
         if (currentDevice == null) {
             Timber.e("currentDevice 为 null");
-            return;
+            return false;
         }
         SettingManager settingmanager = SettingManager.getInstance(context);
         currentDevice.getXpgWifiDevice().login(
                 settingmanager.getUid(),
                 settingmanager.getToken()
         );
+        return true;
+    }
+
+    //登出当前设备
+    public static boolean logoutCurrentDevice() {
+        if (currentDevice == null) {
+            Timber.e("currentDevice is null");
+            return false;
+        }
+        //登出
+        currentDevice.getXpgWifiDevice().disconnect();
+        Timber.e("登出:\t" + currentDevice.getXpgWifiDevice().getDid());
+        return true;
     }
 
     public static boolean isLogin() {

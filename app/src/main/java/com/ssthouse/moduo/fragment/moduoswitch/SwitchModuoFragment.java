@@ -103,8 +103,12 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 View rootView = LayoutInflater.from(getContext()).inflate(R.layout.item_switch_moduo, parent, false);
+                //别名
                 TextView tvRemark = (TextView) rootView.findViewById(R.id.id_tv_moduo_remark);
                 tvRemark.setText(mPresenter.getXpgWifiDeviceList().get(position).getRemark());
+                //did
+                TextView tvDid = (TextView) rootView.findViewById(R.id.id_tv_moduo_did);
+                tvDid.setText("设备号:\t" + mPresenter.getXpgWifiDeviceList().get(position).getDid());
                 //编辑remark按钮点击事件
                 ImageView ivEdit = (ImageView) rootView.findViewById(R.id.id_iv_edit);
                 ivEdit.setOnClickListener(new View.OnClickListener() {
@@ -142,17 +146,17 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
         });
 
         //todo---点按切换魔哆---该功能先放一放
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == mPresenter.getCurrentModuoPosition()) {
-//                    return;
-//                }
-//                //弹出确认switch对话框
-//                mPresenter.setCurrentClickPosition(position);
-//                showConfirmSwitchDialog();
-//            }
-//        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == mPresenter.getCurrentModuoPosition()) {
+                    return;
+                }
+                //弹出确认switch对话框
+                mPresenter.setCurrentClickPosition(position);
+                showConfirmSwitchDialog();
+            }
+        });
 
         //重新加载设备点击事件
         View.OnClickListener listener = new View.OnClickListener() {
@@ -233,12 +237,14 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 confirmChangeDialog.dismiss();
                 showWaitDialog("正在切换魔哆, 请稍候");
                 SettingManager settingManager = SettingManager.getInstance(getContext());
-                //登陆当前选中的魔哆
+                //登出当前登陆的魔哆
+                XPGController.logoutCurrentDevice();
+                //todo---登陆当前选中的魔哆
                 mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).login(
                         settingManager.getUid(),
                         settingManager.getToken()
                 );
-                //todo---改变本地的moduo数据
+                Timber.e("尝试登陆\t" + mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).getDid());
             }
         });
         confirmChangeDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
