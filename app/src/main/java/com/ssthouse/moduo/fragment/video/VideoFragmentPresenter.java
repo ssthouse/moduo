@@ -127,6 +127,7 @@ public class VideoFragmentPresenter {
 
     //视频数据加载完毕回调
     public void onEventMainThread(VideoReadyEvent event) {
+        Timber.e("VideoReadyEvent");
         if (event.isSuccess()) {
             mVideoFragmentView.dismissWaitDialog();
         } else {
@@ -138,6 +139,7 @@ public class VideoFragmentPresenter {
 
     //视频出错event
     public void onEventMainThread(VideoExceptionEvent event){
+        Timber.e("VideoExceptionEvent");
         mVideoFragmentView.showConfirmDialog("视频加载失败");
     }
 

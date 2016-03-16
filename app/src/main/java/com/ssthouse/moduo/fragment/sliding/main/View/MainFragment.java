@@ -23,12 +23,6 @@ import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * 主界面
@@ -67,22 +61,8 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         //Presenter
         mMainFragmentPresenter = new MainFragmentPresenter(getContext(), this);
 
-        //后台登陆机智云
-        Observable.just("")
-                .map(new Func1<String, String>() {
-                    @Override
-                    public String call(String s) {
-                        mMainFragmentPresenter.tryLogin();
-                        return null;
-                    }
-                }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        Timber.e("try log init completed");
-                    }
-                });
+        //登陆机智云
+        mMainFragmentPresenter.tryLogin();
 
         return rootView;
     }
