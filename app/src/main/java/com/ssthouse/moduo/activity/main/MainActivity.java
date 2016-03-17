@@ -42,6 +42,7 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * 当前activity不监听设备数据传达的event
@@ -49,6 +50,9 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainActivityView {
     //点两次退出程序
     private long exitTimeInMils = 0;
+
+    //RequestCode
+    public static final int REQUEST_CODE_SWITCH_MODUO = 1000; //SwitchModuoActivity
 
     //Presenter
     private MainActivityPresenter mPresenter;
@@ -456,7 +460,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //获取扫描二维码的结果
+        //切换魔哆回调
+        if (requestCode == REQUEST_CODE_SWITCH_MODUO) {
+            Timber.e("完成设备切换, 现在我要刷新设别了");
+            return;
+        }
+        //扫描二维码回调
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         QrCodeUtil.parseScanResult(this, result);
         super.onActivityResult(requestCode, resultCode, data);

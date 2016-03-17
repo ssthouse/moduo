@@ -39,10 +39,11 @@ public class MainFragmentModel {
             return;
         }
         //将当前绑定设备找出---设为currentDevice
-        if (SettingManager.getInstance(mContext).hasLocalModuo()) {
-            //todo---找到之前操作的设备
+        final SettingManager settingManager = SettingManager.getInstance(mContext);
+        if (settingManager.hasLocalModuo()) {
+            //找到之前操作的设备
             for (XPGWifiDevice xpgDevice : event.getXpgDeviceList()) {
-                if (xpgDevice.getDid().equals(SettingManager.getInstance(mContext).getCurrentDid())) {
+                if (xpgDevice.getDid().equals(settingManager.getCurrentDid())) {
                     XPGController.setCurrentDevice(Device.getLocalDevice(mContext, xpgDevice));
                     Timber.e("找到之前操作过的设备");
                 }
@@ -50,7 +51,7 @@ public class MainFragmentModel {
         } else {
             XPGController.setCurrentDevice(mContext, event.getXpgDeviceList().get(0));
             Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
-            //todo---因为之前没有操作过---本地应该没有视频参数---需要向云端获取设备参数
+            //云端获取设备数据
             CloudUtil.getDeviceFromCloud(event.getXpgDeviceList().get(0).getDid())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -60,15 +61,15 @@ public class MainFragmentModel {
                             if (moduoInfo == null) {
                                 Toast.show("获取服务器设备数据失败");
                             } else {
-                                SettingManager.getInstance(mContext).setCurrentModuoInfo(moduoInfo);
+                                settingManager.setCurrentModuoInfo(moduoInfo);
                             }
                         }
                     });
         }
         //设置当前设备监听器
         XPGController.refreshCurrentDeviceListener(mContext);
-        //todo---登陆当前设备
-        XPGController.getInstance(mContext).loginCurrentDevice();
+        //登陆当前设备
+        XPGController.loginCurrentDevice();
         //登陆视频sdk
         Communication.getInstance(mContext)
                 .addStreamer(XPGController.getCurrentDevice());

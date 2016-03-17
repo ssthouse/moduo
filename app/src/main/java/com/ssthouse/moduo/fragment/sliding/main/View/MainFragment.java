@@ -14,6 +14,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.ModuoActivity;
 import com.ssthouse.moduo.activity.MsgCenterActivity;
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
+import com.ssthouse.moduo.activity.main.MainActivity;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -72,7 +73,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
         tvModuoRemark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchModuoActivity.start(getActivity());
+                SwitchModuoActivity.startForResult(getActivity(), MainActivity.REQUEST_CODE_SWITCH_MODUO);
             }
         });
 

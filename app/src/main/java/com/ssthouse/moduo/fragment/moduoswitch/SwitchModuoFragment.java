@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -241,7 +242,7 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 //隐藏confirmDialog   显示waitDialog
                 confirmChangeDialog.dismiss();
                 showWaitDialog("正在切换魔哆, 请稍候");
-                //todo---将当前设备设为本地的魔哆--然后重新获取所有设备
+                //将当前设备设为本地的魔哆--然后重新获取所有设备
                 final SettingManager settingManager = SettingManager.getInstance(getContext());
                 XPGWifiDevice xpgWifiDevice = mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition());
                 CloudUtil.getDeviceFromCloud(xpgWifiDevice.getDid())
@@ -254,6 +255,8 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                                     //从服务器端获取该设备信息失败
                                     Toast.show("服务器获取设备信息失败, 请稍后重试");
                                 } else {
+                                    //通知SwitchFragmentActivity---魔哆发生了切换
+                                    ((SwitchModuoActivity) getActivity()).setIsModuoSwitched(true);
                                     //将当前魔哆信息保存到本地
                                     settingManager.setCurrentModuoInfo(moduoInfo);
                                     //获取所有魔哆设备
@@ -264,8 +267,6 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                                 }
                             }
                         });
-//                );
-                Timber.e("尝试登陆\t" + mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).getDid());
             }
         });
         confirmChangeDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
