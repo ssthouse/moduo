@@ -125,13 +125,13 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 });
                 //标记当前的设备
                 // 如果当前没有wifi设备连接
-                if (XPGController.getCurrentDevice() != null) {
-                    String did = mPresenter.getXpgWifiDeviceList().get(position).getDid();
-                    String currentDid = XPGController.getCurrentDevice().getXpgWifiDevice().getDid();
-                    if (did.equals(currentDid)) {
+                String localDid = SettingManager.getInstance(getContext()).getCurrentDid();
+                String currentDid = mPresenter.getXpgWifiDeviceList().get(position).getDid();
+                if (!TextUtils.isEmpty(localDid)) {
+                    if (localDid.equals(currentDid)) {
                         Timber.e("我设置了选中item" + position);
-                        Timber.e(did);
-                        rootView.findViewById(R.id.id_ll_item_container).setBackgroundColor(0xaaeeeeee);
+                        Timber.e(localDid);
+                        rootView.findViewById(R.id.id_ll_item_container).setBackgroundColor(0xcceeeeee);
                         //设置当前魔哆position
                         mPresenter.setCurrentModuoPosition(position);
                     }
@@ -150,7 +150,7 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             }
         });
 
-        //todo---点按切换魔哆---该功能先放一放
+        //点按切换魔哆
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,7 +244,7 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 SettingManager settingManager = SettingManager.getInstance(getContext());
 //                //登出当前登陆的魔哆
 //                XPGController.logoutCurrentDevice();
-                //todo---登陆当前选中的魔哆---不登录---直接设为本地的魔哆--然后重新获取所有设备
+                //todo---将当前设备设为本地的魔哆--然后重新获取所有设备
                 XPGWifiDevice xpgWifiDevice = mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition());
                 CloudUtil.getDeviceFromCloud(xpgWifiDevice.getDid())
                         .subscribeOn(Schedulers.newThread())
