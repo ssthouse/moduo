@@ -52,7 +52,6 @@ public class CallingFragment extends Fragment {
                 EventBus.getDefault().post(new CallingResponseEvent(true));
             }
         });
-
         //取消
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

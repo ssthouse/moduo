@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.ssthouse.moduo.control.util.ActivityUtil;
+import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
@@ -28,7 +29,6 @@ public class MainActivityPresenter {
     private Context mContext;
 
     private MainActivityView mMainActivityView;
-    private MainActivityModel mMainActivityModel;
 
     private static final String DEFAULT_MODUO_REMARK = "我的魔哆";
 
@@ -36,7 +36,6 @@ public class MainActivityPresenter {
     public MainActivityPresenter(Context mContext, MainActivityView mainActivityView) {
         this.mContext = mContext;
         this.mMainActivityView = mainActivityView;
-        mMainActivityModel = new MainActivityModel();
         EventBus.getDefault().register(this);
     }
 
@@ -60,7 +59,6 @@ public class MainActivityPresenter {
         Timber.e("扫描Activity回调");
         if (event.isSuccess()) {
             mMainActivityView.showWaitDialog("正在绑定设备,请稍候");
-            //将
             //开始绑定设备
             XPGController.getInstance(mContext).getmCenter().cBindDevice(
                     SettingManager.getInstance(mContext).getUid(),
@@ -82,14 +80,14 @@ public class MainActivityPresenter {
         if (event.isSuccess()) {
             Toast.show("设备绑定成功, 正在自动登陆");
             //获取设备Info信息
-            mMainActivityModel.getModuoInfo(event.getDid())
+            CloudUtil.getDeviceFromCloud(event.getDid())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<ModuoInfo>() {
                         @Override
                         public void call(ModuoInfo moduoInfo) {
                             if (moduoInfo == null) {
-                                Toast.show( "服务器获取魔哆设备信息为空:did   " + event.getDid());
+                                Toast.show("服务器获取魔哆设备信息为空:did   " + event.getDid());
                                 return;
                             }
                             //保存设备信息到本地
@@ -102,7 +100,7 @@ public class MainActivityPresenter {
                         }
                     });
         } else {
-            Toast.show( "设备绑定失败");
+            Toast.show("设备绑定失败");
         }
         mMainActivityView.updateUI();
     }

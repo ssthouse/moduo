@@ -11,6 +11,7 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.main.View.MainFragmentView;
 import com.ssthouse.moduo.fragment.sliding.main.model.MainFragmentModel;
+import com.ssthouse.moduo.model.event.ModuoSwitchEvent;
 import com.ssthouse.moduo.model.event.view.NetworkStateChangeEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
@@ -122,6 +123,11 @@ public class MainFragmentPresenter {
         }
         //刷新UI
         mMainFragmentView.updateUI();
+    }
+
+    //todo---切换魔哆事件回调
+    public void onEventMainThread(ModuoSwitchEvent event) {
+
     }
 
     //获取 绑定设备列表 回调

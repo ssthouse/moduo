@@ -19,13 +19,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
+import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.model.bean.ModuoInfo;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -237,13 +242,35 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 confirmChangeDialog.dismiss();
                 showWaitDialog("正在切换魔哆, 请稍候");
                 SettingManager settingManager = SettingManager.getInstance(getContext());
-                //登出当前登陆的魔哆
-                XPGController.logoutCurrentDevice();
-                //todo---登陆当前选中的魔哆
-                mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).login(
-                        settingManager.getUid(),
-                        settingManager.getToken()
-                );
+//                //登出当前登陆的魔哆
+//                XPGController.logoutCurrentDevice();
+                //todo---登陆当前选中的魔哆---不登录---直接设为本地的魔哆--然后重新获取所有设备
+                XPGWifiDevice xpgWifiDevice = mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition());
+                CloudUtil.getDeviceFromCloud(xpgWifiDevice.getDid())
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<ModuoInfo>() {
+                            @Override
+                            public void call(ModuoInfo moduoInfo) {
+                                if (moduoInfo == null) {
+                                    //从服务器端获取该设备信息失败
+                                    Toast.show("服务器获取设备信息失败, 请稍后重试");
+                                } else {
+                                    //将当前魔哆信息保存到本地
+                                    SettingManager settingManager = SettingManager.getInstance(getContext());
+                                    settingManager.setCurrentModuoInfo(moduoInfo);
+                                    //获取所有魔哆设备
+                                    XPGController.getInstance(getContext()).getmCenter().cGetBoundDevices(
+                                            settingManager.getUid(),
+                                            settingManager.getToken()
+                                    );
+                                }
+                            }
+                        });
+//                mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).login(
+//                        settingManager.getUid(),
+//                        settingManager.getToken()
+//                );
                 Timber.e("尝试登陆\t" + mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).getDid());
             }
         });

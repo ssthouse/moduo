@@ -20,6 +20,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.VideoHolder;
+import com.ssthouse.moduo.control.xpg.CmdBean;
 import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 
@@ -221,6 +222,9 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                     gyroscopeSensor.resetOrientation();
                     gyroscopeSensor.start();
                     ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_blue);
+                    // TODO: 2016/3/16 尝试命令控制的代码
+                    CmdController.getInstance().cWriteCmdCtrl(XPGController.getCurrentDevice().getXpgWifiDevice(),
+                            new CmdBean((byte) 2, (byte) 2, (byte) 2, (byte) 2));
                 } else {
                     gyroscopeSensor.pause();
                     ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_grey);
