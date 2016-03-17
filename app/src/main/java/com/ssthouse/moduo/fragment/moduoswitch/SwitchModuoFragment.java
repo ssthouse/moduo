@@ -241,10 +241,8 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                 //隐藏confirmDialog   显示waitDialog
                 confirmChangeDialog.dismiss();
                 showWaitDialog("正在切换魔哆, 请稍候");
-                SettingManager settingManager = SettingManager.getInstance(getContext());
-//                //登出当前登陆的魔哆
-//                XPGController.logoutCurrentDevice();
                 //todo---将当前设备设为本地的魔哆--然后重新获取所有设备
+                final SettingManager settingManager = SettingManager.getInstance(getContext());
                 XPGWifiDevice xpgWifiDevice = mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition());
                 CloudUtil.getDeviceFromCloud(xpgWifiDevice.getDid())
                         .subscribeOn(Schedulers.newThread())
@@ -257,7 +255,6 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                                     Toast.show("服务器获取设备信息失败, 请稍后重试");
                                 } else {
                                     //将当前魔哆信息保存到本地
-                                    SettingManager settingManager = SettingManager.getInstance(getContext());
                                     settingManager.setCurrentModuoInfo(moduoInfo);
                                     //获取所有魔哆设备
                                     XPGController.getInstance(getContext()).getmCenter().cGetBoundDevices(
@@ -267,9 +264,6 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
                                 }
                             }
                         });
-//                mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).login(
-//                        settingManager.getUid(),
-//                        settingManager.getToken()
 //                );
                 Timber.e("尝试登陆\t" + mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentClickPosition()).getDid());
             }

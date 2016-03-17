@@ -61,6 +61,7 @@ public class SwitchModuoPresenter {
 
     //获取设备列表回调
     public void onEventMainThread(GetBoundDeviceEvent event) {
+        mSwitchFragmentView.dismissWaitDialog();
         if (!ActivityUtil.isTopActivity((Activity) mContext, "SwitchModuoActivity")) {
             return;
         }
@@ -81,6 +82,7 @@ public class SwitchModuoPresenter {
 
     //绑定设备回调
     public void onEventMainThread(DeviceBindResultEvent event) {
+        mSwitchFragmentView.dismissWaitDialog();
         if (!ActivityUtil.isTopActivity((Activity) mContext, "SwitchModuoActivity")) {
             return;
         }
@@ -90,7 +92,6 @@ public class SwitchModuoPresenter {
             mSwitchFragmentView.dismissChangeRemarkDialog();
             return;
         }
-        mSwitchFragmentView.dismissWaitDialog();
         Toast.show("备注修改成功");
         //退出Activity
         SwitchModuoActivity activity = (SwitchModuoActivity) mContext;
