@@ -230,11 +230,4 @@ public class TvControlBean {
             return null;
         }
     }
-
-
-    @Override
-    public String toString() {
-        //todo---将其转化为回复给用户的指令语言
-        return "正在开发中...";
-    }
 }

@@ -139,12 +139,4 @@ public class CmdController {
         }
         cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValueStr());
     }
-
-    //todo---测试在这里发送数据
-    public void testCmd() {
-        byte data[] = {9, 9, 9, 9};
-        CmdController.getInstance().cWriteCmdCtrl(
-                XPGController.getCurrentDevice().getXpgWifiDevice(), CmdBean.getInstance(data[0], data[1], data[2], data[3])
-        );
-    }
 }
