@@ -13,25 +13,36 @@ public class CmdBean {
     private byte paramValue;
 
     //设备类型
-    enum DeviceType {
-        NONE,
-        TV,
-        AC,
-        END
+    public enum DeviceType {
+        NONE((byte) 0),
+        TV((byte) 1),
+        AC((byte) 2),
+        END((byte) 3);
+
+        public byte value;
+
+        DeviceType(byte value) {
+            this.value = value;
+        }
     }
 
     //设备编号
     //操作的参数
-    enum DeviceParam {
-        NONE,
-        TV_ONOFF,
-        TV_VOLUME,
-        TV_CHANNEL,
-        TV_SRC,
-        AC_ONOFF,
-        AC_TEMP,
-        AC_MODE,
-        END
+    public enum DeviceParam {
+        NONE((byte) 0),
+        TV_ONOFF((byte) 1),
+        TV_VOLUME((byte) 2),
+        TV_CHANNEL((byte) 3),
+        TV_SRC((byte) 4),
+        AC_ONOFF((byte) 5),
+        AC_TEMP((byte) 6),
+        AC_MODE((byte) 7),
+        END((byte) 8);
+        public byte value;
+
+        DeviceParam(byte value) {
+            this.value = value;
+        }
     }
     //操作参数的值
 

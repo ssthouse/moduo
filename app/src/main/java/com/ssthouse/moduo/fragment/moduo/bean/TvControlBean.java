@@ -1,5 +1,9 @@
 package com.ssthouse.moduo.fragment.moduo.bean;
 
+import com.ssthouse.moduo.control.xpg.CmdBean;
+
+import static com.ssthouse.moduo.control.xpg.CmdBean.*;
+
 /**
  * 电视控制命令bean
  * Created by ssthouse on 2016/3/17.
@@ -13,8 +17,25 @@ public class TvControlBean {
     }
 
     //设备类型
-    interface Device{
+    interface Device {
         String TV = "tv";
+    }
+
+    //操作参数param
+    interface Param {
+        String OPEN = "OPEN";
+        String CLOSE = "CLOSE";
+        String SET = "SET";
+    }
+
+    //参数值value
+    interface Value {
+        String OPEN = "OPEN";
+        String CLOSE = "CLOSE";
+
+        //音量方向
+        String VOLUME_PLUE = "+";
+        String VOLUME_MINUS = "-";
     }
 
     /**
@@ -101,6 +122,20 @@ public class TvControlBean {
         }
 
         public static class SlotsEntity {
+
+
+            //开关Entity
+            private String onOff;
+
+            public String getOnOff() {
+                return onOff;
+            }
+
+            public void setOnOff(String onOff) {
+                this.onOff = onOff;
+            }
+
+            //音量Entity
             /**
              * direct : -
              */
@@ -130,22 +165,71 @@ public class TvControlBean {
     }
 
     //todo---生成CmdBean
-//    public CmdBean generateCmdBean() {
-//        //判断语义服务类型
-//        switch (service) {
-//            case Service.SMART_HOME:
-//                break;
-//            default:
-//                return null;
-//            break;
-//        }
-//        //判断设备类型
-//        switch (device) {
-//            case Device.TV:
-//
-//                break;
-//        }
-//    }
+    public CmdBean generateCmdBean() {
+        try {
+            byte deviceType, deviceNumber, param, value = 0;
+            //判断语义服务类型
+            switch (service) {
+                case Service.SMART_HOME:
+                    break;
+                default:
+                    return null;
+            }
+            //判断设备类型
+            switch (device) {
+                case Device.TV:
+                    deviceType = DeviceType.TV.value;
+                    break;
+                default:
+                    //todo---暂时只处理TV
+                    return null;
+                //deviceType = CmdBean.DeviceType.NONE.value;
+            }
+            //设备编号
+            deviceNumber = (byte) rc;
+            //参数param
+            switch (operation) {
+                //电视开关
+                case Param.OPEN:
+                case Param.CLOSE:
+                    param = DeviceParam.TV_ONOFF.value;
+                    //获取参数value
+                    switch (semantic.getSlots().getOnOff()) {
+                        case Value.OPEN:
+                            value = 1;
+                            break;
+                        case Value.CLOSE:
+                            value = 2;
+                            break;
+                        default:
+                            value = 0;
+                            break;
+                    }
+                    break;
+                //电视音量
+                case Param.SET:
+                    param = DeviceParam.TV_VOLUME.value;
+                    switch ((semantic.getSlots().getVolume().getDirect())) {
+                        case Value.VOLUME_PLUE:
+                            value = 1;
+                            break;
+                        case Value.VOLUME_MINUS:
+                            value = 2;
+                            break;
+                        default:
+                            value = 0;
+                            break;
+                    }
+                    break;
+                default:
+                    return null;
+            }
+            //返回解析出的CmdBean
+            return CmdBean.getInstance(deviceType, deviceNumber, param, value);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 
     @Override

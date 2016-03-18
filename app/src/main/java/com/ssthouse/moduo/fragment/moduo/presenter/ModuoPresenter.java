@@ -3,6 +3,9 @@ package com.ssthouse.moduo.fragment.moduo.presenter;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdController;
+import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.moduo.bean.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
 import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
@@ -76,10 +79,16 @@ public class ModuoPresenter {
 
     //语义理解回调
     public void onEventMainThread(SpeechUnderstandEvent event) {
+        //必须先连接着魔哆
+        if (XPGController.getCurrentDevice() == null) {
+            Toast.show("当前未连接魔哆, 请连接后重试");
+            return;
+        }
         if (event.isSuccess()) {
-            //解析出命令---发出msgBean
+            //todo---解析出命令---发出msgBean
             Gson gson = new Gson();
             TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
+            CmdController.getInstance().cWriteCmdCtrl(XPGController.getCurrentDevice().getXpgWifiDevice(), tvControlBean.generateCmdBean());
             String moduoReplyString = "已收到您的指令:" + tvControlBean.toString();
             EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已收到您的指令:" + tvControlBean.getText()));
         } else {

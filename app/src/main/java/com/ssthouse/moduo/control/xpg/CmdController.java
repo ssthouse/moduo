@@ -133,6 +133,10 @@ public class CmdController {
 
     //发送cmd_ctrl命令
     public void cWriteCmdCtrl(XPGWifiDevice xpgWifiDevice, CmdBean cmdBean) {
+        if(xpgWifiDevice == null || cmdBean == null) {
+            Timber.e("CmdCtrl发送失败, 设备或数据为空!");
+            return;
+        }
         cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValueStr());
     }
 
