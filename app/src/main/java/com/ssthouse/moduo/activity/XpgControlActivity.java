@@ -15,7 +15,6 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.ByteUtils;
 import com.ssthouse.moduo.control.util.Toast;
-import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.DeviceData;
 import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
@@ -29,7 +28,7 @@ import timber.log.Timber;
 /**
  * todo---调试用Activity
  * xpg设备控制activity:
- * <p>
+ * <p/>
  * 控制唯一单例XPGManager里面的currentDevice
  * Created by ssthouse on 2015/12/20.
  */
@@ -228,10 +227,7 @@ public class XpgControlActivity extends AppCompatActivity {
                         break;
                 }
                 //发出数据修改请求
-                CmdController.getInstance().cWrite(
-                        XPGController.getCurrentDevice().getXpgWifiDevice(),
-                        key,
-                        progress);
+                XPGController.getCurrentDevice().cWrite(key, progress);
             }
         }
 
@@ -272,7 +268,7 @@ public class XpgControlActivity extends AppCompatActivity {
             updateUI();
             Timber.e("设备数据设置成功");
         } else {
-            Toast.show( "数据设置失败");
+            Toast.show("数据设置失败");
             Timber.e("设备数据设置失败");
             //还原原数据UI
             updateUI();
@@ -291,7 +287,7 @@ public class XpgControlActivity extends AppCompatActivity {
         //更新UI
         updateUI();
         //toast提示
-        Toast.show( "设备数据更新");
+        Toast.show("设备数据更新");
     }
 
     /**

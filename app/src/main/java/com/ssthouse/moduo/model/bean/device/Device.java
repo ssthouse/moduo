@@ -76,11 +76,10 @@ public class Device implements Serializable {
      * 发送指令.
      * 抽象出主体逻辑的命令方法
      *
-     * @param xpgWifiDevice the xpg wifi device
-     * @param key           the key
-     * @param value         the value
+     * @param key   the key
+     * @param value the value
      */
-    public void cWrite(XPGWifiDevice xpgWifiDevice, String key, Object value) {
+    public void cWrite(String key, Object value) {
         //按照一定格式发送数据
         try {
             JSONObject jsonSend = new JSONObject();
@@ -96,11 +95,15 @@ public class Device implements Serializable {
     }
 
     //开启设备的video数据点---打开video
-    public void cWriteVideo(XPGWifiDevice xpgWifiDevice, int value) {
+    public void cWriteVideo(int value) {
+        if (xpgWifiDevice == null) {
+            Timber.e("当前XpgWifiDevice为空");
+            return;
+        }
         if (value == 0) {
-            cWrite(xpgWifiDevice, JsonKeys.VIDEO, false);
+            cWrite(JsonKeys.VIDEO, false);
         } else if (value == 1) {
-            cWrite(xpgWifiDevice, JsonKeys.VIDEO, true);
+            cWrite(JsonKeys.VIDEO, true);
         }
     }
 
@@ -112,6 +115,10 @@ public class Device implements Serializable {
      * @param zHead
      */
     public void cWriteHead(int xHead, int yHead, int zHead) {
+        if (xpgWifiDevice == null) {
+            Timber.e("当前XpgWifiDevice为空");
+            return;
+        }
 //        Timber.e("control moduo: △X:%d    △Y:%d    △Z:%d    ", xHead, yHead, zHead);
         //按照一定格式发送数据
         try {
@@ -137,6 +144,10 @@ public class Device implements Serializable {
      * @param zBody
      */
     public void cWriteBody(int xBody, int yBody, int zBody) {
+        if (xpgWifiDevice == null) {
+            Timber.e("当前XpgWifiDevice为空 writeBody失败");
+            return;
+        }
         //按照一定格式发送数据
         try {
             JSONObject jsonSend = new JSONObject();
@@ -155,6 +166,10 @@ public class Device implements Serializable {
 
     //发送控制命令
     public void cWriteCmd(byte device, byte no, byte param, byte value) {
+        if (xpgWifiDevice == null) {
+            Timber.e("当前XpgWifiDevice为空, writeCmd失败");
+            return;
+        }
         byte data[] = new byte[4];
         data[0] = device;
         data[1] = no;
@@ -162,7 +177,7 @@ public class Device implements Serializable {
         data[3] = value;
         String cmdStr = Base64.encodeToString(data, Base64.NO_CLOSE);
         Timber.e("cmdStr: " + cmdStr);
-        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdStr);
+        cWrite(JsonKeys.CTRL_CMD, cmdStr);
     }
 
     //发送cmd_ctrl命令
@@ -171,7 +186,7 @@ public class Device implements Serializable {
             Timber.e("CmdCtrl发送失败, 设备或数据为空!");
             return;
         }
-        cWrite(xpgWifiDevice, JsonKeys.CTRL_CMD, cmdBean.getValueStr());
+        cWrite(JsonKeys.CTRL_CMD, cmdBean.getValueStr());
     }
 
     //getter---and---setter-------------------------------------------------------------------------

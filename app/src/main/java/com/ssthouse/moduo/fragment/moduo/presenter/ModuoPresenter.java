@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.ssthouse.moduo.control.util.Toast;
-import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.moduo.bean.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
@@ -88,7 +87,8 @@ public class ModuoPresenter {
             //todo---解析出命令---发出msgBean
             Gson gson = new Gson();
             TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
-            CmdController.getInstance().cWriteCmdCtrl(XPGController.getCurrentDevice().getXpgWifiDevice(), tvControlBean.generateCmdBean());
+            //发送CmdBean
+            XPGController.getCurrentDevice().cWriteCmdCtrl(tvControlBean.generateCmdBean());
             String moduoReplyString = "已收到您的指令:" + tvControlBean.toString();
             EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已收到您的指令:" + tvControlBean.getText()));
         } else {

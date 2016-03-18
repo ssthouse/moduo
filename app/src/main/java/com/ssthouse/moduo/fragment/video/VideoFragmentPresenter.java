@@ -8,7 +8,6 @@ import com.ichano.rvs.viewer.Media;
 import com.ssthouse.moduo.control.util.FileUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
-import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.video.VideoExceptionEvent;
 import com.ssthouse.moduo.model.event.video.VideoReadyEvent;
@@ -138,16 +137,14 @@ public class VideoFragmentPresenter {
     }
 
     //视频出错event
-    public void onEventMainThread(VideoExceptionEvent event){
+    public void onEventMainThread(VideoExceptionEvent event) {
         Timber.e("VideoExceptionEvent");
         mVideoFragmentView.showConfirmDialog("视频加载失败");
     }
 
     public void destroy() {
         //关闭视频数据点
-        CmdController.getInstance().cWriteVideo(
-                XPGController.getCurrentDevice().getXpgWifiDevice(), 0
-        );
+        XPGController.getCurrentDevice().cWriteVideo(0);
         EventBus.getDefault().unregister(this);
     }
 }
