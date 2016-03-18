@@ -12,7 +12,9 @@ import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.UnderstanderResult;
 import com.ssthouse.moduo.control.util.FileUtil;
+import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
 import com.ssthouse.moduo.fragment.moduo.bean.event.VolumeChangEvent;
+import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 import java.io.File;
 
@@ -142,13 +144,11 @@ public class SpeechManager implements ISpeechControl {
 
         @Override
         public void onResult(final UnderstanderResult result) {
-            if (null != result) {
-                // 显示
-                String text = result.getResultString();
-                if (!TextUtils.isEmpty(text)) {
-                    Timber.e("识别结果:\t" + text);
-                }
+            if (null != result && !TextUtils.isEmpty(result.getResultString())) {
+                Timber.e("识别结果:\t" + result.getResultString());
+                EventBus.getDefault().post(new SpeechUnderstandEvent(true, result.getResultString()));
             } else {
+                EventBus.getDefault().post(new SpeechUnderstandEvent(false, null));
                 Timber.e("识别结果不正确。");
             }
         }
@@ -177,6 +177,7 @@ public class SpeechManager implements ISpeechControl {
 
         @Override
         public void onError(SpeechError error) {
+            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "您说什么? 我没听清。"));
             Timber.e("error" + error.getPlainDescription(true));
         }
 

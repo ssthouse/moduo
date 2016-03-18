@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/id_tv_chat_content"
-    style="@style/ChatContent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/ic_chat_left_qp"
     android:gravity="center_vertical"
     android:textColor="@android:color/black" />

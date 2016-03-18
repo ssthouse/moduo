@@ -2,7 +2,10 @@ package com.ssthouse.moduo.fragment.moduo.presenter;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.ssthouse.moduo.fragment.moduo.bean.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
+import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
 import com.ssthouse.moduo.fragment.moduo.control.util.DbHelper;
 import com.ssthouse.moduo.fragment.moduo.model.ModuoModel;
 import com.ssthouse.moduo.fragment.moduo.view.ModuoFragmentView;
@@ -69,6 +72,19 @@ public class ModuoPresenter {
         mModuoFragmentView.addMsgBean(msgBean);
         //保存到数据库
         DbHelper.saveMsgBean(msgBean);
+    }
+
+    //语义理解回调
+    public void onEventMainThread(SpeechUnderstandEvent event) {
+        if (event.isSuccess()) {
+            //解析出命令---发出msgBean
+            Gson gson = new Gson();
+            TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
+            String moduoReplyString = "已收到您的指令:" + tvControlBean.toString();
+            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已收到您的指令:" + tvControlBean.getText()));
+        } else {
+            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "抱歉未能理解您的意思?"));
+        }
     }
 
     public void destroy() {
