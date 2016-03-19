@@ -30,7 +30,7 @@ public class CmdBean {
     //操作的参数
     public enum DeviceParam {
         NONE((byte) 0),
-        TV_ONOFF((byte) 1),
+        ONOFF((byte) 1),
         TV_VOLUME((byte) 2),
         TV_CHANNEL((byte) 3),
         TV_SRC((byte) 4),

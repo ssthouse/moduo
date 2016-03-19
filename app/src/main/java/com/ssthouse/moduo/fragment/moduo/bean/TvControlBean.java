@@ -192,7 +192,7 @@ public class TvControlBean {
                 //电视开关
                 case Param.OPEN:
                 case Param.CLOSE:
-                    param = DeviceParam.TV_ONOFF.value;
+                    param = DeviceParam.ONOFF.value;
                     //获取参数value
                     switch (semantic.getSlots().getOnOff()) {
                         case Value.OPEN:

@@ -78,7 +78,7 @@ public class SpeechManager implements ISpeechControl {
     public void startSpeech() {
         if (mSpeechUnderstander.isUnderstanding()) {// 开始前检查状态
             mSpeechUnderstander.stopUnderstanding();
-            Timber.e("停止录音");
+            //Timber.e("停止录音");
         }
         //设置音频输出路径
         mCurrentFilePath = generateFilePath();
@@ -90,13 +90,13 @@ public class SpeechManager implements ISpeechControl {
     @Override
     public void stopSpeech() {
         mSpeechUnderstander.stopUnderstanding();
-        Timber.e("停止语义理解");
+        //Timber.e("停止语义理解");
     }
 
     @Override
     public void cancelSpeech() {
         mSpeechUnderstander.cancel();
-        Timber.e("取消语义理解");
+        //Timber.e("取消语义理解");
     }
 
     @Override
@@ -166,13 +166,13 @@ public class SpeechManager implements ISpeechControl {
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            Timber.e("结束说话");
+            //Timber.e("结束说话");
         }
 
         @Override
         public void onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            Timber.e("开始说话");
+            //Timber.e("开始说话");
         }
 
         @Override
