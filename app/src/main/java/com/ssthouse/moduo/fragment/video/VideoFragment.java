@@ -20,8 +20,6 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.video.VideoActivity;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.VideoHolder;
-import com.ssthouse.moduo.control.xpg.CmdBean;
-import com.ssthouse.moduo.control.xpg.CmdController;
 import com.ssthouse.moduo.control.xpg.XPGController;
 
 import timber.log.Timber;
@@ -222,9 +220,6 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                     gyroscopeSensor.resetOrientation();
                     gyroscopeSensor.start();
                     ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_blue);
-                    // TODO: 2016/3/16 尝试命令控制的代码
-                    CmdController.getInstance().cWriteCmdCtrl(XPGController.getCurrentDevice().getXpgWifiDevice(),
-                            new CmdBean((byte) 2, (byte) 2, (byte) 2, (byte) 2));
                 } else {
                     gyroscopeSensor.pause();
                     ivSensorControlPort.setImageResource(R.drawable.video_sensor_controller_grey);
@@ -349,9 +344,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
     private void initVideo(boolean isPort) {
         //启动采集端的视频
         //将video数据点置为1
-        CmdController.getInstance().cWriteVideo(
-                XPGController.getCurrentDevice().getXpgWifiDevice(), 1
-        );
+        XPGController.getCurrentDevice().cWriteVideo(1);
 
         //初始化视频播放类
         if (isPort) {
@@ -404,12 +397,7 @@ public class VideoFragment extends Fragment implements VideoFragmentView {
                 } else if (deltaY < -5) {
                     speedY = -5;
                 }
-                CmdController.getInstance()
-                        .cWriteHead(XPGController.getCurrentDevice().getXpgWifiDevice(),
-                                speedX,
-                                speedY,
-                                0
-                        );
+                XPGController.getCurrentDevice().cWriteHead(speedX, speedY, 0);
             }
         });
     }

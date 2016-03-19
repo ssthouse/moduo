@@ -28,6 +28,7 @@
         <ImageView
             android:id="@+id/chat_left_iv_avatar"
             style="@style/Avatar"
+            android:src="@drawable/modo"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="10dp" />
 

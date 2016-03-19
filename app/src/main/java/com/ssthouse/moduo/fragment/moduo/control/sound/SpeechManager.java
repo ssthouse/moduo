@@ -12,7 +12,9 @@ import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.UnderstanderResult;
 import com.ssthouse.moduo.control.util.FileUtil;
+import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
 import com.ssthouse.moduo.fragment.moduo.bean.event.VolumeChangEvent;
+import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 import java.io.File;
 
@@ -76,7 +78,7 @@ public class SpeechManager implements ISpeechControl {
     public void startSpeech() {
         if (mSpeechUnderstander.isUnderstanding()) {// 开始前检查状态
             mSpeechUnderstander.stopUnderstanding();
-            Timber.e("停止录音");
+            //Timber.e("停止录音");
         }
         //设置音频输出路径
         mCurrentFilePath = generateFilePath();
@@ -88,13 +90,13 @@ public class SpeechManager implements ISpeechControl {
     @Override
     public void stopSpeech() {
         mSpeechUnderstander.stopUnderstanding();
-        Timber.e("停止语义理解");
+        //Timber.e("停止语义理解");
     }
 
     @Override
     public void cancelSpeech() {
         mSpeechUnderstander.cancel();
-        Timber.e("取消语义理解");
+        //Timber.e("取消语义理解");
     }
 
     @Override
@@ -142,13 +144,11 @@ public class SpeechManager implements ISpeechControl {
 
         @Override
         public void onResult(final UnderstanderResult result) {
-            if (null != result) {
-                // 显示
-                String text = result.getResultString();
-                if (!TextUtils.isEmpty(text)) {
-                    Timber.e("识别结果:\t" + text);
-                }
+            if (null != result && !TextUtils.isEmpty(result.getResultString())) {
+                Timber.e("识别结果:\t" + result.getResultString());
+                EventBus.getDefault().post(new SpeechUnderstandEvent(true, result.getResultString()));
             } else {
+                EventBus.getDefault().post(new SpeechUnderstandEvent(false, null));
                 Timber.e("识别结果不正确。");
             }
         }
@@ -166,17 +166,18 @@ public class SpeechManager implements ISpeechControl {
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            Timber.e("结束说话");
+            //Timber.e("结束说话");
         }
 
         @Override
         public void onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            Timber.e("开始说话");
+            //Timber.e("开始说话");
         }
 
         @Override
         public void onError(SpeechError error) {
+            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "您说什么? 我没听清。"));
             Timber.e("error" + error.getPlainDescription(true));
         }
 

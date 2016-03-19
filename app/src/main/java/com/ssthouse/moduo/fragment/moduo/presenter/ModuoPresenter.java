@@ -2,7 +2,13 @@ package com.ssthouse.moduo.fragment.moduo.presenter;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdBean;
+import com.ssthouse.moduo.control.xpg.XPGController;
+import com.ssthouse.moduo.fragment.moduo.bean.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
+import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
 import com.ssthouse.moduo.fragment.moduo.control.util.DbHelper;
 import com.ssthouse.moduo.fragment.moduo.model.ModuoModel;
 import com.ssthouse.moduo.fragment.moduo.view.ModuoFragmentView;
@@ -69,6 +75,30 @@ public class ModuoPresenter {
         mModuoFragmentView.addMsgBean(msgBean);
         //保存到数据库
         DbHelper.saveMsgBean(msgBean);
+    }
+
+    //语义理解回调
+    public void onEventMainThread(SpeechUnderstandEvent event) {
+        //必须先连接着魔哆
+        if (XPGController.getCurrentDevice() == null) {
+            Toast.show("当前未连接魔哆, 请连接后重试");
+            return;
+        }
+        if (event.isSuccess()) {
+            //todo---解析出命令---发出msgBean
+            Gson gson = new Gson();
+            TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
+            //发送CmdBean
+            CmdBean cmdBean = tvControlBean.generateCmdBean();
+            if (cmdBean == null) {
+                EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "抱歉,您的指令:\t" + tvControlBean.getText() + "\t未能执行"));
+            } else {
+                XPGController.getCurrentDevice().cWriteCmdCtrl(cmdBean);
+                EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已发送您的指令:" + tvControlBean.getText()));
+            }
+        } else {
+            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "抱歉未能理解您的意思?"));
+        }
     }
 
     public void destroy() {
