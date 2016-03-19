@@ -34,7 +34,7 @@ public class TvControlBean {
         String CLOSE = "CLOSE";
 
         //音量方向
-        String VOLUME_PLUE = "+";
+        String VOLUME_PLUS = "+";
         String VOLUME_MINUS = "-";
     }
 
@@ -210,7 +210,7 @@ public class TvControlBean {
                 case Param.SET:
                     param = DeviceParam.TV_VOLUME.value;
                     switch ((semantic.getSlots().getVolume().getDirect())) {
-                        case Value.VOLUME_PLUE:
+                        case Value.VOLUME_PLUS:
                             value = 1;
                             break;
                         case Value.VOLUME_MINUS:

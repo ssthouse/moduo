@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdBean;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.moduo.bean.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.bean.event.ModuoScaleChangeEvent;
@@ -88,9 +89,13 @@ public class ModuoPresenter {
             Gson gson = new Gson();
             TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
             //发送CmdBean
-            XPGController.getCurrentDevice().cWriteCmdCtrl(tvControlBean.generateCmdBean());
-            String moduoReplyString = "已收到您的指令:" + tvControlBean.toString();
-            EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已收到您的指令:" + tvControlBean.getText()));
+            CmdBean cmdBean = tvControlBean.generateCmdBean();
+            if (cmdBean == null) {
+                EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "抱歉,您的指令:\t" + tvControlBean.getText() + "\t未能执行"));
+            } else {
+                XPGController.getCurrentDevice().cWriteCmdCtrl(cmdBean);
+                EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "已发送您的指令:" + tvControlBean.getText()));
+            }
         } else {
             EventBus.getDefault().post(MsgBean.getInstance(MsgBean.TYPE_MODUO_TEXT, MsgBean.STATE_SENT, "抱歉未能理解您的意思?"));
         }
