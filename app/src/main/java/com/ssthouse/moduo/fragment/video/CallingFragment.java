@@ -50,7 +50,7 @@ public class CallingFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                     EventBus.getDefault().post(new CallingResponseEvent(true));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
