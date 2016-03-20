@@ -46,6 +46,17 @@ public class CallingFragment extends Fragment {
 
     private void initView() {
         //todo---模拟接通电话
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    EventBus.getDefault().post(new CallingResponseEvent(true));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

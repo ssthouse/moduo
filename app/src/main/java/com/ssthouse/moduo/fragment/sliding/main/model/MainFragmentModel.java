@@ -31,7 +31,7 @@ public class MainFragmentModel {
     }
 
     //根据获取设备列表的event---设置当前device
-    public void setCurrentDevice(GetBoundDeviceEvent event) {
+    public void setCurrentDevice(final GetBoundDeviceEvent event) {
         //如果未绑定设备---需要先绑定
         if (event.getXpgDeviceList().size() <= 0) {
             Toast.show("当前未绑定设备,请先进行绑定");
@@ -50,7 +50,6 @@ public class MainFragmentModel {
             }
             //如果列表中没有找到本地的魔哆
             if (XPGController.getCurrentDevice() == null) {
-                XPGController.setCurrentDevice(mContext, event.getXpgDeviceList().get(0));
                 Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
                 //云端获取设备数据
                 CloudUtil.getDeviceFromCloud(event.getXpgDeviceList().get(0).getDid())
@@ -63,12 +62,12 @@ public class MainFragmentModel {
                                     Toast.show("获取服务器设备数据失败");
                                 } else {
                                     settingManager.setCurrentModuoInfo(moduoInfo);
+                                    XPGController.setCurrentDevice(Device.getLocalDevice(mContext, event.getXpgDeviceList().get(0)));
                                 }
                             }
                         });
             }
         } else {
-            XPGController.setCurrentDevice(mContext, event.getXpgDeviceList().get(0));
             Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
             //云端获取设备数据
             CloudUtil.getDeviceFromCloud(event.getXpgDeviceList().get(0).getDid())
@@ -81,6 +80,7 @@ public class MainFragmentModel {
                                 Toast.show("获取服务器设备数据失败");
                             } else {
                                 settingManager.setCurrentModuoInfo(moduoInfo);
+                                XPGController.setCurrentDevice(Device.getLocalDevice(mContext, event.getXpgDeviceList().get(0)));
                             }
                         }
                     });

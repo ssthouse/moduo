@@ -299,7 +299,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         if (event.isSuccess()) {
             Timber.e("登陆成功");
             Toast.show("登陆成功");
-            //登陆成功---代表密码通过认证---使用username获取完整用户数据
             //填写的用户信息保存到本地---
             saveInputUserInfo();
             //保存机智云登陆缓存数据
