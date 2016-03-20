@@ -97,9 +97,9 @@ public class SettingManager {
     }
 
     /**
-     * SharePreference clean.
+     * SharePreference cleanUserInfo.
      */
-    public void clean() {
+    public void cleanUserInfo() {
         //清除登陆信息
         setUid("");
         setToken("");
@@ -108,12 +108,6 @@ public class SettingManager {
         setUserName("");
         //清除手势密码
         setGestureLock("");
-        //清除设备信息
-        setCurrentDid("");
-        setPasscode("");
-        setCidNumber("");
-        setVideoUsername("");
-        setVideoPassword("");
     }
 
     //是否第一次

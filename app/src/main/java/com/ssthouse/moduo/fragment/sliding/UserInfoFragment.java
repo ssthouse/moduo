@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.Toast;
@@ -269,13 +268,14 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         if (event.isSuccess()) {
             Toast.show("注册成功");
             Timber.e("注册成功");
-            //清除本地魔哆数据
-            SettingManager.getInstance(getContext()).cleanLocalModuo();
             //注册成功保存账号
             saveInputUserInfo();
             //登陆
-            XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
-                    MD5Util.getMdStr(etPassword.getText().toString()));
+            SettingManager settingManager = SettingManager.getInstance(getContext());
+            XPGController.getInstance(getContext())
+                    .getmCenter()
+                    .cLogin(settingManager.getUserName(),
+                            settingManager.getPassword());
         } else {
             Timber.e("注册失败");
             Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
@@ -298,20 +298,15 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         waitDialog.dismiss();
         if (event.isSuccess()) {
             Timber.e("登陆成功");
-//            //清除本地魔哆数据
-//            settingManager.cleanLocalModuo();
-
+            Toast.show("登陆成功");
             //登陆成功---代表密码通过认证---使用username获取完整用户数据
-            //todo---填写的用户信息保存到本地---
-            SettingManager settingManager = SettingManager.getInstance(getContext());
-            settingManager.setUserName(etUsername.getText().toString());
-            settingManager.setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
-            //更新本地用户信息
-            CloudUtil.updateUserInfoToLocal(getContext(), settingManager.getUserName());
-            //保存机智云登陆数据
-            settingManager.setLoginCacheInfo(event);
+            //填写的用户信息保存到本地---
+            saveInputUserInfo();
+            //保存机智云登陆缓存数据
+            SettingManager.getInstance(getContext()).setLoginCacheInfo(event);
         } else {
             Timber.e("登陆失败");
+            Toast.show("登陆失败");
         }
         //刷新界面
         updateUI();
@@ -334,8 +329,10 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             //保存当前用户信息
             saveInputUserInfo();
             //登陆
-            XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
-                    MD5Util.getMdStr(etPassword.getText().toString()));
+            SettingManager settingManager = SettingManager.getInstance(getContext());
+            XPGController.getInstance(getContext())
+                    .getmCenter()
+                    .cLogin(settingManager.getUserName(), settingManager.getPassword());
         } else {
             Timber.e("匿名用户转换失败");
             Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
@@ -348,8 +345,8 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             return;
         }
         waitDialog.dismiss();
-        //清空本地用户数据---清空本地设备数据
-        SettingManager.getInstance(getContext()).clean();
+        //清空本地用户数据
+        SettingManager.getInstance(getContext()).cleanUserInfo();
         XPGController.setCurrentDevice(null);
         Toast.show("注销成功");
         updateUI();

@@ -109,7 +109,7 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             @Override
             public void onClick(View v) {
                 if (XPGController.getCurrentDevice() == null) {
-                    Toast.show("当前没有设备连接");
+                    Toast.show("魔哆设备未连接");
                     return;
                 }
                 if (!Communication.isLogin()) {
@@ -148,11 +148,6 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
 
     @Override
     public void updateUI() {
-        //是否账号登陆
-        if (!XPGController.isLogin()) {
-            tvModuoState.setText("未登录");
-            return;
-        }
         //更新remark
         updateRemark();
         //更新魔哆文字状态
@@ -161,6 +156,11 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
 
     //更新魔哆文字状态
     private void updateModuoState() {
+        //是否账号登陆
+        if (!XPGController.isLogin()) {
+            tvModuoState.setText("未登录");
+            return;
+        }
         if (XPGController.getCurrentDevice() == null ||
                 !XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
             tvModuoState.setText("用户登录成功, 未连接魔哆");

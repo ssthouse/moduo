@@ -98,7 +98,7 @@ public class CloudUtil {
     }
 
 
-    //根据did   获取云端设备数据(主要是视频用户名密码)
+    //获取云端设备数据
     public static Observable<ModuoInfo> getDeviceFromCloud(String did) {
         return Observable.just(did)
                 .map(new Func1<String, ModuoInfo>() {
