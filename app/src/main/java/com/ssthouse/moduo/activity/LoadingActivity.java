@@ -13,16 +13,11 @@ import android.widget.ImageView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.main.MainActivity;
-import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
 import com.ssthouse.moduo.model.event.view.GuideFinishEvent;
-import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import de.greenrobot.event.EventBus;
-import timber.log.Timber;
 
 /**
  * loading界面:
@@ -88,34 +83,6 @@ public class LoadingActivity extends AppCompatActivity {
         MainActivity.start(LoadingActivity.this);
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
-    }
-
-    /**
-     * 机智云---登录成功回调
-     *
-     * @param event
-     */
-    public void onEventMainThread(XPGLoginResultEvent event) {
-        if (!ActivityUtil.isTopActivity(this, "LoadingActivity")) {
-            Timber.e("LoadingActivity is not in the top!");
-            return;
-        }
-        if (event.isSuccess()) {
-            Timber.e("机智云---登录成功");
-            XPGController.setLogin(true);
-            //更新本地用户数据
-            CloudUtil.updateUserInfoToLocal(this, SettingManager.getInstance(this).getUserName());
-            //保存机智云登陆数据
-            SettingManager.getInstance(this).setLoginCacheInfo(event);
-            //跳转Activity
-            MainActivity.start(this);
-            finish();
-        } else {
-            Timber.e("机智云---登录失败");
-            XPGController.setLogin(false);
-            MainActivity.start(this);
-            finish();
-        }
     }
 
     //todo---AppIntroActivity完成介绍的event

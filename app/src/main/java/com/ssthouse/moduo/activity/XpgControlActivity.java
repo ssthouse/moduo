@@ -26,10 +26,7 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * todo---调试用Activity
- * xpg设备控制activity:
- * <p/>
- * 控制唯一单例XPGManager里面的currentDevice
+ * 调试用Activity
  * Created by ssthouse on 2015/12/20.
  */
 public class XpgControlActivity extends AppCompatActivity {
@@ -129,7 +126,7 @@ public class XpgControlActivity extends AppCompatActivity {
         //获得初始设备数据
         deviceData = (DeviceData) getIntent().getSerializableExtra("device_data");
 
-        //todo---尝试获取设备数据
+        //尝试获取设备数据
         XPGController.getCurrentDevice().getXpgWifiDevice()
                 .setListener(XPGController.getInstance(this).getDeviceListener());
         // Timber.e(XPGController.getCurrentDevice().getDid() + "\t请求数据!!!!");
@@ -252,7 +249,7 @@ public class XpgControlActivity extends AppCompatActivity {
     }
 
     /**
-     * todo 目前来看---设备收到数据变化后根本就没有回调这个方法
+     * 目前来看---设备收到数据变化后根本就没有回调这个方法
      * xpg设备操作结果回调
      *
      * @param event

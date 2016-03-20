@@ -302,10 +302,11 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         waitDialog.dismiss();
         if (event.isSuccess()) {
             Timber.e("登陆成功");
-            //清除本地魔哆数据
-            SettingManager settingManager = SettingManager.getInstance(getContext());
-            settingManager.cleanLocalModuo();
+//            //清除本地魔哆数据
+//            settingManager.cleanLocalModuo();
+
             //todo---填写的用户信息保存到本地---
+            SettingManager settingManager = SettingManager.getInstance(getContext());
             settingManager.setUserName(etUsername.getText().toString());
             settingManager.setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
             //更新本地用户信息
@@ -350,7 +351,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
             return;
         }
         waitDialog.dismiss();
-        //本地数据清空---当前设备清空 todo
+        //清空本地用户数据---清空本地设备数据
         SettingManager.getInstance(getContext()).clean();
         XPGController.setCurrentDevice(null);
         Toast.show("注销成功");

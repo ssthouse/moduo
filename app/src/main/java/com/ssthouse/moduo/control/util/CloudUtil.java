@@ -29,7 +29,7 @@ public class CloudUtil {
      * 魔哆设备数据表
      */
     public static final String TABLE_MODUO_DEVICE = "ModuoDevice";
-
+    //数据列
     public static final String KEY_DID = "did";
     public static final String KEY_PASSCODE = "passcode";
     public static final String KEY_CID = "cid";
@@ -41,7 +41,7 @@ public class CloudUtil {
      * 用户信息数据表
      */
     public final static String TABLE_USER_INFO = "UserInfo";
-
+    //数据列
     public final static String KEY_USERNAME = "username";
     public final static String KEY_PASSWORD = "password";
     public final static String KEY_GESTURE_PASSWORD = "gesturePassword";
