@@ -255,10 +255,6 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
         //用户数据保存带本地
         SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
         SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
-//        //todo---用户数据保存到云端
-//        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
-//                MD5Util.getMdStr(etPassword.getText().toString()),
-//                SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -305,6 +301,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
 //            //清除本地魔哆数据
 //            settingManager.cleanLocalModuo();
 
+            //登陆成功---代表密码通过认证---使用username获取完整用户数据
             //todo---填写的用户信息保存到本地---
             SettingManager settingManager = SettingManager.getInstance(getContext());
             settingManager.setUserName(etUsername.getText().toString());

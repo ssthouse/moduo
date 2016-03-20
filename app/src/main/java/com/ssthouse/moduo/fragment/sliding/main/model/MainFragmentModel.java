@@ -48,6 +48,25 @@ public class MainFragmentModel {
                     Timber.e("找到之前操作过的设备");
                 }
             }
+            //如果列表中没有找到本地的魔哆
+            if (XPGController.getCurrentDevice() == null) {
+                XPGController.setCurrentDevice(mContext, event.getXpgDeviceList().get(0));
+                Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");
+                //云端获取设备数据
+                CloudUtil.getDeviceFromCloud(event.getXpgDeviceList().get(0).getDid())
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<ModuoInfo>() {
+                            @Override
+                            public void call(ModuoInfo moduoInfo) {
+                                if (moduoInfo == null) {
+                                    Toast.show("获取服务器设备数据失败");
+                                } else {
+                                    settingManager.setCurrentModuoInfo(moduoInfo);
+                                }
+                            }
+                        });
+            }
         } else {
             XPGController.setCurrentDevice(mContext, event.getXpgDeviceList().get(0));
             Timber.e("之前没有操作过---我吧第一个设备设为了默认操作设备");

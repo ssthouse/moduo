@@ -164,6 +164,7 @@ public class Communication {
     //添加采集端
     public void addStreamer(Device device) {
         if (device == null) {
+            Timber.e("device is null");
             return;
         }
         mViewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
