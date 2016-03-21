@@ -6,13 +6,9 @@
     android:orientation="vertical">
 
     <LinearLayout
+        style="@style/FragmentContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/qr_code_content_bg"
         android:orientation="vertical">
 
 
