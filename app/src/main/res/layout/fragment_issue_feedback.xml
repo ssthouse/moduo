@@ -57,7 +57,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/personal_bottom_unbundling"
+            android:background="@drawable/selector_btn_yellow"
             android:gravity="center"
             android:text="提交"
             android:textColor="@color/white"

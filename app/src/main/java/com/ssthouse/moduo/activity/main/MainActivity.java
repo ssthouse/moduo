@@ -42,7 +42,6 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * 当前activity不监听设备数据传达的event
@@ -462,7 +461,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //切换魔哆回调
         if (requestCode == REQUEST_CODE_SWITCH_MODUO) {
-            Timber.e("完成设备切换, 现在我要刷新设别了");
             return;
         }
         //扫描二维码回调

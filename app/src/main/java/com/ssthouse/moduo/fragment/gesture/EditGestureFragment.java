@@ -69,11 +69,13 @@ public class EditGestureFragment extends Fragment {
 
             @Override
             public void onPatternDetected(List<LockPatternView.Cell> pattern) {
-                if(!LockPatternView.patternToString(pattern)
-                        .equals(SettingManager.getInstance(getContext()).getGestureLock())){
+                //手势是否正确
+                if (!LockPatternView.patternToString(pattern)
+                        .equals(SettingManager.getInstance(getContext()).getGestureLock())) {
                     tvTip.setText("请重试");
                     lockView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
-                }else{
+                } else {
+                    Toast.show("手势认证成功");
                     GestureLockActivity activity = (GestureLockActivity) getActivity();
                     activity.toNewGestureFragment();
                 }
