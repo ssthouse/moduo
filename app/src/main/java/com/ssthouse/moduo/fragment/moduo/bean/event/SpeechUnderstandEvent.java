@@ -1,7 +1,7 @@
 package com.ssthouse.moduo.fragment.moduo.bean.event;
 
 /**
- * todo---语义理解事件
+ * 语义理解的结果事件
  * Created by ssthouse on 2016/3/17.
  */
 public class SpeechUnderstandEvent {

@@ -106,7 +106,6 @@ public class XPGController {
         @Override
         public void didDisconnected(XPGWifiDevice device) {
             Timber.e("设备连接断开\t" + device.getDid());
-            //todo---这个是在什么时候触发的??
             EventBus.getDefault().post(new XpgDeviceOnLineEvent(device.getDid(), false));
         }
 

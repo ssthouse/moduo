@@ -103,7 +103,7 @@ public class NewGestureFragment extends Fragment {
                     Toast.show("图形密码不可为空");
                     return;
                 }
-                //todo---只有提交成功了---才能退出---将新的用户数据提交到云端
+                //只有提交成功了---才能退出---将新的用户数据提交到云端
                 showWaitDialog("正在上传新的图新密码, 请稍候");
                 CloudUtil.getUserInfoObject(SettingManager.getInstance(getContext()).getUserName())
                         .subscribeOn(Schedulers.newThread())

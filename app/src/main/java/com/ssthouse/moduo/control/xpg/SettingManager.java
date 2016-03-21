@@ -230,7 +230,6 @@ public class SettingManager {
     }
 
     /**
-     * todo---应该不让单独调用比较安全
      * 设置图形密码
      *
      * @param gestureLock

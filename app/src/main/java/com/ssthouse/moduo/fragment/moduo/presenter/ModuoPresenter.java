@@ -85,7 +85,7 @@ public class ModuoPresenter {
             return;
         }
         if (event.isSuccess()) {
-            //todo---解析出命令---发出msgBean
+            //解析出命令---发出msgBean
             Gson gson = new Gson();
             TvControlBean tvControlBean = gson.fromJson(event.getJsonResult(), TvControlBean.class);
             //发送CmdBean

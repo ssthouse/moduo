@@ -164,7 +164,7 @@ public class TvControlBean {
         }
     }
 
-    //todo---生成CmdBean
+    //生成CmdBean---用于发送指令
     public CmdBean generateCmdBean() {
         try {
             byte deviceType, deviceNumber, param, value = 0;

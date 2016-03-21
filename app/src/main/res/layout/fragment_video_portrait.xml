@@ -13,7 +13,6 @@
         android:background="@drawable/bg_black_round_rect"
         android:orientation="vertical">
 
-        <!--todo>>>摄像头装反了 暂时旋转180度-->
         <RelativeLayout
             android:id="@+id/id_rl_container"
             android:layout_width="match_parent"

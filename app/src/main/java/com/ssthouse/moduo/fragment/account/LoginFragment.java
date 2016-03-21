@@ -96,11 +96,11 @@ public class LoginFragment extends Fragment {
                 //检查格式
                 if (StringUtils.isEmpty(etUsername.getText().toString())
                         || StringUtils.isEmpty(etPassword.getText().toString())) {
-                    Toast.show( "用户名和密码不可为空");
+                    Toast.show("用户名和密码不可为空");
                     return;
                 }
                 if (!NetUtil.isConnected(getContext())) {
-                    Toast.show( "当前网络不可用");
+                    Toast.show("当前网络不可用");
                     return;
                 }
                 String username = etUsername.getText().toString();
@@ -168,6 +168,17 @@ public class LoginFragment extends Fragment {
     }
 
     /**
+     * 不需要进行格式检查---只有注册成功了才会保存到本地
+     * 保存当前用户名密码
+     */
+    private void saveInputUserInfo() {
+        Timber.e("保存用户数据到本地");
+        //用户数据保存带本地
+        SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
+        SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
+    }
+
+    /**
      * 注册回调
      *
      * @param event
@@ -179,35 +190,18 @@ public class LoginFragment extends Fragment {
         if (event.isSuccess()) {
             Timber.e("注册成功");
             //清除本地魔哆数据
-            SettingManager.getInstance(getContext()).cleanLocalModuo();
+            SettingManager settingManager = SettingManager.getInstance(getContext());
+            settingManager.cleanLocalModuo();
             //注册成功保存账号
             saveInputUserInfo();
             //登陆
-            XPGController.getInstance(getContext()).getmCenter().cLogin(etUsername.getText().toString(),
-                    MD5Util.getMdStr(etPassword.getText().toString()));
+            XPGController.getInstance(getContext())
+                    .getmCenter()
+                    .cLogin(settingManager.getUserName(), settingManager.getPassword());
         } else {
             Timber.e("注册失败");
             Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
-    }
-
-    /**
-     * 保存当前用户名密码
-     */
-    private void saveInputUserInfo() {
-        Timber.e("保存用户数据到本地");
-        if (etUsername.getText().toString().length() < 6
-                || etPassword.getText().toString().length() < 6) {
-            Timber.e("用户名 | 密码  不合规范");
-            return;
-        }
-        //用户数据保存带本地
-        SettingManager.getInstance(getContext()).setUserName(etUsername.getText().toString());
-        SettingManager.getInstance(getContext()).setPassword(MD5Util.getMdStr(etPassword.getText().toString()));
-//        //todo---用户数据保存到云端
-//        CloudUtil.updateUserInfoToCloud(new UserInfo(etUsername.getText().toString(),
-//                MD5Util.getMdStr(etPassword.getText().toString()),
-//                SettingManager.getInstance(getContext()).getGestureLock()));
     }
 
     /**
@@ -228,14 +222,11 @@ public class LoginFragment extends Fragment {
             settingManager.setUserName(username);
             settingManager.setPassword(password);
             settingManager.setLoginCacheInfo(event);
-            //todo---通知GuideActivity进入下一步
-//            退出导航activity---继续LoadingActivity
+            //退出导航activity---继续LoadingActivity
             getActivity().finish();
             EventBus.getDefault().post(new GuideFinishEvent(true));
-//            GuideActivity guideActivity = (GuideActivity) getActivity();
-//            guideActivity.switchFragment(GuideActivity.State.STATE_GESTURE_LOCK);
         } else {
-            Toast.show( "登陆失败");
+            Toast.show("登陆失败");
         }
     }
 
