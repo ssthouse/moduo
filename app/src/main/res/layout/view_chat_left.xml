@@ -28,9 +28,9 @@
         <ImageView
             android:id="@+id/chat_left_iv_avatar"
             style="@style/Avatar"
-            android:src="@drawable/modo"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:src="@drawable/modo" />
 
         <!--真正的聊天内容-->
         <LinearLayout
@@ -71,13 +71,14 @@
             <!--发送失败图标-->
             <ImageView
                 android:id="@+id/chat_left_tv_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Avatar"
                 android:src="@drawable/ic_chat_btn_fail_resend" />
         </FrameLayout>
     </RelativeLayout>
 
     <TextView
+        android:visibility="gone"
+        android:text="hello"
         android:id="@+id/chat_left_tv_name"
         android:layout_width="45dp"
         android:layout_height="wrap_content"

@@ -16,7 +16,7 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.moduo.control.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.presenter.ModuoPresenter;
-import com.ssthouse.moduo.fragment.moduo.view.adapter.MainAdapter;
+import com.ssthouse.moduo.fragment.moduo.view.adapter.ChatLvAdapter;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
 import com.ssthouse.moduo.fragment.moduo.view.widget.record.RecordButton;
@@ -49,7 +49,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView {
     SwipeRefreshLayout swipeLayout;
     @Bind(R.id.id_recycle_chat)
     RecyclerView recycleChat;
-    MainAdapter mAdapter;
+    ChatLvAdapter mAdapter;
 
     private int bigModuoHeight;
     private int smallModuoHeight;
@@ -75,7 +75,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView {
     private void initView() {
         //聊天列表
         recycleChat.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new MainAdapter(getContext(), recycleChat);
+        mAdapter = new ChatLvAdapter(getContext(), recycleChat);
         recycleChat.setAdapter(mAdapter);
         recycleChat.setItemAnimator(new LandingAnimator(new AccelerateDecelerateInterpolator()));
 
@@ -143,7 +143,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView {
         if (msgList == null || msgList.size() == 0) {
             Toast.makeText(getContext(), "没有更多记录了", Toast.LENGTH_SHORT).show();
         } else {
-            mAdapter.addMgList2Top(msgList);
+            mAdapter.addOldMsg(msgList);
         }
         //清除刷新状态
         swipeLayout.setRefreshing(false);
@@ -151,7 +151,7 @@ public class ModuoFragment extends Fragment implements ModuoFragmentView {
 
     @Override
     public void addMsgBean(MsgBean msgBean) {
-        mAdapter.addMsg(msgBean);
+        mAdapter.addNewMsg(msgBean);
     }
 
     @Override

@@ -24,7 +24,7 @@ import timber.log.Timber;
  * 魔哆聊天adapter
  * Created by ssthouse on 2016/1/24.
  */
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
+public class ChatLvAdapter extends RecyclerView.Adapter<ChatLvAdapter.Holder> {
 
     private List<MsgBean> msgList;
 
@@ -35,7 +35,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     public static final int TYPE_LEFT = 1000;
     public static final int TYPE_RIGHT = 1001;
 
-    public MainAdapter(Context context, RecyclerView recyclerView) {
+    public ChatLvAdapter(Context context, RecyclerView recyclerView) {
         this.mContext = context;
         this.mRecyclerView = recyclerView;
         //初始化最多10条聊天记录
@@ -44,6 +44,27 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         for (int i = 0; i < initMsgList.size(); i++) {
             msgList.add(0, initMsgList.get(i));
         }
+    }
+
+    //增加消息
+    public void addNewMsg(MsgBean msgBean) {
+        msgList.add(msgBean);
+        mRecyclerView.smoothScrollBy(0, msgList.size() * 200);
+        notifyItemInserted(msgList.size() - 1);
+    }
+
+    //向上添加msgList
+    public void addOldMsg(List<MsgBean> newMsgList) {
+        if (newMsgList == null) {
+            Timber.e("没有更多的聊天记录了");
+            return;
+        }
+        for (int i = 0; i < newMsgList.size(); i++) {
+            msgList.add(0, newMsgList.get(i));
+        }
+        Timber.e("增加了: \t" + newMsgList.size());
+        mRecyclerView.smoothScrollBy(0, 0);
+        notifyItemRangeInserted(0, newMsgList.size());
     }
 
     @Override
@@ -84,7 +105,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
     //填充AudioMsg到view
     private void bindAudioMsg(Holder holder, int position) {
-        holder.conventLayout.removeAllViews();
+        holder.contentLayout.removeAllViews();
         //添加语音播放按钮
         View contentView;
         if (msgList.get(position).isFromModuo()) {
@@ -106,45 +127,24 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         //填充音频时长
         TextView tvAudioLength = (TextView) contentView.findViewById(R.id.id_tv_audio_length);
         tvAudioLength.setText(msgList.get(position).getAudioDuration() + "''");
-        holder.conventLayout.addView(contentView);
+        holder.contentLayout.addView(contentView);
     }
 
     //填充TextMsg到View
     private void bindTextMsg(Holder holder, int position) {
-        holder.conventLayout.removeAllViews();
+        holder.contentLayout.removeAllViews();
         if (msgList.get(position).isFromModuo()) {
-            holder.conventLayout.addView(View.inflate(mContext, R.layout.view_chat_item_left_text_layout, null));
+            holder.contentLayout.addView(View.inflate(mContext, R.layout.view_chat_item_left_text_layout, null));
         } else {
-            holder.conventLayout.addView(View.inflate(mContext, R.layout.view_chat_item_right_text_layout, null));
+            holder.contentLayout.addView(View.inflate(mContext, R.layout.view_chat_item_right_text_layout, null));
         }
-        TextView tv = (TextView) holder.conventLayout.findViewById(R.id.id_tv_chat_content);
+        TextView tv = (TextView) holder.contentLayout.findViewById(R.id.id_tv_chat_content);
         tv.setText(msgList.get(position).getText());
     }
 
     @Override
     public int getItemCount() {
         return msgList.size();
-    }
-
-    //增加消息
-    public void addMsg(MsgBean msgBean) {
-        msgList.add(msgBean);
-        mRecyclerView.smoothScrollBy(0, msgList.size() * 200);
-        notifyItemInserted(msgList.size() - 1);
-    }
-
-    //向上添加msgList
-    public void addMgList2Top(List<MsgBean> newMsgList) {
-        if (newMsgList == null) {
-            Timber.e("没有更多的聊天记录了");
-            return;
-        }
-        for (int i = 0; i < newMsgList.size(); i++) {
-            msgList.add(0, newMsgList.get(i));
-        }
-        Timber.e("增加了: \t" + newMsgList.size());
-        mRecyclerView.smoothScrollBy(0, 0);
-        notifyItemRangeInserted(0, newMsgList.size());
     }
 
     @Override
@@ -175,7 +175,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         ImageView avatarView;
         TextView timeView;
         TextView nameView;
-        LinearLayout conventLayout;
+        LinearLayout contentLayout;
         FrameLayout statusLayout;
         ProgressBar progressBar;
         TextView statusView;
@@ -188,7 +188,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                 avatarView = (ImageView) itemView.findViewById(R.id.chat_left_iv_avatar);
                 timeView = (TextView) itemView.findViewById(R.id.chat_left_tv_time);
                 nameView = (TextView) itemView.findViewById(R.id.chat_left_tv_name);
-                conventLayout = (LinearLayout) itemView.findViewById(R.id.chat_left_layout_content);
+                contentLayout = (LinearLayout) itemView.findViewById(R.id.chat_left_layout_content);
                 statusLayout = (FrameLayout) itemView.findViewById(R.id.chat_left_layout_status);
                 statusView = (TextView) itemView.findViewById(R.id.chat_left_tv_status);
                 progressBar = (ProgressBar) itemView.findViewById(R.id.chat_left_progressbar);
@@ -197,7 +197,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                 avatarView = (ImageView) itemView.findViewById(R.id.chat_right_iv_avatar);
                 timeView = (TextView) itemView.findViewById(R.id.chat_right_tv_time);
                 nameView = (TextView) itemView.findViewById(R.id.chat_right_tv_name);
-                conventLayout = (LinearLayout) itemView.findViewById(R.id.chat_right_layout_content);
+                contentLayout = (LinearLayout) itemView.findViewById(R.id.chat_right_layout_content);
                 statusLayout = (FrameLayout) itemView.findViewById(R.id.chat_right_layout_status);
                 progressBar = (ProgressBar) itemView.findViewById(R.id.chat_right_progressbar);
                 errorView = (ImageView) itemView.findViewById(R.id.chat_right_tv_error);

@@ -8,6 +8,7 @@
     android:layout_marginTop="5dp"
     android:orientation="vertical">
 
+    <!--消息时间-->
     <TextView
         android:id="@+id/chat_right_tv_time"
         android:layout_width="match_parent"
@@ -23,6 +24,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
 
+        <!--发送状态-->
         <FrameLayout
             android:id="@+id/chat_right_layout_status"
             android:layout_width="wrap_content"
@@ -73,6 +75,7 @@
             android:src="@drawable/avatar" />
     </RelativeLayout>
 
+    <!--用户名-->
     <TextView
         android:id="@+id/chat_right_tv_name"
         android:layout_width="45dp"

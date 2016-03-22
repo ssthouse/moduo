@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@drawable/ic_chat_left_qp"
     android:gravity="center_vertical"
+    android:text="hello"
     android:textColor="@android:color/black" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ChatContent"
+    android:padding="0dp"
     android:background="@drawable/ic_chat_left_qp"
     android:clickable="true"
     android:gravity="center"
