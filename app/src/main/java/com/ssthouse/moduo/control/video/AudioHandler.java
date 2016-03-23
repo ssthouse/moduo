@@ -1,11 +1,15 @@
 package com.ssthouse.moduo.control.video;
 
 
+import android.annotation.TargetApi;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
+import android.media.audiofx.AcousticEchoCanceler;
+import android.media.audiofx.AudioEffect;
+import android.os.Build;
 
 import com.ichano.rvs.viewer.Media;
 import com.ichano.rvs.viewer.bean.MediaDataDesc;
@@ -107,10 +111,35 @@ public class AudioHandler {
         // 创建AudioRecord对象
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000,
                 AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufSize);
-        if (audioRecord.getState() == AudioRecord.STATE_INITIALIZED)
+        if (audioRecord.getState() == AudioRecord.STATE_INITIALIZED) {
+            initAec(audioRecord);
             return audioRecord;
-        else
+        } else {
             return null;
+        }
+    }
+
+    //调用回声消除
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void initAec(AudioRecord audioRecord) {
+        Timber.e(AcousticEchoCanceler.isAvailable() ? "回声消除可用" : "回声消除不可用");
+        //初始化回应消除
+        int sessionId = audioRecord.getAudioSessionId();
+        AcousticEchoCanceler aec = AcousticEchoCanceler.create(sessionId);
+        aec.setControlStatusListener(new AudioEffect.OnControlStatusChangeListener() {
+            @Override
+            public void onControlStatusChange(AudioEffect effect, boolean controlGranted) {
+                Timber.e("has Control:\t" + controlGranted);
+            }
+        });
+        aec.setEnableStatusListener(new AudioEffect.OnEnableStatusChangeListener() {
+            @Override
+            public void onEnableStatusChange(AudioEffect effect, boolean enabled) {
+                Timber.e("aec enable:\t" + enabled);
+            }
+        });
+        aec.setEnabled(true);
+        Timber.e("set aec enable:\t" + aec.getEnabled());
     }
 
     /**
@@ -205,13 +234,10 @@ public class AudioHandler {
                         while (true) {
                             if (isRecordAudio) {
                                 audioRecord.startRecording();
-
                                 readsize = audioRecord.read(audioRecordData, 0, 320);
-
                                 if (readsize > 0) {
                                     media.writeRevAudioStreamData(audioRecordData, readsize);// 发送对讲语音到采集端，sdk内部进行g711编码
                                 }
-
                             } else {
                                 if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                                     audioRecord.stop();
@@ -227,8 +253,7 @@ public class AudioHandler {
                             audioRecord.release();
                             audioRecord = null;
                         }
-                        if (media != null)
-                        {
+                        if (media != null) {
                             media.stopRevAudioStream(revStreamId);
                         }
                         Timber.e("release audio record");
