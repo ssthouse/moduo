@@ -123,6 +123,9 @@ public class AudioHandler {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void initAec(AudioRecord audioRecord) {
         Timber.e(AcousticEchoCanceler.isAvailable() ? "回声消除可用" : "回声消除不可用");
+        if (!AcousticEchoCanceler.isAvailable()) {
+            return;
+        }
         //初始化回应消除
         int sessionId = audioRecord.getAudioSessionId();
         AcousticEchoCanceler aec = AcousticEchoCanceler.create(sessionId);

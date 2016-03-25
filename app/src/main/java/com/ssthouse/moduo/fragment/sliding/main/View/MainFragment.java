@@ -161,7 +161,13 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
             tvModuoState.setText("未登录");
             return;
         }
-        if (XPGController.getCurrentDevice() == null ||
+        //用户登录---但未连接魔哆
+        if (XPGController.getCurrentDevice() == null) {
+            tvModuoState.setText("用户登录成功, 未连接魔哆");
+            return;
+        }
+        //魔哆不在线---或者没有连接魔哆
+        if (!XPGController.getCurrentDevice().getXpgWifiDevice().isOnline() ||
                 !XPGController.getCurrentDevice().getXpgWifiDevice().isConnected()) {
             tvModuoState.setText("用户登录成功, 未连接魔哆");
             return;
