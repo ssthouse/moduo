@@ -15,26 +15,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVObject;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.NetUtil;
+import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdCenter;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
 import com.ssthouse.moduo.fragment.gesture.EmptyFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
-
-import java.util.Timer;
+import com.ssthouse.moduo.model.event.xpg.GetXpgUserInfoEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * 手势密码
@@ -70,12 +65,13 @@ public class GestureLockActivity extends AppCompatActivity {
         initDialog();
         initFragment();
 
+        SettingManager settingManager = SettingManager.getInstance(this);
         //未登录 或 匿名登录 退出
-        if (!SettingManager.getInstance(this).isLogined()) {
+        if (!settingManager.isLogined()) {
             showConfirmDialog("请登录后设置图形密码");
             return;
         }
-        if (SettingManager.getInstance(this).isAnonymousUser()) {
+        if (settingManager.isAnonymousUser()) {
             showConfirmDialog("当前为匿名登录");
             return;
         }
@@ -85,25 +81,8 @@ public class GestureLockActivity extends AppCompatActivity {
             return;
         }
 
-        //尝试获取云端服务器的密码---获取失败也是直接退出---成功才跳转到验证Fragment
-        CloudUtil.getUserInfoObject(SettingManager.getInstance(this).getUserName())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<AVObject>() {
-                    @Override
-                    public void call(AVObject avObject) {
-                        if (avObject == null) {
-                            showConfirmDialog("获取用户密码锁信息失败, 请稍后重试");
-                        } else {
-                            //将密码数据更新到本地
-                            String gestureLock = (String) avObject.get(CloudUtil.KEY_GESTURE_PASSWORD);
-                            Timber.e(gestureLock+":\t手势密码长度"+gestureLock.length());
-                            SettingManager.getInstance(GestureLockActivity.this).setGestureLock(gestureLock);
-                            //切换fragment
-                            toEditGestureFragment();
-                        }
-                    }
-                });
+        //获取当前登录用户数据
+        CmdCenter.getInstance(this).getXPGWifiSDK().getUserInfo(settingManager.getToken());
     }
 
     public void toNewGestureFragment() {
@@ -181,6 +160,24 @@ public class GestureLockActivity extends AppCompatActivity {
             return;
         }
         finish();
+    }
+
+    //获取XpgUserInfo回调
+    public void onEventMainThread(GetXpgUserInfoEvent event) {
+        if(event.isSuccess()){
+            String gestureStr = event.getXpgUserInfo().getRemark();
+            //Timber.e(gestureStr+":\t长度为:"+gestureStr.length());
+            //判断手势密码是否为空
+            if (gestureStr.length() == 0) {
+                Toast.show("初始化图形密码");
+                toNewGestureFragment();
+            }else {
+                SettingManager.getInstance(this).setGestureLock(gestureStr);
+                toEditGestureFragment();
+            }
+        }else{
+            showConfirmDialog("获取用户手势密码失败, 请稍后重试.");
+        }
     }
 
     @Override

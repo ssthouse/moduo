@@ -9,25 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.SaveCallback;
 import com.ssthouse.gesture.LockPatternView;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdCenter;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
+import com.ssthouse.moduo.model.event.xpg.ChangeXpgUserInfoEvent;
+import com.xtremeprog.xpgconnect.XPGUserInfo;
+import com.xtremeprog.xpgconnect.XPGWifiSDK;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 新建手势密码
@@ -73,6 +71,7 @@ public class NewGestureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_new_gesture, container, false);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         initView();
         return rootView;
     }
@@ -103,38 +102,14 @@ public class NewGestureFragment extends Fragment {
                     Toast.show("图形密码不可为空");
                     return;
                 }
-                //只有提交成功了---才能退出---将新的用户数据提交到云端
                 showWaitDialog("正在上传新的图新密码, 请稍候");
-                CloudUtil.getUserInfoObject(SettingManager.getInstance(getContext()).getUserName())
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<AVObject>() {
-                            @Override
-                            public void call(AVObject avObject) {
-                                //用户在云端不存在
-                                if (avObject == null) {
-                                    Toast.show("密码上传云端失败");
-                                    waitDialog.dismiss();
-                                    return;
-                                }
-                                avObject.put(CloudUtil.KEY_GESTURE_PASSWORD, currentPatternStr);
-                                avObject.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(AVException e) {
-                                        waitDialog.dismiss();
-                                        if (e == null) {
-                                            Toast.show("密码修改成功");
-                                            //将密码同步到本地
-                                            SettingManager.getInstance(getContext()).setGestureLock(currentPatternStr);
-                                            //退出activity
-                                            EventBus.getDefault().post(new GestureLockFinishEvent());
-                                        } else {
-                                            Toast.show("密码上传云端失败");
-                                        }
-                                    }
-                                });
-                            }
-                        });
+                //提交XpgUserInfo修改
+                SettingManager settingManager = SettingManager.getInstance(getContext());
+                XPGUserInfo newUserInfo = new XPGUserInfo();
+                Timber.e("*********"+currentPatternStr+"*************");
+                newUserInfo.setRemark(currentPatternStr);
+                CmdCenter.getInstance(getContext()).getXPGWifiSDK().changeUserInfo(settingManager.getToken(),
+                        settingManager.getUserName(), null, XPGWifiSDK.XPGUserAccountType.Normal, newUserInfo);
             }
         });
 
@@ -207,5 +182,24 @@ public class NewGestureFragment extends Fragment {
         TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
+    }
+
+    //XpgUserInfo修改结果回调
+    public void onEventMainThread(ChangeXpgUserInfoEvent event) {
+        waitDialog.dismiss();
+        if (event.isSuccess()) {
+            //将密码同步到本地
+            SettingManager.getInstance(getContext()).setGestureLock(currentPatternStr);
+            //退出activity
+            EventBus.getDefault().post(new GestureLockFinishEvent());
+        } else {
+            Toast.show("手势密码修改失败");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

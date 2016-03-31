@@ -1062,11 +1062,9 @@ public class LockPatternView extends View {
      */
     public static List<Cell> stringToPattern(String string) {
         List<Cell> result = new ArrayList<Cell>();
-
-        final byte[] bytes = string.getBytes();
-        for (int i = 0; i < bytes.length; i++) {
-            byte b = bytes[i];
-            result.add(Cell.of(b / 3, b % 3));
+        for(int i=0; i<string.length(); i++){
+            int currentIndex = Integer.parseInt(string.charAt(i) + "");
+            result.add(Cell.of(currentIndex/3, currentIndex%3));
         }
         return result;
     }
@@ -1081,14 +1079,12 @@ public class LockPatternView extends View {
         if (pattern == null) {
             return "";
         }
-        final int patternSize = pattern.size();
-
-        byte[] res = new byte[patternSize];
-        for (int i = 0; i < patternSize; i++) {
+        String resultStr = "";
+        for (int i = 0; i < pattern.size(); i++) {
             Cell cell = pattern.get(i);
-            res[i] = (byte) (cell.getRow() * 3 + cell.getColumn());
+            resultStr += (cell.getRow() * 3 + cell.getColumn());
         }
-        return new String(res);
+        return resultStr;
     }
 
 

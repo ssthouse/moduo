@@ -10,17 +10,21 @@ import com.ssthouse.moduo.model.bean.device.DeviceData;
 import com.ssthouse.moduo.model.event.account.AnonymousUserTransEvent;
 import com.ssthouse.moduo.model.event.account.RegisterResultEvent;
 import com.ssthouse.moduo.model.event.xpg.AuthCodeSendResultEvent;
+import com.ssthouse.moduo.model.event.xpg.ChangeXpgUserInfoEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.DeviceDataChangedEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.GetDeviceDataEvent;
+import com.ssthouse.moduo.model.event.xpg.GetXpgUserInfoEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 import com.ssthouse.moduo.model.event.xpg.XPGLogoutEvent;
 import com.ssthouse.moduo.model.event.xpg.XpgDeviceLoginEvent;
 import com.ssthouse.moduo.model.event.xpg.XpgDeviceOnLineEvent;
+import com.xtremeprog.xpgconnect.XPGUserInfo;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiDeviceListener;
+import com.xtremeprog.xpgconnect.XPGWifiErrorCode;
 import com.xtremeprog.xpgconnect.XPGWifiSDKListener;
 import com.xtremeprog.xpgconnect.XPGWifiSSID;
 
@@ -197,7 +201,7 @@ public class XPGController {
         @Override
         public void didDiscovered(int error, List<XPGWifiDevice> devicesList) {
             //发现设备
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new GetBoundDeviceEvent(true, devicesList));
                 Timber.e("获取账号绑定设备成功");
                 Timber.e("设备数目为:\t" + devicesList.size());
@@ -217,7 +221,7 @@ public class XPGController {
         public void didRegisterUser(int error, String errorMessage, String uid,
                                     String token) {
             //注册用户完成
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new RegisterResultEvent(true, uid, token));
                 Timber.e("注册用户完成");
             } else {
@@ -227,9 +231,32 @@ public class XPGController {
         }
 
         @Override
+        public void didChangeUserInfo(int error, String errorMessage) {
+            super.didChangeUserInfo(error, errorMessage);
+            Timber.e("修改XogUserInfo 回调:" + error + "\t" + errorMessage);
+            // TODO: 16/3/31 修改用户信息---gestureLockStr
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
+                EventBus.getDefault().post(new ChangeXpgUserInfoEvent(true, null));
+            } else {
+                EventBus.getDefault().post(new ChangeXpgUserInfoEvent(false, errorMessage));
+            }
+        }
+
+        @Override
+        public void didGetUserInfo(int error, String errorMessage, XPGUserInfo userInfo) {
+            super.didGetUserInfo(error, errorMessage, userInfo);
+            Timber.e("获取到XogUserInfo");
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
+                EventBus.getDefault().post(new GetXpgUserInfoEvent(true, userInfo));
+            } else {
+                EventBus.getDefault().post(new GetXpgUserInfoEvent(false, null));
+            }
+        }
+
+        @Override
         public void didRequestSendVerifyCode(int error, String errorMessage) {
             //发送手机验证码回调
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 Timber.e("验证码发送成功");
                 EventBus.getDefault().post(new AuthCodeSendResultEvent(true));
             } else {
@@ -246,7 +273,7 @@ public class XPGController {
 
         @Override
         public void didUnbindDevice(int error, String errorMessage, String did) {
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new UnbindResultEvent(true, did));
             } else {
                 EventBus.getDefault().post(new UnbindResultEvent(false, did));
@@ -258,7 +285,7 @@ public class XPGController {
         public void didUserLogin(int error, String errorMessage, String uid,
                                  String token) {
             //用户登陆回调
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 setLogin(true);
                 EventBus.getDefault().post(new XPGLoginResultEvent(true, uid, token));
             } else {
@@ -272,7 +299,7 @@ public class XPGController {
         public void didUserLogout(int error, String errorMessage) {
             //用户登出回调
             Timber.e("用户登出回调");
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 setLogin(false);
                 EventBus.getDefault().post(new XPGLogoutEvent(true, error));
             } else {
@@ -282,7 +309,7 @@ public class XPGController {
 
         @Override
         public void didTransUser(int error, String errorMessage) {
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new AnonymousUserTransEvent(true, 0));
             } else {
                 EventBus.getDefault().post(new AnonymousUserTransEvent(false, error));
