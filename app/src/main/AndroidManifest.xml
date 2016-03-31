@@ -150,10 +150,6 @@
             android:screenOrientation="portrait" />
 
         <!--用户登陆/注册-->
-        <activity
-            android:name=".activity.account.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!--主界面-->
         <activity
@@ -187,9 +183,6 @@
             android:screenOrientation="portrait" />
 
         <!--xpg设备控制-->
-        <activity
-            android:name=".activity.XpgControlActivity"
-            android:screenOrientation="portrait" />
 
         <!--家居控制activity-->
         <activity
@@ -197,9 +190,6 @@
             android:screenOrientation="portrait" />
 
         <!--设备参数界面-->
-        <activity
-            android:name=".activity.DeviceInfoActivity"
-            android:screenOrientation="portrait" />
 
         <!--竖直屏幕的二维码扫描activity-->
         <activity

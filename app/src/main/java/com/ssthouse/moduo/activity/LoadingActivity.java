@@ -98,7 +98,7 @@ public class LoadingActivity extends AppCompatActivity {
     //GuideActivity完成第一次介绍后回调事件
     public void onEventMainThread(GuideFinishEvent event) {
         if (event.isSuccess()) {
-            //不是第一次了
+            //成功完成guide   isFistIn : false
             SettingManager.getInstance(this).setIsFistIn(false);
             jump2Main();
         } else {

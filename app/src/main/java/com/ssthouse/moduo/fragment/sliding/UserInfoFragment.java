@@ -278,7 +278,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                             settingManager.getPassword());
         } else {
             Timber.e("注册失败");
-            Toast.show(GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
+            Toast.show("注册失败" + GizwitsErrorMsg.getEqual(event.getErrorCode()).getCHNDescript());
         }
         //刷新UI
         updateUI();

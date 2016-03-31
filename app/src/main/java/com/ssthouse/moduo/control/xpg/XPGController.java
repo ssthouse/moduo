@@ -111,7 +111,6 @@ public class XPGController {
 
         @Override
         public void didLogin(XPGWifiDevice device, int result) {
-            Timber.e("设备登陆:\t" + device.getDid());
             if (result == 0) {
                 EventBus.getDefault().post(new XpgDeviceLoginEvent(true, device.getDid()));
                 Timber.e(device.getDid() + "登陆成功");

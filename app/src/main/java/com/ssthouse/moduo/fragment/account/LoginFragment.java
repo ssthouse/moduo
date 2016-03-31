@@ -16,7 +16,6 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.MD5Util;
 import com.ssthouse.moduo.control.util.NetUtil;
-import com.ssthouse.moduo.control.util.PreferenceHelper;
 import com.ssthouse.moduo.control.util.StringUtils;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.SettingManager;
@@ -215,7 +214,6 @@ public class LoginFragment extends Fragment {
         if (event.isSuccess()) {
             Toast.show("登陆成功");
             //保存登陆数据
-            PreferenceHelper.getInstance(getContext()).setIsFistIn(false);
             String username = etUsername.getText().toString();
             String password = MD5Util.getMdStr(etPassword.getText().toString());
             SettingManager settingManager = SettingManager.getInstance(getContext());

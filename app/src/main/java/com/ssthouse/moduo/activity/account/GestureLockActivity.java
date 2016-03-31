@@ -26,12 +26,15 @@ import com.ssthouse.moduo.fragment.gesture.EmptyFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
 
+import java.util.Timer;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 手势密码
@@ -94,6 +97,7 @@ public class GestureLockActivity extends AppCompatActivity {
                         } else {
                             //将密码数据更新到本地
                             String gestureLock = (String) avObject.get(CloudUtil.KEY_GESTURE_PASSWORD);
+                            Timber.e(gestureLock+":\t手势密码长度"+gestureLock.length());
                             SettingManager.getInstance(GestureLockActivity.this).setGestureLock(gestureLock);
                             //切换fragment
                             toEditGestureFragment();

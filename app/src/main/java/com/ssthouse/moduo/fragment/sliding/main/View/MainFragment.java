@@ -64,7 +64,6 @@ public class MainFragment extends Fragment implements MainFragmentView, IFragmen
 
         //登陆机智云
         mMainFragmentPresenter.tryLogin();
-
         return rootView;
     }
 
