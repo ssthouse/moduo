@@ -234,7 +234,7 @@ public class XPGController {
         public void didChangeUserInfo(int error, String errorMessage) {
             super.didChangeUserInfo(error, errorMessage);
             Timber.e("修改XogUserInfo 回调:" + error + "\t" + errorMessage);
-            // TODO: 16/3/31 修改用户信息---gestureLockStr
+            //修改用户信息---gestureLockStr
             if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new ChangeXpgUserInfoEvent(true, null));
             } else {

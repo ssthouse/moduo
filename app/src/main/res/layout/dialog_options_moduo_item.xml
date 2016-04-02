@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/id_tv_change_remark"
+        android:layout_width="240dp"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:text="修改备注"
+        android:textColor="#5e5e5e"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/id_tv_unbind_device"
+        android:layout_width="240dp"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:text="删除设备"
+        android:textColor="#5e5e5e"
+        android:textSize="18sp" />
+
+</LinearLayout>

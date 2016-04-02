@@ -22,6 +22,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.activity.SwitchModuoActivity;
 import com.ssthouse.moduo.control.util.CloudUtil;
 import com.ssthouse.moduo.control.util.Toast;
+import com.ssthouse.moduo.control.xpg.CmdCenter;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.ModuoInfo;
@@ -58,6 +59,10 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
     ImageView ivModuo;
 
     private BaseAdapter adapter;
+
+    //item操作选择Dialog
+    private View optionsDialogView;
+    private Dialog optionsDialog;
 
     //改变remark的dialog
     private View changeRemarkDialogView;
@@ -146,7 +151,7 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mPresenter.setCurrentLongClickPosition(position);
-                showChangeRemarkDialog();
+                showOptionsDialog();
                 return true;
             }
         });
@@ -176,6 +181,37 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
     }
 
     private void initDialog() {
+        //options Dialog
+        optionsDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_options_moduo_item, null);
+        optionsDialogView.findViewById(R.id.id_tv_change_remark).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideOptionsDialog();
+                //改名Dialog
+                showChangeRemarkDialog();
+            }
+        });
+        optionsDialogView.findViewById(R.id.id_tv_unbind_device).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //隐藏dialog
+                hideOptionsDialog();
+                //删除设备
+                showWaitDialog("正在删除设备...");
+                //设备解绑
+                SettingManager settingManager = SettingManager.getInstance(getContext());
+                XPGWifiDevice xpgWifiDevice = mPresenter.getXpgWifiDeviceList().get(mPresenter.getCurrentLongClickPosition());
+                CmdCenter.getInstance(getContext()).cUnbindDevice(settingManager.getUid(),
+                        settingManager.getToken(),
+                        xpgWifiDevice.getDid(),
+                        xpgWifiDevice.getPasscode()
+                );
+            }
+        });
+        optionsDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(optionsDialogView)
+                .create();
+
         changeRemarkDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_change_moduo_remark, null);
         //小叉
         changeRemarkDialogView.findViewById(R.id.id_iv_close).setOnClickListener(new View.OnClickListener() {
@@ -289,6 +325,16 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
     }
 
     @Override
+    public void showOptionsDialog() {
+        optionsDialog.show();
+    }
+
+    @Override
+    public void hideOptionsDialog() {
+        optionsDialog.hide();
+    }
+
+    @Override
     public void showConfirmSwitchDialog() {
         TextView tvContent = (TextView) confirmChangeDialogView.findViewById(R.id.id_tv_content);
         tvContent.setText("确认切换当前魔哆设备吗?");
@@ -299,7 +345,6 @@ public class SwitchModuoFragment extends Fragment implements SwitchFragmentView 
     public void dismissConfirmSwitchDialog() {
         confirmChangeDialog.dismiss();
     }
-
 
     //show loading界面
     @Override

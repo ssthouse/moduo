@@ -9,4 +9,10 @@
     <string name="str_record_recording">松开 结束</string>
     <string name="str_record_too_short">录音事件过短</string>
     <string name="str_record_want_cancel">松开手指 取消发送</string>
+
+    <!--魔哆切换Activity的选项Dialog-->
+    <array name="array_options_moduo_item">
+        <item>修改备注</item>
+        <item>删除设备</item>
+    </array>
 </resources>

@@ -11,6 +11,10 @@ public interface SwitchFragmentView {
 
     void dismissWaitDialog();
 
+    //操作选项Dialog
+    void showOptionsDialog();
+    void hideOptionsDialog();
+
     void showConfirmSwitchDialog();
 
     void dismissConfirmSwitchDialog();

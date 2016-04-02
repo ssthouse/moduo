@@ -10,12 +10,14 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.event.xpg.DeviceBindResultEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
+import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import timber.log.Timber;
 
 /**
  * Presenter层
@@ -89,6 +91,20 @@ public class SwitchModuoPresenter {
         //退出Activity
         SwitchModuoActivity activity = (SwitchModuoActivity) mContext;
         activity.finish();
+    }
+
+    //解绑设备回调
+    public void onEventMainThread(UnbindResultEvent event) {
+        mSwitchFragmentView.dismissWaitDialog();
+        Timber.e("收到解绑设备回调");
+        if (event.isSuccess()) {
+            Toast.show("删除设备成功");
+            //刷新界面
+            getDeviceList();
+            mSwitchFragmentView.showLoading();
+        }else{
+            Toast.show("删除设备失败");
+        }
     }
 
     //获取当前设备列表
