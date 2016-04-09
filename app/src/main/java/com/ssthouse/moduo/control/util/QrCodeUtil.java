@@ -38,7 +38,7 @@ public class QrCodeUtil {
     public static void parseScanResult(Context context, IntentResult intentResult) {
         if (intentResult == null || intentResult.getContents() == null) {
             Timber.e("Cancelled scan");
-            Toast.show("扫描失败");
+            Toast.show("扫描未完成");
             return;
         }
         String text = intentResult.getContents();
