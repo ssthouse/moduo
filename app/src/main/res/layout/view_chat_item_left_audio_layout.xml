@@ -18,6 +18,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/chat_horizontal_margin"
-        android:clickable="false"
-        android:text="fff" />
+        android:clickable="false" />
 </LinearLayout>
