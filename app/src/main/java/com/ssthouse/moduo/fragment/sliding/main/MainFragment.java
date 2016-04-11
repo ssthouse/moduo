@@ -25,7 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 主界面
+ * 主界面Fragment
  * Created by ssthouse on 2016/1/13.
  */
 public class MainFragment extends Fragment implements MainFragmentView, IFragmentUI {

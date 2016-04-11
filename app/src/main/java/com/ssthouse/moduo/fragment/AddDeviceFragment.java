@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.ssthouse.moduo.R;
 
 /**
- * 添加家电连接fragment
+ * 添加家电连接fragment(暂时无用)
  * Created by ssthouse on 2016/1/14.
  */
 public class AddDeviceFragment extends Fragment{

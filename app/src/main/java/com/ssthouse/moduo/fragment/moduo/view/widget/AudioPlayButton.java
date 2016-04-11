@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.moduo.presenter.util.AudioPlayer;
-import com.ssthouse.moduo.fragment.moduo.presenter.util.DimenUtil;
+import com.ssthouse.moduo.control.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 /**

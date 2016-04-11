@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 数据库管理api
+ * 数据库管理类:
  * Created by ssthouse on 2016/2/1.
  */
 public class DbHelper {

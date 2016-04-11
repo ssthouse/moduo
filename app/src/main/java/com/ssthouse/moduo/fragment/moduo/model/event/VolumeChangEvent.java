@@ -5,17 +5,17 @@ package com.ssthouse.moduo.fragment.moduo.model.event;
  * Created by ssthouse on 2016/1/26.
  */
 public class VolumeChangEvent {
-    int volumnLevel;
+    int volumeLevel;
 
-    public VolumeChangEvent(int volumnLevel) {
-        this.volumnLevel = volumnLevel;
+    public VolumeChangEvent(int volumeLevel) {
+        this.volumeLevel = volumeLevel;
     }
 
-    public int getVolumnLevel() {
-        return volumnLevel;
+    public int getVolumeLevel() {
+        return volumeLevel;
     }
 
-    public void setVolumnLevel(int volumnLevel) {
-        this.volumnLevel = volumnLevel;
+    public void setVolumeLevel(int volumeLevel) {
+        this.volumeLevel = volumeLevel;
     }
 }

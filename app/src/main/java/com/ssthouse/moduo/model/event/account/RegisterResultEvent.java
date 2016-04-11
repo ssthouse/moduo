@@ -2,7 +2,7 @@ package com.ssthouse.moduo.model.event.account;
 
 /**
  * 机智云注册事件:
- * 如果注册成功, 会带有token 和 uid
+ * 如果注册成功, 会带有token 和 uid 否则为空
  * Created by ssthouse on 2015/12/19.
  */
 public class RegisterResultEvent {

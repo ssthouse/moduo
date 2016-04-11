@@ -1,6 +1,7 @@
 package com.ssthouse.moduo.model.event.view;
 
 /**
+ * GuideActivity结束事件
  * Created by ssthouse on 2016/2/25.
  */
 public class GuideFinishEvent {

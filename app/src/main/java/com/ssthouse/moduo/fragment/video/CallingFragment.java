@@ -20,9 +20,11 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 正在calling
- * 接收到设备推送的video变化为1---表示对方接受
- * 需要先登录设备
+ * 拨号Fragment
+ * 电话接通条件: 接收到设备推送的video变化为1---表示对方接受
+ * 接受事件{
+ *     CallingResponseEvent: 拨号结果事件回调
+ * }
  * Created by ssthouse on 2016/1/12.
  */
 public class CallingFragment extends Fragment {

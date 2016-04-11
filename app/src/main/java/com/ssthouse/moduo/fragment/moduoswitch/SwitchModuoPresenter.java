@@ -21,6 +21,11 @@ import timber.log.Timber;
 
 /**
  * Presenter层
+ * 接受的事件{
+ *     GetBoundDeviceEvent: 获取账号绑定额所有设备
+ *     DeviceBindResultEvent: 设备绑定结果事件
+ *     UnbindResultEvent:   设备解绑结果回调
+ * }
  * Created by ssthouse on 2016/3/6.
  */
 public class SwitchModuoPresenter {

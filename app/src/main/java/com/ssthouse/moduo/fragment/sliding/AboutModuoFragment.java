@@ -16,7 +16,7 @@ import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.model.bean.device.Device;
 
 /**
- * 关于魔哆
+ * 魔哆参数展示fragment
  * Created by ssthouse on 2016/1/13.
  */
 public class AboutModuoFragment extends Fragment implements IFragmentUI {

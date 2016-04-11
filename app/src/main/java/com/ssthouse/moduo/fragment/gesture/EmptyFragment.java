@@ -12,6 +12,7 @@ import com.ssthouse.moduo.R;
 import butterknife.ButterKnife;
 
 /**
+ * 显示当前正在加载, 提示用户等待的Fragment
  * Created by ssthouse on 2016/3/13.
  */
 public class EmptyFragment extends Fragment {

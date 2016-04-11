@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.ssthouse.moduo.R;
 
 /**
- * 消息详情
+ * 消息中心的通知的详情页面Fragment
  * Created by ssthouse on 2016/1/21.
  */
 public class MsgDetailFragment extends Fragment {

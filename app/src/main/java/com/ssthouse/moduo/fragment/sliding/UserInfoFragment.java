@@ -31,8 +31,13 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 用户账号:
- * <p>
+ * 用户账号控制fragment
+ * 接受事件{
+ *     RegisterResultEvent: 注册结果回调事件
+ *     XPGLoginResultEvent: 机智云登录回调事件
+ *     AnonymousUserTransEvent: 匿名用户转实名用户回调
+ *     XpgLogoutEvent: 机智云登出事件
+ * }
  * Created by ssthouse on 2016/1/13.
  */
 public class UserInfoFragment extends Fragment implements IFragmentUI {

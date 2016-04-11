@@ -32,7 +32,11 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 用于第一次进入app的登陆fragment
+ * GuideActivity中首次登录的fragment
+ * 接受事件{
+ *     RegisterResultEvent 注册结果回调
+ *     XPGLoginResultEvent 登录结果回调
+ * }
  * Created by ssthouse on 2015/12/19.
  */
 public class LoginFragment extends Fragment {

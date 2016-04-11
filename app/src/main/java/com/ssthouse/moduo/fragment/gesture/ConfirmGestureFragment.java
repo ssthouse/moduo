@@ -17,8 +17,8 @@ import com.ssthouse.moduo.control.xpg.SettingManager;
 import java.util.List;
 
 /**
- * 编辑图形密码:
- * 只需要确认你知不知道密码就好---确认后---跳转到newGestureFragment就好
+ * 验证图形密码Fragment:
+ * 只有图形密码验证成功了, 发出跳转到NewGestureFragment的事件
  * Created by ssthouse on 2016/1/19.
  */
 public class ConfirmGestureFragment extends Fragment {

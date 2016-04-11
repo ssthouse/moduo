@@ -18,6 +18,11 @@ import timber.log.Timber;
 
 /**
  * Presenter
+ * 接受的事件{
+ *     DeviceDataChangedEvent: 魔哆设备数据变化事件
+ *     VideoReadyEvent: 视频数据准备完毕事件回调
+ *     VideoExceptionEvent: 视频异常事件
+ * }
  * Created by ssthouse on 2016/2/15.
  */
 public class VideoFragmentPresenter {
@@ -26,7 +31,6 @@ public class VideoFragmentPresenter {
 
     //View---Model
     private VideoFragmentView mVideoFragmentView;
-    private VideoFragmentModel mVideoFragmentModel;
 
     private AudioManager mAudioManager;
 
@@ -37,7 +41,6 @@ public class VideoFragmentPresenter {
     public VideoFragmentPresenter(Context context, VideoFragmentView mVideoFragmentView) {
         this.mContext = context;
         this.mVideoFragmentView = mVideoFragmentView;
-        mVideoFragmentModel = new VideoFragmentModel();
         mAudioManager = (AudioManager) context.getSystemService(Service.AUDIO_SERVICE);
         EventBus.getDefault().register(this);
     }
@@ -83,35 +86,6 @@ public class VideoFragmentPresenter {
         Toast.show("视频成功保存至:SD卡根目录\\" + currentVideoPath);
         Timber.e("stop video");
     }
-
-    //拍照---接口貌似有问题---采取VideoHolder里面直接获取一帧数据流的方式截屏
-//    public void takePhoto(long streamerCid, int streanerId) {
-//        //获取media控制类
-//        Media media = Communication.getInstance(mContext).getmViewer().getMedia();
-//        //生成文件path
-//        final String filePath = FileUtil.generateNewPicFilePath();
-//        media.requestJpeg(streamerCid, 0, 0, RvsJpegType.HD, new RecvJpegListener() {
-//            @Override
-//            public void onRecvJpeg(long l, byte[] bytes) {
-//                ToastHelper.show(mContext, "截图成功保存至:" + filePath);
-//                Timber.e("数据长为:\t" + bytes.length);
-//                try {
-//                    OutputStream outputStream = new FileOutputStream(filePath);
-//                    outputStream.write(bytes);
-//                    outputStream.flush();
-//                    outputStream.close();
-//                    Timber.e("try complete pic");
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                    Timber.e("wrong");
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Timber.e("wrong");
-//                }
-//            }
-//        });
-//        Timber.e("did try pic in" + streamerCid);
-//    }
 
     //设备数据变化的推送回调
     public void onEventMainThread(DeviceDataChangedEvent event) {

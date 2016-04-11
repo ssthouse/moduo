@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ssthouse.moduo.model.bean.ModuoInfo;
-import com.ssthouse.moduo.model.bean.UserInfo;
 import com.ssthouse.moduo.model.event.xpg.XPGLoginResultEvent;
 
 import timber.log.Timber;
@@ -189,21 +188,6 @@ public class SettingManager {
         } else {
             return true;
         }
-    }
-
-    /**
-     * 设置当前userInfo
-     *
-     * @param userInfo
-     */
-    public void setCurrentUserInfo(UserInfo userInfo) {
-        setUserName(userInfo.getUsername());
-        setPassword(userInfo.getPassword());
-        setGestureLock(userInfo.getGesturePassword());
-    }
-
-    public UserInfo getCurrentUserInfo() {
-        return new UserInfo(getUserName(), getPassword(), getGestureLock());
     }
 
     /**

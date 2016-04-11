@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 /**
+ * Canvas画图操作提取
  * Created by ssthouse on 2016/1/24.
  */
 public class CanvasUtil {

@@ -22,6 +22,13 @@ import timber.log.Timber;
 
 /**
  * Presenter层
+ * 接受事件{
+ *     NetworkStateChangeEvent: 网络状态变化事件
+ *     GetBoundDeviceEvent: 获取绑定设备回调
+ *     XPGLoginResultEvent: 机智云登录结果回调
+ *     UnbindResultEvent: 设备解绑回调
+ *     XpgDeviceOnLineEvent: 设备在线状态变化事件回调
+ * }
  * Created by ssthouse on 2016/2/15.
  */
 public class MainFragmentPresenter {

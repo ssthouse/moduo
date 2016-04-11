@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.fragment.moduo.presenter.util.DimenUtil;
+import com.ssthouse.moduo.control.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.presenter.ModuoPresenter;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.ChatLvAdapter;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;

@@ -29,7 +29,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * 展示wifi二维码
+ * 将wifi名称和密码...用二维码展现出来  供魔哆扫描
  * Created by ssthouse on 2016/1/20.
  */
 public class WifiCodeFragment extends Fragment {

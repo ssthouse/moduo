@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 
-import com.ssthouse.moduo.fragment.moduo.presenter.util.DimenUtil;
+import com.ssthouse.moduo.control.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
 
 

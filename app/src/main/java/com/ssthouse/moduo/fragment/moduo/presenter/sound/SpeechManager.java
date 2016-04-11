@@ -22,9 +22,15 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 语音管理类:
- * 初始不说话2s---结尾不说话10s
- * <p/>
+ * 魔哆语音通话管理类:{
+ *     语义理解
+ *     声音文件保存
+ * }
+ * 发出的事件: {
+ *     SpeechUnderstandEvent: 语义理解回调事件
+ *     MsgBean: 理解出错的msgBean
+ *     VolumeChangEvent: 音量变化事件, 用于更新对话的音量dialogUI
+ * }
  * Created by ssthouse on 2016/1/26.
  */
 public class SpeechManager implements ISpeechControl {

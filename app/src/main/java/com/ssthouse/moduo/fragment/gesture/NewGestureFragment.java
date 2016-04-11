@@ -28,7 +28,10 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 新建手势密码
+ * 新建手势密码Fragment
+ * 接受事件{
+ *     ChangeXpgUserInfoEvent: 用户信息修改结果回调
+ * }
  * Created by ssthouse on 2016/1/16.
  */
 public class NewGestureFragment extends Fragment {

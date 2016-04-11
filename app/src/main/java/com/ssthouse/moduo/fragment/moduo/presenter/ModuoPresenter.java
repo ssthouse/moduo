@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.CmdBean;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.fragment.moduo.model.TvControlBean;
+import com.ssthouse.moduo.control.xpg.TvControlBean;
 import com.ssthouse.moduo.fragment.moduo.model.event.ModuoScaleChangeEvent;
 import com.ssthouse.moduo.fragment.moduo.model.event.SpeechUnderstandEvent;
 import com.ssthouse.moduo.fragment.moduo.presenter.util.DbHelper;

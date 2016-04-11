@@ -20,6 +20,10 @@ import timber.log.Timber;
 
 /**
  * Model
+ * 主要功能{
+ *     保存当前登录设备
+ *     保存当前用户登录缓存数据
+ * }
  * Created by ssthouse on 2016/2/15.
  */
 public class MainFragmentModel {

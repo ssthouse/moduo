@@ -1,8 +1,7 @@
-package com.ssthouse.moduo.fragment.moduo.model;
+package com.ssthouse.moduo.control.xpg;
 
-import com.ssthouse.moduo.control.xpg.CmdBean;
-
-import static com.ssthouse.moduo.control.xpg.CmdBean.*;
+import static com.ssthouse.moduo.control.xpg.CmdBean.DeviceParam;
+import static com.ssthouse.moduo.control.xpg.CmdBean.DeviceType;
 
 /**
  * 电视控制命令bean

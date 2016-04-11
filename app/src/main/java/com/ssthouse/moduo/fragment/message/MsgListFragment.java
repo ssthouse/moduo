@@ -16,7 +16,7 @@ import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.Toast;
 
 /**
- * 消息列表
+ * 消息列表Fragment
  * Created by ssthouse on 2016/1/21.
  */
 public class MsgListFragment extends Fragment {

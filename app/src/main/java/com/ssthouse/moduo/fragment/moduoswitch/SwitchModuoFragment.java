@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * 选择魔哆Fragment
+ * 切换魔哆Fragment
  * Created by ssthouse on 2016/2/29.
  */
 public class SwitchModuoFragment extends Fragment implements SwitchFragmentView {
