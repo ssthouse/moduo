@@ -5,7 +5,7 @@ import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 import java.util.List;
 
 /**
- * UI控制抽象
+ * UI控制操作提取
  * Created by ssthouse on 2016/2/14.
  */
 public interface ModuoFragmentView {
