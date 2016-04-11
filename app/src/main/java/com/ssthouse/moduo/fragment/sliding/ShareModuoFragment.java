@@ -94,7 +94,7 @@ public class ShareModuoFragment extends Fragment implements IFragmentUI {
                                     .subscribe(new Action1<Bitmap>() {
                                         @Override
                                         public void call(Bitmap bitmap) {
-                                            FileUtil.saveBitmap(getContext(), bitmap,
+                                            FileUtil.saveBitmap(bitmap,
                                                     currentDevice.getXpgWifiDevice().getDid());
                                         }
                                     });

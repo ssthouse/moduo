@@ -1,11 +1,11 @@
-package com.ssthouse.moduo.fragment.moduo.bean;
+package com.ssthouse.moduo.fragment.moduo.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 
-import com.ssthouse.moduo.fragment.moduo.control.util.DimenUtil;
+import com.ssthouse.moduo.fragment.moduo.presenter.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
 
 

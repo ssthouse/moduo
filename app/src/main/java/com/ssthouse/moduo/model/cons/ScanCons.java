@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.model.cons.scan;
+package com.ssthouse.moduo.model.cons;
 
 /**
  * 二维码中 常量

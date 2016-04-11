@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.control.util;
+package com.ssthouse.moduo.fragment.moduo.presenter.util;
 
 import android.content.Context;
 import android.util.TypedValue;

@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.bean.event;
+package com.ssthouse.moduo.fragment.moduo.model.event;
 
 /**
  * 魔哆大小变化event

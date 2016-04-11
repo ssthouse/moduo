@@ -35,7 +35,7 @@ public class FileUtil {
     public static final String MODUO_TALK_PATH = MODUO_SDCARD_FOLDER_PATH + "Talk" + File.separator;
 
     /**
-     * 初始化魔哆sd卡路径
+     * 初始化魔哆sd卡路径   以及必要的文件路径
      */
     public static void initModuoFolder() {
         //二维码路径
@@ -43,7 +43,7 @@ public class FileUtil {
         if (!qrCodeFile.exists()) {
             qrCodeFile.mkdirs();
         }
-        //视频通话截图--录像路径
+        //视频通话的  截图、录像 路径
         File picFile = new File(MODUO_VIDEO_PIC_PATH);
         if (!picFile.exists()) {
             picFile.mkdirs();
@@ -63,12 +63,11 @@ public class FileUtil {
      * 保存bitmap到本地:
      * 因为一台设备的分享二维码是不会改变的, 所以did作为唯一识别
      *
-     * @param context
      * @param bitmap
      * @param did     以设备号为二维码名称
      * @return 成功返回路径---不成功返回空
      */
-    public static String saveBitmap(Context context, Bitmap bitmap, String did) {
+    public static String saveBitmap(Bitmap bitmap, String did) {
         String filePath = MODUO_QRCODE_PATH + did + ".png";
         try {
             OutputStream os = new FileOutputStream(filePath);

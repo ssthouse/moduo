@@ -12,7 +12,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssthouse.moduo.activity.ScanActivity;
-import com.ssthouse.moduo.model.cons.scan.ScanCons;
+import com.ssthouse.moduo.model.cons.ScanCons;
 import com.ssthouse.moduo.model.event.scan.ScanDeviceEvent;
 
 import de.greenrobot.event.EventBus;

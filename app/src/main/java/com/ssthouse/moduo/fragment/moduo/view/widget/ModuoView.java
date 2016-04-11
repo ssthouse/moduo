@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.fragment.moduo.control.util.CanvasUtil;
-import com.ssthouse.moduo.fragment.moduo.bean.ModuoRect;
+import com.ssthouse.moduo.fragment.moduo.presenter.util.CanvasUtil;
+import com.ssthouse.moduo.fragment.moduo.model.ModuoRect;
 
 
 /**

@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.fragment.moduo.control.util.DbHelper;
+import com.ssthouse.moduo.fragment.moduo.presenter.util.DbHelper;
 import com.ssthouse.moduo.fragment.moduo.view.widget.AudioPlayButton;
 
 import java.util.ArrayList;

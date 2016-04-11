@@ -37,12 +37,12 @@ public class App extends Application {
         JPushInterface.init(this);
         //初始化 log
         Timber.plant(new Timber.DebugTree());
+        //Toast全局初始化
         Toast.init(this);
         //activeAndroid数据库
         ActiveAndroid.initialize(this);
-        //友盟统计
+        //友盟统计---更新
         MobclickAgent.setDebugMode(true);
-        //友盟更新
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(this);
         //初始化机智云sdk

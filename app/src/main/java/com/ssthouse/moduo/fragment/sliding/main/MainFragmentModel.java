@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.sliding.main.model;
+package com.ssthouse.moduo.fragment.sliding.main;
 
 import android.content.Context;
 

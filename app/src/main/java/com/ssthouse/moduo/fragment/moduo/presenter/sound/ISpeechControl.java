@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.control.sound;
+package com.ssthouse.moduo.fragment.moduo.presenter.sound;
 
 /**
  * 语音控制接口

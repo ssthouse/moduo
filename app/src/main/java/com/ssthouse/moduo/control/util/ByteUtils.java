@@ -5,8 +5,7 @@ package com.ssthouse.moduo.control.util;
  * byte数组操作类，包含byte数组的输出，格式化，转换等方法。
  * <P>
  * 
- * @author Lien Li
- * @version 1.00
+ * @author ssthouse
  */
 public class ByteUtils {
 	/**

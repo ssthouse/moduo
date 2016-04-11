@@ -1,5 +1,7 @@
 package com.ssthouse.moduo.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,8 +34,12 @@ import rx.schedulers.Schedulers;
  */
 public class WifiCodeFragment extends Fragment {
 
-    private MaterialDialog wifiPasscodeDialog;
-    private MaterialDialog waitDialog;
+    //wifi密码输入dialog
+    private View wifiPasscodeDialogView;
+    private Dialog wifiPasscodeDialog;
+    //等待dialog
+    private View waitDialogView;
+    private Dialog waitDialog;
 
     private ImageView ivQrCode;
 
@@ -55,9 +61,9 @@ public class WifiCodeFragment extends Fragment {
             }
         });
 
+        wifiPasscodeDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wifi_passcode, null);
         wifiPasscodeDialog = new MaterialDialog.Builder(getActivity())
-                .autoDismiss(false)
-                .customView(R.layout.dialog_wifi_passcode, true)
+                .customView(R.layout.dialog_wifi_passcode, false)
                 .positiveText("确认")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -88,10 +94,10 @@ public class WifiCodeFragment extends Fragment {
                 })
                 .build();
 
-        waitDialog = new MaterialDialog.Builder(getActivity())
-                .customView(R.layout.dialog_wait, true)
-                .cancelable(false)
-                .build();
+        waitDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_wait, null);
+        waitDialog = new AlertDialog.Builder(getActivity())
+                .setView(waitDialogView)
+                .create();
     }
 
 
@@ -130,14 +136,14 @@ public class WifiCodeFragment extends Fragment {
         //如果连接着wifi---显示默认连接的wifi名称
         if(NetUtil.isWifi(getContext())) {
             String ssid = NetUtil.getCurentWifiSSID(getActivity());
-            EditText etSsid = (EditText) wifiPasscodeDialog.getCustomView().findViewById(R.id.id_et_wifi_ssid);
+            EditText etSsid = (EditText) wifiPasscodeDialogView.findViewById(R.id.id_et_wifi_ssid);
             etSsid.setText(ssid);
         }
         wifiPasscodeDialog.show();
     }
 
     private void showWaitDialog(String msg) {
-        TextView tvWait = (TextView) waitDialog.getCustomView().findViewById(R.id.id_tv_wait);
+        TextView tvWait = (TextView) waitDialogView.findViewById(R.id.id_tv_wait);
         tvWait.setText(msg);
         waitDialog.show();
     }

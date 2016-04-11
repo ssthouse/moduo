@@ -3,6 +3,7 @@ package com.ssthouse.moduo.control.util;
 import android.content.Context;
 
 /**
+ * Toast工具类
  * Created by ssthouse on 2016/3/13.
  */
 public class Toast {

@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.sliding.main.presenter;
+package com.ssthouse.moduo.fragment.sliding.main;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,8 +9,6 @@ import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
-import com.ssthouse.moduo.fragment.sliding.main.View.MainFragmentView;
-import com.ssthouse.moduo.fragment.sliding.main.model.MainFragmentModel;
 import com.ssthouse.moduo.model.event.view.NetworkStateChangeEvent;
 import com.ssthouse.moduo.model.event.xpg.GetBoundDeviceEvent;
 import com.ssthouse.moduo.model.event.xpg.UnbindResultEvent;

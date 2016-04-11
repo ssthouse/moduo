@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.control.util.ActivityUtil;
 import com.ssthouse.moduo.control.util.MD5Util;
@@ -33,7 +32,7 @@ import timber.log.Timber;
 
 /**
  * 用户账号:
- * <p/>
+ * <p>
  * Created by ssthouse on 2016/1/13.
  */
 public class UserInfoFragment extends Fragment implements IFragmentUI {
@@ -52,7 +51,8 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
     TextView tvPassword;
 
     //登陆  注册  Dialog
-    private MaterialDialog loginOrRegisterDialog;
+    private Dialog loginOrRegisterDialog;
+    private View loginOrRegisterDialogView;
 
     //等待dialog
     private Dialog waitDialog;
@@ -111,15 +111,14 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                 .create();
 
         //登陆或注册dialog
-        loginOrRegisterDialog = new MaterialDialog.Builder(getContext())
-                .title("登陆")
-                .customView(R.layout.dialog_login_or_register, true)
-                .autoDismiss(false)
-                .build();
-        etUsername = (EditText) loginOrRegisterDialog.getCustomView().findViewById(R.id.id_et_username);
-        etPassword = (EditText) loginOrRegisterDialog.getCustomView().findViewById(R.id.id_et_password);
+        loginOrRegisterDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_login_or_register, null);
+        loginOrRegisterDialog = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dialog)
+                .setView(loginOrRegisterDialogView)
+                .create();
+        etUsername = (EditText) loginOrRegisterDialogView.findViewById(R.id.id_et_username);
+        etPassword = (EditText) loginOrRegisterDialogView.findViewById(R.id.id_et_password);
         //登陆
-        loginOrRegisterDialog.getCustomView().findViewById(R.id.id_btn_login)
+        loginOrRegisterDialogView.findViewById(R.id.id_btn_login)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -140,7 +139,7 @@ public class UserInfoFragment extends Fragment implements IFragmentUI {
                     }
                 });
         //注册
-        loginOrRegisterDialog.getCustomView().findViewById(R.id.id_btn_register)
+        loginOrRegisterDialogView.findViewById(R.id.id_btn_register)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

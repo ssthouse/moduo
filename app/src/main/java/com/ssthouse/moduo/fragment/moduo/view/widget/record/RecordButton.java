@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ssthouse.moduo.R;
-import com.ssthouse.moduo.fragment.moduo.control.sound.SpeechManager;
-import com.ssthouse.moduo.fragment.moduo.bean.event.AudioPreparedEvent;
-import com.ssthouse.moduo.fragment.moduo.bean.event.VolumeChangEvent;
+import com.ssthouse.moduo.fragment.moduo.presenter.sound.SpeechManager;
+import com.ssthouse.moduo.fragment.moduo.model.event.AudioPreparedEvent;
+import com.ssthouse.moduo.fragment.moduo.model.event.VolumeChangEvent;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 import de.greenrobot.event.EventBus;

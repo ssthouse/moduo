@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.bean.event;
+package com.ssthouse.moduo.fragment.moduo.model.event;
 
 /**
  * 语义理解的结果事件

@@ -36,7 +36,7 @@ import com.ssthouse.moduo.fragment.sliding.AboutModuoFragment;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
 import com.ssthouse.moduo.fragment.sliding.ShareModuoFragment;
 import com.ssthouse.moduo.fragment.sliding.UserInfoFragment;
-import com.ssthouse.moduo.fragment.sliding.main.View.MainFragment;
+import com.ssthouse.moduo.fragment.sliding.main.MainFragment;
 
 import java.io.File;
 

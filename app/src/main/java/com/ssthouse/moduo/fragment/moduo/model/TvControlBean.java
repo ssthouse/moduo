@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.bean;
+package com.ssthouse.moduo.fragment.moduo.model;
 
 import com.ssthouse.moduo.control.xpg.CmdBean;
 

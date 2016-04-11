@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.control.sound;
+package com.ssthouse.moduo.fragment.moduo.presenter.sound;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.UnderstanderResult;
 import com.ssthouse.moduo.control.util.FileUtil;
-import com.ssthouse.moduo.fragment.moduo.bean.event.SpeechUnderstandEvent;
-import com.ssthouse.moduo.fragment.moduo.bean.event.VolumeChangEvent;
+import com.ssthouse.moduo.fragment.moduo.model.event.SpeechUnderstandEvent;
+import com.ssthouse.moduo.fragment.moduo.model.event.VolumeChangEvent;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 import java.io.File;

@@ -89,4 +89,8 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.2.0'
     //圆ImageView
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    //MaterialDialog
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.7@aar') {
+        transitive = true
+    }
 }

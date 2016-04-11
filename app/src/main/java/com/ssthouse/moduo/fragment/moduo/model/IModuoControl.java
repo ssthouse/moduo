@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.moduo.bean;
+package com.ssthouse.moduo.fragment.moduo.model;
 
 /**
  * 魔哆控制接口

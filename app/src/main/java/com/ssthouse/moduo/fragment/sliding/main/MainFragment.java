@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.sliding.main.View;
+package com.ssthouse.moduo.fragment.sliding.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +20,6 @@ import com.ssthouse.moduo.control.video.Communication;
 import com.ssthouse.moduo.control.xpg.SettingManager;
 import com.ssthouse.moduo.control.xpg.XPGController;
 import com.ssthouse.moduo.fragment.sliding.IFragmentUI;
-import com.ssthouse.moduo.fragment.sliding.main.presenter.MainFragmentPresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

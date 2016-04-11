@@ -1,4 +1,4 @@
-package com.ssthouse.moduo.fragment.sliding.main.View;
+package com.ssthouse.moduo.fragment.sliding.main;
 
 /**
  * View层

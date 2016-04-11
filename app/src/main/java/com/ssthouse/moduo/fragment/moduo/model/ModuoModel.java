@@ -1,6 +1,6 @@
 package com.ssthouse.moduo.fragment.moduo.model;
 
-import com.ssthouse.moduo.fragment.moduo.control.util.DbHelper;
+import com.ssthouse.moduo.fragment.moduo.presenter.util.DbHelper;
 import com.ssthouse.moduo.fragment.moduo.view.adapter.MsgBean;
 
 import java.util.List;
