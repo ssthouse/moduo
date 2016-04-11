@@ -1,7 +1,7 @@
 package com.ssthouse.moduo.model.event.xpg;
 
 /**
- * 设备绑定结果事件
+ * 设备绑定结果Event
  * Created by ssthouse on 2015/12/20.
  */
 public class DeviceBindResultEvent {

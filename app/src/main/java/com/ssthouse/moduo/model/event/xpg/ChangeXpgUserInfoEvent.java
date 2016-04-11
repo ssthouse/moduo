@@ -1,7 +1,7 @@
 package com.ssthouse.moduo.model.event.xpg;
 
 /**
- * 改变XpgUserInfo事件
+ * 改变XpgUserInfo结果回调
  * Created by ssthouse on 16/3/31.
  */
 public class ChangeXpgUserInfoEvent {

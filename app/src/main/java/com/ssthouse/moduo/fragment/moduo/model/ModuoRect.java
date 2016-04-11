@@ -2,8 +2,6 @@ package com.ssthouse.moduo.fragment.moduo.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Message;
 
 import com.ssthouse.moduo.control.util.DimenUtil;
 import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
@@ -13,7 +11,7 @@ import com.ssthouse.moduo.fragment.moduo.view.widget.ModuoView;
  * 魔哆img占据的矩形
  * Created by ssthouse on 2016/1/28.
  */
-public class ModuoRect implements IModuoControl {
+public class ModuoRect{
 
     private Context mContext;
     private ModuoView moduoView;
@@ -34,31 +32,6 @@ public class ModuoRect implements IModuoControl {
     private int centerX, centerY;
 
     private Bitmap bigModuo;
-
-    //消息常量(控制魔哆动画)
-    private static final int MSG_WALK = 1000;
-    private static final int MSG_WALK_SPACE = 2;
-
-    //是不是往左走
-    private boolean isWalkLeft = true;
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_WALK:
-                    if (isWalkLeft) {
-                        walkLeft();
-                    } else {
-                        walkRight();
-                    }
-                    sendEmptyMessageDelayed(MSG_WALK, MSG_WALK_SPACE);
-                    break;
-            }
-            moduoView.invalidate();
-        }
-    };
 
     /**
      * 构造方法
@@ -98,36 +71,6 @@ public class ModuoRect implements IModuoControl {
         this.outHeight = outHeight;
         //更新魔哆大小
         resetDimens();
-    }
-
-    //开始走路
-    @Override
-    public void startWalk() {
-        handler.sendEmptyMessageDelayed(MSG_WALK, MSG_WALK_SPACE);
-    }
-
-    //往左走
-    private void walkLeft() {
-        //步长
-        int stepLength = outWidth / 200;
-        if (centerX > 0) {
-            centerX -= stepLength;
-        } else {
-            //向右走
-            isWalkLeft = false;
-        }
-    }
-
-    //往右走
-    private void walkRight() {
-        //步长
-        int stepLength = outWidth / 200;
-        if (centerX < outWidth) {
-            centerX += stepLength;
-        } else {
-            //向右走
-            isWalkLeft = true;
-        }
     }
 
     public int getModuoWidth() {
