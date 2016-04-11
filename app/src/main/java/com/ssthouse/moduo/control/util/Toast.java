@@ -19,7 +19,7 @@ public class Toast {
     }
 
     public static void showLong(String msg) {
-        android.widget.Toast.makeText(mContext, msg, android.widget.Toast.LENGTH_SHORT).show();
+        android.widget.Toast.makeText(mContext, msg, android.widget.Toast.LENGTH_LONG).show();
     }
 
     public static void showModuoNotConnected() {

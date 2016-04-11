@@ -11,7 +11,7 @@ import android.widget.EditText;
 public class KeyBoardUtil {
 
     /**
-     * 打卡软键盘
+     * 打开软键盘
      *
      * @param mEditText
      *            输入框
@@ -30,10 +30,8 @@ public class KeyBoardUtil {
     /**
      * 关闭软键盘
      *
-     * @param mEditText
-     *            输入框
-     * @param mContext
-     *            上下文
+     * @param mEditText 输入框
+     * @param mContext 上下文
      */
     public static void closeKeybord(EditText mEditText, Context mContext)
     {
