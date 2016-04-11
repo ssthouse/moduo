@@ -21,7 +21,7 @@ import com.ssthouse.moduo.control.util.NetUtil;
 import com.ssthouse.moduo.control.util.Toast;
 import com.ssthouse.moduo.control.xpg.CmdCenter;
 import com.ssthouse.moduo.control.xpg.SettingManager;
-import com.ssthouse.moduo.fragment.gesture.EditGestureFragment;
+import com.ssthouse.moduo.fragment.gesture.ConfirmGestureFragment;
 import com.ssthouse.moduo.fragment.gesture.EmptyFragment;
 import com.ssthouse.moduo.fragment.gesture.NewGestureFragment;
 import com.ssthouse.moduo.model.event.view.GestureLockFinishEvent;
@@ -32,10 +32,17 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
- * 手势密码
- * 正常登录的话---本地的手势密码应该是正确的
- * Created by ssthouse on 2016/1/16.
+ * 简介:  手势密码控制Activity
+ * 功能:  初始
+ * 包含的fragment{
+ *      EmptyFragment: 用于提示用户正在加载
+ *      NewGestureFragment: 新建手势密码
+ *      ConfirmGestureFragment: 验证手势密码是否正确, 正确后跳转至
+ * }
+ *
+ * Created by ssthouse
  */
+
 public class GestureLockActivity extends AppCompatActivity {
 
     @Bind(R.id.id_tb)
@@ -44,7 +51,7 @@ public class GestureLockActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private EmptyFragment emptyFragment;
     private NewGestureFragment newGestureFragment;
-    private EditGestureFragment editGestureFragment;
+    private ConfirmGestureFragment confirmGestureFragment;
 
     private Dialog confirmDialog;
     private View confirmDialogView;
@@ -97,7 +104,7 @@ public class GestureLockActivity extends AppCompatActivity {
         setTitle("验证手势");
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.id_fragment_container, editGestureFragment)
+                .replace(R.id.id_fragment_container, confirmGestureFragment)
                 .commit();
     }
 
@@ -107,7 +114,7 @@ public class GestureLockActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         emptyFragment = new EmptyFragment();
         newGestureFragment = new NewGestureFragment();
-        editGestureFragment = new EditGestureFragment();
+        confirmGestureFragment = new ConfirmGestureFragment();
 
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

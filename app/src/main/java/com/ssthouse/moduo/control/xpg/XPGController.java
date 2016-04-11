@@ -35,12 +35,12 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * XPG总控制器:
- * <p/>
- * 监听两个接口:
- * XPGWiﬁSDKListener通用监听器，包含了注册、登录、配置设备、绑定设备等回调接口
+ * 机智云总控制器:
+ * 监听两个接口{
+ * XPGWiﬁSDKListener通用监听器，包含了注册、登录、配置设备、绑定设备等回调接
  * XPGWiﬁDeviceListener设备监听器，包含了单个设备的登录、控制、状态上报等接口
- * <p/>
+ * }
+ * 抛出机智云当前连接状态的event
  * Created by ssthouse on 2015/12/19.
  */
 public class XPGController {
@@ -96,7 +96,7 @@ public class XPGController {
 
     /**
      * XPGWifiDeviceListener
-     * <p/>
+     * <p>
      * 设备属性监听器。 设备连接断开、获取绑定参数、获取设备信息、控制和接受设备信息相关.
      */
     protected XPGWifiDeviceListener deviceListener = new XPGWifiDeviceListener() {
@@ -164,7 +164,7 @@ public class XPGController {
 
     /**
      * XPGWifiSDKListener
-     * <p/>
+     * <p>
      * sdk监听器。 配置设备上线、注册登录用户、搜索发现设备、用户绑定和解绑设备相关.
      */
     private XPGWifiSDKListener sdkListener = new XPGWifiSDKListener() {

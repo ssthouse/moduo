@@ -14,7 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 文件帮助类
+ * 文件帮助类{
+ *     管理魔哆在sd卡中的文件
+ *     管理视频对话生成的照片和视频
+ * }
  * Created by ssthouse on 2015/12/28.
  */
 public class FileUtil {

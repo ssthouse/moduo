@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 手机连接的wifi形成二维码---供魔哆扫描
+ * 展示手机wifi生成的二维码的Activity
  * Created by ssthouse on 2016/1/13.
  */
 public class WifiCodeDispActivity extends AppCompatActivity {

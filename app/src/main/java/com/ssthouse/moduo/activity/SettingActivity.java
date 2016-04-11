@@ -27,7 +27,10 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
- * 设置
+ * 设置Activity{
+ *     负责设置界面各个fragment 的跳转
+ *     接受的事件: SettingAtyStateEvent, event包含跳转的fragment的信息
+ * }
  * Created by ssthouse on 2016/1/13.
  */
 public class SettingActivity extends AppCompatActivity {

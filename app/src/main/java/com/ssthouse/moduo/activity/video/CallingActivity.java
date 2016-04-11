@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 打视频电话(等待接通)
+ * 拨号Activity
  * Created by ssthouse on 2016/2/1.
  */
 public class CallingActivity extends AppCompatActivity {

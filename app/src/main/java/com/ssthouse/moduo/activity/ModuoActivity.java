@@ -9,7 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.ssthouse.moduo.R;
 import com.ssthouse.moduo.fragment.moduo.view.ModuoFragment;
 
-//新版主界面
+/**
+ * 魔哆对话Activity{
+ *     完成魔哆对家具的操控
+ * }
+ */
 public class ModuoActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;

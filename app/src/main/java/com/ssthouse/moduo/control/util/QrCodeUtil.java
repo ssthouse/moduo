@@ -19,7 +19,11 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 二维码工具类
+ * 二维码工具类{
+ *     解析二维码中string数据
+ *     生成二维码string数据
+ *     生成二维码bitmap
+ * }
  * Created by ssthouse on 2015/12/19.
  */
 public class QrCodeUtil {

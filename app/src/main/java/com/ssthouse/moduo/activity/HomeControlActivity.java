@@ -15,7 +15,7 @@ import com.ssthouse.moduo.fragment.AddDeviceFragment;
 import com.ssthouse.moduo.fragment.DeviceListFragment;
 
 /**
- * 家居控制
+ * 家居控制Activity, 控制家具的添加和删除(暂时未用)
  * 最好定义一个枚举----表示当前activity的状态
  * Created by ssthouse on 2016/1/13.
  */

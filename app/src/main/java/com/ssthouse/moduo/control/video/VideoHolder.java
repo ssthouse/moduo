@@ -26,7 +26,9 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 视频管理类---减轻videoFragment
+ * 众云sdk的视频管理器{
+ *     控制视频的初始化, 开启, 和关闭
+ * }
  * Created by ssthouse on 2016/1/15.
  */
 public class VideoHolder {

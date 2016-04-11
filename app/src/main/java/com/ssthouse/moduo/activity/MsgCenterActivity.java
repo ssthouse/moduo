@@ -23,6 +23,10 @@ import de.greenrobot.event.EventBus;
 
 /**
  * 消息中心Activity
+ * 接受事件{
+ *     MsgActivityToListEvent: 切换到消息列表Fragment的event
+ *     MsgActivityToDetailEvent: 切换到消息详情Fragment的event
+ * }
  * Created by ssthouse on 2016/1/21.
  */
 public class MsgCenterActivity extends AppCompatActivity {

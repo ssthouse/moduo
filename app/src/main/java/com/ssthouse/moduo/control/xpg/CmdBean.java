@@ -3,10 +3,12 @@ package com.ssthouse.moduo.control.xpg;
 import android.util.Base64;
 
 /**
- * 包含一个控制命令的bean
+ * 机智云相关:
+ * 包含一个控制命令的bean, 用于封装单个的控制命令数据
  * Created by ssthouse on 2016/3/3.
  */
 public class CmdBean {
+    //四个字节的数据
     private byte deviceType;
     private byte deviceNumber;
     private byte paramKey;

@@ -28,12 +28,8 @@ import timber.log.Timber;
 
 /**
  * SharePreference处理类.
- * <p/>
- * 保存:
- * 当前登陆账户数据
- * 当前绑定设备数据
- *
- * @author Sunny Ding
+ * 增删:
+ * 机智云参数  众云参数  机智云登录缓存参数
  */
 public class SettingManager {
 

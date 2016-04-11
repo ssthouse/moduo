@@ -14,7 +14,9 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * leancloud控制类
+ * leancloud控制类{
+ *     从leancloud端获取魔哆数据
+ * }
  * Created by ssthouse on 2016/1/20.
  */
 public class CloudUtil {

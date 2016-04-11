@@ -44,7 +44,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 当前activity不监听设备数据传达的event
+ * 主界面Activity, 控制toolbar和侧边栏
  */
 public class MainActivity extends AppCompatActivity implements MainActivityView {
     //点两次退出程序

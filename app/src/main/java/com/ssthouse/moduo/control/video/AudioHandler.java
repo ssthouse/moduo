@@ -18,7 +18,7 @@ import com.ichano.rvs.viewer.codec.AudioType;
 import timber.log.Timber;
 
 /**
- * 流管理器
+ * 众云sdk音频封装
  * Created by ssthouse on 2015/12/17.
  */
 public class AudioHandler {

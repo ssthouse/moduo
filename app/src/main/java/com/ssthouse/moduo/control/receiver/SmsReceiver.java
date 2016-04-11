@@ -14,6 +14,7 @@ import java.util.Date;
 import timber.log.Timber;
 
 /**
+ * 手机短信Receiver
  * Created by ssthouse on 2016/2/16.
  */
 public class SmsReceiver extends BroadcastReceiver {

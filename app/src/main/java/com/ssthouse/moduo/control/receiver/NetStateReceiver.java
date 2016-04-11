@@ -12,7 +12,7 @@ import timber.log.Timber;
 
 /**
  * 网络状态的监听:
- * 将网络状态用Eventbus抛出
+ * 抛出事件:    NetworkStateChangeEvent
  * Created by ssthouse on 2015/12/23.
  */
 public class NetStateReceiver extends BroadcastReceiver {

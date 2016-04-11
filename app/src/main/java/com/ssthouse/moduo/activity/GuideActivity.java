@@ -25,7 +25,10 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
- * 第一次进入的导航界面
+ * 第一次进入的导航界面{
+ *     初始化用户登录
+ *     初始化魔哆连接
+ * }
  * Created by ssthouse on 2016/1/15.
  */
 public class GuideActivity extends AppCompatActivity {

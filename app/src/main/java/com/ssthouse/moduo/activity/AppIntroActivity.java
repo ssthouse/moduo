@@ -14,7 +14,7 @@ import com.ssthouse.moduo.model.event.view.AppIntroFinishEvent;
 import de.greenrobot.event.EventBus;
 
 /**
- * App介绍
+ * App介绍Activity(暂时未用到)
  * Created by ssthouse on 2016/1/17.
  */
 public class AppIntroActivity extends AppIntro {

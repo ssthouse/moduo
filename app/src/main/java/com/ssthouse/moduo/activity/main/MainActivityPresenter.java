@@ -22,6 +22,12 @@ import timber.log.Timber;
 
 /**
  * Presenter
+ * 响应Event{
+ *     ScanDeviceEvent: 扫描二维码回调
+ *     DeviceBindResultEvent    设备绑定回调
+ *     XPGLoginResultEvent  机智云登录回调
+ *     XPGLogoutEvent   机智云注销回调
+ * }
  * Created by ssthouse on 2016/2/15.
  */
 public class MainActivityPresenter {

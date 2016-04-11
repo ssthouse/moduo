@@ -1,7 +1,7 @@
 package com.ssthouse.moduo.activity.main;
 
 /**
- * View
+ * MainActivity的操作抽象
  * Created by ssthouse on 2016/2/15.
  */
 public interface MainActivityView {

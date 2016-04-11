@@ -20,8 +20,11 @@ import com.ssthouse.moduo.model.event.view.GuideFinishEvent;
 import de.greenrobot.event.EventBus;
 
 /**
- * loading界面:
- * 程序入口
+ * App初始化进入的loading界面
+ * 加载初始化动画, 默认1.5秒后跳转主界面
+ * 接受事件{
+ *     AppIntroFinishEvent: app介绍页面结束事件
+ * }
  * Created by ssthouse on 2015/12/17.
  */
 public class LoadingActivity extends AppCompatActivity {

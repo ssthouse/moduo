@@ -30,12 +30,12 @@ import org.json.JSONObject;
 import timber.log.Timber;
 
 /**
- * ClassName: Class CmdCenter. <br/>
- * 控制指令类
- * <br/>
- * date: 2014-12-15 12:09:02 <br/>
- *
- * @author Lien
+ * 单例
+ * 机智云相关:
+ * 机智云控制中心{
+ *     用户注册, 注销
+ *     设备绑定, 设备状态获取
+ * }
  */
 public class CmdCenter {
     /**

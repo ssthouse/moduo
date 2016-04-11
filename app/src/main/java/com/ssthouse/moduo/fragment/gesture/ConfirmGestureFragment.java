@@ -21,7 +21,7 @@ import java.util.List;
  * 只需要确认你知不知道密码就好---确认后---跳转到newGestureFragment就好
  * Created by ssthouse on 2016/1/19.
  */
-public class EditGestureFragment extends Fragment {
+public class ConfirmGestureFragment extends Fragment {
 
     private TextView tvTip;
 

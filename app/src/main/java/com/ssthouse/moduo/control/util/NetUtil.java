@@ -13,7 +13,10 @@ import android.net.wifi.WifiManager;
 import java.util.List;
 
 /**
- * 网络工具
+ * 网络工具{
+ *     判断网络连接类型
+ *     获取当前wifi名称
+ * }
  * Created by ssthouse on 2015/12/15.
  */
 public class NetUtil {

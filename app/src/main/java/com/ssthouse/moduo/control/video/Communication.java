@@ -21,9 +21,12 @@ import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
- * 掌控视频对讲的类
- * 登陆, 连接, 销毁 等操作
- * 使用eventbus进行通信
+ * 单例
+ * 众云sdk连接状态控制{
+ *     发出事件: SessionStateEvent  对话状态变化事件
+ *     StreamerConnectChangedEvent, StreamerConfigChangedEvent(这两个事件并没有接收器,
+ *     主要是在控制台打印输出当前sdk连接状态)
+ * }
  * Created by ssthouse on 2015/12/17.
  */
 public class Communication {

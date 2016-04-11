@@ -6,7 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 
 /**
- * activity工具类
+ * activity工具类{
+ *     检测当前Activity是否在最前, 常用于判断当前Activity是否要接受event事件
+ * }
  * Created by ssthouse on 2015/12/21.
  */
 public class ActivityUtil {

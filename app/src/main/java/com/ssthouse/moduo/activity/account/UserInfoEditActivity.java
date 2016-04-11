@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 用户信息编辑activity
+ * 用户信息编辑activity: 尚未实现
  * Created by ssthouse on 2016/1/21.
  */
 public class UserInfoEditActivity extends AppCompatActivity {
