@@ -18,7 +18,7 @@ import com.ssthouse.moduo.fragment.moduo.model.ModuoRect;
  * 最小的时候是100dp
  * Created by ssthouse on 2016/1/24.
  */
-public class ModuoView extends View implements View.OnClickListener {
+public class ModuoView extends View{
 
     //当前魔哆位置
     private ModuoRect moduoRect;
@@ -38,7 +38,6 @@ public class ModuoView extends View implements View.OnClickListener {
 
     public ModuoView(final Context context, AttributeSet attrs) {
         super(context, attrs);
-        setOnClickListener(this);
         //获取最大高度
         post(new Runnable() {
             @Override
@@ -64,19 +63,6 @@ public class ModuoView extends View implements View.OnClickListener {
             }
         }
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        // TODO: 2016/1/28 是不是点击的魔哆---现在魔哆的状态是大是小
-        if (currentState == State.STATE_SMALL) {
-            // TODO: 2016/1/28 暂时改为走路试试
-            moduoRect.startWalk();
-//            EventBus.getDefault().post(new ModuoScaleChangeEvent());
-        }else{
-
-        }
-        invalidate();
     }
 
     //改变状态---会触发重绘

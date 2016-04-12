@@ -336,7 +336,7 @@
         <!--bugHD-->
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="2d27fca2df9e05406d01a799f424655e" />
+            android:value="2b18623910f1c4d0c3cbd815489efe84" />
 
     </application>
 
