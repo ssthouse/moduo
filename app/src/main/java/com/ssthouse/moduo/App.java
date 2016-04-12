@@ -57,7 +57,7 @@ public class App extends Application {
             Timber.e("复制出错");
             e.printStackTrace();
         }
-        //leancloud
+        //leancloud初始化
         AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
         //初始化sd卡文件路径
         FileUtil.initModuoFolder();
