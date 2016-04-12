@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ssthouse.gyroscope">
+    package="com.mingke.gyroscope">
 
     <application
         android:allowBackup="true"

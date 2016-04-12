@@ -1,12 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
-        applicationId "com.ssthouse.moduo"
+        applicationId 'com.mingke.moduo'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 2
@@ -18,13 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/maven'
         exclude 'META-INF/MENIFEST.MF'
+    }
+    productFlavors {
     }
 }
 
@@ -33,7 +32,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
     /*************tools****************************************/
+
     //log
     compile 'com.jakewharton.timber:timber:4.1.0'
     //事件总线
@@ -53,6 +55,7 @@ dependencies {
     //app intro
     compile 'com.github.paolorotolo:appintro:3.4.0'
     /****************第三方服务**********************************/
+
     //bughd
     compile 'im.fir:fir-sdk:latest.integration@aar'
     //视频直播sdk
@@ -60,8 +63,6 @@ dependencies {
     //umeng集成
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/umeng-update-v2.6.0.1.jar')
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
     //leancloud集成
     compile files('libs/okio-1.6.0-leancloud.jar')
     compile files('libs/okhttp-2.6.0-leancloud.jar')
@@ -82,6 +83,7 @@ dependencies {
     //手势密码(module)
     compile project(':gesture')
     /************************* UI *******************************/
+
     //animation
     compile 'com.github.florent37:viewanimator:1.0.0@aar'
     compile 'com.nineoldandroids:library:2.4.0'

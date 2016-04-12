@@ -28,7 +28,7 @@
             android:textSize="14sp" />
 
 
-        <com.ssthouse.gesture.LockPatternView
+        <com.mingke.gesture.LockPatternView
             android:id="@+id/id_gesture_lock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

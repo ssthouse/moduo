@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ssthouse.moduo">
+    package="com.mingke.moduo">
 
     <!--获取手机通知-->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -47,7 +47,7 @@
     <!--极光推送-->
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <permission
-        android:name="com.ssthouse.moduo.permission.JPUSH_MESSAGE"
+        android:name="com.mingke.moduo.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.ssthouse.moduo.permission.JPUSH_MESSAGE" />
@@ -72,7 +72,7 @@
 
 
     <application
-        android:name=".App"
+        android:name="com.mingke.moduo.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="魔哆"
@@ -92,14 +92,14 @@
 
         <!--******************************begin of BroadcastReceiver***********************-->
         <!--网络的监听-->
-        <receiver android:name=".control.receiver.NetStateReceiver">
+        <receiver android:name="com.mingke.moduo.control.receiver.NetStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
         <!--短信接收器-->
-        <receiver android:name=".control.receiver.SmsReceiver">
+        <receiver android:name="com.mingke.moduo.control.receiver.SmsReceiver">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -110,7 +110,7 @@
         <!--*************************************begin of activity*******************************-->
         <!--Loading界面-->
         <activity
-            android:name=".activity.LoadingActivity"
+            android:name="com.mingke.moduo.activity.LoadingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -120,80 +120,80 @@
 
         <!--魔哆对话-->
         <activity
-            android:name=".activity.ModuoActivity"
+            android:name="com.mingke.moduo.activity.ModuoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--app介绍-->
         <activity
-            android:name=".activity.AppIntroActivity"
+            android:name="com.mingke.moduo.activity.AppIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen" />
 
         <!--初次进入guide界面-->
         <activity
-            android:name=".activity.GuideActivity"
+            android:name="com.mingke.moduo.activity.GuideActivity"
             android:screenOrientation="portrait" />
 
         <!--消息中心-->
         <activity
-            android:name=".activity.MsgCenterActivity"
+            android:name="com.mingke.moduo.activity.MsgCenterActivity"
             android:screenOrientation="portrait" />
 
         <!--切换魔哆-->
         <activity
-            android:name=".activity.SwitchModuoActivity"
+            android:name="com.mingke.moduo.activity.SwitchModuoActivity"
             android:screenOrientation="portrait" />
 
         <!--用户信息修改-->
         <activity
-            android:name=".activity.account.UserInfoEditActivity"
+            android:name="com.mingke.moduo.activity.account.UserInfoEditActivity"
             android:screenOrientation="portrait" />
 
         <!--用户登陆/注册-->
 
         <!--主界面-->
         <activity
-            android:name=".activity.main.MainActivity"
+            android:name="com.mingke.moduo.activity.main.MainActivity"
             android:label="魔哆"
             android:screenOrientation="portrait" />
 
         <!--设置-->
         <activity
-            android:name=".activity.SettingActivity"
+            android:name="com.mingke.moduo.activity.SettingActivity"
             android:screenOrientation="portrait" />
 
         <!--密码锁-->
         <activity
-            android:name=".activity.account.GestureLockActivity"
+            android:name="com.mingke.moduo.activity.account.GestureLockActivity"
             android:screenOrientation="portrait" />
 
         <!--展示wifi二维码-->
         <activity
-            android:name=".activity.WifiCodeDispActivity"
+            android:name="com.mingke.moduo.activity.WifiCodeDispActivity"
             android:screenOrientation="portrait" />
 
         <!--视频 calling-->
         <activity
-            android:name=".activity.video.CallingActivity"
+            android:name="com.mingke.moduo.activity.video.CallingActivity"
             android:screenOrientation="portrait" />
 
         <!--视频播放-->
         <activity
-            android:name=".activity.video.VideoActivity"
+            android:name="com.mingke.moduo.activity.video.VideoActivity"
             android:screenOrientation="portrait" />
 
         <!--xpg设备控制-->
 
         <!--家居控制activity-->
         <activity
-            android:name=".activity.HomeControlActivity"
+            android:name="com.mingke.moduo.activity.HomeControlActivity"
             android:screenOrientation="portrait" />
 
         <!--设备参数界面-->
 
         <!--竖直屏幕的二维码扫描activity-->
         <activity
-            android:name=".activity.ScanActivity"
+            android:name="com.mingke.moduo.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
@@ -204,7 +204,7 @@
         <!--*******************************************友盟集成*****************************-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5672334e67e58e60760048ad" />
+            android:value="570d026367e58e3a790011ff" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="default_channel" />
@@ -302,7 +302,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".control.receiver.JPushReceiver"
+            android:name="com.mingke.moduo.control.receiver.JPushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -16,7 +16,7 @@
         android:text="0''"
         android:textColor="@color/white" />
 
-    <com.ssthouse.moduo.fragment.moduo.view.widget.AudioPlayButton
+    <com.mingke.moduo.fragment.moduo.view.widget.AudioPlayButton
         android:id="@+id/id_btn_audio_play"
         android:layout_width="24dp"
         android:layout_height="24dp" />
