@@ -27,7 +27,7 @@
             android:textColor="#706A6A"
             android:textSize="14sp" />
 
-        <com.mingke.gesture.LockPatternView
+        <com.mingko.gesture.LockPatternView
             android:id="@+id/id_gesture_lock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

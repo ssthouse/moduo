@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <!--魔哆-->
-    <com.mingke.moduo.fragment.moduo.view.widget.ModuoView
+    <com.mingko.moduo.fragment.moduo.view.widget.ModuoView
         android:id="@+id/id_moduo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -34,7 +34,7 @@
         android:layout_height="1dp"
         android:background="#cccccc" />
 
-    <com.mingke.moduo.fragment.moduo.view.widget.record.RecordButton
+    <com.mingko.moduo.fragment.moduo.view.widget.record.RecordButton
         android:id="@+id/id_btn_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
