@@ -33,7 +33,7 @@ public class App extends Application {
         //讯飞语音
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=56a6efef");
         //极光推送
-        JPushInterface.setDebugMode(false);
+        JPushInterface.setDebugMode(Constant.isDebug);
         JPushInterface.init(this);
         //初始化 log
         Timber.plant(new Timber.DebugTree());

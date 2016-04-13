@@ -50,7 +50,7 @@
         android:name="com.mingko.moduo.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.ssthouse.moduo.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.mingko.moduo.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -238,7 +238,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.ssthouse.moduo" />
+                <category android:name="com.mingko.moduo" />
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能-->
@@ -269,7 +269,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.ssthouse.moduo" />
+                <category android:name="com.mingko.moduo" />
             </intent-filter>
 
         </service>
@@ -282,7 +282,7 @@
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!--Required  显示通知栏 -->
-                <category android:name="com.ssthouse.moduo" />
+                <category android:name="com.mingko.moduo" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -322,7 +322,7 @@
                 <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.ssthouse.moduo" />
+                <category android:name="com.mingko.moduo" />
             </intent-filter>
         </receiver>
 
@@ -332,7 +332,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="7210d34fc15cfeef01e9867a" />
+            android:value="54436eb61bc782ad3b31ed45" />
         <!--  </>值来自开发者平台取得的AppKey-->
         <!--****************************end of 极光推送************************************-->
 

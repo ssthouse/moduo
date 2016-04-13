@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.mingko.moduo.activity.ModuoActivity;
-
 import cn.jpush.android.api.JPushInterface;
 import timber.log.Timber;
 
@@ -34,7 +32,7 @@ public class JPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
             Timber.e("用户点击打开了通知");
             // 打开app主界面
-            ModuoActivity.start(context);
+            //ModuoActivity.start(context);
         } else {
             Timber.e("Unhandled intent - " + intent.getAction());
         }
