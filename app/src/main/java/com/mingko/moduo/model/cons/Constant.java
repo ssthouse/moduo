@@ -30,17 +30,10 @@ public class Constant {
      * 视频对话SDK常量
      */
     public interface VideoSdkCons {
-        //        //公司id
-//        String companyID = "95e629f0d5a84a83b44cbe57dabc81d6";
-//        //公司key
-//        long companyKey = 1450250232247L;
-//        //应用id
-//        String appID = "47e0591f4963459682f1e30abc19ded2";
-//        //采集端需要填写的license
-//        String license = "";
         String companyID = "8fc26db05242474fae3e0368868a58d7";
-        long companyKey = 1460513273954l;
+        long companyKey = 1460513273954L;
         String appID = "940ee67195014a4083498f44d376f1de14";
+        //采集端需要的license
         String license = "";
     }
 
@@ -50,13 +43,17 @@ public class Constant {
     public interface SettingSdkCons {
         String PRODUCT_KEY = "6bd8b6a5281048df90fbaf1a293b30cb";
         String APP_ID = "6e31155109824950a36b5b7bd703c071";
-//        //应用id
-//        String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
-//        //product key
-//        String PRODUCT_KEY = "4be31938bf6948e69c80d0dae2c8af39";
         //日志等级
         XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
         //日志文件名
         String LOG_FILE_NAME = "xpg_log_file.log";
+    }
+
+    /**
+     * LeanCloud常量配置
+     */
+    public interface LeanCloudCons{
+        String APPLICATION_ID = "54436eb61bc782ad3b31ed45";
+        String CLIENT_KEY = "SbGChPAMSHouaRtkV8OO8oVk";
     }
 }

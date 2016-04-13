@@ -58,7 +58,7 @@ public class App extends Application {
             e.printStackTrace();
         }
         //LeanCloud初始化
-        AVOSCloud.initialize(this, "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz", "SbGChPAMSHouaRtkV8OO8oVk");
+        AVOSCloud.initialize(this, Constant.LeanCloudCons.APPLICATION_ID, Constant.LeanCloudCons.CLIENT_KEY);
         //初始化sd卡文件路径
         FileUtil.initModuoFolder();
         //BugHd
