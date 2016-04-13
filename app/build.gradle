@@ -70,9 +70,10 @@ dependencies {
     compile files('libs/httpmime-4.2.4.jar')
     compile files('libs/fastjson.jar')
     //极光推送
-    compile files('libs/Sunflower.jar')
-    compile files('libs/Msc.jar')
     compile files('libs/jpush-android-2.0.6.jar')
+    //讯飞语音
+    compile files('libs/Msc.jar')
+    compile files('libs/Sunflower.jar')
     //机智云SDK
     compile files('libs/XPGWifiSDK.jar')
     compile files('libs/easylink_only.jar')
