@@ -172,7 +172,7 @@ public class XPGController {
         @Override
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
-            Timber.e("绑定设备回调. 设备id:\t" + did);
+            Timber.e("绑定设备回调. 设备id:\t" + did+"   "+error+" : "+errorMessage);
             if (error == 0) {
                 EventBus.getDefault().post(new DeviceBindResultEvent(true, did));
             } else {

@@ -166,10 +166,11 @@ public class Communication {
 
     //添加采集端
     public void addStreamer(Device device) {
-        if (device == null) {
-            Timber.e("device is null");
+        if (!device.isValid()) {
+            Timber.e("device is not valid");
             return;
         }
+        Timber.e(device.getVideoCidNumber()+":"+device.getVideoPassword()+":"+device.getVideoUsername());
         mViewer.connectStreamer(Long.parseLong(device.getVideoCidNumber()),
                 device.getVideoUsername(), device.getVideoPassword());
         //获取采集端的信息

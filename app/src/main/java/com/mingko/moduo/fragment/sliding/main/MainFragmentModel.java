@@ -50,6 +50,7 @@ public class MainFragmentModel {
                 if (xpgDevice.getDid().equals(settingManager.getCurrentDid())) {
                     XPGController.setCurrentDevice(Device.getLocalDevice(mContext, xpgDevice));
                     Timber.e("找到之前操作过的设备");
+                    setCurrentModuo();
                 }
             }
             //如果列表中没有找到本地的魔哆
@@ -67,6 +68,7 @@ public class MainFragmentModel {
                                 } else {
                                     settingManager.setCurrentModuoInfo(moduoInfo);
                                     XPGController.setCurrentDevice(Device.getLocalDevice(mContext, event.getXpgDeviceList().get(0)));
+                                    setCurrentModuo();
                                 }
                             }
                         });
@@ -85,10 +87,14 @@ public class MainFragmentModel {
                             } else {
                                 settingManager.setCurrentModuoInfo(moduoInfo);
                                 XPGController.setCurrentDevice(Device.getLocalDevice(mContext, event.getXpgDeviceList().get(0)));
+                                setCurrentModuo();
                             }
                         }
                     });
         }
+    }
+
+    private void setCurrentModuo(){
         //设置当前设备监听器
         XPGController.refreshCurrentDeviceListener(mContext);
         //登陆当前设备

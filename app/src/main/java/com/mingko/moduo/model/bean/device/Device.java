@@ -53,6 +53,23 @@ public class Device implements Serializable {
     }
 
     /**
+     * Device数据是否完整
+     * @return
+     */
+    public boolean isValid(){
+        if(videoCidNumber==null ||
+                videoCidNumber.isEmpty()||
+                videoUsername == null ||
+                videoUsername.isEmpty() ||
+                videoPassword == null||
+                videoPassword.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
      * 获取本地参数组成的设备
      *
      * @return

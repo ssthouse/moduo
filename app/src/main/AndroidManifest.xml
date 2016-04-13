@@ -87,6 +87,9 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.mingko.moduo.fragment.moduo.view.adapter.MsgBean" />
         <!--数据库 activeAndroid-->
 
 

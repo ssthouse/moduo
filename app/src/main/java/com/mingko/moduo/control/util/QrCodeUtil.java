@@ -54,6 +54,7 @@ public class QrCodeUtil {
         String cidStr = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_CID_NUMBER);
         String username = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_USER_NAME);
         String password = QrCodeUtil.getParamFromUrl(text, ScanCons.KEY_PASSWORD);
+        //todo---productKey需要进行判断
         //判断二维码扫描数据是否正确
         if (product_key == null
                 || did == null
@@ -61,14 +62,14 @@ public class QrCodeUtil {
                 || cidStr == null
                 || username == null
                 || password == null) {
-            Toast.showLong("二维码数据出错");
-            return;
+            Toast.show("二维码数据出错");
+        }else {
+            long cidNumber = Long.parseLong(cidStr);
+            //抛出扫描到设备的结果
+            EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode, cidStr, username, password));
         }
-        long cidNumber = Long.parseLong(cidStr);
         Timber.e("机智云参数: " + "product_key:\t" + product_key + "\tdid:\t" + did + "\tpasscode:\t" + passCode);
-        Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
-        //抛出扫描到设备的结果
-        EventBus.getDefault().post(new ScanDeviceEvent(true, did, passCode, cidStr, username, password));
+        //Timber.e("视频sdk参数: " + "cidNumber:\t" + cidNumber + "\tusername:\t" + username + "\tpassword:\t" + password);
     }
 
     /**

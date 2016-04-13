@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId 'com.mingke.moduo'
+        applicationId 'com.mingko.moduo'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 2

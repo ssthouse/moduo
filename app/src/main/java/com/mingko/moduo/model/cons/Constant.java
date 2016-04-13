@@ -48,10 +48,12 @@ public class Constant {
      * 机智云配置常量
      */
     public interface SettingSdkCons {
-        //应用id
-        String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
-        //product key
-        String PRODUCT_KEY = "4be31938bf6948e69c80d0dae2c8af39";
+        String PRODUCT_KEY = "6bd8b6a5281048df90fbaf1a293b30cb";
+        String APP_ID = "6e31155109824950a36b5b7bd703c071";
+//        //应用id
+//        String APP_ID = "c78fd6a079d14c89b8e0bbd263fc7ef3";
+//        //product key
+//        String PRODUCT_KEY = "4be31938bf6948e69c80d0dae2c8af39";
         //日志等级
         XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
         //日志文件名
