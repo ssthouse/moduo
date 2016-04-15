@@ -53,7 +53,7 @@ public class Constant {
      * LeanCloud常量配置
      */
     public interface LeanCloudCons{
-        String APPLICATION_ID = "54436eb61bc782ad3b31ed45";
+        String APPLICATION_ID = "w0nIsCHtpfX5cxQbfiqvnVuz-gzGzoHsz";
         String CLIENT_KEY = "SbGChPAMSHouaRtkV8OO8oVk";
     }
 }
