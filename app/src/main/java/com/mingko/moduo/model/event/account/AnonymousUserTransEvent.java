@@ -1,17 +1,19 @@
 package com.mingko.moduo.model.event.account;
 
+import java.util.List;
+
 /**
  * 匿名用户转普通用户
  * Created by ssthouse on 2016/1/20.
  */
 public class AnonymousUserTransEvent {
 
-    private boolean isSuccess;  //是否转换成功
+    private boolean isSuccess;
 
-    private int errorCode;  //错误代码
+    private int errorCode;
 
     /**
-     * 构造方法
+     * 匿名用户转普通用户
      *
      * @param isSuccess //是否转换成功
      * @param errorCode //错误代码

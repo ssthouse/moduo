@@ -318,12 +318,10 @@ public class XPGController {
         }
     };
 
-
     //getter---and---setter----------------------------------------------------------
     public CmdCenter getmCenter() {
         return mCenter;
     }
-
 
     public static Device getCurrentDevice() {
         return currentDevice;

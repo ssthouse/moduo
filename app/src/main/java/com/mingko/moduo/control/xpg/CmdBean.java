@@ -48,7 +48,7 @@ public class CmdBean {
     }
     //操作参数的值
 
-    public CmdBean(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
+    private CmdBean(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
         this.deviceType = deviceType;
         this.deviceNumber = deviceNumber;
         this.paramKey = paramKey;
