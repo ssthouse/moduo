@@ -67,10 +67,10 @@ public class XPGController {
      */
     protected static Device currentDevice;
 
-
     /**
      * 获取单例
      *
+     * @param context
      * @return
      */
     public static XPGController getInstance(Context context) {

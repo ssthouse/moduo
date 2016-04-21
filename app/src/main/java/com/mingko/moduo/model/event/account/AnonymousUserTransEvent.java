@@ -6,13 +6,18 @@ package com.mingko.moduo.model.event.account;
  */
 public class AnonymousUserTransEvent {
 
-    private boolean isSuccess;
+    private boolean isSuccess;  //是否转换成功
 
-    private int errorCode;
+    private int errorCode;  //错误代码
 
-
-    public AnonymousUserTransEvent(boolean isSUccess, int errorCode) {
-        this.isSuccess = isSUccess;
+    /**
+     * 构造方法
+     *
+     * @param isSuccess //是否转换成功
+     * @param errorCode //错误代码
+     */
+    public AnonymousUserTransEvent(boolean isSuccess, int errorCode) {
+        this.isSuccess = isSuccess;
         this.errorCode = errorCode;
     }
 
