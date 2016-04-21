@@ -48,7 +48,7 @@ public class CmdBean {
     }
     //操作参数的值
 
-    private CmdBean(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
+    public CmdBean(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
         this.deviceType = deviceType;
         this.deviceNumber = deviceNumber;
         this.paramKey = paramKey;
@@ -56,6 +56,7 @@ public class CmdBean {
     }
 
     //获取实例
+    //fixme 获取实例和构造方法相同，考虑是否去掉
     public static CmdBean getInstance(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
         return new CmdBean(deviceType, deviceNumber, paramKey, paramValue);
     }
