@@ -9,7 +9,6 @@ import static com.mingko.moduo.control.xpg.CmdBean.DeviceType;
  */
 public class TvControlBean {
 
-
     //语义服务类型
     interface Service {
         String SMART_HOME = "smartHome";

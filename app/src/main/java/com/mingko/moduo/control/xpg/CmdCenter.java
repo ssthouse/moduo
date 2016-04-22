@@ -46,7 +46,7 @@ public class CmdCenter {
     /**
      * The m center.
      */
-    private static CmdCenter mCenter;
+    private static CmdCenter instance;
 
     /**
      * The m setting manager.
@@ -58,23 +58,24 @@ public class CmdCenter {
      *
      * @param c the c
      */
-    private CmdCenter(Context c) {
-        if (mCenter == null) {
-            init(c);
+    private CmdCenter(Context context) {
+        if (instance == null) {
+            init(context);
         }
     }
 
     /**
      * Gets the single instance of CmdCenter.
-     *
-     * @param c the c
-     * @return single instance of CmdCenter
      */
-    public static CmdCenter getInstance(Context c) {
-        if (mCenter == null) {
-            mCenter = new CmdCenter(c);
+    public static CmdCenter getInstance(Context context) {
+        if (instance == null) {
+            synchronized (CmdCenter.class){
+                if(instance == null){
+                    instance = new CmdCenter(context);
+                }
+            }
         }
-        return mCenter;
+        return instance;
     }
 
     /**

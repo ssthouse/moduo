@@ -34,7 +34,7 @@ public class Communication {
     /**
      * 单例
      */
-    private static Communication mInstance;
+    private static Communication instance;
 
     private Context mContext;
 
@@ -50,15 +50,16 @@ public class Communication {
 
     /**
      * 获取单例
-     *
-     * @param context
-     * @return
      */
     public static Communication getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new Communication(context);
+        if(instance == null){
+            synchronized (Communication.class){
+                if (instance == null) {
+                    instance = new Communication(context);
+                }
+            }
         }
-        return mInstance;
+        return instance;
     }
 
     /**

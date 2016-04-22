@@ -49,7 +49,7 @@ public class XPGController {
     private static boolean login = false;
 
     //单例
-    private static XPGController mInstance;
+    private static XPGController instance;
     private static Context context;
 
     /**
@@ -69,15 +69,16 @@ public class XPGController {
 
     /**
      * 获取单例
-     *
-     * @param context
-     * @return
      */
     public static XPGController getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new XPGController(context);
+        if(instance == null){
+            synchronized (XPGController.class){
+                if (instance == null) {
+                    instance = new XPGController(context);
+                }
+            }
         }
-        return mInstance;
+        return instance;
     }
 
     /**

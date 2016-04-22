@@ -86,7 +86,11 @@ public class SettingManager {
      */
     public static SettingManager getInstance(Context context) {
         if (instance == null) {
-            instance = new SettingManager(context);
+            synchronized (SettingManager.class){
+                if (instance == null){
+                    instance = new SettingManager(context);
+                }
+            }
         }
         return instance;
     }
