@@ -148,10 +148,9 @@ public class FileUtil {
      * @return 唯一识别文件名
      */
     private static String generateUniqueFileName(){
-        String fileName ;
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh:mm:ss", Locale.getDefault());
-        fileName = dateFormat.format(date);
+        String fileName = dateFormat.format(date);
         fileName += UUID.randomUUID().toString().substring(0,8);
         return fileName;
     }

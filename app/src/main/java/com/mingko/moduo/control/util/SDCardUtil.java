@@ -1,5 +1,6 @@
 package com.mingko.moduo.control.util;
 
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
@@ -11,10 +12,42 @@ import java.io.File;
  */
 public class SDCardUtil {
 
+    //单个数据块的大小（byte）
+    private static long blockSize ;
+    //SDCard 总计数据块数
+    private static long totalBlocks ;
+    //SDCard 剩余可用数据块数
+    private static long availableBlocks ;
+
+    /**
+     * 静态初始化属性
+     * 根据版本使用方法，API>=18的版本用新的方法，否则使用已过时的方法
+     * 似乎可以继续优化的代码
+     */
+    static{
+        if (isSDCardEnable()) {
+            StatFs stat = new StatFs(getSDCardPath());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                blockSize = stat.getBlockSizeLong();
+                totalBlocks = stat.getBlockCountLong();
+                availableBlocks = stat.getAvailableBlocksLong();
+            }
+            else {
+                blockSize = stat.getBlockSize();
+                totalBlocks = stat.getBlockCount();
+                availableBlocks = stat.getAvailableBlocks();
+            }
+        }else{
+            blockSize = 0;
+            totalBlocks = 0;
+            availableBlocks = 0;
+        }
+    }
+
     /**
      * 判断SDCard是否可用
      *
-     * @return
+     * @return 可用返回true 否则返回false
      */
     public static boolean isSDCardEnable() {
         return Environment.getExternalStorageState().equals(
@@ -22,9 +55,9 @@ public class SDCardUtil {
     }
 
     /**
-     * 获取SD卡路径
+     * 获取SDCard路径
      *
-     * @return
+     * @return SDCard目录
      */
     public static String getSDCardPath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -32,44 +65,27 @@ public class SDCardUtil {
     }
 
     /**
-     * 获取SD卡的剩余容量 单位byte
+     * 获取SDCard总容量 单位byte
      *
-     * @return
+     * @return SDCard总容量
      */
-    public static long getSDCardAllSize() {
-        if (isSDCardEnable()) {
-            StatFs stat = new StatFs(getSDCardPath());
-            // 获取空闲的数据块的数量
-            long availableBlocks = (long) stat.getAvailableBlocks() - 4;
-            // 获取单个数据块的大小（byte）
-            long freeBlocks = stat.getAvailableBlocks();
-            return freeBlocks * availableBlocks;
-        }
-        return 0;
+    public static long getSDCardSize(){
+        return blockSize * totalBlocks;
     }
 
     /**
-     * 获取指定路径所在空间的剩余可用容量字节数，单位byte
+     * 获取SDCard的剩余容量 单位byte
      *
-     * @param filePath
-     * @return 容量字节 SDCard可用空间，内部存储可用空间
+     * @return SDCard的剩余容量
      */
-    public static long getFreeBytes(String filePath) {
-        // 如果是sd卡的下的路径，则获取sd卡可用容量
-        if (filePath.startsWith(getSDCardPath())) {
-            filePath = getSDCardPath();
-        } else {// 如果是内部存储的路径，则获取内存存储的可用容量
-            filePath = Environment.getDataDirectory().getAbsolutePath();
-        }
-        StatFs stat = new StatFs(filePath);
-        long availableBlocks = (long) stat.getAvailableBlocks() - 4;
-        return stat.getBlockSize() * availableBlocks;
+    public static long getSDCardLastSize() {
+        return blockSize * availableBlocks;
     }
 
     /**
      * 获取系统存储路径
      *
-     * @return
+     * @return 系统存储路径
      */
     public static String getRootDirectoryPath() {
         return Environment.getRootDirectory().getAbsolutePath();
