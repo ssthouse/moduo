@@ -40,7 +40,7 @@ public class WifiCodeFragment extends Fragment {
     //等待dialog
     private View waitDialogView;
     private Dialog waitDialog;
-
+    //Wifi二维码图片
     private ImageView ivQrCode;
 
     @Nullable

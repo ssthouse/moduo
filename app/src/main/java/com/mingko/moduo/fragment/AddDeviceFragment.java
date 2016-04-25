@@ -26,6 +26,5 @@ public class AddDeviceFragment extends Fragment{
 
     private void initView(View rootView) {
 
-
     }
 }
