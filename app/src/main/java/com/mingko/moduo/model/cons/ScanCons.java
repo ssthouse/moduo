@@ -12,6 +12,7 @@ public class ScanCons {
     public static final String KEY_PRODUCT_KEY = "product_key";
     public static final String KEY_DID = "did";
     public static final String KEY_PASSCODE = "passcode";
+
     /**
      * 视频dk参数
      */
