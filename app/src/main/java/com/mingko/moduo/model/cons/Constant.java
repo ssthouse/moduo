@@ -44,10 +44,7 @@ public class Constant {
         String PRODUCT_KEY = "6bd8b6a5281048df90fbaf1a293b30cb";
         String APP_ID = "6e31155109824950a36b5b7bd703c071";
         //日志等级
-        //// FIXME: 2016/4/26 此处用于调试，故参数为 XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError
-        XPGWifiSDK.XPGWifiLogLevel LOG_LEVEL = XPGWifiSDK.XPGWifiLogLevel.XPGWifiLogLevelError;
-        //日志文件名
-        String LOG_FILE_NAME = "xpg_log_file.log";
+        XPGWifiSDK.GizLogPrintLevel LOG_LEVEL = XPGWifiSDK.GizLogPrintLevel.GizLogPrintAll;
     }
 
     /**

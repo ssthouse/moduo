@@ -47,8 +47,7 @@ public class App extends Application {
         UmengUpdateAgent.update(this);
         //初始化机智云sdk
         XPGWifiSDK.sharedInstance().startWithAppID(this, Constant.SettingSdkCons.APP_ID);
-        XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL,
-                Constant.SettingSdkCons.LOG_FILE_NAME, Constant.isDebug);
+        XPGWifiSDK.sharedInstance().setLogLevel(Constant.SettingSdkCons.LOG_LEVEL, Constant.isDebug);
         XPGController.getInstance(this);
         try {
             //复制assert文件夹中的json文件到设备安装目录。json文件是解析数据点必备的文件
