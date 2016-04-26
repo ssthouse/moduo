@@ -64,6 +64,7 @@ public class FileUtil {
      */
     private static void createDirectory(File dirPath){
         if (!dirPath.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             dirPath.mkdirs();
         }
     }

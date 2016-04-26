@@ -11,15 +11,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+import timber.log.Timber;
+
 /**
  * asset操作工具类
  */
 public class AssertsUtils {
 
-    static public String getTextByName(Context c, String name) {
+    static public String getTextByName(Context context, String name) {
         String result = "";
         try {
-            InputStream in = c.getResources().getAssets().open(name);
+            InputStream in = context.getResources().getAssets().open(name);
             BufferedReader brReader = new BufferedReader(new InputStreamReader(in));
             String line = "";
             while ((line = brReader.readLine()) != null) {
@@ -35,47 +37,65 @@ public class AssertsUtils {
     /**
      * 从assert中复制出文件到某个文件
      *
-     * @param c
-     * @param oriFile
-     * @param desFile
-     * @return
-     * @throws IOException
+     * @param context context
+     * @param oriFile 源文件
+     * @param desFile 目标文件
+     * @return 操作完成返回 true， 否则将被捕捉错误
      */
-    static public boolean copyFileTo(Context c, String oriFile, String desFile) throws IOException {
-        InputStream myInput;
-        OutputStream myOutput = new FileOutputStream(desFile);
-        myInput = c.getAssets().open(oriFile);
+    static public boolean copyFileTo(Context context, String oriFile, String desFile){
+        InputStream myInput = null;
+        OutputStream myOutput = null;
         byte[] buffer = new byte[1024];
-        int length = myInput.read(buffer);
-        while (length > 0) {
-            myOutput.write(buffer, 0, length);
-            length = myInput.read(buffer);
+        try {
+            myOutput = new FileOutputStream(desFile);
+            myInput = context.getAssets().open(oriFile);
+            int length = myInput.read(buffer);
+            while (length > 0) {
+                myOutput.write(buffer, 0, length);
+                length = myInput.read(buffer);
+            }
+        } catch (IOException e) {
+            Timber.e("AssertsUtils 复制出错");
+            e.printStackTrace();
+        } finally {
+            try {
+                if(myOutput != null){
+                    myOutput.flush();
+                    myOutput.close();
+                }
+                if(myInput != null){
+                    myInput.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        myOutput.flush();
-        myInput.close();
-        myOutput.close();
-
         return true;
     }
 
     /**
      * 复制assert中的配置文件到app安装目录
      */
-    static public boolean copyAllAssertToCacheFolder(Context c) throws IOException {
-        String[] files = c.getAssets().list("Devices");
-        String fileFolder = c.getFilesDir().toString();
+    public static boolean copyAllAssertToCacheFolder(Context context){
+        String[] files = new String[0];
+        try {
+            files = context.getAssets().list("Devices");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String fileFolder = context.getFilesDir().toString();
         File deviceFile = new File(fileFolder + "/Devices/");
+        //noinspection ResultOfMethodCallIgnored
         deviceFile.mkdirs();
-        for (int i = 0; i < files.length; i++) {
-            File devfile = new File(fileFolder + "/Devices/" + files[i]);
+        for (String file : files) {
+            File devfile = new File(fileFolder + "/Devices/" + file);
             if (!devfile.exists()) {
-                copyFileTo(c, "Devices/" + files[i], fileFolder + "/Devices/" + files[i]);
+                copyFileTo(context, "Devices/" + file, fileFolder + "/Devices/" + file);
             }
         }
         String[] fileStr = deviceFile.list();
-        for (int i = 0; i < fileStr.length; i++) {
-            Log.i("file", fileStr[i]);
+        for (String aFileStr : fileStr) {
+            Log.i("file", aFileStr);
         }
         return true;
     }
