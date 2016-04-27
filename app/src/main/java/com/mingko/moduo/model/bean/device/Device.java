@@ -24,19 +24,20 @@ import timber.log.Timber;
 public class Device implements Serializable {
 
     /*
-    视频sdk数据
-     */
-    private StreamerPresenceState streamerPresenceState;
-    private String videoUsername;
-    private String videoPassword;
-    private String videoCidNumber;
-
-    /*
     机智云sdk数据
      */
     private XPGWifiDevice xpgWifiDevice;
 
-    public Device(XPGWifiDevice xpgWifiDevice, ModuoInfo moduoInfo) {
+    /*
+    视频sdk数据
+     */
+    private String videoCidNumber;
+    private String videoUsername;
+    private String videoPassword;
+    //// FIXME: 2016/4/27 不知道什么用的参数
+    private StreamerPresenceState streamerPresenceState;
+
+    private Device(XPGWifiDevice xpgWifiDevice, ModuoInfo moduoInfo) {
         this.xpgWifiDevice = xpgWifiDevice;
         this.videoCidNumber = moduoInfo.getCid();
         this.videoUsername = moduoInfo.getVideoUsername();
@@ -44,42 +45,25 @@ public class Device implements Serializable {
         this.streamerPresenceState = StreamerPresenceState.OFFLINE;
     }
 
-    public Device(String videoCidNumber, String videoUsername, String videoPassword, XPGWifiDevice xpgWifiDevice) {
-        this.videoCidNumber = videoCidNumber;
-        this.videoUsername = videoUsername;
-        this.videoPassword = videoPassword;
-        this.xpgWifiDevice = xpgWifiDevice;
-        this.streamerPresenceState = StreamerPresenceState.OFFLINE;
-    }
-
     /**
      * Device数据是否完整
-     * @return
+     *
+     * @return 完整返回true, 否则返回false
      */
     public boolean isValid(){
-        if(videoCidNumber==null ||
-                videoCidNumber.isEmpty()||
-                videoUsername == null ||
-                videoUsername.isEmpty() ||
-                videoPassword == null||
-                videoPassword.isEmpty()){
-            return false;
-        }
-        return true;
+        return !(videoCidNumber == null || videoCidNumber.isEmpty() ||
+                videoUsername == null || videoUsername.isEmpty() ||
+                videoPassword == null || videoPassword.isEmpty());
     }
-
 
     /**
      * 获取本地参数组成的设备
      *
-     * @return
+     * @return 当前对象
      */
     public static Device getLocalDevice(Context context, XPGWifiDevice xpgWifiDevice) {
         ModuoInfo moduoInfo = SettingManager.getInstance(context).getCurrentModuoInfo();
-        return new Device(moduoInfo.getCid(),
-                moduoInfo.getVideoUsername(),
-                moduoInfo.getVideoPassword(),
-                xpgWifiDevice);
+        return new Device(xpgWifiDevice, moduoInfo);
     }
 
     // =================================================================
@@ -88,13 +72,12 @@ public class Device implements Serializable {
     //
     // =================================================================
 
-
     /**
      * 发送指令.
      * 抽象出主体逻辑的命令方法
      *
-     * @param key   the key
-     * @param value the value
+     * @param key   属性
+     * @param value 值
      */
     public void cWrite(String key, Object value) {
         //按照一定格式发送数据
@@ -127,9 +110,9 @@ public class Device implements Serializable {
     /**
      * 改变头部
      *
-     * @param xHead
-     * @param yHead
-     * @param zHead
+     * @param xHead x轴 头部
+     * @param yHead y轴 头部
+     * @param zHead z轴 头部
      */
     public void cWriteHead(int xHead, int yHead, int zHead) {
         if (xpgWifiDevice == null) {
@@ -156,9 +139,9 @@ public class Device implements Serializable {
     /**
      * 改变身体
      *
-     * @param xBody
-     * @param yBody
-     * @param zBody
+     * @param xBody x轴 身体
+     * @param yBody y轴 身体
+     * @param zBody z轴 身体
      */
     public void cWriteBody(int xBody, int yBody, int zBody) {
         if (xpgWifiDevice == null) {
@@ -207,43 +190,21 @@ public class Device implements Serializable {
     }
 
     //getter---and---setter-------------------------------------------------------------------------
-    public StreamerPresenceState getStreamerPresenceState() {
-        return streamerPresenceState;
-    }
 
-    public void setStreamerPresenceState(StreamerPresenceState streamerPresenceState) {
-        this.streamerPresenceState = streamerPresenceState;
+    public XPGWifiDevice getXpgWifiDevice() {
+        return xpgWifiDevice;
     }
 
     public String getVideoCidNumber() {
         return videoCidNumber;
     }
 
-    public void setVideoCidNumber(String videoCidNumber) {
-        this.videoCidNumber = videoCidNumber;
-    }
-
     public String getVideoUsername() {
         return videoUsername;
-    }
-
-    public void setVideoUsername(String videoUsername) {
-        this.videoUsername = videoUsername;
     }
 
     public String getVideoPassword() {
         return videoPassword;
     }
 
-    public void setVideoPassword(String videoPassword) {
-        this.videoPassword = videoPassword;
-    }
-
-    public XPGWifiDevice getXpgWifiDevice() {
-        return xpgWifiDevice;
-    }
-
-    public void setXpgWifiDevice(XPGWifiDevice xpgWifiDevice) {
-        this.xpgWifiDevice = xpgWifiDevice;
-    }
 }

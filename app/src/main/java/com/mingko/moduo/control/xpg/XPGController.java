@@ -68,7 +68,7 @@ public class XPGController {
     protected static Device currentDevice;
 
     /**
-     * 获取单例
+     * 获取当前类的单例
      */
     public static XPGController getInstance(Context context) {
         if(instance == null){
@@ -84,7 +84,7 @@ public class XPGController {
     /**
      * 构造方法
      *
-     * @param context
+     * @param context context
      */
     private XPGController(Context context) {
         this.context = context;
@@ -138,7 +138,7 @@ public class XPGController {
                 //解析json数据
                 JsonParser parser = new JsonParser();
                 JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
-                JsonElement cmdElement = jsonData.get(DeviceData.DeviceCons.CMD);
+                JsonElement cmdElement = jsonData.get(DeviceData.DeviceConstant.CMD);
 
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
@@ -319,23 +319,6 @@ public class XPGController {
         }
     };
 
-    //getter---and---setter----------------------------------------------------------
-    public CmdCenter getmCenter() {
-        return mCenter;
-    }
-
-    public static Device getCurrentDevice() {
-        return currentDevice;
-    }
-
-    public XPGWifiDeviceListener getDeviceListener() {
-        return deviceListener;
-    }
-
-    public static void setCurrentDevice(Device currentDevice) {
-        XPGController.currentDevice = currentDevice;
-    }
-
     /**
      * 刷新当前设备listener
      *
@@ -354,7 +337,7 @@ public class XPGController {
     //登陆当前设备
     public static boolean loginCurrentDevice() {
         if (currentDevice == null) {
-            Timber.e("currentDevice 为 null");
+            Timber.e("currentDevice is null");
             return false;
         }
         SettingManager settingmanager = SettingManager.getInstance(context);
@@ -375,6 +358,23 @@ public class XPGController {
         currentDevice.getXpgWifiDevice().disconnect();
         Timber.e("登出:\t" + currentDevice.getXpgWifiDevice().getDid());
         return true;
+    }
+
+    //getter---and---setter----------------------------------------------------------
+    public CmdCenter getmCenter() {
+        return mCenter;
+    }
+
+    public static Device getCurrentDevice() {
+        return currentDevice;
+    }
+
+    public XPGWifiDeviceListener getDeviceListener() {
+        return deviceListener;
+    }
+
+    public static void setCurrentDevice(Device currentDevice) {
+        XPGController.currentDevice = currentDevice;
     }
 
     public static boolean isLogin() {

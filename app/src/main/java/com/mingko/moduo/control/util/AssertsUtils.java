@@ -14,6 +14,7 @@ import timber.log.Timber;
 
 /**
  * asset操作工具类
+ * asset目录：../moduo/app/src/main/assets
  */
 public class AssertsUtils {
 
