@@ -1,7 +1,6 @@
 package com.mingko.moduo.control.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +17,7 @@ import timber.log.Timber;
  */
 public class AssertsUtils {
 
+    //TODO 也许以后会用的上
     static public String getTextByName(Context context, String name) {
         String result = "";
         try {
@@ -27,7 +27,6 @@ public class AssertsUtils {
             while ((line = brReader.readLine()) != null) {
                 result += line;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,24 +37,24 @@ public class AssertsUtils {
      * 从assert中复制出文件到某个文件
      *
      * @param context context
-     * @param oriFile 源文件
-     * @param desFile 目标文件
+     * @param oriFilePath 源文件路径
+     * @param desFilePath 目标文件路径
      * @return 操作完成返回 true， 否则将被捕捉错误
      */
-    static public boolean copyFileTo(Context context, String oriFile, String desFile){
+    static public boolean copyFileTo(Context context, String oriFilePath, String desFilePath){
         InputStream myInput = null;
         OutputStream myOutput = null;
         byte[] buffer = new byte[1024];
         try {
-            myOutput = new FileOutputStream(desFile);
-            myInput = context.getAssets().open(oriFile);
+            myInput = context.getAssets().open(oriFilePath);
+            myOutput = new FileOutputStream(desFilePath);
             int length = myInput.read(buffer);
             while (length > 0) {
                 myOutput.write(buffer, 0, length);
                 length = myInput.read(buffer);
             }
         } catch (IOException e) {
-            Timber.e("AssertsUtils 复制出错");
+            Timber.e("复制出错");
             e.printStackTrace();
         } finally {
             try {
@@ -75,27 +74,28 @@ public class AssertsUtils {
 
     /**
      * 复制assert中的配置文件到app安装目录
+     * assert配置文件目录：../moduo/app/src/main/assets/Devices
+     * app安装目录：data/data/com.mingko.moduo/files
      */
     public static boolean copyAllAssertToCacheFolder(Context context){
+        String strDevices = "Devices";
+        String devicesFolderPath = context.getFilesDir().toString() + File.separator + strDevices;
+        File devicesFolder = new File(devicesFolderPath);
+        //noinspection ResultOfMethodCallIgnored
+        devicesFolder.mkdirs();
         String[] files = new String[0];
         try {
-            files = context.getAssets().list("Devices");
+            files = context.getAssets().list(strDevices);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String fileFolder = context.getFilesDir().toString();
-        File deviceFile = new File(fileFolder + "/Devices/");
-        //noinspection ResultOfMethodCallIgnored
-        deviceFile.mkdirs();
         for (String file : files) {
-            File devfile = new File(fileFolder + "/Devices/" + file);
-            if (!devfile.exists()) {
-                copyFileTo(context, "Devices/" + file, fileFolder + "/Devices/" + file);
+            String oriFilePath = strDevices + File.separator + file;
+            String desFilePath = devicesFolderPath + File.separator + file;
+            File devFile = new File(desFilePath);
+            if (!devFile.exists()) {
+                copyFileTo(context, oriFilePath, desFilePath);
             }
-        }
-        String[] fileStr = deviceFile.list();
-        for (String aFileStr : fileStr) {
-            Log.i("file", aFileStr);
         }
         return true;
     }
