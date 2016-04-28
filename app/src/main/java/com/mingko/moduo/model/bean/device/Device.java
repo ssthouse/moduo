@@ -75,6 +75,10 @@ public class Device implements Serializable {
     /**
      * 发送指令.
      * 抽象出主体逻辑的命令方法
+     * 发送对象格式：{"entity0":{"x_head":30}, "cmd":1}
+     *      "entity0" 魔哆项目代表的实体Key
+     *      "x_head" 头部X轴坐标为30
+     *      "cmd" 1表示写入
      *
      * @param key   属性
      * @param value 值

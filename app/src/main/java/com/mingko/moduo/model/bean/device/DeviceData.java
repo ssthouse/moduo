@@ -29,6 +29,7 @@ public class DeviceData implements Serializable {
          */
         String DATA = "data";
         String CMD = "cmd";
+        //魔哆的实体key
         String ENTITY0 = "entity0";
 
         //当前温度

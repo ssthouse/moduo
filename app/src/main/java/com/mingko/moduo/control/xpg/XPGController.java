@@ -143,7 +143,7 @@ public class XPGController {
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
                 DeviceData deviceData = DeviceData.getDeviceData(device, dataMap);
-                //发出事件 // FIXME: 2016/4/28 感觉这里的判断参数需要修改为常量
+                //发出事件 // FIXME: 2016/4/28 感觉这里的判断参数需要修改为常量,且cmd 参数含义未知
                 if (cmd == 3) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
                     Timber.e("获取设备数据回调");
@@ -156,7 +156,7 @@ public class XPGController {
             if (dataMap.get("alters") != null) {
                 Timber.e("alert:\t" + dataMap.get("alters"));
             }
-            //设备错误数据点类型，该种数据点只读，设备发生错误后该字段有内容，没有发生报警则没内容
+            //设备错误数据点类型，该种数据点只读，设备发生错误后该字段有内容，没有发生错误则没内容
             if (dataMap.get("faults") != null) {
                 Timber.e("alert:\t" + dataMap.get("faults"));
             }
