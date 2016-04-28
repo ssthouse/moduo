@@ -39,30 +39,19 @@ import timber.log.Timber;
  */
 public class CmdCenter {
     /**
-     * The xpg wifi sdk.
-     */
-    private static XPGWifiSDK xpgWifiGCC;
-
-    /**
      * The m center.
      */
     private static CmdCenter instance;
 
     /**
+     * The xpg wifi sdk.
+     */
+    private static XPGWifiSDK xpgWifiGCC;
+
+    /**
      * The m setting manager.
      */
     private SettingManager mSettingManager;
-
-    /**
-     * Instantiates a new cmd center.
-     *
-     * @param c the c
-     */
-    private CmdCenter(Context context) {
-        if (instance == null) {
-            init(context);
-        }
-    }
 
     /**
      * Gets the single instance of CmdCenter.
@@ -79,12 +68,23 @@ public class CmdCenter {
     }
 
     /**
-     * Inits the.
+     * Instantiates a new cmd center.
      *
-     * @param c the c
+     * @param context the context
      */
-    private void init(Context c) {
-        mSettingManager = SettingManager.getInstance(c);
+    private CmdCenter(Context context) {
+        if (instance == null) {
+            init(context);
+        }
+    }
+
+    /**
+     * Inits field
+     *
+     * @param context the context
+     */
+    private void init(Context context) {
+        mSettingManager = SettingManager.getInstance(context);
         xpgWifiGCC = XPGWifiSDK.sharedInstance();
     }
 
@@ -117,19 +117,19 @@ public class CmdCenter {
     /**
      * 匿名用户转正常用户
      *
-     * @param token
-     * @param username
-     * @param password
+     * @param token 令牌
+     * @param userName  用户名
+     * @param password  密码
      */
-    public void cTransferToNormalUser(String token, String username, String password) {
-        xpgWifiGCC.transAnonymousUserToNormalUser(token, username, password);
+    public void cTransferToNormalUser(String token, String userName, String password) {
+        xpgWifiGCC.transAnonymousUserToNormalUser(token, userName, password);
     }
 
     /**
-     * C register mail user.
+     * 注册邮箱用户
      *
-     * @param mailAddr the mail addr
-     * @param password the password
+     * @param mailAddr 邮箱地址
+     * @param password 密码
      */
     public void cRegisterMailUser(String mailAddr, String password) {
         xpgWifiGCC.registerUserByEmail(mailAddr, password);
@@ -138,8 +138,8 @@ public class CmdCenter {
     /**
      * 注册用户
      *
-     * @param userName
-     * @param password
+     * @param userName 用户名
+     * @param password 密码
      */
     public void cRegisterUser(String userName, String password) {
         xpgWifiGCC.registerUser(userName, password);
@@ -147,8 +147,7 @@ public class CmdCenter {
 
     /**
      * 匿名登录
-     * <p/>
-     * 如果一开始不需要直接注册账号，则需要进行匿名登录.
+     * 如果最开始不需要直接注册账号，则需要进行匿名登录.
      */
     public void cLoginAnonymousUser() {
         xpgWifiGCC.userLoginAnonymous();
@@ -177,7 +176,7 @@ public class CmdCenter {
      *
      * @param phone       手机号
      * @param code        验证码
-     * @param newPassword the new password
+     * @param newPassword 新密码
      */
     public void cChangeUserPasswordWithCode(String phone, String code, String newPassword) {
         xpgWifiGCC.changeUserPasswordByCode(phone, code, newPassword);

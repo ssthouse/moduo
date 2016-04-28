@@ -109,8 +109,8 @@ public class XPGController {
         }
 
         @Override
-        public void didDisconnected(XPGWifiDevice device) {
-            Timber.e("设备连接断开\t" + device.getDid());
+        public void didDisconnected(XPGWifiDevice device, int result) {
+            Timber.e("设备连接断开\t" + device.getDid() + "\tErrorCode:" + result);
             EventBus.getDefault().post(new XpgDeviceOnLineEvent(device.getDid(), false));
         }
 
@@ -137,13 +137,13 @@ public class XPGController {
             if (dataMap.get("data") != null) {
                 //解析json数据
                 JsonParser parser = new JsonParser();
-                JsonObject jsonData = (JsonObject) parser.parse("" + dataMap.get("data"));
+                JsonObject jsonData = (JsonObject) parser.parse((String) dataMap.get("data"));
                 JsonElement cmdElement = jsonData.get(DeviceData.DeviceConstant.CMD);
 
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
                 DeviceData deviceData = DeviceData.getDeviceData(device, dataMap);
-                //发出事件
+                //发出事件 // FIXME: 2016/4/28 感觉这里的判断参数需要修改为常量
                 if (cmd == 3) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
                     Timber.e("获取设备数据回调");
@@ -173,7 +173,7 @@ public class XPGController {
         @Override
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
-            Timber.e("绑定设备回调. 设备id:\t" + did+"   "+error+" : "+errorMessage);
+            Timber.e("绑定设备回调. 设备id:\t" + did+"  ErrorCode: "+error+" Errormessage: "+errorMessage);
             if (error == 0) {
                 EventBus.getDefault().post(new DeviceBindResultEvent(true, did));
             } else {
@@ -215,7 +215,9 @@ public class XPGController {
         @Override
         public void didGetSSIDList(int error, List<XPGWifiSSID> ssidInfoList) {
             //路由器名字
-            Timber.e("路由器名字");
+            for (XPGWifiSSID xpgWifiSSID : ssidInfoList) {
+                Timber.e("路由器名字:" + xpgWifiSSID.getSsid());
+            }
         }
 
         @Override
@@ -246,7 +248,7 @@ public class XPGController {
         @Override
         public void didGetUserInfo(int error, String errorMessage, XPGUserInfo userInfo) {
             super.didGetUserInfo(error, errorMessage, userInfo);
-            Timber.e("获取到XogUserInfo");
+            Timber.e("获取到XpgUserInfo");
             if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new GetXpgUserInfoEvent(true, userInfo));
             } else {
@@ -326,7 +328,7 @@ public class XPGController {
      */
     public static void refreshCurrentDeviceListener(Context context) {
         if (getCurrentDevice() == null) {
-            Timber.e("currentDevice 为 null");
+            Timber.e("currentDevice is null");
             return;
         }
         //设置监听器
