@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mingko.moduo.model.bean.device.Device;
 import com.mingko.moduo.model.bean.device.DeviceData;
+import com.mingko.moduo.model.cons.xpg.XPGCmdCommand;
 import com.mingko.moduo.model.event.account.AnonymousUserTransEvent;
 import com.mingko.moduo.model.event.account.RegisterResultEvent;
 import com.mingko.moduo.model.event.xpg.AuthCodeSendResultEvent;
@@ -116,7 +117,7 @@ public class XPGController {
 
         @Override
         public void didLogin(XPGWifiDevice device, int result) {
-            if (result == 0) {
+            if (result == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new XpgDeviceLoginEvent(true, device.getDid()));
                 Timber.e(device.getDid() + "登陆成功");
             } else {
@@ -143,11 +144,11 @@ public class XPGController {
                 //得到事件类型---设备数据
                 int cmd = cmdElement.getAsInt();
                 DeviceData deviceData = DeviceData.getDeviceData(device, dataMap);
-                //发出事件 // FIXME: 2016/4/28 感觉这里的判断参数需要修改为常量,且cmd 参数含义未知
-                if (cmd == 3) {
+                //发出事件
+                if (cmd == XPGCmdCommand.RETURN_STATUE_FROM_DEVICE.getCommand()) {
                     EventBus.getDefault().post(new GetDeviceDataEvent(true, deviceData));
-                    Timber.e("获取设备数据回调");
-                } else if (cmd == 4) {
+                    Timber.e("设备返回当前状态，并获取设备数据回调");
+                } else if (cmd ==  XPGCmdCommand.PUSH_STATUE_FROM_DEVICE.getCommand()) {
                     EventBus.getDefault().post(new DeviceDataChangedEvent(deviceData));
                     Timber.e("设备主动推送数据变化");
                 }
@@ -174,7 +175,7 @@ public class XPGController {
         public void didBindDevice(int error, String errorMessage, String did) {
             //绑定设备回调
             Timber.e("绑定设备回调. 设备id:\t" + did+"  ErrorCode: "+error+" Errormessage: "+errorMessage);
-            if (error == 0) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
                 EventBus.getDefault().post(new DeviceBindResultEvent(true, did));
             } else {
                 EventBus.getDefault().post(new DeviceBindResultEvent(false, null));
@@ -202,8 +203,9 @@ public class XPGController {
         @Override
         public void didDiscovered(int error, List<XPGWifiDevice> devicesList) {
             //发现设备
-            if (error == XPGWifiErrorCode.XPGWifiError_NONE) {
+            if (error == XPGWifiErrorCode.XPGWifiError_NONE && devicesList.size() > 0) {
                 EventBus.getDefault().post(new GetBoundDeviceEvent(true, devicesList));
+                //可遍历设备，并设置设备监听器
                 Timber.e("获取账号绑定设备成功");
                 Timber.e("设备数目为:\t" + devicesList.size());
             } else {
@@ -216,7 +218,19 @@ public class XPGController {
         public void didGetSSIDList(int error, List<XPGWifiSSID> ssidInfoList) {
             //路由器名字
             for (XPGWifiSSID xpgWifiSSID : ssidInfoList) {
-                Timber.e("路由器名字:" + xpgWifiSSID.getSsid());
+                Timber.e("设备当前搜索到的wifiSSID:" + xpgWifiSSID.getSsid());
+            }
+        }
+
+        @Override
+        public void didSetDeviceWifi(int error, XPGWifiDevice device) {
+            //设置设备wifi
+            if(error == XPGWifiErrorCode.XPGWifiError_NONE){
+                //设备配置成功，返回设备列表界面进行绑定操作
+                Timber.e("配置设备wifi成功。");
+            } else {
+                //用户配置失败，弹出错误信息，重试或进行softap配置
+                Timber.e("配置设备wifi失败，请重新配置。");
             }
         }
 
@@ -266,12 +280,6 @@ public class XPGController {
                 EventBus.getDefault().post(new AuthCodeSendResultEvent(false));
             }
             Timber.e("发送手机验证码回调:\t" + error + "\t" + errorMessage);
-        }
-
-        @Override
-        public void didSetDeviceWifi(int error, XPGWifiDevice device) {
-            //设置设备wifi
-            Timber.e("设置设备wifi");
         }
 
         @Override

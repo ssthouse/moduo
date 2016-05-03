@@ -20,6 +20,7 @@ package com.mingko.moduo.control.xpg;
 import android.content.Context;
 
 import com.mingko.moduo.model.cons.Constant;
+import com.mingko.moduo.model.cons.xpg.XPGCmdCommand;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 import com.xtremeprog.xpgconnect.XPGWifiSDK;
 import com.xtremeprog.xpgconnect.XPGWifiSDK.XPGWifiConfigureMode;
@@ -218,29 +219,29 @@ public class CmdCenter {
 
     // =================================================================
     //
-    // 关于 wifi 模块，以及获取设备信息
+    // 配置 wifi 模块，以及获取设备信息
     //
     // =================================================================
 
     /**
      * 发送airlink广播，把需要连接的wifi的ssid和password发给模块。.
      *
-     * @param wifi     wifi名字
+     * @param wifiSSID wifi名字
      * @param password wifi密码
      */
-    public void cSetAirLink(String wifi, String password) {
-        xpgWifiGCC.setDeviceWifi(wifi, password,
+    public void cSetAirLink(String wifiSSID, String password) {
+        xpgWifiGCC.setDeviceWifi(wifiSSID, password,
                 XPGWifiConfigureMode.XPGWifiConfigureModeAirLink, 60);
     }
 
     /**
      * softap，把需要连接的wifi的ssid和password发给模块。.
      *
-     * @param wifi     wifi名字
+     * @param wifiSSID wifi名字
      * @param password wifi密码
      */
-    public void cSetSoftAp(String wifi, String password) {
-        xpgWifiGCC.setDeviceWifi(wifi, password,
+    public void cSetSoftAp(String wifiSSID, String password) {
+        xpgWifiGCC.setDeviceWifi(wifiSSID, password,
                 XPGWifiConfigureMode.XPGWifiConfigureModeSoftAP, 30);
     }
 
@@ -289,7 +290,7 @@ public class CmdCenter {
         }
         JSONObject json = new JSONObject();
         try {
-            json.put("cmd", 2);
+            json.put("cmd", XPGCmdCommand.QUERY_STATUE_FROM_DEVICE.getCommand());
         } catch (JSONException e) {
             e.printStackTrace();
             Timber.e("json出错");

@@ -8,6 +8,7 @@ import com.mingko.moduo.control.xpg.CmdBean;
 import com.mingko.moduo.model.bean.ModuoInfo;
 import com.mingko.moduo.control.xpg.SettingManager;
 import com.mingko.moduo.model.cons.xpg.JsonKeys;
+import com.mingko.moduo.model.cons.xpg.XPGCmdCommand;
 import com.xtremeprog.xpgconnect.XPGWifiDevice;
 
 import org.json.JSONException;
@@ -88,7 +89,7 @@ public class Device implements Serializable {
         try {
             JSONObject jsonSend = new JSONObject();
             JSONObject jsonParam = new JSONObject();
-            jsonSend.put("cmd", 1);
+            jsonSend.put("cmd", XPGCmdCommand.SEND_COMMAND_TO_DEVICE.getCommand());
             jsonParam.put(key, value);
             jsonSend.put(JsonKeys.KEY_ACTION, jsonParam);
             Timber.e("send_data:\t" + jsonSend.toString());
@@ -128,7 +129,7 @@ public class Device implements Serializable {
         try {
             JSONObject jsonSend = new JSONObject();
             JSONObject jsonParam = new JSONObject();
-            jsonSend.put("cmd", 1);
+            jsonSend.put("cmd", XPGCmdCommand.SEND_COMMAND_TO_DEVICE.getCommand());
             jsonParam.put(JsonKeys.X_HEAD, xHead);
             jsonParam.put(JsonKeys.Y_HEAD, yHead);
             jsonParam.put(JsonKeys.Z_HEAD, zHead);
@@ -156,7 +157,7 @@ public class Device implements Serializable {
         try {
             JSONObject jsonSend = new JSONObject();
             JSONObject jsonParam = new JSONObject();
-            jsonSend.put("cmd", 1);
+            jsonSend.put("cmd", XPGCmdCommand.SEND_COMMAND_TO_DEVICE.getCommand());
             jsonParam.put(JsonKeys.X_BODY, xBody);
             jsonParam.put(JsonKeys.Y_BODY, yBody);
             jsonParam.put(JsonKeys.Z_BODY, zBody);
