@@ -99,12 +99,12 @@ public class CmdCenter {
 
     // =================================================================
     //
-    // 关于账号的指令
+    // 关于账号的注册、登录、注销、修改密码、忘记密码
     //
     // =================================================================
 
     /**
-     * 注册账号.
+     * 注册手机用户
      *
      * @param phone    注册手机号
      * @param code     验证码
@@ -112,6 +112,26 @@ public class CmdCenter {
      */
     public void cRegisterPhoneUser(String phone, String code, String password) {
         xpgWifiGCC.registerUserByPhoneAndCode(phone, password, code);
+    }
+
+    /**
+     * 注册邮箱用户
+     *
+     * @param mailAddr 邮箱地址
+     * @param password 密码
+     */
+    public void cRegisterMailUser(String mailAddr, String password) {
+        xpgWifiGCC.registerUserByEmail(mailAddr, password);
+    }
+
+    /**
+     * 注册正常用户
+     *
+     * @param userName 用户名
+     * @param password 密码
+     */
+    public void cRegisterUser(String userName, String password) {
+        xpgWifiGCC.registerUser(userName, password);
     }
 
     /**
@@ -126,28 +146,23 @@ public class CmdCenter {
     }
 
     /**
-     * 注册邮箱用户
+     * 账号登陆.
      *
-     * @param mailAddr 邮箱地址
-     * @param password 密码
+     * @param name 用户名
+     * @param psw  密码
      */
-    public void cRegisterMailUser(String mailAddr, String password) {
-        xpgWifiGCC.registerUserByEmail(mailAddr, password);
-    }
-
-    /**
-     * 注册用户
-     *
-     * @param userName 用户名
-     * @param password 密码
-     */
-    public void cRegisterUser(String userName, String password) {
-        xpgWifiGCC.registerUser(userName, password);
+    public void cLogin(String name, String psw) {
+        xpgWifiGCC.userLoginWithUserName(name, psw);
     }
 
     /**
      * 匿名登录
+     *
      * 如果最开始不需要直接注册账号，则需要进行匿名登录.
+     * 用户调用后直接登录，每次匿名登录获取到的uid是一样的。
+     * 该接口原理使用Android ID进行注册和登录
+     * 每个Android系统都有一个独立的Android ID，系统刷机后将改变。
+     * 因此，系统刷机后匿名注册的用户信息将无法保留。
      */
     public void cLoginAnonymousUser() {
         xpgWifiGCC.userLoginAnonymous();
@@ -159,27 +174,6 @@ public class CmdCenter {
     public void cLogout() {
         Timber.e("cLogout:uesrid=" + mSettingManager.getUid());
         xpgWifiGCC.userLogout(mSettingManager.getUid());
-    }
-
-    /**
-     * 账号登陆.
-     *
-     * @param name 用户名
-     * @param psw  密码
-     */
-    public void cLogin(String name, String psw) {
-        xpgWifiGCC.userLoginWithUserName(name, psw);
-    }
-
-    /**
-     * 忘记密码.
-     *
-     * @param phone       手机号
-     * @param code        验证码
-     * @param newPassword 新密码
-     */
-    public void cChangeUserPasswordWithCode(String phone, String code, String newPassword) {
-        xpgWifiGCC.changeUserPasswordByCode(phone, code, newPassword);
     }
 
     /**
@@ -203,6 +197,17 @@ public class CmdCenter {
     }
 
     /**
+     * 忘记密码.
+     *
+     * @param phone       手机号
+     * @param code        验证码
+     * @param newPassword 新密码
+     */
+    public void cChangeUserPasswordWithCode(String phone, String code, String newPassword) {
+        xpgWifiGCC.changeUserPasswordByCode(phone, code, newPassword);
+    }
+
+    /**
      * 请求向手机发送验证码.
      *
      * @param phone 手机号
@@ -210,6 +215,12 @@ public class CmdCenter {
     public void cRequestSendVerifyCode(String phone) {
         xpgWifiGCC.requestSendVerifyCode(phone);
     }
+
+    // =================================================================
+    //
+    // 关于 wifi 模块，以及获取设备信息
+    //
+    // =================================================================
 
     /**
      * 发送airlink广播，把需要连接的wifi的ssid和password发给模块。.
