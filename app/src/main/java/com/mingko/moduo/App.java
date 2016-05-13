@@ -20,7 +20,7 @@ import timber.log.Timber;
 
 /**
  * 启动application
- * Created by ssthouse on 2015/12/17.
+ * Created by ssthouse on 2015/12/17..
  */
 public class App extends Application {
 
