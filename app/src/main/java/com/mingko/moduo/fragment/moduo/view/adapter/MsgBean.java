@@ -24,7 +24,7 @@ public class MsgBean extends Model{
     public static final String COLUMN_AUDIO_DURATION = "AudioDuration";
     //图片
     public static final String COLUMN_IMAGE_PATH = "ImgPath";
-    //方向
+    //消息来源
     public static final String COLUMN_IS_FROM_MODUO = "IsModuo";
     //发出时间
     public static final String COLUMN_TIME_STAMP = "TimeStamp";

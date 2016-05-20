@@ -1,6 +1,5 @@
 package com.mingko.moduo.control.xpg;
 
-import static com.mingko.moduo.control.xpg.CmdBean.DeviceParam;
 import static com.mingko.moduo.control.xpg.CmdBean.DeviceType;
 
 /**
@@ -8,7 +7,7 @@ import static com.mingko.moduo.control.xpg.CmdBean.DeviceType;
  * Created by ssthouse on 2016/3/17.
  */
 public class TvControlBean {
-
+/*
     //语义服务类型
     interface Service {
         String SMART_HOME = "smartHome";
@@ -36,19 +35,19 @@ public class TvControlBean {
         String VOLUME_MINUS = "-";
     }
 
-    /**
+    *//**
      * slots : {"volume":{"direct":"-"}}
-     */
+     *//*
 
     private SemanticEntity semantic;
-    /**
+    *//**
      * semantic : {"slots":{"volume":{"direct":"-"}}}
      * rc : 0
      * device : tv
      * service : smartHome
      * operation : SET
      * text : 电视音量调小。
-     */
+     *//*
 
     private int rc;
     private String device;
@@ -56,6 +55,7 @@ public class TvControlBean {
     private String operation;
     private String text;
 
+    //---geter and seter ---------------------------------------
     public void setSemantic(SemanticEntity semantic) {
         this.semantic = semantic;
     }
@@ -104,10 +104,11 @@ public class TvControlBean {
         return text;
     }
 
+    //语义解析
     public static class SemanticEntity {
-        /**
+        *//**
          * volume : {"direct":"-"}
-         */
+         *//*
 
         private SlotsEntity slots;
 
@@ -134,9 +135,9 @@ public class TvControlBean {
             }
 
             //音量Entity
-            /**
+            *//**
              * direct : -
-             */
+             *//*
 
             private VolumeEntity volume;
 
@@ -197,10 +198,10 @@ public class TvControlBean {
                             value = 1;
                             break;
                         case Value.CLOSE:
-                            value = 2;
+                            value = 0;
                             break;
                         default:
-                            value = 0;
+                            value = -1;
                             break;
                     }
                     break;
@@ -227,5 +228,5 @@ public class TvControlBean {
         } catch (Exception e) {
             return null;
         }
-    }
+    }*/
 }

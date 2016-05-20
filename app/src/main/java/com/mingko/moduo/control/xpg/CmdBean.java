@@ -19,7 +19,10 @@ public class CmdBean {
         NONE((byte) 0),
         TV((byte) 1),
         AC((byte) 2),
-        END((byte) 3);
+        LIGHT((byte) 3),
+        SWITCH((byte) 4),
+        SLOT((byte) 5),
+        END((byte) 6);
 
         public byte value;
 
@@ -29,25 +32,15 @@ public class CmdBean {
     }
 
     //设备编号
-    //操作的参数
-    public enum DeviceParam {
-        NONE((byte) 0),
-        ONOFF((byte) 1),
-        TV_VOLUME((byte) 2),
-        TV_CHANNEL((byte) 3),
-        TV_SRC((byte) 4),
-        AC_ONOFF((byte) 5),
-        AC_TEMP((byte) 6),
-        AC_MODE((byte) 7),
-        END((byte) 8);
+    public enum DeviceNumber {
+        DEFULT((byte) 0),;
         public byte value;
-
-        DeviceParam(byte value) {
+        DeviceNumber(byte value) {
             this.value = value;
         }
     }
-    //操作参数的值
 
+    //操作参数的值
     public CmdBean(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
         this.deviceType = deviceType;
         this.deviceNumber = deviceNumber;
@@ -56,7 +49,6 @@ public class CmdBean {
     }
 
     //获取实例
-    //fixme 获取实例和构造方法相同，考虑是否去掉
     public static CmdBean getInstance(byte deviceType, byte deviceNumber, byte paramKey, byte paramValue) {
         return new CmdBean(deviceType, deviceNumber, paramKey, paramValue);
     }
