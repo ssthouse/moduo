@@ -1,14 +1,20 @@
 package com.mingko.moduo.control.xpg.Slots;
 
+import com.google.gson.JsonObject;
+
+import java.util.Map;
+
+import timber.log.Timber;
+
 /**
  * Created by SunsetKnight on 2016/5/18.
  */
 public class TvSlots extends SlotsEntity{
 
-    private String volume;
-    private String channel;
+    private Object volume;
+    private Object channel;
     private String channelName;
-    private String page;
+    private Object page;
     private String button;
 
     static {
@@ -28,41 +34,11 @@ public class TvSlots extends SlotsEntity{
 
     @Override
     public void initParamValue() {
-        if(volume != null && !volume.isEmpty()){
-            param = mapParam.get("volume");
-            value = calValue(volume);
-        }else if(channel != null && !channel.isEmpty()){
-            param = mapParam.get("channel");
-            value = calValue(channel);
-        }else if(channelName != null && !channelName.isEmpty()){
-            param = mapParam.get("channelName");
-            value = calValue(channelName);
-        }else if(page != null && !page.isEmpty()){
-            param = mapParam.get("page");
-            value = calValue(page);
-        }else if(button != null && !button.isEmpty()){
-            param = mapParam.get("button");
-            value = calValue(button);
-        }
+        setObject(volume, "volume", "direct");
+        setObject(channel, "channel", "direct");
+        setObject(page, "page", "direct");
+        setParamAndValue(channelName, "channelName");
+        setParamAndValue(button, "button");
     }
 
-    public String getChannel() {
-        return channel;
-    }
-
-    public String getChannelName() {
-        return channelName;
-    }
-
-    public String getVolume() {
-        return volume;
-    }
-
-    public String getPage() {
-        return page;
-    }
-
-    public String getButton() {
-        return button;
-    }
 }

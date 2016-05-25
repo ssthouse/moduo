@@ -9,6 +9,8 @@ import com.mingko.moduo.control.xpg.Slots.SlotsEntity;
 import com.mingko.moduo.control.xpg.Slots.SwitchSlots;
 import com.mingko.moduo.control.xpg.Slots.TvSlots;
 
+import java.util.Map;
+
 import timber.log.Timber;
 
 /**
@@ -108,25 +110,6 @@ public class DeviceBean {
     }
 
     //---getter-------------------------------
-    public SemanticEntity getSemantic() {
-        return semantic;
-    }
-
-    public int getRc() {
-        return rc;
-    }
-
-    public String getDevice() {
-        return device;
-    }
-
-    public String getService() {
-        return service;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
 
     public String getText() {
         return text;

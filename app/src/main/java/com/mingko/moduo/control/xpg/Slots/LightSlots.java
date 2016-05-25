@@ -5,19 +5,15 @@ package com.mingko.moduo.control.xpg.Slots;
  */
 public class LightSlots extends SlotsEntity {
 
-    private String bright;
-    private String color;
-    private String colorTemperature;
     private String mode;
-    private String attrValue;
+    private Object attrValue;
     private String arrrType;
     private String attr;
 
     static {
         byte bParam = byteParam;
-        mapParam.put("attrValue", bParam++);//#2
-        mapParam.put("arrrType", bParam++);
-        mapParam.put("attr", bParam++);
+        mapValue.put("开关", bParam++);
+        mapValue.put("颜色", bParam++);
         byte bValue = byteValue;
         mapValue.put("开", bValue++);//#15
         mapValue.put("关", bValue++);
@@ -28,39 +24,11 @@ public class LightSlots extends SlotsEntity {
         mapValue.put("青", bValue++);
         mapValue.put("蓝", bValue++);
         mapValue.put("紫", bValue++);
-        mapValue.put("String", bValue++);
-        mapValue.put("int", bValue++);
-        mapValue.put("开关", bValue++);
-        mapValue.put("颜色", bValue++);
     }
 
     @Override
     public void initParamValue() {
-        if(attrValue != null && !attrValue.isEmpty()){
-            param = mapParam.get("attrValue");
-            value = calValue(attrValue);
-        }else if(arrrType != null && !arrrType.isEmpty()){
-            param = mapParam.get("arrrType");
-            value = calValue(arrrType);
-        }else if(attr != null && !attr.isEmpty()){
-            param = mapParam.get("attr");
-            value = calValue(attr);
-        }
+        setObject(attrValue, attr, "direct");
     }
 
-    public String getBright() {
-        return bright;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getColorTemperature() {
-        return colorTemperature;
-    }
-
-    public String getMode() {
-        return mode;
-    }
 }

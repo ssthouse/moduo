@@ -18,10 +18,7 @@ public class SwitchSlots extends SlotsEntity{
 
     @Override
     public void initParamValue() {
-        if(mode != null && !mode.isEmpty()){
-            param = mapParam.get("mode");
-            value = calValue(mode);
-        }
+        setParamAndValue(mode, "mode");
     }
 
     public String getMode() {

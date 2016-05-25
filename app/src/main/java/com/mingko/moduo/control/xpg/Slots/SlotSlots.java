@@ -22,11 +22,4 @@ public class SlotSlots extends SlotsEntity{
 
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getMode() {
-        return mode;
-    }
 }

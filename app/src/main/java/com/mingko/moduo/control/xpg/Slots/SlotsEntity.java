@@ -10,11 +10,11 @@ public abstract class SlotsEntity {
 
     //智能家居 Slots 参数中共有的属性
     public String deviceInstance;
-    public String location;
-    public String datetime;
+    public Object location;
+    public Object datetime;
     public String onOff;
-    public String modifier;
-    public byte param = 0 ;
+    public Object modifier;
+    public byte param = 0;
     public byte value = 0;
 
     /**用于加载默认的Param值*/
@@ -47,32 +47,15 @@ public abstract class SlotsEntity {
     }
 
     //---getter-------------------------------------------------------
-    public String getDeviceInstance() {
-        return deviceInstance;
-    }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public String getOnOff() {
-        return onOff;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
+    /**
+     * 用于子类加载自定义参数和值
+     */
+    public abstract void initParamValue();
 
     public byte getParam(){
         initParamValue();
-        if(onOff != null && !onOff.isEmpty()){
-            param = mapParam.get("onOff");
-            value = calValue(onOff);
-        }
+        setParamAndValue(onOff, "onOff");
         return param;
     }
 
@@ -80,11 +63,37 @@ public abstract class SlotsEntity {
         return value;
     }
 
-    //用于子类加载参数和值
-    public abstract void initParamValue();
+    /**
+     * 设置需要传递的param 和 value
+     *
+     * @param paramKey 键
+     * @param paramKeyName 键参数名
+     */
+    public void setParamAndValue(String paramKey, String paramKeyName){
+        if(paramKey != null && !paramKey.isEmpty()){
+            param = mapParam.get(paramKeyName);
+            value = mapValue.get(paramKey)==null?mapValue.get("none"):mapValue.get(paramKey);
+        }
+    }
 
-    public byte calValue(String key){
-        return mapValue.get(key)==null?mapValue.get("none"):mapValue.get(key);
+    /**
+     * 设置由Json解析后不确定的 Object对象
+     * 不确定的对象可能是String，可能是Map。
+     * eg:
+     *    {"page":"1"}
+     *    {"page":{"direct":"-","type":"SPOT","ref":"CUR","offset":"1"}}
+     *
+     * @param paramKey 键
+     * @param paramKeyName 键参数名
+     * @param valueKey 取值用的键
+     */
+    public void setObject(Object paramKey, String paramKeyName, String valueKey){
+        if(paramKey instanceof String) {
+            setParamAndValue((String) paramKey, paramKeyName);
+        }else if(paramKey instanceof Map){
+            Map<String, String> keyMap = (Map<String, String>) paramKey;
+            setParamAndValue(keyMap.get(valueKey), paramKeyName);
+        }
     }
 
 }
