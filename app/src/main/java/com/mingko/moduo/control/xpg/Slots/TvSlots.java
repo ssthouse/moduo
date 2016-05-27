@@ -28,17 +28,19 @@ public class TvSlots extends SlotsEntity{
         byte bValue = byteValue;
         mapValue.put("MAX", bValue++);//#15
         mapValue.put("MIN", bValue++);
+        mapValue.put("确定", bValue++);
+        mapValue.put("返回", bValue++);
         mapValue.put("静音", bValue++);
         mapValue.put("中央一台", bValue++);
     }
 
     @Override
     public void initParamValue() {
-        setObject(volume, "volume", "direct");
-        setObject(channel, "channel", "direct");
-        setObject(page, "page", "direct");
-        setParamAndValue(channelName, "channelName");
-        setParamAndValue(button, "button");
+        setParamAndValue("volume", "direct", volume);
+        setParamAndValue("channel", "direct", channel);
+        setParamAndValue("page", "direct", page);
+        setParamAndValue("channelName", channelName);
+        setParamAndValue("button", button);
     }
 
 }

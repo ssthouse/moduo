@@ -5,9 +5,6 @@ package com.mingko.moduo.control.xpg.Slots;
  */
 public class SlotSlots extends SlotsEntity{
 
-    private String duration;
-    private String mode;
-
     static {
         byte bParam = byteParam;
         //mapParam.put("", bParam++);//#2

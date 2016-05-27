@@ -3,6 +3,8 @@ package com.mingko.moduo.control.xpg.Slots;
 import java.util.HashMap;
 import java.util.Map;
 
+import timber.log.Timber;
+
 /**
  * Created by SunsetKnight on 2016/5/18.
  */
@@ -55,7 +57,7 @@ public abstract class SlotsEntity {
 
     public byte getParam(){
         initParamValue();
-        setParamAndValue(onOff, "onOff");
+        setParamAndValue("onOff", onOff);
         return param;
     }
 
@@ -64,36 +66,38 @@ public abstract class SlotsEntity {
     }
 
     /**
-     * 设置需要传递的param 和 value
-     *
-     * @param paramKey 键
-     * @param paramKeyName 键参数名
-     */
-    public void setParamAndValue(String paramKey, String paramKeyName){
-        if(paramKey != null && !paramKey.isEmpty()){
-            param = mapParam.get(paramKeyName);
-            value = mapValue.get(paramKey)==null?mapValue.get("none"):mapValue.get(paramKey);
-        }
-    }
-
-    /**
      * 设置由Json解析后不确定的 Object对象
      * 不确定的对象可能是String，可能是Map。
      * eg:
      *    {"page":"1"}
-     *    {"page":{"direct":"-","type":"SPOT","ref":"CUR","offset":"1"}}
+     *    {"page":{"direct":"-"}}
+     * paramKey = "page";
+     * valueKey = "direct";
+     * valueObject = page;
      *
-     * @param paramKey 键
-     * @param paramKeyName 键参数名
-     * @param valueKey 取值用的键
+     * @param paramKey param的键
+     * @param valueKey value的键
+     * @param valueObject value所在的json对象
      */
-    public void setObject(Object paramKey, String paramKeyName, String valueKey){
-        if(paramKey instanceof String) {
-            setParamAndValue((String) paramKey, paramKeyName);
-        }else if(paramKey instanceof Map){
-            Map<String, String> keyMap = (Map<String, String>) paramKey;
-            setParamAndValue(keyMap.get(valueKey), paramKeyName);
-        }
+    public void setParamAndValue(String paramKey, String valueKey, Object valueObject){
+         if( valueObject instanceof String){
+             setParamAndValue(paramKey, (String) valueObject);
+         }else if(valueObject instanceof Map){
+             Map<String, String> valueMap = (Map<String, String>) valueObject;
+             setParamAndValue(paramKey,valueMap.get(valueKey));
+         }
     }
 
+    /**
+     * 设置需要传递的param 和 value
+     *
+     * @param paramKey param的键
+     * @param valueKey value的键
+     */
+    public void setParamAndValue(String paramKey, String valueKey) {
+        if (paramKey != null && valueKey != null) {
+            param = mapParam.get(paramKey);
+            value = mapValue.get(valueKey) == null ? mapValue.get("none") : mapValue.get(valueKey);
+        }
+    }
 }

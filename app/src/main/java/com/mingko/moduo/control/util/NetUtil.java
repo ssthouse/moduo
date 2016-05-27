@@ -24,8 +24,8 @@ public class NetUtil {
     /**
      * 判断网络是否连接
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 是否网络连接
      */
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context
@@ -108,8 +108,8 @@ public class NetUtil {
     /**
      * 获取网络状态
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 网络连接状态 wifi连接 或 移动网络连接
      */
     public static int getNetworkState(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context

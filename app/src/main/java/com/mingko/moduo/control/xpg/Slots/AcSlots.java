@@ -11,13 +11,15 @@ public class AcSlots extends SlotsEntity{
 
     static {
         byte bParam = byteParam;
-        mapValue.put("开关", bParam++);
-        mapValue.put("温度", bParam++);
-        mapValue.put("制冷", bParam++);
-        mapValue.put("制热", bParam++);
-        mapValue.put("上下居中", bParam++);
-        mapValue.put("风速", bParam++);
-        mapValue.put("送风角度", bParam++);
+        mapParam.put("开关", bParam++);
+        mapParam.put("温度", bParam++);
+        mapParam.put("制冷", bParam++);
+        mapParam.put("制热", bParam++);
+        mapParam.put("上下居中", bParam++);
+        mapParam.put("上下扫风", bParam++);
+        mapParam.put("左右扫风", bParam++);
+        mapParam.put("风速", bParam++);
+        mapParam.put("送风角度", bParam++);
         byte bValue = byteValue;
         mapValue.put("16", bValue++);//#15
         mapValue.put("17", bValue++);
@@ -42,9 +44,7 @@ public class AcSlots extends SlotsEntity{
 
     @Override
     public void initParamValue() {
-        setObject(attrValue, attr, "direct");
+        setParamAndValue(attr, "direct", attrValue);
     }
-
-
 
 }

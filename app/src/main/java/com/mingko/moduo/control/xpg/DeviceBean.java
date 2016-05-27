@@ -63,30 +63,30 @@ public class DeviceBean {
             switch (device) {
                 case Device.TV:
                     deviceType = CmdBean.DeviceType.TV.value;
-                    slots = new Gson().fromJson(semantic.getSlots().toString(), TvSlots.class);
+                    slots = new TvSlots();
                     break;
                 case Device.AIRCONTROL:
                     deviceType = CmdBean.DeviceType.AC.value;
-                    slots = new Gson().fromJson(semantic.getSlots().toString(), AcSlots.class);
+                    slots = new AcSlots();
                     break;
                 case Device.LIGHT:
                     deviceType = CmdBean.DeviceType.LIGHT.value;
-                    slots = new Gson().fromJson(semantic.getSlots().toString(), LightSlots.class);
+                    slots = new LightSlots();
                     break;
                 case Device.SWITCH:
                     deviceType = CmdBean.DeviceType.SWITCH.value;
-                    slots = new Gson().fromJson(semantic.getSlots().toString(), SwitchSlots.class);
+                    slots = new SwitchSlots();
                     break;
                 case Device.SLOT:
                     deviceType = CmdBean.DeviceType.SLOT.value;
-                    slots = new Gson().fromJson(semantic.getSlots().toString(), SlotSlots.class);
+                    slots = new SlotSlots();
                     break;
                 default:
                     deviceType = CmdBean.DeviceType.NONE.value;
                     return null;
             }
             //初始化slots参数
-            //slots = new Gson().fromJson(semantic.getSlots().toString(), SlotsEntity.class);
+            slots = new Gson().fromJson(semantic.getSlots().toString(), slots.getClass());
             //设备编号
             //// TODO: 2016/5/18 设备编号暂时定义为0
             deviceNumber = CmdBean.DeviceNumber.DEFULT.value;

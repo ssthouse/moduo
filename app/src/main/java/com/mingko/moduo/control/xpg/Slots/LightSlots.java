@@ -1,19 +1,20 @@
 package com.mingko.moduo.control.xpg.Slots;
 
+import timber.log.Timber;
+
 /**
  * Created by SunsetKnight on 2016/5/18.
  */
 public class LightSlots extends SlotsEntity {
 
-    private String mode;
-    private Object attrValue;
+    private String attrValue;
     private String arrrType;
     private String attr;
 
     static {
         byte bParam = byteParam;
-        mapValue.put("开关", bParam++);
-        mapValue.put("颜色", bParam++);
+        mapParam.put("开关", bParam++);
+        mapParam.put("颜色", bParam++);
         byte bValue = byteValue;
         mapValue.put("开", bValue++);//#15
         mapValue.put("关", bValue++);
@@ -28,7 +29,7 @@ public class LightSlots extends SlotsEntity {
 
     @Override
     public void initParamValue() {
-        setObject(attrValue, attr, "direct");
+        setParamAndValue(attr, attrValue);
     }
 
 }

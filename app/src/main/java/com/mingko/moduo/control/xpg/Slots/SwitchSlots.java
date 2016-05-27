@@ -11,14 +11,13 @@ public class SwitchSlots extends SlotsEntity{
         byte bParam = byteParam;
         mapParam.put("mode", bParam++);//#2
         byte bValue = byteValue;
-        mapValue.put("模式一", bValue++);//#15
-        mapValue.put("模式二", bValue++);
-        mapValue.put("模式三", bValue++);
+        mapValue.put("模式1", bValue++);//#15
+        mapValue.put("模式2", bValue++);
     }
 
     @Override
     public void initParamValue() {
-        setParamAndValue(mode, "mode");
+        setParamAndValue("mode", mode);
     }
 
     public String getMode() {
